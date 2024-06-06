@@ -5,10 +5,11 @@ const LoginPage = () => {
   return (
     <div>
       <AuthPageLayout
-        title="Liste des adresses hôtes des cellules d'impact"
-        description="La liste de toutes les adresses hôtes des cellules d'impact"
+        title="Connexion"
+        description="Cette page permet de se connecter à l'application"
+        position="items-center"
       >
-        <div className="max-w-[800px] mx-auto p-2">
+        <div className="max-w-[800px] mx-auto p-2 bg-yellow-400">
           Login
           {/*         <LoginForm />
            */}{" "}

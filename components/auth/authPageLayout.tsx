@@ -12,10 +12,12 @@ type AuthPageLayoutProps = {
   title: string;
   description?: string;
   children: React.ReactNode;
+  position?: string;
 };
 const AuthPageLayout = ({
   title,
   description,
+  position,
   children,
 }: AuthPageLayoutProps) => {
   const router = useRouter();
@@ -61,12 +63,11 @@ const AuthPageLayout = ({
       {/* <MobileNav /> */}
       {/*       <MobileAdminNav />
        */}{" "}
-      <Title title={title} description={description} />
-      <div className="grid md:grid-cols-5 gap-4 mt-4 h-full ">
-        <div className="md:col-span-4 rounded-lg bg-transparent md:p-2 ">
-          {children}
-        </div>
-        <div className="max-md:hidden ">Ici</div>
+      <Title title={title} description={description} position={position} />
+      <div className=" gap-4 mt-4 h-full ">
+        <div className="rounded-lg bg-transparent md:p-2 ">{children}</div>
+        {/*         <div className="max-md:hidden ">Ici</div>
+         */}{" "}
       </div>
       <div className="fixed w-full bottom-0 left-0">Information</div>
     </div>

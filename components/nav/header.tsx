@@ -6,6 +6,7 @@ import { ModeToggle } from "../modeToggle";
 import { GiSuspensionBridge } from "react-icons/gi";
 import { usePathname, useRouter } from "next/navigation";
 import { Menu, X } from "lucide-react";
+import { MdLogin } from "react-icons/md";
 
 const navLinks = [
   { id: 1, href: "/dashboard", title: "Dashboard" },
@@ -21,21 +22,17 @@ const Header = () => {
   return (
     <div className="border-b max-md:px-4">
       <div className="w-full md:container  flex justify-between items-end py-4 md:p-8">
-        <div className="flex items-enter md:items-end gap-2 ">
+        <div className="flex max-md:flex-col max-md:justify-center items-center md:items-end gap-2 ">
           <GiSuspensionBridge
             className="max-md:hidden  text-blue-600"
             size={50}
           />
-          <GiSuspensionBridge className="md:hidden  text-blue-600" size={30} />
+          <GiSuspensionBridge className="md:hidden  text-blue-600" size={20} />
           <Link
             href="/"
             className="dark:text-white  font-bold text-xl max-md:text-md  text-blue-800"
           >
-            {/*             <p className="max-md:hidden">
-              <span className="text-4xl text-teal-700">C</span>
-              onvergence
-            </p> */}
-            <p className="md:text-3xl text-teal-600">Convergence</p>
+            <p className="text-xs md:text-3xl text-teal-600">Convergence</p>
           </Link>
         </div>
         <nav className=" max-md:hidden items-start flex justify-between gap-4">
@@ -62,6 +59,12 @@ const Header = () => {
           >
             Connexion
           </Button>
+          <MdLogin
+            className="md:hidden text-teal-600"
+            onClick={() => router.push("/auth/login")}
+            size={25}
+          />
+
           <div className="md:hidden" onClick={() => setIsOpen(!isOpen)}>
             {isOpen ? <X /> : <Menu />}
           </div>
@@ -80,17 +83,6 @@ const Header = () => {
               >
                 {nv.title}
               </div>
-              /*               <Link
-                key={nv.id}
-                href={nv.href}
-                className={
-                  pathname == nv.href
-                    ? "text-blue-400 font-semibold"
-                    : "hover:text-blue-400 font-semibold"
-                }
-              >
-                {nv.title}
-              </Link> */
             ))}
           </nav>
         </div>

@@ -72,6 +72,7 @@ const Header = () => {
           <nav className=" md:hidden items-center flex flex-col gap-4">
             {navLinks.map((nv) => (
               <div
+                key={nv.id}
                 onClick={() => {
                   setIsOpen(!isOpen);
                   router.push(nv.href);

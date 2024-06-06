@@ -21,7 +21,9 @@ const Title = ({ title, description, position }: TitleProps) => {
       <h1 className="uppercase font-bold text-3xl max-md:text-sm text-blue-500 md:my-4">
         {title}
       </h1>
-      <p className="text-sm md:text-md">{description}</p>
+      <p className="text-sm md:text-md text-blue-800 dark:text-white">
+        {description}
+      </p>
     </div>
   );
 };

@@ -20,7 +20,7 @@ const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="border-b max-md:px-4">
+    <div className="border-b max-md:px-2">
       <div className="w-full md:container  flex justify-between items-end py-4 md:p-8">
         <div className="flex max-md:flex-col max-md:justify-center items-center md:items-end gap-2 ">
           <GiSuspensionBridge
@@ -50,7 +50,7 @@ const Header = () => {
             </Link>
           ))}
         </nav>
-        <div className=" flex gap-4 items-center">
+        <div className=" flex gap-5 items-center">
           <ModeToggle />
 
           <Button

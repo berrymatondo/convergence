@@ -24,15 +24,24 @@ const UserItem = ({ usr }: UserItemProps) => {
         className=" grid grid-cols-3 "
       >
         <div className="relative col-span-2 flex flex-col items-start my-2 ml-2 ">
-          <p className="max-md:text-xs text-sm ">
-            {usr.username} ({usr?.status})
-          </p>
+          <p className="max-md:text-xs text-sm ">{usr.username}</p>
           <p className="italic text-blue-600 max-md:text-xs text-sm">
             {usr.role}
           </p>
         </div>
       </div>
       <div className="md:hidden flex justify-between gap-4 items-center mx-4 ">
+        <p
+          className={
+            usr.status == "ACTIF"
+              ? "w-20 text-center text-xs py-1 px-2 rounded-full bg-green-600"
+              : usr.status == "INACTIF"
+              ? "w-20 text-center text-xs py-1 px-2 rounded-full bg-red-500"
+              : "w-20 text-center text-xs py-1 px-2 rounded-full bg-orange-500"
+          }
+        >
+          {usr.status}
+        </p>
         <MdOutlineDeleteForever
           className="text-red-400"
           onClick={() => router.push(`/admin/users/delete/${usr.id}`)}

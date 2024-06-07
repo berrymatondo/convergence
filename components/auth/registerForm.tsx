@@ -29,17 +29,15 @@ import {
 import { useRouter } from "next/navigation";
 import { log } from "console";
 import { registerUser, updateUser } from "@/lib/_userActions";
-import { Department, UserRoles } from "@prisma/client";
+import { Company, UserRoles, UserStatuses } from "@prisma/client";
 
 type RegisterFormProps = {
   usr?: any;
-  cels?: any;
 };
 
 const RegisterForm = ({ usr }: RegisterFormProps) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [cels, setCels] = useState<any>();
 
   //console.log("usr: ", usr);
 
@@ -48,12 +46,13 @@ const RegisterForm = ({ usr }: RegisterFormProps) => {
     defaultValues: {
       id: usr?.id ? usr.id : undefined,
       username: usr ? usr.username : "",
-      email: "",
+      email: usr ? usr.email : "",
       password: usr ? "******" : "",
       confirmPassword: usr ? "******" : "",
       /*       isClient: false,*/
       role: usr ? usr.role : "VISITOR",
-      departmentId: usr?.departmentId ? usr?.departmentId.toString() : "",
+      status: usr ? usr.status : "INACTIF",
+      companyId: usr?.companyId ? usr?.companyId.toString() : "",
     },
   });
   /*   useEffect(() => {
@@ -240,36 +239,67 @@ const RegisterForm = ({ usr }: RegisterFormProps) => {
                 );
               }}
             />
+            {usr && (
+              <div className="flex justify-between gap-2">
+                <FormField
+                  control={form.control}
+                  name="role"
+                  render={({ field }) => {
+                    return (
+                      <FormItem className="w-1/2">
+                        <FormLabel>Profil</FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <SelectTrigger id="framework">
+                            <SelectValue placeholder="Sélectionner un profil" />
+                          </SelectTrigger>
+                          <SelectContent position="popper">
+                            {Object.values(UserRoles)?.map((ur: any) => (
+                              <SelectItem key={ur} value={ur}>
+                                {ur}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
 
-            <FormField
-              control={form.control}
-              name="role"
-              render={({ field }) => {
-                return (
-                  <FormItem>
-                    <FormLabel>Profil</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <SelectTrigger id="framework">
-                        <SelectValue placeholder="Sélectionner un profil" />
-                      </SelectTrigger>
-                      <SelectContent position="popper">
-                        {Object.values(UserRoles)?.map((ur: any) => (
-                          <SelectItem key={ur} value={ur}>
-                            {ur}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                        <FormMessage />
+                      </FormItem>
+                    );
+                  }}
+                />
 
-                    <FormMessage />
-                  </FormItem>
-                );
-              }}
-            />
+                <FormField
+                  control={form.control}
+                  name="status"
+                  render={({ field }) => {
+                    return (
+                      <FormItem className="w-1/2">
+                        <FormLabel>Statut</FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <SelectTrigger id="framework">
+                            <SelectValue placeholder="Sélectionner un profil" />
+                          </SelectTrigger>
+                          <SelectContent position="popper">
+                            {Object.values(UserStatuses)?.map((ur: any) => (
+                              <SelectItem key={ur} value={ur}>
+                                {ur}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
 
+                        <FormMessage />
+                      </FormItem>
+                    );
+                  }}
+                />
+              </div>
+            )}
             {/*             <FormField
               control={form.control}
               name="isClient"
@@ -352,9 +382,18 @@ const RegisterForm = ({ usr }: RegisterFormProps) => {
               }}
             /> */}
           </div>
-          <Button type="submit" className="w-full">
-            {loading ? "En cours de traitemnt ..." : "Enregistrer"}
-          </Button>
+          <div className="flex gap-2">
+            <Button
+              className="w-full"
+              variant="cancel"
+              onClick={() => router.back()}
+            >
+              {loading ? "En cours de traitemnt ..." : "Annuler"}
+            </Button>
+            <Button type="submit" className="w-full">
+              {loading ? "En cours de traitemnt ..." : "Enregistrer"}
+            </Button>
+          </div>
         </form>
       </Form>
     </div>

@@ -4,7 +4,7 @@ import { prisma } from "./prisma";
 import { RegisterSchema } from "./schemas";
 import bcrypt from "bcrypt";
 import { z } from "zod";
-import { UserRoles } from "@prisma/client";
+import { UserRoles, UserStatuses } from "@prisma/client";
 
 type Inputs = z.infer<typeof RegisterSchema>;
 
@@ -104,6 +104,9 @@ export const updateUser = async (data: Inputs) => {
         const foundUser2 = await prisma.user.findUnique({
           where: {
             email: data.email,
+            NOT: {
+              id: data.id,
+            },
           },
         });
 
@@ -124,6 +127,7 @@ export const updateUser = async (data: Inputs) => {
             departmentId: data?.departmentId ? +data?.departmentId : null,
             //password: hashedPassword,
             role: data.role as UserRoles,
+            status: data.status as UserStatuses,
             email: data.email,
 
             //statut: data.status as CelStatuses,
@@ -160,6 +164,9 @@ export const updateUser = async (data: Inputs) => {
         const foundUser2 = await prisma.user.findUnique({
           where: {
             email: data.email,
+            NOT: {
+              id: data.id,
+            },
           },
         });
 

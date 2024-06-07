@@ -33,7 +33,9 @@ const Header = () => {
             href="/"
             className="dark:text-white  font-bold text-xl max-md:text-md  text-blue-800"
           >
-            <p className="text-xs md:text-3xl text-teal-600">Convergence</p>
+            <p className="text-xs md:text-3xl text-teal-600">
+              Emerging Markets
+            </p>
           </Link>
         </div>
         <nav className=" max-md:hidden items-start flex justify-between gap-4">

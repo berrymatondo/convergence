@@ -13,7 +13,8 @@ export const RegisterSchema = z
     /*     celluleId: z.string().optional(),
     isAdmin: z.boolean(), */
     role: z.string(),
-    departmentId: z.string().optional(),
+    status: z.string(),
+    companyId: z.string().optional(),
     password: z.string().min(6, {
       message: "Le mot de passe doit contenir au moins 6 caractères",
     }),

@@ -8,8 +8,8 @@ import { Toaster } from "@/components/ui/sonner";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Convergence WebApp",
-  description: "Financial WebApp Convergence",
+  title: "Emerging Markets",
+  description: "Connecting You To Tomorrow’s Market Leaders",
 };
 
 export default function RootLayout({

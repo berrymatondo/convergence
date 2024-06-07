@@ -14,7 +14,7 @@ export const registerUser = async (data: Inputs) => {
   const result = RegisterSchema.safeParse(data);
 
   if (result.success) {
-    const { username, email, role, password, confirmPassword, departmentId } =
+    const { username, email, role, password, confirmPassword, companyId } =
       result.data;
 
     console.log(
@@ -25,7 +25,7 @@ export const registerUser = async (data: Inputs) => {
       role,
       password,
       confirmPassword,
-      departmentId
+      companyId
     );
 
     try {
@@ -62,7 +62,7 @@ export const registerUser = async (data: Inputs) => {
           email: data.email,
           password: hashedPassword,
           role: data.role as UserRoles,
-          departmentId: data.departmentId ? +data.departmentId : null,
+          companyId: data.companyId ? +data.companyId : null,
           // userId: userTmp ? (userTmp.id ? parseInt(userTmp.id) : null) : null,
         },
       });
@@ -124,7 +124,7 @@ export const updateUser = async (data: Inputs) => {
           },
           data: {
             username: data.username,
-            departmentId: data?.departmentId ? +data?.departmentId : null,
+            companyId: data?.companyId ? +data?.companyId : null,
             //password: hashedPassword,
             role: data.role as UserRoles,
             status: data.status as UserStatuses,
@@ -180,7 +180,7 @@ export const updateUser = async (data: Inputs) => {
           },
           data: {
             username: data.username,
-            departmentId: data?.departmentId ? +data?.departmentId : undefined,
+            companyId: data?.companyId ? +data?.companyId : undefined,
             role: data.role as UserRoles,
             email: data.email,
             password: hashedPassword,

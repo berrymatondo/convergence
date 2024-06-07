@@ -48,7 +48,7 @@ const UsersPage = async ({
       email: true,
       status: true,
       role: true,
-      department: true,
+      company: true,
     },
     orderBy: {
       username: "asc",

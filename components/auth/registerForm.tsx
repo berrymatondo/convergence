@@ -29,7 +29,7 @@ import {
 import { useRouter } from "next/navigation";
 import { log } from "console";
 import { registerUser, updateUser } from "@/lib/_userActions";
-import { Department } from "@prisma/client";
+import { Department, UserRoles } from "@prisma/client";
 
 type RegisterFormProps = {
   usr?: any;
@@ -52,7 +52,7 @@ const RegisterForm = ({ usr }: RegisterFormProps) => {
       password: usr ? "******" : "",
       confirmPassword: usr ? "******" : "",
       /*       isClient: false,*/
-      role: usr ? usr.role : "",
+      role: usr ? usr.role : "VISITOR",
       departmentId: usr?.departmentId ? usr?.departmentId.toString() : "",
     },
   });
@@ -235,6 +235,35 @@ const RegisterForm = ({ usr }: RegisterFormProps) => {
                         type="password"
                       />
                     </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                );
+              }}
+            />
+
+            <FormField
+              control={form.control}
+              name="role"
+              render={({ field }) => {
+                return (
+                  <FormItem>
+                    <FormLabel>Profil</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <SelectTrigger id="framework">
+                        <SelectValue placeholder="Sélectionner un profil" />
+                      </SelectTrigger>
+                      <SelectContent position="popper">
+                        {Object.values(UserRoles)?.map((ur: any) => (
+                          <SelectItem key={ur} value={ur}>
+                            {ur}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+
                     <FormMessage />
                   </FormItem>
                 );

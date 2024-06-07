@@ -62,7 +62,8 @@ const UsersPage = async ({
     >
       <div className="">
         <CustomBreadcrumb name="Utilisateurs" />
-        <div className="flex items-center justify-between max-md:m-2 md:mt-2">
+
+        <div className=" flex items-center justify-between max-md:m-2 md:mt-2">
           <SearchUser search={search} />
           <div className="flex justify-normal gap-2 ">
             {skip == 0 ? null : (
@@ -99,7 +100,7 @@ const UsersPage = async ({
             </span>
           </Link>
         </div>
-        <div className="max-sm:max-h-[600px] overflow-auto md:mt-4 md:gap-3">
+        <div className="max-sm:max-h-[600px] overflow-auto md:mt-4 md:gap-3 max-w-[800px] mx-auto">
           {users?.map((usr: any) => (
             <UserItem key={usr.id} usr={usr} />
           ))}

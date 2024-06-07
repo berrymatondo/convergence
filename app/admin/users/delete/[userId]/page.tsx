@@ -31,7 +31,7 @@ const DeleteUserPage = async ({ params }: DeleteUserPageProps) => {
       description="Cette page permet de supprimer un utlisateur"
     >
       <CustomBreadcrumb name="Suppression utilisateur" />
-      <div className="max-w-[800px] mx-auto p-2 rounded-b-lg ">
+      <div className="max-w-[800px] m-auto p-4 rounded-lg border ">
         <UserFormDelete usr={usr} />
       </div>
     </PageLayout>
@@ -42,7 +42,7 @@ export default DeleteUserPage;
 
 const CustomBreadcrumb = ({ name }: { name: string }) => {
   return (
-    <Breadcrumb className=" p-2  bg-gray-100">
+    <Breadcrumb className=" p-2  ">
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink href="/">Accueil</BreadcrumbLink>

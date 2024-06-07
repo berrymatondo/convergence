@@ -4,26 +4,29 @@ type TitleProps = {
   title: string;
   description?: string;
   position?: string;
+  descPosition?: string;
 };
 
-const Title = ({ title, description, position }: TitleProps) => {
+const Title = ({ title, description, position, descPosition }: TitleProps) => {
   let pos;
-  if (!position)
+  let desc;
+  if (!position) {
     pos =
       "text-white px-4 rounded-bl-3xl rounded-tr-3xl flex flex-col my-2 items-start ";
-  else
+    desc = "text-sm md:text-md text-blue-800 dark:text-white";
+  } else {
     pos =
       "text-white px-4 rounded-bl-3xl rounded-tr-3xl flex flex-col my-2 " +
       position;
+    desc = "text-sm md:text-md text-blue-800 dark:text-white  text-center";
+  }
 
   return (
     <div className={pos}>
       <h1 className="uppercase font-bold text-3xl max-md:text-sm text-blue-500 md:my-4">
         {title}
       </h1>
-      <p className="text-sm md:text-md text-blue-800 dark:text-white">
-        {description}
-      </p>
+      <p className={desc}>{description}</p>
     </div>
   );
 };

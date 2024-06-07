@@ -67,7 +67,7 @@ const UsersPage = async ({
             {skip == 0 ? null : (
               <Link
                 href={{
-                  pathname: "/admin/auth/users",
+                  pathname: "/admin/users",
                   query: {
                     ...(search ? { search } : {}),
                     skip: skip > 0 ? skip - take : 0,
@@ -80,7 +80,7 @@ const UsersPage = async ({
             {skip + users.length >= usrCount ? null : (
               <Link
                 href={{
-                  pathname: "/admin/auth/users",
+                  pathname: "/admin/users",
                   query: {
                     ...(search ? { search } : {}),
                     skip: skip + take,

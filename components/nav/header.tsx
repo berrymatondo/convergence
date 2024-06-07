@@ -11,7 +11,7 @@ import { MdLogin } from "react-icons/md";
 const navLinks = [
   { id: 1, href: "/dashboard", title: "Dashboard" },
   { id: 2, href: "/general", title: " General Overview" },
-  { id: 3, href: "/admin/auth/users", title: " Utilisateurs" },
+  { id: 3, href: "/admin/users", title: " Utilisateurs" },
   { id: 4, href: "/contact", title: "Contact" },
 ];
 

@@ -17,8 +17,8 @@ const SearchUser = ({ search }: { search?: string }) => {
       return;
     }
 
-    if (!query) router.push(`/admin/auth/users`);
-    else router.push(`/admin/auth/users?search=${query}`);
+    if (!query) router.push(`/admin/users`);
+    else router.push(`/admin/users?search=${query}`);
   }, [router, query]);
 
   return (

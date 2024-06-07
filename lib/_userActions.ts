@@ -230,6 +230,24 @@ export const getUser = async (userId: number) => {
   } catch (error) {}
 };
 
+// DELETE USER
+export const deleteUser = async (userId: number) => {
+  try {
+    const user = await prisma.user.delete({
+      where: {
+        id: +userId,
+      },
+    });
+
+    revalidatePath("/admin/users");
+
+    return {
+      success: true,
+      data: user,
+    };
+  } catch (error) {}
+};
+
 // Logout
 /* export const logoutUser = async () => {
 

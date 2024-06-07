@@ -41,7 +41,7 @@ const RegisterForm = ({ usr }: RegisterFormProps) => {
   const [loading, setLoading] = useState(false);
   const [cels, setCels] = useState<any>();
 
-  console.log("usr: ", usr);
+  //console.log("usr: ", usr);
 
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
@@ -73,8 +73,8 @@ const RegisterForm = ({ usr }: RegisterFormProps) => {
 
   const procesForm = async (values: z.infer<typeof RegisterSchema>) => {
     setLoading(true);
-    console.log("Value: ", values);
-    console.log("usr: ", usr);
+    //console.log("Value: ", values);
+    //console.log("usr: ", usr);
 
     // const result = await registerUser(values);
     let res;
@@ -110,7 +110,7 @@ const RegisterForm = ({ usr }: RegisterFormProps) => {
     });
     setOpen(false); */
 
-    console.log("res:", res);
+    //console.log("res:", res);
 
     if (!res) {
       console.log("Une erreur est srvenue...");

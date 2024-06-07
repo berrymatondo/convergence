@@ -27,6 +27,9 @@ const UserItem = ({ usr }: UserItemProps) => {
           <p className="max-md:text-xs text-sm ">
             {usr.username} ({usr?.status})
           </p>
+          <p className="italic text-blue-600 max-md:text-xs text-sm">
+            {usr.role}
+          </p>
         </div>
       </div>
       <div className="md:hidden flex justify-between gap-4 items-center mx-4 ">

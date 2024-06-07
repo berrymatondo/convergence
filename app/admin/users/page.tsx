@@ -43,6 +43,7 @@ const UsersPage = async ({
       username: { contains: search as string, mode: "insensitive" },
     },
     select: {
+      id: true,
       username: true,
       email: true,
       status: true,

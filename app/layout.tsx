@@ -4,6 +4,8 @@ import "./globals.css";
 import Header from "@/components/nav/header";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
+import Providers from "@/components/providers";
+import AppBar from "@/components/nav/appBar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,9 +28,13 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Header />
-          {children}
-          <Toaster richColors />
+          <Providers>
+            {/*             <Header />
+             */}{" "}
+            <AppBar />
+            {children}
+            <Toaster richColors />
+          </Providers>
         </ThemeProvider>
       </body>
     </html>

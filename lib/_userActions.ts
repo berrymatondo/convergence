@@ -1,10 +1,11 @@
 "use server";
 import { revalidatePath } from "next/cache";
 import { prisma } from "./prisma";
-import { RegisterSchema } from "./schemas";
+import { LoginSchema, RegisterSchema } from "./schemas";
 import bcrypt from "bcrypt";
 import { z } from "zod";
 import { UserRoles, UserStatuses } from "@prisma/client";
+import { signIn, signOut } from "@/auth";
 
 type Inputs = z.infer<typeof RegisterSchema>;
 
@@ -35,7 +36,7 @@ export const registerUser = async (data: Inputs) => {
 
       const foundUser = await prisma.user.findUnique({
         where: {
-          username: data.username,
+          username: data.username.toLowerCase(),
         },
       });
 
@@ -58,7 +59,7 @@ export const registerUser = async (data: Inputs) => {
 
       const user = await prisma.user.create({
         data: {
-          username: data.username,
+          username: data.username.toLowerCase(),
           email: data.email,
           password: hashedPassword,
           role: data.role as UserRoles,
@@ -90,7 +91,7 @@ export const updateUser = async (data: Inputs) => {
       try {
         const foundUser = await prisma.user.findUnique({
           where: {
-            username: data.username,
+            username: data.username.toLowerCase(),
             NOT: {
               id: data.id,
             },
@@ -123,7 +124,7 @@ export const updateUser = async (data: Inputs) => {
             id: data.id,
           },
           data: {
-            username: data.username,
+            username: data.username.toLowerCase(),
             companyId: data?.companyId ? +data?.companyId : null,
             //password: hashedPassword,
             role: data.role as UserRoles,
@@ -150,7 +151,7 @@ export const updateUser = async (data: Inputs) => {
       try {
         const foundUser = await prisma.user.findUnique({
           where: {
-            username: data.username,
+            username: data.username.toLowerCase(),
             NOT: {
               id: data.id,
             },
@@ -179,7 +180,7 @@ export const updateUser = async (data: Inputs) => {
             id: data.id ? +data.id : undefined,
           },
           data: {
-            username: data.username,
+            username: data.username.toLowerCase(),
             companyId: data?.companyId ? +data?.companyId : undefined,
             role: data.role as UserRoles,
             email: data.email,
@@ -255,9 +256,52 @@ export const deleteUser = async (userId: number) => {
   } catch (error) {}
 };
 
+type Inputs3 = z.infer<typeof LoginSchema>;
+
+export const loginlogin = async (data: Inputs3) => {
+  //console.log("data", data);
+
+  const result = LoginSchema.safeParse(data);
+
+  if (result.success) {
+    try {
+      const foundUser = await prisma.user.findUnique({
+        where: {
+          username: data.username.toLowerCase(),
+        },
+      });
+
+      //console.log("foundUser", foundUser);
+
+      if (!foundUser) return { error: "Cet utilisateur n'existe pas" };
+
+      const checkPass = await bcrypt.compare(data.password, foundUser.password);
+
+      //console.log("checkPass:", checkPass);
+
+      if (!checkPass) {
+        return { error: "Le mot de passe est incorrect" };
+      }
+
+      // return { success: true, data: data };
+    } catch (error) {}
+  } else {
+    return { success: false, error: result.error.format() };
+  }
+
+  //console.log("Call sinin", data);
+
+  const res = await signIn("credentials", {
+    ...data,
+    redirectTo: "/dashboard",
+  });
+
+  console.log("RESSSS", res);
+};
+
 // Logout
-/* export const logoutUser = async () => {
+export const logoutUser = async () => {
+  //console.log("LOGOUT");
 
   await signOut();
 };
- */

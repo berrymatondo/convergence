@@ -6,7 +6,9 @@ import { ModeToggle } from "../modeToggle";
 import { GiSuspensionBridge } from "react-icons/gi";
 import { usePathname, useRouter } from "next/navigation";
 import { Menu, X } from "lucide-react";
-import { MdLogin } from "react-icons/md";
+import { MdLogin, MdLogout, MdPerson } from "react-icons/md";
+import { signOut } from "@/auth";
+import { logoutUser } from "@/lib/_userActions";
 
 const navLinks = [
   { id: 1, href: "/dashboard", title: "Dashboard" },
@@ -15,14 +17,20 @@ const navLinks = [
   { id: 4, href: "/contact", title: "Contact" },
 ];
 
-const Header = () => {
+type HeaderProps = {
+  userSession: any;
+};
+
+const Header = ({ userSession }: HeaderProps) => {
   const router = useRouter();
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
 
+  //console.log("SESSION: ", userSession);
+
   return (
     <div className="border-b max-md:px-2">
-      <div className="w-full md:container  flex justify-between items-end py-4 md:p-8">
+      <div className="w-full md:container  flex justify-between items-end py-4 ">
         <div className="flex max-md:flex-col max-md:justify-center items-center md:items-end gap-2 ">
           <GiSuspensionBridge
             className="max-md:hidden  text-blue-600"
@@ -53,29 +61,90 @@ const Header = () => {
             </Link>
           ))}
         </nav>
+
         <div className=" flex gap-5 items-center">
           <ModeToggle />
+          {(!userSession || !userSession.user) && (
+            <Button
+              className="max-md:hidden"
+              onClick={() => router.push("/auth/login")}
+            >
+              Connexion
+            </Button>
+          )}
 
-          <Button
-            className="max-md:hidden"
-            onClick={() => router.push("/auth/login")}
-          >
-            Connexion
-          </Button>
-          <MdLogin
-            className="md:hidden text-teal-600"
-            onClick={() => router.push("/auth/login")}
-            size={25}
-          />
+          {userSession && userSession.user && (
+            <form
+              action={async () => {
+                logoutUser();
+              }}
+            >
+              <Button
+                className="max-md:hidden"
+                onClick={() => router.push("/auth/login")}
+                variant="cancel"
+              >
+                Déconnexion
+              </Button>
+            </form>
+          )}
+
+          {(!userSession || !userSession.user) && (
+            <MdLogin
+              className="md:hidden text-teal-600"
+              onClick={() => router.push("/auth/login")}
+              size={25}
+            />
+          )}
+          {userSession && userSession.user && (
+            <form
+              action={async () => {
+                logoutUser();
+              }}
+            >
+              <Button
+                className="md:hidden p-0"
+                onClick={() => router.push("/auth/login")}
+                variant="empty"
+              >
+                <MdLogout className="text-red-600" size={25} />
+              </Button>
+            </form>
+            /*             <form
+              action={async () => {
+                //console.log("EXIT");
+                logoutUser();
+                router.push("/auth/login");
+              }}
+            >
+              <Button type="submit" variant="empty">
+                <MdLogout
+                  className="md:hidden text-red-600"
+                  // onClick={() => router.push("/auth/login")}
+                  size={25}
+                />
+              </Button>
+            </form> */
+          )}
 
           <div className="md:hidden" onClick={() => setIsOpen(!isOpen)}>
             {isOpen ? <X /> : <Menu />}
           </div>
         </div>
       </div>
+
+      {userSession && userSession.user && (
+        <p className="flex justify-center items-end gap-2 mb-2">
+          <MdPerson className="max-md:text-xs  text-orange-600" size={25} />
+          <strong className="max-md:text-xs text-lg dark:text-blue-400 text-blue-600">
+            {userSession?.user?.username}
+          </strong>
+        </p>
+      )}
+
       {isOpen && (
-        <div className="bloc ">
-          <nav className=" md:hidden items-center flex flex-col gap-4">
+        <div className="bloc bg-blue-600 rounded-lg">
+          <nav className=" md:hidden items-center flex flex-col gap-4 pt-2">
             {navLinks.map((nv) => (
               <div
                 key={nv.id}
@@ -83,6 +152,7 @@ const Header = () => {
                   setIsOpen(!isOpen);
                   router.push(nv.href);
                 }}
+                className="border-b w-full text-center pb-2"
               >
                 {nv.title}
               </div>

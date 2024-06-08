@@ -31,3 +31,10 @@ export const RegisterSchema = z
       path: ["confirmPassword"],
     }
   );
+
+export const LoginSchema = z.object({
+  username: z.string().min(1, {
+    message: "Le nom d'utilisateur est obligatoire",
+  }),
+  password: z.string().min(1, { message: "Le mot de pass est obligatoire" }),
+});

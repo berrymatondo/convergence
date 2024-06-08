@@ -13,6 +13,7 @@ import { prisma } from "@/lib/prisma";
 import UserItem from "@/components/user/userItem";
 import SearchUser from "@/components/user/searchUser";
 import PageLayout from "@/components/pageLayout";
+import { auth } from "@/auth";
 
 const UsersPage = async ({
   searchParams,
@@ -54,6 +55,18 @@ const UsersPage = async ({
       username: "asc",
     },
   });
+
+  const session = await auth();
+
+  if (!session || !session.user)
+    return (
+      <div className=" py-24 w-full flex flex-col justify-center items-center">
+        <p>Vous n'êtes pas connecté</p>
+        <Link href="/auth/login" className="border m-8 p-4 rounded-lg">
+          Se connecter
+        </Link>
+      </div>
+    );
 
   return (
     <PageLayout

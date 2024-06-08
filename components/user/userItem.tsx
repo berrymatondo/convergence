@@ -55,6 +55,17 @@ const UserItem = ({ usr }: UserItemProps) => {
         />
       </div>
       <div className="flex justify-between gap-4 items-center mx-4 max-md:hidden">
+        <p
+          className={
+            usr.status == "ACTIF"
+              ? "w-20 text-center text-xs py-1 px-2 rounded-full bg-green-600"
+              : usr.status == "INACTIF"
+              ? "w-20 text-center text-xs py-1 px-2 rounded-full bg-red-500"
+              : "w-20 text-center text-xs py-1 px-2 rounded-full bg-orange-500"
+          }
+        >
+          {usr.status}
+        </p>
         <Button
           className=" text-red-400"
           variant="secondary"

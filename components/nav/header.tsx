@@ -77,6 +77,7 @@ const Header = ({ userSession }: HeaderProps) => {
             <form
               action={async () => {
                 logoutUser();
+                router.push("/auth/login");
               }}
             >
               <Button
@@ -100,6 +101,7 @@ const Header = ({ userSession }: HeaderProps) => {
             <form
               action={async () => {
                 logoutUser();
+                router.push("/auth/login");
               }}
             >
               <Button

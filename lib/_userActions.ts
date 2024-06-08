@@ -5,7 +5,7 @@ import { LoginSchema, RegisterSchema } from "./schemas";
 import bcrypt from "bcrypt";
 import { z } from "zod";
 import { UserRoles, UserStatuses } from "@prisma/client";
-import { signIn, signOut } from "@/auth";
+import { auth, signIn, signOut } from "@/auth";
 
 type Inputs = z.infer<typeof RegisterSchema>;
 
@@ -240,6 +240,10 @@ export const getUser = async (userId: number) => {
 
 // DELETE USER
 export const deleteUser = async (userId: number) => {
+  const check = await checkAuth("ADMIN");
+
+  if (check.status == "KO") return check;
+
   try {
     const user = await prisma.user.delete({
       where: {
@@ -252,6 +256,8 @@ export const deleteUser = async (userId: number) => {
     return {
       success: true,
       data: user,
+      status: "OK",
+      msg: "",
     };
   } catch (error) {}
 };
@@ -304,4 +310,26 @@ export const logoutUser = async () => {
   //console.log("LOGOUT");
 
   await signOut();
+};
+
+export const checkAuth = async (role: string) => {
+  const session = await auth();
+
+  console.log("AUTH SESSION:", session?.user);
+
+  let user: any = session?.user;
+  let status = "KO";
+  if (user?.role == role) status = "OK";
+
+  if (user?.status != "ACTIF") status = "KO";
+
+  return {
+    success: true,
+    data: "",
+    status: status,
+    msg:
+      status == "OK"
+        ? ""
+        : "Vous n'avez pas les droits nécessaires pour effectuer cette opération",
+  };
 };

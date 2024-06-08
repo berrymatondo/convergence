@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Form } from "../ui/form";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { deleteUser } from "@/lib/_userActions";
+import { checkAuth, deleteUser } from "@/lib/_userActions";
 
 type UserFormDeleteProps = {
   usr: any;
@@ -26,22 +26,30 @@ const UserFormDelete = ({ usr }: UserFormDeleteProps) => {
 
   const procesForm = async () => {
     const res = await deleteUser(usr.id);
+    //const res = await checkAuth("x");
 
-    if (!res) {
-      console.log("Une erreur est srvenue...");
+    //console.log("RES:", res);
+
+    if (res?.status == "KO") {
+      toast.error(res.msg, {
+        description: new Date().toISOString().split("T")[0],
+      });
+    } else {
+      if (!res) {
+        console.log("Une erreur est srvenue...");
+      }
+      toast.success(
+        `L'utilisateur ${usr.username}  a été supprimé avec succès.`,
+        {
+          description: new Date().toISOString().split("T")[0],
+        }
+      );
     }
 
     /*     if (res!.error) {
       console.log(res!.error);
       return;
     } */
-
-    toast.success(
-      `L'utilisateur ${usr.username}  a été supprimé avec succès.`,
-      {
-        description: new Date().toISOString().split("T")[0],
-      }
-    );
 
     router.push("/admin/users");
   };

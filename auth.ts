@@ -53,7 +53,8 @@ const credentialsConfig = CredentialsProvider({
       return {
         id: user.id + "",
         role: user.role,
-        //email: user.email,
+        email: user.email,
+        status: user.status,
         username: user.username,
         name: user.username,
         createAt: user.createdAt,

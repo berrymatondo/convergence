@@ -26,6 +26,11 @@ enum UserRoles {
  ADMIN
 }
 
+enum ContactStatuses {
+ NOUVEAU
+ ENCOURS
+ TERMINE
+}
 
 model User {
   id Int @id @default(autoincrement())
@@ -76,11 +81,27 @@ model Person{
   firstname String
   lastname String
   mobile String
-  email Int @unique
+  email String @unique
 
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@map("persons")
+}
+
+
+model Contact{
+  id Int @id @default(autoincrement())
+  firstname String
+  lastname String
+  email String
+  message String 
+  comments String? 
+  status ContactStatuses @default(NOUVEAU) 
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("contacts")
 }

@@ -25,7 +25,7 @@ const UpdatePerPage = async ({ params }: UpdatePerPageProps) => {
   /*   const res1 = await getAllCels();
   const cels = await res1?.data; */
 
-  console.log("USR:", usr);
+  // console.log("USR:", usr);
 
   //const res1 = await getAllZones();
   //const allZones = await res1?.data;

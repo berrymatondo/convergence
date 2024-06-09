@@ -38,3 +38,19 @@ export const LoginSchema = z.object({
   }),
   password: z.string().min(1, { message: "Le mot de pass est obligatoire" }),
 });
+
+export const ContactSchema = z.object({
+  id: z.number().optional(),
+  firstname: z.string().min(1, {
+    message: "Le prénom est obligatoire",
+  }),
+  lastname: z.string().min(1, {
+    message: "Le nom est obligatoire",
+  }),
+  email: z.string().min(1, {
+    message: "L'adresse email est obligatoire",
+  }),
+  message: z.string().min(1, { message: "Le message est obligatoire" }),
+  comments: z.string().optional(),
+  status: z.string(),
+});

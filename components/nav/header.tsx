@@ -154,7 +154,7 @@ const Header = ({ userSession }: HeaderProps) => {
                   setIsOpen(!isOpen);
                   router.push(nv.href);
                 }}
-                className="border-b w-full text-center pb-2"
+                className="border-b w-full text-center pb-2 text-white"
               >
                 {nv.title}
               </div>

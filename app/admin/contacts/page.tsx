@@ -15,6 +15,7 @@ import PageLayout from "@/components/pageLayout";
 import { auth } from "@/auth";
 import SearchContact from "@/components/contact/searchContact";
 import ContactItem from "@/components/contact/contactItem";
+import AuthPageLayout from "@/components/auth/authPageLayout";
 
 const ContactsPage = async ({
   searchParams,
@@ -72,12 +73,11 @@ const ContactsPage = async ({
 
   return (
     <PageLayout
-      title="Liste des messages"
-      description="La liste de tous les messages"
+      title="Contactez-nous"
+      description="Envoyez-nous un message et nous vous contacterons très rapidement"
     >
       <div className="">
         <CustomBreadcrumb name="messages" />
-
         <div className=" flex items-center justify-between max-md:m-2 md:mt-2">
           <SearchContact search={search} />
           <div className="flex justify-normal gap-2 ">
@@ -115,10 +115,46 @@ const ContactsPage = async ({
             </span>
           </Link>
         </div>
-        <div className="max-sm:max-h-[600px] overflow-auto md:mt-4 md:gap-3 max-w-[800px] mx-auto">
-          {contacts?.map((ctc: any) => (
-            <ContactItem key={ctc.id} ctc={ctc} />
-          ))}
+        {/*         <div className="bg-green-600 max-sm:max-h-[600px] overflow-auto md:mt-4 md:gap-3 max-w-[800px] mx-auto">
+         */}{" "}
+        <div className="grid md:grid-cols-4 py-4 gap-4 max-md:px-2">
+          <div className="md:col-span-3 max-sm:max-h-[600px] overflow-auto md:gap-3 ">
+            {contacts?.map((ctc: any) => (
+              <ContactItem key={ctc.id} ctc={ctc} />
+            ))}
+          </div>
+          <div className="bg-blue-900 rounded-lg p-2 max-md:w-full text-white">
+            <p className="text-center p-4 text-lg ">Infos</p>
+            <div className="flex flex-col gap-4">
+              <p>
+                <span>Total de msg: {contacts.length}</span>
+              </p>
+              <p className=" flex items-center gap-4">
+                <span className="w-1/3 text-center text-sm font-semibold   px-4 py-1 rounded-md hover:bg-teal-600 hover:cursor-pointer bg-teal-800 text-white ">
+                  Nouveau
+                </span>
+                <span>
+                  {contacts.filter((ctc) => ctc.status == "NOUVEAU").length}
+                </span>
+              </p>
+              <p className=" flex items-center gap-4">
+                <span className="w-1/3 text-center text-sm font-semibold  px-4 py-1 rounded-md hover:bg-teal-600 hover:cursor-pointer bg-yellow-600 text-white ">
+                  En cours
+                </span>
+                <span>
+                  {contacts.filter((ctc) => ctc.status == "ENCOURS").length}
+                </span>
+              </p>
+              <p className=" flex items-center gap-4">
+                <span className="w-1/3 text-center text-sm font-semibold   px-4 py-1 rounded-md hover:bg-teal-600 hover:cursor-pointer bg-green-900 text-white ">
+                  Traités
+                </span>
+                <span>
+                  {contacts.filter((ctc) => ctc.status == "TERMINE").length}
+                </span>
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </PageLayout>

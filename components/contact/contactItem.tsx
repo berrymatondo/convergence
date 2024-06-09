@@ -30,7 +30,7 @@ const ContactItem = ({ ctc }: UserItemProps) => {
           </p>
         </div>
       </div>
-      <div className="md:hidden flex justify-between gap-4 items-center mx-4 ">
+      <div className="md:hidden flex justify-between gap-4 items-center mx-4 text-white">
         <p
           className={
             ctc.status == "NOUVEAU"

@@ -29,6 +29,7 @@ import { ContactSchema } from "@/lib/schemas";
 import { createContact, updateContact } from "@/lib/_contactActions";
 import { Textarea } from "../ui/textarea";
 import { ContactStatuses } from "@prisma/client";
+import Link from "next/link";
 
 type ContactFormProps = {
   ctc?: any;
@@ -131,7 +132,8 @@ const ContactForm = ({ ctc }: ContactFormProps) => {
       });
 
     setLoading(false);
-    router.push("/admin/contacts");
+    form.reset();
+    router.push("/contact");
   };
 
   return (
@@ -139,13 +141,13 @@ const ContactForm = ({ ctc }: ContactFormProps) => {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(procesForm)} className="space-y-6">
           <div className="space-y-4">
-            <div className="flex gap-4">
+            <div className="flex justify-between gap-4">
               <FormField
                 control={form.control}
                 name="firstname"
                 render={({ field }) => {
                   return (
-                    <FormItem>
+                    <FormItem className="w-1/2">
                       <FormLabel>{"Prénom"}</FormLabel>
                       <FormControl>
                         <Input
@@ -165,7 +167,7 @@ const ContactForm = ({ ctc }: ContactFormProps) => {
                 name="lastname"
                 render={({ field }) => {
                   return (
-                    <FormItem>
+                    <FormItem className="w-1/2">
                       <FormLabel>{"Nom"}</FormLabel>
                       <FormControl>
                         <Input
@@ -279,6 +281,11 @@ const ContactForm = ({ ctc }: ContactFormProps) => {
           </div>
         </form>
       </Form>
+      <p className="text-center m-2 underline">
+        <Link className="text-sm " href="/admin/contacts">
+          Voir tous les messages
+        </Link>
+      </p>
     </div>
   );
 };

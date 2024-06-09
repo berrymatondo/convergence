@@ -13,10 +13,13 @@ import React from "react";
 const ContactPage = () => {
   return (
     <AuthPageLayout
-      title="Contact Us"
-      description="We are available to answer your questions"
+      title="Contactez-nous"
+      position="items-center"
+      descPosition="items-center"
+      description="Nous sommes disponibles pour vous aider"
     >
-      <CustomBreadcrumb name="Nouveau Message" />
+      {/*       <CustomBreadcrumb name="Nouveau Message" />
+       */}{" "}
       <div className="max-w-[800px] mx-auto p-2">
         <ContactForm />{" "}
       </div>

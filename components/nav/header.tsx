@@ -9,6 +9,8 @@ import { Menu, X } from "lucide-react";
 import { MdLogin, MdLogout, MdPerson } from "react-icons/md";
 import { signOut } from "@/auth";
 import { logoutUser } from "@/lib/_userActions";
+import Image from "next/image";
+import stats from "../../public/stats.png";
 
 const navLinks = [
   { id: 1, href: "/dashboard", title: "Dashboard" },
@@ -29,7 +31,8 @@ const Header = ({ userSession }: HeaderProps) => {
   //console.log("SESSION: ", userSession);
 
   return (
-    <div className="border-b max-md:px-2">
+    <div className="relative border-b max-md:px-2">
+      <Image alt="stats" src={stats} className="absolute w-full -z-10 " />
       <div className="w-full md:container  flex justify-between items-end py-4 ">
         <div className="flex max-md:flex-col max-md:justify-center items-center md:items-end gap-2 ">
           <GiSuspensionBridge

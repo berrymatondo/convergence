@@ -16,6 +16,8 @@ import { auth } from "@/auth";
 import SearchContact from "@/components/contact/searchContact";
 import ContactItem from "@/components/contact/contactItem";
 import AuthPageLayout from "@/components/auth/authPageLayout";
+import Image from "next/image";
+import stats from "../../../public/stats.png";
 
 const ContactsPage = async ({
   searchParams,
@@ -123,37 +125,77 @@ const ContactsPage = async ({
               <ContactItem key={ctc.id} ctc={ctc} />
             ))}
           </div>
-          <div className="bg-blue-900 rounded-lg p-2 max-md:w-full text-white">
-            <p className="text-center p-4 text-lg ">Infos</p>
-            <div className="flex flex-col gap-4">
-              <p>
-                <span>Total de msg: {contacts.length}</span>
-              </p>
-              <p className=" flex items-center gap-4">
-                <span className="w-1/3 text-center text-sm font-semibold   px-4 py-1 rounded-md hover:bg-teal-600 hover:cursor-pointer bg-teal-800 text-white ">
-                  Nouveau
-                </span>
-                <span>
-                  {contacts.filter((ctc) => ctc.status == "NOUVEAU").length}
-                </span>
-              </p>
-              <p className=" flex items-center gap-4">
-                <span className="w-1/3 text-center text-sm font-semibold  px-4 py-1 rounded-md hover:bg-teal-600 hover:cursor-pointer bg-yellow-600 text-white ">
-                  En cours
-                </span>
-                <span>
-                  {contacts.filter((ctc) => ctc.status == "ENCOURS").length}
-                </span>
-              </p>
-              <p className=" flex items-center gap-4">
-                <span className="w-1/3 text-center text-sm font-semibold   px-4 py-1 rounded-md hover:bg-teal-600 hover:cursor-pointer bg-green-900 text-white ">
-                  Traités
-                </span>
-                <span>
-                  {contacts.filter((ctc) => ctc.status == "TERMINE").length}
-                </span>
-              </p>
+          <div className="rounded-lg overflow-hidden  relative">
+            {/*             <div className="bg-w/10 z-10 backdrop-filter backdrop-blur-xl shadow-lg rounded-lg p-2 max-md:w-full text-white">
+              <p className="text-center p-4 text-lg ">Infos</p>
+              <div className="flex flex-col gap-4">
+                <p>
+                  <span>Total de msg: {contacts.length}</span>
+                </p>
+                <p className=" flex items-center gap-4">
+                  <span className="w-1/3 text-center text-sm font-semibold   px-4 py-1 rounded-md hover:bg-teal-600 hover:cursor-pointer bg-teal-800 text-white ">
+                    Nouveau
+                  </span>
+                  <span>
+                    {contacts.filter((ctc) => ctc.status == "NOUVEAU").length}
+                  </span>
+                </p>
+                <p className=" flex items-center gap-4">
+                  <span className="w-1/3 text-center text-sm font-semibold  px-4 py-1 rounded-md hover:bg-teal-600 hover:cursor-pointer bg-yellow-600 text-white ">
+                    En cours
+                  </span>
+                  <span>
+                    {contacts.filter((ctc) => ctc.status == "ENCOURS").length}
+                  </span>
+                </p>
+                <p className=" flex items-center gap-4">
+                  <span className="w-1/3 text-center text-sm font-semibold   px-4 py-1 rounded-md hover:bg-teal-600 hover:cursor-pointer bg-green-900 text-white ">
+                    Traités
+                  </span>
+                  <span>
+                    {contacts.filter((ctc) => ctc.status == "TERMINE").length}
+                  </span>
+                </p>
+              </div>
+            </div> */}
+
+            <div className=" rounded-lg p-2 max-md:w-full text-white">
+              <div className="flex flex-col gap-4">
+                <p>
+                  <span>Total de msg: {contacts.length}</span>
+                </p>
+                <p className=" flex items-center gap-4">
+                  <span className="w-1/3 text-center text-sm font-semibold   px-4 py-1 rounded-md hover:bg-teal-600 hover:cursor-pointer bg-teal-800 text-white ">
+                    Nouveau
+                  </span>
+                  <span>
+                    {contacts.filter((ctc) => ctc.status == "NOUVEAU").length}
+                  </span>
+                </p>
+                <p className=" flex items-center gap-4">
+                  <span className="w-1/3 text-center text-sm font-semibold  px-4 py-1 rounded-md hover:bg-teal-600 hover:cursor-pointer bg-yellow-600 text-white ">
+                    En cours
+                  </span>
+                  <span>
+                    {contacts.filter((ctc) => ctc.status == "ENCOURS").length}
+                  </span>
+                </p>
+                <p className=" flex items-center gap-4">
+                  <span className="w-1/3 text-center text-sm font-semibold   px-4 py-1 rounded-md hover:bg-teal-600 hover:cursor-pointer bg-green-900 text-white ">
+                    Traités
+                  </span>
+                  <span>
+                    {contacts.filter((ctc) => ctc.status == "TERMINE").length}
+                  </span>
+                </p>
+              </div>
             </div>
+
+            <Image
+              alt="stats"
+              src={stats}
+              className="absolute top-0 left-0 right-0 bottom-0 -z-10 "
+            />
           </div>
         </div>
       </div>

@@ -13,10 +13,11 @@ export default function Continentayout({
   params: { slug?: string[] };
   children: React.ReactNode;
 }) {
+  const pathname = usePathname();
+
   const continents = Object.values(ContinentsList);
   if (!continents) return notFound();
 
-  const pathname = usePathname();
   const cont = pathname.split("continents/")[1]?.split("/")[0];
   //console.log("PATHNAME: ", pathname.split("continents/")[1]?.split("/")[0]);
 

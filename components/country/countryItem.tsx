@@ -11,7 +11,7 @@ type CountryItemProps = {
 };
 
 const CountryItem = ({ ctr }: CountryItemProps) => {
-  // console.log("ctr: ", ctr);
+  //console.log("ctr: ", ctr);
 
   const router = useRouter();
   return (
@@ -20,7 +20,7 @@ const CountryItem = ({ ctr }: CountryItemProps) => {
       className="border-b border-gray-400/40 gap-2 flex justify-between shadow-md md:my-2 md:py-2 max-md:m-2  hover:cursor-pointer"
     >
       <div
-        onClick={() => router.push(`/admin/countries/${ctr.id}`)}
+        onClick={() => router.push(`/continents/${ctr.continent}/${ctr.id}`)}
         className=" grid grid-cols-3 "
       >
         <div className="relative col-span-2 flex flex-col items-start my-2 ml-2 ">

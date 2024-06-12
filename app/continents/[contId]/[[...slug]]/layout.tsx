@@ -39,7 +39,7 @@ export default function Continentayout({
       // console.log("data celes: ", data);
     };
     fetchCountries();
-  }, []);
+  }, [cont]);
 
   const contId = slug?.[0];
   //console.log("contId: ", contId);

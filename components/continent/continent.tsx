@@ -13,8 +13,10 @@ const Continent = async ({ slug }: { slug: string[] }) => {
 
   return (
     <div className="flex flex-col">
-      {countries?.data?.map((cont: Country) => (
-        <Link href="/">{cont.name}</Link>
+      {countries?.data?.map((country: Country) => (
+        <Link key={country.id} href="/">
+          {country.name}
+        </Link>
       ))}
     </div>
   );

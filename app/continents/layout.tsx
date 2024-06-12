@@ -17,7 +17,7 @@ export default function Continentayout({
   const pathname = usePathname();
   const router = useRouter();
 
-  const { data: session } = useSession();
+  /*   const { data: session } = useSession();
 
   let usr: any;
   let continent: any;
@@ -30,7 +30,7 @@ export default function Continentayout({
       router.push(`/continents/${usr?.continent}/${usr?.countryId}`);
   }
 
-  console.log("SESSION:", session);
+  console.log("SESSION:", session); */
 
   const continents = Object.values(ContinentsList);
   if (!continents) return notFound();

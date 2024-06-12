@@ -14,7 +14,8 @@ import stats from "../../public/stats.png";
 
 const navLinks = [
   { id: 1, href: "/dashboard", title: "Dashboard" },
-  { id: 2, href: "/general", title: " General Overview" },
+  { id: 2, href: "/continents", title: " General Overview" },
+  { id: 2, href: "/admin/countries", title: "Pays" },
   { id: 3, href: "/admin/users", title: " Utilisateurs" },
   { id: 4, href: "/contact", title: "Contact" },
 ];
@@ -31,8 +32,12 @@ const Header = ({ userSession }: HeaderProps) => {
   //console.log("SESSION: ", userSession);
 
   return (
-    <div className="relative border-b max-md:px-2">
-      <Image alt="stats" src={stats} className="absolute w-full -z-10 " />
+    <div className="relative  border-b max-md:px-2 ">
+      {/*       <Image
+        alt="stats"
+        src={stats}
+        className="absolute max-md:w-full w-1/2 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 -z-10 "
+      /> */}
       <div className="w-full md:container  flex justify-between items-end py-4 ">
         <div className="flex max-md:flex-col max-md:justify-center items-center md:items-end gap-2 ">
           <GiSuspensionBridge

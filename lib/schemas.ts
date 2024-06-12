@@ -54,3 +54,23 @@ export const ContactSchema = z.object({
   comments: z.string().optional(),
   status: z.string(),
 });
+
+export const CountrySchema = z.object({
+  id: z.number().optional(),
+  name: z.string().min(1, {
+    message: "Le nom est obligatoire",
+  }),
+  continent: z.string(),
+});
+
+export const GoSchema = z.object({
+  id: z.number().optional(),
+  key: z.string().min(1, {
+    message: "La clé est obligatoire",
+  }),
+  value: z.string().min(1, {
+    message: "La valeur est obligatoire",
+  }),
+  order: z.string(),
+  countryId: z.number(),
+});

@@ -161,9 +161,9 @@ const ContactsPage = async ({
 
             <div className=" rounded-lg p-2 max-md:w-full text-white">
               <div className="flex flex-col gap-4">
-                <p>
+                {/*                <p>
                   <span>Total de msg: {contacts.length}</span>
-                </p>
+                </p> */}
                 <p className=" flex items-center gap-4">
                   <span className="w-1/3 text-center text-sm font-semibold   px-4 py-1 rounded-md hover:bg-teal-600 hover:cursor-pointer bg-teal-800 text-white ">
                     Nouveau
@@ -194,7 +194,7 @@ const ContactsPage = async ({
             <Image
               alt="stats"
               src={stats}
-              className="absolute top-0 left-0 right-0 bottom-0 -z-10 "
+              className="border rounded-lg absolute top-0 left-0 right-0 bottom-0 -z-10 "
             />
           </div>
         </div>

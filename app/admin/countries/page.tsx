@@ -10,12 +10,12 @@ import {
 import Link from "next/link";
 import { MdAddCircle } from "react-icons/md";
 import { prisma } from "@/lib/prisma";
-import UserItem from "@/components/user/userItem";
-import SearchUser from "@/components/user/searchUser";
 import PageLayout from "@/components/pageLayout";
 import { auth } from "@/auth";
+import SearchCountry from "@/components/country/searchCountry";
+import CountryItem from "@/components/country/countryItem";
 
-const UsersPage = async ({
+const CountriesPage = async ({
   searchParams,
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
@@ -28,9 +28,9 @@ const UsersPage = async ({
   const search =
     typeof searchParams.search === "string" ? searchParams.search : undefined;
 
-  const usrCount = await prisma.user.count();
+  const usrCount = await prisma.country.count();
 
-  const users = await prisma.user.findMany({
+  const countries = await prisma.country.findMany({
     take: take,
     skip: skip,
     /*     include: {
@@ -41,23 +41,23 @@ const UsersPage = async ({
       zone: true,
     }, */
     where: {
-      username: { contains: search as string, mode: "insensitive" },
+      name: { contains: search as string, mode: "insensitive" },
     },
     select: {
       id: true,
-      username: true,
-      email: true,
-      status: true,
-      role: true,
+      name: true,
+      continent: true,
+      gos: true,
+      //users: true,
       //  company: true,
     },
     orderBy: {
-      username: "asc",
+      name: "asc",
     },
   });
 
   const session = await auth();
-
+  /* 
   if (!session || !session.user)
     return (
       <div className=" py-24 w-full flex flex-col justify-center items-center">
@@ -66,23 +66,20 @@ const UsersPage = async ({
           Se connecter
         </Link>
       </div>
-    );
+    ); */
 
   return (
-    <PageLayout
-      title="Liste des utilisateurs"
-      description="La liste de tous les utilisateurs"
-    >
+    <PageLayout title="Liste des pays" description="La liste de tous les pays">
       <div className="">
-        <CustomBreadcrumb name="Utilisateurs" />
+        <CustomBreadcrumb name="Pays" />
 
         <div className=" flex items-center justify-between max-md:m-2 md:mt-2">
-          <SearchUser search={search} />
+          <SearchCountry search={search} />
           <div className="flex justify-normal gap-2 ">
             {skip == 0 ? null : (
               <Link
                 href={{
-                  pathname: "/admin/users",
+                  pathname: "/admin/countries",
                   query: {
                     ...(search ? { search } : {}),
                     skip: skip > 0 ? skip - take : 0,
@@ -92,10 +89,10 @@ const UsersPage = async ({
                 {"Précédent"}
               </Link>
             )}
-            {skip + users.length >= usrCount ? null : (
+            {skip + countries.length >= usrCount ? null : (
               <Link
                 href={{
-                  pathname: "/admin/users",
+                  pathname: "/admin/countries",
                   query: {
                     ...(search ? { search } : {}),
                     skip: skip + take,
@@ -106,7 +103,7 @@ const UsersPage = async ({
               </Link>
             )}
           </div>
-          <Link className="" href="/auth/register">
+          <Link className="" href="/admin/countries/new">
             <MdAddCircle size={50} className="md:hidden text-teal-800" />
             <span className="text-sm font-semibold max-md:hidden  px-4 py-3 rounded-md hover:bg-teal-600 hover:cursor-pointer bg-teal-800 text-white ">
               Nouveau
@@ -114,8 +111,8 @@ const UsersPage = async ({
           </Link>
         </div>
         <div className="max-sm:max-h-[600px] overflow-auto md:mt-4 md:gap-3 max-w-[800px] mx-auto">
-          {users?.map((usr: any) => (
-            <UserItem key={usr.id} usr={usr} />
+          {countries?.map((ctr: any) => (
+            <CountryItem key={ctr.id} ctr={ctr} />
           ))}
         </div>
       </div>
@@ -123,7 +120,7 @@ const UsersPage = async ({
   );
 };
 
-export default UsersPage;
+export default CountriesPage;
 
 const CustomBreadcrumb = ({ name }: { name: string }) => {
   return (

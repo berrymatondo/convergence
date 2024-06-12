@@ -1,35 +1,33 @@
 "use server";
 import { revalidatePath } from "next/cache";
 import { prisma } from "./prisma";
-import { ContactSchema } from "./schemas";
+import { CountrySchema } from "./schemas";
 import bcrypt from "bcrypt";
 import { z } from "zod";
-import { ContactStatuses, UserRoles, UserStatuses } from "@prisma/client";
 import { auth, signIn, signOut } from "@/auth";
+import { ContinentsList } from "@prisma/client";
 
-type Inputs = z.infer<typeof ContactSchema>;
+type Inputs = z.infer<typeof CountrySchema>;
 
-// Creat contact message
-export const createContact = async (data: Inputs) => {
+// Create country
+export const createCountry = async (data: Inputs) => {
   //console.log("registerUser", data);
 
-  const result = ContactSchema.safeParse(data);
+  const result = CountrySchema.safeParse(data);
 
   if (result.success) {
-    const { firstname, lastname, email, message } = result.data;
+    const { name, continent } = result.data;
 
     try {
-      const contact = await prisma.contact.create({
+      const country = await prisma.country.create({
         data: {
-          firstname: data.firstname,
-          lastname: data.lastname,
-          email: data.email,
-          message: data.message,
+          name: data.name,
+          continent: data.continent as ContinentsList,
         },
       });
-      revalidatePath("/admin/contacts");
+      revalidatePath("/admin/countries");
 
-      return { success: true, data: contact };
+      return { success: true, data: country };
     } catch (error) {
       return { success: false, error };
     }
@@ -41,27 +39,26 @@ export const createContact = async (data: Inputs) => {
 };
 
 // update contact message
-export const updateContact = async (data: Inputs) => {
+export const updateCountry = async (data: Inputs) => {
   //console.log("registerUser", data);
 
-  const result = ContactSchema.safeParse(data);
+  const result = CountrySchema.safeParse(data);
 
   if (result.success) {
-    const { id, firstname, lastname, email, message, status, comments } =
-      result.data;
+    const { id, name, continent } = result.data;
 
     try {
-      const contact = await prisma.contact.update({
+      const country = await prisma.country.update({
         where: {
           id: data.id,
         },
         data: {
-          comments: data.comments as string,
-          status: data.status as ContactStatuses,
+          name: data.name as string,
+          continent: data.continent as ContinentsList,
         },
       });
-      revalidatePath("/admin/contacts");
-      return { success: true, data: contact };
+      revalidatePath("/admin/country");
+      return { success: true, data: country };
     } catch (error) {
       return { success: false, error };
     }
@@ -72,8 +69,8 @@ export const updateContact = async (data: Inputs) => {
   }
 };
 
-// Get all contact messages
-export const getContacts = async () => {
+// Get all countries
+export const getAllCountries = async () => {
   try {
     const contacts = await prisma.contact.findMany();
 
@@ -86,40 +83,61 @@ export const getContacts = async () => {
   } catch (error) {}
 };
 
-// GET SPECIFIC conctact message
-export const getContact = async (contactId: number) => {
+// Get all countries
+export const getCountriesByContinent = async (continent: string) => {
   try {
-    const contact = await prisma.contact.findUnique({
+    const countries = await prisma.country.findMany({
       where: {
-        id: +contactId,
+        continent: continent as ContinentsList,
+      },
+    });
+
+    revalidatePath("/admin/countries");
+
+    return {
+      success: true,
+      data: countries,
+    };
+  } catch (error) {}
+};
+
+// GET SPECIFIC country
+export const getCountry = async (countryId: number) => {
+  try {
+    const country = await prisma.country.findUnique({
+      where: {
+        id: +countryId,
+      },
+      include: {
+        gos: true,
       },
     });
 
     return {
       success: true,
-      data: contact,
+      data: country,
     };
   } catch (error) {}
 };
 
-// DELETE USER
-export const deleteContact = async (userId: number) => {
+// DELETE country
+export const deleteCountry = async (countryId: number) => {
   const check = await checkAuth("ADMIN");
 
   if (check.status == "KO") return check;
 
   try {
-    const contact = await prisma.contact.delete({
+    const country = await prisma.country.delete({
       where: {
-        id: +userId,
+        id: +countryId,
       },
     });
 
-    revalidatePath("/admin/contacts");
+    revalidatePath("/admin/countries");
 
     return {
       success: true,
-      data: contact,
+      data: country,
       status: "OK",
       msg: "",
     };

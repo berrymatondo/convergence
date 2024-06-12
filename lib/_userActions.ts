@@ -63,7 +63,7 @@ export const registerUser = async (data: Inputs) => {
           email: data.email,
           password: hashedPassword,
           role: data.role as UserRoles,
-          companyId: data.companyId ? +data.companyId : null,
+          //    companyId: data.companyId ? +data.companyId : null,
           // userId: userTmp ? (userTmp.id ? parseInt(userTmp.id) : null) : null,
         },
       });
@@ -125,7 +125,7 @@ export const updateUser = async (data: Inputs) => {
           },
           data: {
             username: data.username.toLowerCase(),
-            companyId: data?.companyId ? +data?.companyId : null,
+            // companyId: data?.companyId ? +data?.companyId : null,
             //password: hashedPassword,
             role: data.role as UserRoles,
             status: data.status as UserStatuses,
@@ -181,7 +181,7 @@ export const updateUser = async (data: Inputs) => {
           },
           data: {
             username: data.username.toLowerCase(),
-            companyId: data?.companyId ? +data?.companyId : undefined,
+            // companyId: data?.companyId ? +data?.companyId : undefined,
             role: data.role as UserRoles,
             email: data.email,
             password: hashedPassword,

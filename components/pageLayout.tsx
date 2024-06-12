@@ -27,8 +27,9 @@ const PageLayout = ({
   };
 
   return (
-    <div className="md:container ">
-      {/*       <div className="bg-black/50 rounded-lg overflow-hidden relative max-sm:p-1  flex flex-col max-sm:h-[70px] h-[150px] w-full ">
+    <div className="mx-auto max-w-[1200px]">
+      <div className="">
+        {/*       <div className="bg-black/50 rounded-lg overflow-hidden relative max-sm:p-1  flex flex-col max-sm:h-[70px] h-[150px] w-full ">
         <div className="  overflow-hidden justify-between flex items-center gap-4 text-3xl md:p-10 w-full ">
           <Image
             onClick={() => router.push("/")}
@@ -58,23 +59,24 @@ const PageLayout = ({
           </div>{" "}
         </div>
       </div> */}
-      {/* <MobileNav /> */}
-      {/*       <MobileAdminNav />
-       */}{" "}
-      <Title title={title} description={description} position={position} />
-      <div className=" gap-4 mt-4 h-full ">
-        <div className="rounded-lg bg-transparent md:p-2  ">{children}</div>
-        {/*         <div className="max-md:hidden ">Ici</div>
+        {/* <MobileNav /> */}
+        {/*       <MobileAdminNav />
          */}{" "}
+        <Title title={title} description={description} position={position} />
+        <div className=" gap-4 mt-4 h-full ">
+          <div className="rounded-lg bg-transparent md:p-2  ">{children}</div>
+          {/*         <div className="max-md:hidden ">Ici</div>
+           */}{" "}
+        </div>
+        <footer className="fixed w-full bottom-0 left-0 ">
+          <p className="text-center text-xs text-blue-600 dark:text-white">
+            &copy;{" "}
+            <Link href="https://emergingmarkets.com" target="_blank">
+              emergingmarkets.com{" "}
+            </Link>
+          </p>
+        </footer>
       </div>
-      <footer className="fixed w-full bottom-0 left-0 ">
-        <p className="text-center text-xs text-blue-600 dark:text-white">
-          &copy;{" "}
-          <Link href="https://emergingmarkets.com" target="_blank">
-            emergingmarkets.com{" "}
-          </Link>
-        </p>
-      </footer>
     </div>
   );
 };

@@ -11,7 +11,7 @@ type UserItemProps = {
 };
 
 const UserItem = ({ usr }: UserItemProps) => {
-  //console.log("usr: ", usr);
+  console.log("usr: ", usr);
 
   const router = useRouter();
   return (
@@ -26,7 +26,10 @@ const UserItem = ({ usr }: UserItemProps) => {
         <div className="relative col-span-2 flex flex-col items-start my-2 ml-2 ">
           <p className="max-md:text-xs text-sm ">{usr.username}</p>
           <p className="italic text-blue-600 max-md:text-xs text-sm">
-            {usr.role}
+            {usr.role}{" "}
+            <span className="text-xs text-black dark:text-teal-600">
+              ({usr?.country ? usr.country.name : ""})
+            </span>
           </p>
         </div>
       </div>

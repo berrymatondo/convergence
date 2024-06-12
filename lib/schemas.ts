@@ -14,6 +14,7 @@ export const RegisterSchema = z
     isAdmin: z.boolean(), */
     role: z.string(),
     status: z.string(),
+    countryId: z.string().optional(),
     companyId: z.string().optional(),
     password: z.string().min(6, {
       message: "Le mot de passe doit contenir au moins 6 caractères",

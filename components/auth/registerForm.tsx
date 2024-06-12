@@ -29,13 +29,14 @@ import {
 import { useRouter } from "next/navigation";
 import { log } from "console";
 import { registerUser, updateUser } from "@/lib/_userActions";
-import { Company, UserRoles, UserStatuses } from "@prisma/client";
+import { Company, Country, UserRoles, UserStatuses } from "@prisma/client";
 
 type RegisterFormProps = {
   usr?: any;
+  countries?: any;
 };
 
-const RegisterForm = ({ usr }: RegisterFormProps) => {
+const RegisterForm = ({ usr, countries }: RegisterFormProps) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
@@ -52,6 +53,7 @@ const RegisterForm = ({ usr }: RegisterFormProps) => {
       /*       isClient: false,*/
       role: usr ? usr.role : "VISITOR",
       status: usr ? usr.status : "INACTIF",
+      countryId: usr?.countryId ? usr?.countryId.toString() : "",
       companyId: usr?.companyId ? usr?.companyId.toString() : "",
     },
   });
@@ -300,6 +302,38 @@ const RegisterForm = ({ usr }: RegisterFormProps) => {
                 />
               </div>
             )}
+
+            {usr && (
+              <FormField
+                control={form.control}
+                name="countryId"
+                render={({ field }) => {
+                  return (
+                    <FormItem className="w-full">
+                      <FormLabel>Pays</FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <SelectTrigger id="framework">
+                          <SelectValue placeholder="Sélectionner un pays" />
+                        </SelectTrigger>
+                        <SelectContent position="popper">
+                          {countries?.map((ctr: Country) => (
+                            <SelectItem key={ctr.id} value={ctr.id.toString()}>
+                              {ctr.name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+
+                      <FormMessage />
+                    </FormItem>
+                  );
+                }}
+              />
+            )}
+
             {/*             <FormField
               control={form.control}
               name="isClient"

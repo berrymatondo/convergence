@@ -8,6 +8,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { getAllCountries } from "@/lib/_countryActions";
 import { getUser } from "@/lib/_userActions";
 
 import React from "react";
@@ -21,6 +22,11 @@ type UpdatePerPageProps = {
 const UpdatePerPage = async ({ params }: UpdatePerPageProps) => {
   const res = await getUser(params.userId);
   const usr = await res?.data;
+
+  const res2 = await getAllCountries();
+  const ctrs = await res2?.data;
+
+  console.log("ctrs", ctrs);
 
   /*   const res1 = await getAllCels();
   const cels = await res1?.data; */
@@ -41,7 +47,7 @@ const UpdatePerPage = async ({ params }: UpdatePerPageProps) => {
     >
       <CustomBreadcrumb name="Editer un utilisateur" />
       <div className="max-w-[800px] mx-auto p-2 rounded-b-lg ">
-        <RegisterForm usr={usr} />
+        <RegisterForm usr={usr} countries={ctrs} />
       </div>
     </PageLayout>
   );

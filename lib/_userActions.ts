@@ -125,6 +125,7 @@ export const updateUser = async (data: Inputs) => {
           },
           data: {
             username: data.username.toLowerCase(),
+            countryId: data?.countryId ? +data?.countryId : null,
             // companyId: data?.companyId ? +data?.companyId : null,
             //password: hashedPassword,
             role: data.role as UserRoles,
@@ -182,6 +183,7 @@ export const updateUser = async (data: Inputs) => {
           data: {
             username: data.username.toLowerCase(),
             // companyId: data?.companyId ? +data?.companyId : undefined,
+            countryId: data?.countryId ? +data?.countryId : undefined,
             role: data.role as UserRoles,
             email: data.email,
             password: hashedPassword,
@@ -299,10 +301,10 @@ export const loginlogin = async (data: Inputs3) => {
 
   const res = await signIn("credentials", {
     ...data,
-    redirectTo: "/dashboard",
+    redirectTo: "/continents",
   });
 
-  console.log("RESSSS", res);
+  // console.log("RESSSS", res);
 };
 
 // Logout

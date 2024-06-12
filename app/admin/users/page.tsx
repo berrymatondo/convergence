@@ -49,6 +49,7 @@ const UsersPage = async ({
       email: true,
       status: true,
       role: true,
+      country: true,
       //  company: true,
     },
     orderBy: {

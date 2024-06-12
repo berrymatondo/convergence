@@ -45,7 +45,7 @@ const AddGeneralOverview = ({ go, countryId }: AddGeneralOverviewProps) => {
 
   const procesForm = async (values: z.infer<typeof GoSchema>) => {
     setLoading(true);
-    console.log("Value: ", values);
+    //console.log("Value: ", values);
     //console.log("usr: ", usr);
 
     let res;
@@ -99,7 +99,7 @@ const AddGeneralOverview = ({ go, countryId }: AddGeneralOverviewProps) => {
         />
       )}
       {!add && (
-        <div className="flex justify-center bg-black p-4 my-2 border rounded-lg">
+        <div className="flex justify-center bg-teal-600/40 p-4 my-2 border rounded-lg">
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(procesForm)}

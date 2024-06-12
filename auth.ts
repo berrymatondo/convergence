@@ -37,6 +37,7 @@ const credentialsConfig = CredentialsProvider({
       where: {
         username: username as string,
       },
+      include: { country: true },
     });
 
     if (!user || !user.password) {
@@ -48,21 +49,27 @@ const credentialsConfig = CredentialsProvider({
     //console.log("checkPass user:=", checkPass, user);
 
     if (checkPass) {
-      console.log("CON OK");
+      // console.log("CON OK");
 
-      return {
+      const redata = {
         id: user.id + "",
         role: user.role,
         email: user.email,
         status: user.status,
         username: user.username,
         name: user.username,
+        countryId: user.country?.id,
+        continent: user.country?.continent,
         createAt: user.createdAt,
         updatedAt: user.updatedAt,
         // usermaj: user.username,
 
         // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
       };
+
+      console.log("REDATA", redata);
+
+      return redata;
     }
 
     return null;

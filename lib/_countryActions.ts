@@ -38,7 +38,7 @@ export const createCountry = async (data: Inputs) => {
   }
 };
 
-// update contact message
+// update country
 export const updateCountry = async (data: Inputs) => {
   //console.log("registerUser", data);
 
@@ -72,13 +72,13 @@ export const updateCountry = async (data: Inputs) => {
 // Get all countries
 export const getAllCountries = async () => {
   try {
-    const contacts = await prisma.contact.findMany();
+    const countries = await prisma.country.findMany();
 
-    revalidatePath("/admin/contacts");
+    revalidatePath("/admin/countries");
 
     return {
       success: true,
-      data: contacts,
+      data: countries,
     };
   } catch (error) {}
 };

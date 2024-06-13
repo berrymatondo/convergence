@@ -9,16 +9,18 @@ const RedirectPage = async () => {
   let continent: any;
   let countryId: any;
 
-  console.log("SESSION:", session);
+  //console.log("SESSION:", session);
 
   if (session) usr = session?.user;
 
   {
-    if (usr?.role === "AGENT")
+    if (usr?.role === "AGENT" && usr.countryId && usr.status === "ACTIF")
       redirect(`/continents/${usr?.continent}/${usr?.countryId}`);
+    if (usr?.role === "ADMIN" && usr.status === "ACTIF")
+      redirect(`/continents/continents`);
   }
 
-  return <div>RedirectPage</div>;
+  return <div>{"Vous n'avez pas les autorisations nécessaires"}</div>;
 };
 
 export default RedirectPage;

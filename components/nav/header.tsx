@@ -106,20 +106,29 @@ const Header = ({ userSession }: HeaderProps) => {
             />
           )}
           {userSession && userSession.user && (
-            <form
-              action={async () => {
+            /*  <form
+                         action={async () => {
                 logoutUser();
-                router.push("/auth/login");
+                console.log("in");
+                
+                window.location.reload;
+                console.log("out");
+                //router.push("/auth/login");
               }}
             >
               <Button
-                className="md:hidden p-0"
-                onClick={() => router.push("/auth/login")}
+                className="md:hidden px-2 bg-gray-600"
+                onClick={() => router.push("/redirout")}
                 variant="empty"
+                // type="submit"
               >
                 <MdLogout className="text-red-600" size={25} />
-              </Button>
-            </form>
+              </Button> 
+            </form>*/
+            <Link href="/redirout">
+              {" "}
+              <MdLogout className="text-red-600" size={25} />
+            </Link>
             /*             <form
               action={async () => {
                 //console.log("EXIT");

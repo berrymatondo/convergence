@@ -6,6 +6,7 @@ import bcrypt from "bcrypt";
 import { z } from "zod";
 import { UserRoles, UserStatuses } from "@prisma/client";
 import { auth, signIn, signOut } from "@/auth";
+import { redirect } from "next/navigation";
 
 type Inputs = z.infer<typeof RegisterSchema>;
 
@@ -309,9 +310,10 @@ export const loginlogin = async (data: Inputs3) => {
 
 // Logout
 export const logoutUser = async () => {
-  //console.log("LOGOUT");
+  //  console.log("LOGOUTTTTTTTTTTTTTTTTTTTTTTTTTT");
 
   await signOut();
+  // redirect("/");
 };
 
 export const checkAuth = async (role: string) => {

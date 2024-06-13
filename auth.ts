@@ -5,6 +5,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "./lib/prisma";
 
 import bcrypt from "bcryptjs";
+import { NextResponse } from "next/server";
 
 const credentialsConfig = CredentialsProvider({
   name: "Credentials",
@@ -67,7 +68,7 @@ const credentialsConfig = CredentialsProvider({
         // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
       };
 
-      console.log("REDATA", redata);
+      //console.log("REDATA", redata);
 
       return redata;
     }
@@ -80,9 +81,28 @@ const config = {
   providers: [credentialsConfig],
   callbacks: {
     authorized({ request, auth }) {
+      // console.log("URL+++", request.nextUrl);
+      console.log("AUTHH+++", auth);
+
       const { pathname } = request.nextUrl;
       if (pathname === "/dashboard" || pathname === "/coucou/users")
         return !!auth;
+      const usr: any = auth?.user;
+      const seg = usr?.continent + "/" + usr?.countryId;
+      //console.log("seg", seg);
+
+      if (usr?.role == "AGENT") {
+        if (pathname.includes("continents") && !pathname.includes(seg)) {
+          //const tempo = usr.
+          //console.log("contv", usr.continent);
+          //console.log("PATHNAMEv", pathname);
+          const test = pathname.split(usr.continent + "/")[1];
+          //console.log("testv", test);
+          //NextResponse.rewrite(`/continents/${seg}`);
+          return NextResponse.redirect(new URL("/redirect", request.url));
+          // return true;
+        }
+      }
       return true;
     },
     async jwt({ token, user }) {

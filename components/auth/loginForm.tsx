@@ -22,15 +22,10 @@ import { useRouter } from "next/navigation";
 import { LoginSchema } from "@/lib/schemas";
 import { loginlogin } from "@/lib/_userActions";
 import { useSession } from "next-auth/react";
-import Link from "next/link";
 
 const LoginForm = () => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const { data: session } = useSession();
-  const usr: any = session?.user;
-
-  console.log("USR:", usr);
 
   //if (usr) router.push("/redirect");
 
@@ -84,63 +79,54 @@ const LoginForm = () => {
       backButtonHref="/auth/login" */
       className="max-md:p-2 md:container"
     >
-      {usr && (
-        <p className="text-center">
-          <Link href="/redirect" className="p-1 underline">
-            {"Vers le General Overview"}
-          </Link>
-        </p>
-      )}
-      {!usr && (
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(procesForm)} className="space-y-6">
-            <div className="space-y-4">
-              <FormField
-                control={form.control}
-                name="username"
-                render={({ field }) => {
-                  return (
-                    <FormItem>
-                      <FormLabel>{"Utilisateur"}</FormLabel>
-                      <FormControl>
-                        <Input
-                          {...field}
-                          placeholder="Entrer l'utilisateur"
-                          type="text"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  );
-                }}
-              />
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(procesForm)} className="space-y-6">
+          <div className="space-y-4">
+            <FormField
+              control={form.control}
+              name="username"
+              render={({ field }) => {
+                return (
+                  <FormItem>
+                    <FormLabel>{"Utilisateur"}</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        placeholder="Entrer l'utilisateur"
+                        type="text"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                );
+              }}
+            />
 
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => {
-                  return (
-                    <FormItem>
-                      <FormLabel>{"Mot de passe"}</FormLabel>
-                      <FormControl>
-                        <Input
-                          {...field}
-                          placeholder="Entrer un mot de passe"
-                          type="password"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  );
-                }}
-              />
-            </div>
-            <Button type="submit" className="w-full">
-              {loading ? "En cours de connexion ..." : "Se Connecter"}
-            </Button>
-          </form>
-        </Form>
-      )}
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => {
+                return (
+                  <FormItem>
+                    <FormLabel>{"Mot de passe"}</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        placeholder="Entrer un mot de passe"
+                        type="password"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                );
+              }}
+            />
+          </div>
+          <Button type="submit" className="w-full">
+            {loading ? "En cours de connexion ..." : "Se Connecter"}
+          </Button>
+        </form>
+      </Form>
     </div>
   );
 };

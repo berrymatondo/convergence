@@ -42,7 +42,7 @@ const SignOutPage = () => {
       {!session && (
         <p className=" text-center">
           <Link className="underline " href="/">
-            Retour à la page d'accueil
+            {"Retour à la page d'accueil"}
           </Link>
         </p>
       )}

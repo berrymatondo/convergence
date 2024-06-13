@@ -19,8 +19,8 @@ export default function Continentayout({
   const cont = pathname.split("continents")[1].split("/")[1];
   const [countries, setCountries] = useState<any>();
 
-  console.log("PATHNAME: ", pathname);
-  console.log("PATHNAME: ", pathname.split("continents")[1].split("/")[1]);
+  //console.log("PATHNAME: ", pathname);
+  //console.log("PATHNAME: ", pathname.split("continents")[1].split("/")[1]);
 
   /*   const continents = Object.values(ContinentsList);
   if (!continents) return notFound(); */
@@ -54,21 +54,23 @@ export default function Continentayout({
           >
             Vers tous les pays
           </Link>
-          {countries?.map((count: Country) => (
-            <div key={count.id}>
-              <Link
-                href={`/continents/${cont}/${count.id}`}
-                //href={`/continents/`}
-                className={
-                  contId == count.id.toString()
-                    ? "font-semibold text-blue-600 dark:text-blue-300 "
-                    : "text-gray-500 dark:text-gray-500"
-                }
-              >
-                {count.name}
-              </Link>
-            </div>
-          ))}
+          {countries
+            ?.filter((co: Country) => co.id.toString() == contId)
+            ?.map((count: Country) => (
+              <div key={count.id}>
+                <Link
+                  href={`/continents/${cont}/${count.id}`}
+                  //href={`/continents/`}
+                  className={
+                    contId == count.id.toString()
+                      ? "font-semibold text-blue-600 dark:text-blue-300 "
+                      : "text-gray-500 dark:text-gray-500"
+                  }
+                >
+                  {count.name}
+                </Link>
+              </div>
+            ))}
         </ul>
         <div className="flex-1 ">{children}</div>
       </div>

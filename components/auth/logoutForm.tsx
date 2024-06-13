@@ -13,7 +13,7 @@ const LogoutForm = ({ session }: LogoutFormProps) => {
   const [show, setShow] = useState(true);
 
   return (
-    <>
+    <div className="py-24 ">
       {session && session.user && show && (
         <p className="my-4 text-center">
           {"Etes-vous sûr de vouloir quitter ?"}
@@ -21,9 +21,9 @@ const LogoutForm = ({ session }: LogoutFormProps) => {
       )}
 
       {session && session.user && show && (
-        <div className=" flex justify-center gap-4">
+        <div className=" flex justify-center gap-8">
           <Button
-            className="md:hidden px-2 text-red-600"
+            className=" px-2 text-red-600"
             onClick={() => router.back()}
             variant="empty"
           >
@@ -42,7 +42,7 @@ const LogoutForm = ({ session }: LogoutFormProps) => {
             }}
           >
             <Button
-              className="md:hidden px-2 "
+              className="px-2 "
               // onClick={() => router.push("/redirout")}
               type="submit"
             >
@@ -59,7 +59,7 @@ const LogoutForm = ({ session }: LogoutFormProps) => {
           </Link>
         </p>
       )}
-    </>
+    </div>
   );
 };
 

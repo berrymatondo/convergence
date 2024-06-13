@@ -80,7 +80,7 @@ const Header = ({ userSession }: HeaderProps) => {
               Connexion
             </Button>
           )}
-
+          {/* 
           {userSession && userSession.user && (
             <form
               action={async () => {
@@ -97,7 +97,7 @@ const Header = ({ userSession }: HeaderProps) => {
               </Button>
             </form>
           )}
-
+ */}
           {(!userSession || !userSession.user) && (
             <MdLogin
               className="md:hidden text-teal-600"

@@ -315,8 +315,19 @@ export const logoutUser = async () => {
 
   const getCok = cookies();
   const theme = getCok.get("authjs.session-token");
+
+  const cook: any = cookies()
+    .getAll()
+    .find((cookie) => cookie?.name.includes("authjs.session-token"));
+
+  // .filter((cookie) => cookie?.name.includes("authjs.session-token"));
+
+  console.log("COKK", cook);
+
+  getCok.delete(cook?.name);
+
   // console.log("COOKIE av", theme);
-  getCok.delete("authjs.session-token");
+  //getCok.delete("authjs.session-token");
 
   // console.log("COOKIE ap", theme);
 

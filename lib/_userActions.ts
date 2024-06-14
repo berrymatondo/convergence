@@ -7,6 +7,7 @@ import { z } from "zod";
 import { UserRoles, UserStatuses } from "@prisma/client";
 import { auth, signIn, signOut } from "@/auth";
 import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 
 type Inputs = z.infer<typeof RegisterSchema>;
 
@@ -310,11 +311,18 @@ export const loginlogin = async (data: Inputs3) => {
 
 // Logout
 export const logoutUser = async () => {
-  console.log("LOGOUTTTTTTTTTTTTTTTTTTTTTTTTTT");
+  // console.log("LOGOUTTTTTTTTTTTTTTTTTTTTTTTTTT");
 
-  const res = await signOut();
+  const getCok = cookies();
+  const theme = getCok.get("authjs.session-token");
+  // console.log("COOKIE av", theme);
+  getCok.delete("authjs.session-token");
 
-  console.log("RESSSS", res);
+  // console.log("COOKIE ap", theme);
+
+  //const res = await signOut();
+
+  //console.log("RESSSS", res);
 
   // redirect("/");
 };

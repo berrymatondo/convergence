@@ -36,11 +36,11 @@ const LogoutForm = ({ session }: LogoutFormProps) => {
               setShow(!show);
               //await signOut();
               logoutUser();
-              //console.log("in");
+              // console.log("in");
 
-              window.location.reload;
-              // console.log("out");
-              router.push("/auth/login");
+              //window.location.reload;
+              //console.log("out");
+              //router.refresh();
             }}
           >
             <Button

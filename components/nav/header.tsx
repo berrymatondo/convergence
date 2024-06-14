@@ -31,7 +31,7 @@ const Header = ({ userSession }: HeaderProps) => {
 
   const usr: any = userSession?.user;
 
-  console.log("SESSION: ", userSession);
+  // console.log("SESSION: ", userSession);
 
   return (
     <div className="relative  border-b max-md:px-2 ">
@@ -157,7 +157,7 @@ const Header = ({ userSession }: HeaderProps) => {
       </div>
 
       {userSession && userSession.user && (
-        <p className="flex justify-center items-end gap-2 mb-2">
+        <p className=" md:container flex justify-center md:justify-end items-end gap-2 mb-2">
           <MdPerson className="max-md:text-xs  text-orange-600" size={25} />
           <strong className="max-md:text-xs text-lg dark:text-blue-400 text-blue-600">
             {userSession?.user?.username}

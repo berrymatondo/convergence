@@ -76,7 +76,7 @@ const AuthPageLayout = ({
         {/*         <div className="max-md:hidden ">Ici</div>
          */}{" "}
       </div>
-      <div className="fixed w-full bottom-0 left-0">Information</div>
+      <div className="fixed w-full bottom-0 left-0"></div>
     </div>
   );
 };

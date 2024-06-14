@@ -71,12 +71,12 @@ const PageLayout = ({
            */}{" "}
         </div>
         <footer className="fixed w-full bottom-0 left-0 ">
-          <p className="text-center text-xs text-blue-600 dark:text-white">
+          {/*           <p className="text-center text-xs text-blue-600 dark:text-white">
             &copy;{" "}
             <Link href="https://emergingmarkets.com" target="_blank">
               emergingmarkets.com{" "}
             </Link>
-          </p>
+          </p> */}
         </footer>
       </div>
     </div>

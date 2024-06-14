@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import Providers from "@/components/providers";
 import AppBar from "@/components/nav/appBar";
+import Footer from "@/components/nav/footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -33,6 +34,7 @@ export default function RootLayout({
              */}{" "}
             <AppBar />
             {children}
+            <Footer />
             <Toaster richColors />
           </Providers>
         </ThemeProvider>

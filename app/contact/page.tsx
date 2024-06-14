@@ -1,3 +1,4 @@
+import { auth } from "@/auth";
 import AuthPageLayout from "@/components/auth/authPageLayout";
 import ContactForm from "@/components/contact/contactForm";
 import {
@@ -10,7 +11,9 @@ import {
 } from "@/components/ui/breadcrumb";
 import React from "react";
 
-const ContactPage = () => {
+const ContactPage = async () => {
+  const session = await auth();
+
   return (
     <AuthPageLayout
       title="Contactez-nous"
@@ -21,7 +24,7 @@ const ContactPage = () => {
       {/*       <CustomBreadcrumb name="Nouveau Message" />
        */}{" "}
       <div className="max-w-[800px] mx-auto p-2">
-        <ContactForm />{" "}
+        <ContactForm userSession={session} />{" "}
       </div>
     </AuthPageLayout>
   );

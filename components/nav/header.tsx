@@ -58,7 +58,11 @@ const Header = ({ userSession }: HeaderProps) => {
         </div>
         <nav className=" max-md:hidden items-start flex justify-between gap-4">
           {navLinks
-            .filter((nvv: any) => nvv?.role != "ADMIN" && usr?.role != "ADMIN")
+            .filter(
+              (nvv: any) =>
+                (nvv?.role != "ADMIN" && usr?.role != "ADMIN") ||
+                usr?.role == "ADMIN"
+            )
             .map((nv: any, index) => (
               <Link
                 key={index}
@@ -170,7 +174,9 @@ const Header = ({ userSession }: HeaderProps) => {
           <nav className=" md:hidden items-center flex flex-col gap-4 pt-2">
             {navLinks
               .filter(
-                (nvv: any) => nvv?.role != "ADMIN" && usr?.role != "ADMIN"
+                (nvv: any) =>
+                  (nvv?.role != "ADMIN" && usr?.role != "ADMIN") ||
+                  usr?.role == "ADMIN"
               )
               .map((nv: any, index) => (
                 <div

@@ -33,11 +33,13 @@ import Link from "next/link";
 
 type ContactFormProps = {
   ctc?: any;
+  userSession?: any;
 };
 
-const ContactForm = ({ ctc }: ContactFormProps) => {
+const ContactForm = ({ ctc, userSession }: ContactFormProps) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const usr: any = userSession?.user;
 
   //console.log("usr: ", usr);
 
@@ -281,11 +283,13 @@ const ContactForm = ({ ctc }: ContactFormProps) => {
           </div>
         </form>
       </Form>
-      <p className="text-center m-2 underline">
-        <Link className="text-sm " href="/admin/contacts">
-          Voir tous les messages
-        </Link>
-      </p>
+      {usr?.role == "ADMIN" && (
+        <p className="text-center m-2 underline">
+          <Link className="text-sm " href="/admin/contacts">
+            Voir tous les messages
+          </Link>
+        </p>
+      )}
     </div>
   );
 };

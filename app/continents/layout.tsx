@@ -17,6 +17,9 @@ export default function Continentayout({
   const pathname = usePathname();
   const router = useRouter();
 
+  const { data: session } = useSession();
+  const usr: any = session?.user;
+
   /*   const { data: session } = useSession();
 
   let usr: any;
@@ -46,35 +49,37 @@ export default function Continentayout({
 
   //console.log("continents", continents);
   return (
-    <PageLayout title="Tous les continents">
+    <PageLayout title={usr?.role == "ADMIN" ? "Tous les continents" : ""}>
       <div className=" flex flex-col gap-4 p-2 md:p-8 ">
-        <ul className=" flex max-md:flex-wrap justify-between gap-2 ">
-          {continents.map((conti: any) => (
-            <div key={conti}>
-              <Link
-                href={`/continents/${conti}`}
-                className={
-                  conti == cont
-                    ? "flex gap-1 items-center max-md:text-sm font-semibold text-blue-600 dark:text-blue-300 underline"
-                    : "flex gap-1 items-center max-md:text-sm font-semibold text-gray-400 dark:text-gray-500"
-                }
-              >
-                {conti == "AFRIQUE" ? (
-                  <GiAfrica />
-                ) : conti == "AMERIQUE" ? (
-                  <FaGlobeAmericas />
-                ) : conti == "ASIE" ? (
-                  <FaGlobeAsia />
-                ) : conti == "EUROPE" ? (
-                  <FaGlobeEurope />
-                ) : (
-                  <GiEarthAsiaOceania />
-                )}
-                {conti}
-              </Link>
-            </div>
-          ))}
-        </ul>
+        {usr?.role == "ADMIN" && (
+          <ul className=" flex max-md:flex-wrap justify-between gap-2 ">
+            {continents.map((conti: any) => (
+              <div key={conti}>
+                <Link
+                  href={`/continents/${conti}`}
+                  className={
+                    conti == cont
+                      ? "flex gap-1 items-center max-md:text-sm font-semibold text-blue-600 dark:text-blue-300 underline"
+                      : "flex gap-1 items-center max-md:text-sm font-semibold text-gray-400 dark:text-gray-500"
+                  }
+                >
+                  {conti == "AFRIQUE" ? (
+                    <GiAfrica />
+                  ) : conti == "AMERIQUE" ? (
+                    <FaGlobeAmericas />
+                  ) : conti == "ASIE" ? (
+                    <FaGlobeAsia />
+                  ) : conti == "EUROPE" ? (
+                    <FaGlobeEurope />
+                  ) : (
+                    <GiEarthAsiaOceania />
+                  )}
+                  {conti}
+                </Link>
+              </div>
+            ))}
+          </ul>
+        )}
         {children}
       </div>
     </PageLayout>

@@ -21,7 +21,7 @@ const RedirectPage = async () => {
       redirect(`/continents/${usr?.continent}/${usr?.countryId}`);
     // redirect(`/conts/${usr?.continent}/count/${usr?.countryId}`);
     if (usr?.role === "ADMIN" && usr.status === "ACTIF")
-      redirect(`/continents/continents`);
+      redirect(`/continents`);
   }
 
   return <div>{"Vous n'avez pas les autorisations nécessaires"}</div>;

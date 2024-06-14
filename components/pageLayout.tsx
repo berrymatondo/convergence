@@ -62,7 +62,9 @@ const PageLayout = ({
         {/* <MobileNav /> */}
         {/*       <MobileAdminNav />
          */}{" "}
-        <Title title={title} description={description} position={position} />
+        {title && (
+          <Title title={title} description={description} position={position} />
+        )}
         <div className=" gap-4 mt-4 h-full ">
           <div className="rounded-lg bg-transparent md:p-2  ">{children}</div>
           {/*         <div className="max-md:hidden ">Ici</div>

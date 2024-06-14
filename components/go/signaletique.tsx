@@ -5,18 +5,23 @@ import { Go } from "@prisma/client";
 import { MdDelete } from "react-icons/md";
 import DeleteGO from "./deleteGo";
 import UpdateGO from "./updateGo";
+import { auth } from "@/auth";
 
 const Signaletique = async ({ slug }: { slug: string[] }) => {
-  console.log("slug: ", slug);
-  console.log("slug: ", slug[1]);
+  //console.log("slug: ", slug);
+  //console.log("slug: ", slug[1]);
 
   const res = await getCountry(+slug[0]);
   const country = res?.data;
+  const session: any = await auth();
+  const usr: any = session?.user;
+  //console.log("LOS", session);
+
   //console.log("Country: ", country?.data);
 
   return (
     <div className="w-1/2 max-md:w-full p-4  rounded-lg  backdrop-blur-md bg-gray-100 dark:bg-opacity-10">
-      <AddGeneralOverview countryId={+slug[0]} />
+      <AddGeneralOverview countryId={+slug[0]} userSession={session} />
       <div className="">
         <p className="uppercase text-white text-center font-semibold bg-teal-600 p-2 rounded-lg  gap-2 mb-1">
           <span className="">{country?.name}</span>
@@ -28,7 +33,7 @@ const Signaletique = async ({ slug }: { slug: string[] }) => {
               <span className="text-blue-800 dark:text-yellow-400">
                 {go.value}
               </span>
-              <DeleteGO goId={go.id} />
+              {usr?.role == "ADMIN" ? <DeleteGO goId={go.id} /> : ""}
               {/*               <UpdateGO go={go} />
                */}{" "}
             </div>

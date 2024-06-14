@@ -22,12 +22,18 @@ import { useRouter } from "next/navigation";
 type AddGeneralOverviewProps = {
   go?: any;
   countryId: any;
+  userSession: any;
 };
 
-const AddGeneralOverview = ({ go, countryId }: AddGeneralOverviewProps) => {
+const AddGeneralOverview = ({
+  go,
+  countryId,
+  userSession,
+}: AddGeneralOverviewProps) => {
   const [add, setAdd] = useState(go ? false : true);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const usr: any = userSession?.user;
 
   //console.log("countryId", countryId);
   //console.log("go", go);
@@ -85,18 +91,22 @@ const AddGeneralOverview = ({ go, countryId }: AddGeneralOverviewProps) => {
       <h1 className=" uppercase text-center mb-2 text-teal-600 font-semibold">
         General Overview
       </h1>
-      {add ? (
-        <MdAdd
-          onClick={() => setAdd(!add)}
-          size={25}
-          className="bg-teal-600 p-1 rounded-full absolute right-0 top-0 "
-        />
+      {usr?.role == "ADMIN" ? (
+        add ? (
+          <MdAdd
+            onClick={() => setAdd(!add)}
+            size={25}
+            className="bg-teal-600 p-1 rounded-full absolute right-0 top-0 "
+          />
+        ) : (
+          <MdRemove
+            onClick={() => setAdd(!add)}
+            size={25}
+            className="bg-red-600 p-1 rounded-full absolute right-0 top-0 "
+          />
+        )
       ) : (
-        <MdRemove
-          onClick={() => setAdd(!add)}
-          size={25}
-          className="bg-red-600 p-1 rounded-full absolute right-0 top-0 "
-        />
+        ""
       )}
       {!add && (
         <div className="flex justify-center bg-teal-600/40 p-4 my-2 border rounded-lg">

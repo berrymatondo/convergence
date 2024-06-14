@@ -13,11 +13,11 @@ import Image from "next/image";
 import stats from "../../public/stats.png";
 
 const navLinks = [
-  { id: 1, href: "/dashboard", title: "Dashboard" },
-  { id: 2, href: "/continents", title: " General Overview" },
-  { id: 2, href: "/admin/countries", title: "Pays" },
-  { id: 3, href: "/admin/users", title: " Utilisateurs" },
-  { id: 4, href: "/contact", title: "Contact" },
+  { id: 1, href: "/dashboard", title: "Dashboard", role: "" },
+  { id: 2, href: "/continents", title: " General Overview", role: "" },
+  { id: 2, href: "/admin/countries", title: "Pays", role: "ADMIN" },
+  { id: 3, href: "/admin/users", title: " Utilisateurs", role: "ADMIN" },
+  { id: 4, href: "/contact", title: "Contact", role: "" },
 ];
 
 type HeaderProps = {
@@ -29,7 +29,9 @@ const Header = ({ userSession }: HeaderProps) => {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
 
-  //console.log("SESSION: ", userSession);
+  const usr: any = userSession?.user;
+
+  console.log("SESSION: ", userSession);
 
   return (
     <div className="relative  border-b max-md:px-2 ">
@@ -55,19 +57,21 @@ const Header = ({ userSession }: HeaderProps) => {
           </Link>
         </div>
         <nav className=" max-md:hidden items-start flex justify-between gap-4">
-          {navLinks.map((nv: any, index) => (
-            <Link
-              key={index}
-              href={nv.href}
-              className={
-                pathname == nv.href
-                  ? "text-blue-400 font-semibold"
-                  : "hover:text-blue-400 font-semibold"
-              }
-            >
-              {nv.title}
-            </Link>
-          ))}
+          {navLinks
+            .filter((nvv: any) => nvv?.role != "ADMIN" && usr?.role != "ADMIN")
+            .map((nv: any, index) => (
+              <Link
+                key={index}
+                href={nv.href}
+                className={
+                  pathname == nv.href
+                    ? "text-blue-400 font-semibold"
+                    : "hover:text-blue-400 font-semibold"
+                }
+              >
+                {nv.title}
+              </Link>
+            ))}
         </nav>
 
         <div className=" flex gap-5 items-center">
@@ -164,18 +168,22 @@ const Header = ({ userSession }: HeaderProps) => {
       {isOpen && (
         <div className="bloc bg-blue-600 rounded-lg">
           <nav className=" md:hidden items-center flex flex-col gap-4 pt-2">
-            {navLinks.map((nv: any, index) => (
-              <div
-                key={index}
-                onClick={() => {
-                  setIsOpen(!isOpen);
-                  router.push(nv.href);
-                }}
-                className="border-b w-full text-center pb-2 text-white"
-              >
-                {nv.title}
-              </div>
-            ))}
+            {navLinks
+              .filter(
+                (nvv: any) => nvv?.role != "ADMIN" && usr?.role != "ADMIN"
+              )
+              .map((nv: any, index) => (
+                <div
+                  key={index}
+                  onClick={() => {
+                    setIsOpen(!isOpen);
+                    router.push(nv.href);
+                  }}
+                  className="border-b w-full text-center pb-2 text-white"
+                >
+                  {nv.title}
+                </div>
+              ))}
           </nav>
         </div>
       )}

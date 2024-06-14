@@ -7,7 +7,8 @@ import DeleteGO from "./deleteGo";
 import UpdateGO from "./updateGo";
 
 const Signaletique = async ({ slug }: { slug: string[] }) => {
-  // console.log("slug: ", slug[0]);
+  console.log("slug: ", slug);
+  console.log("slug: ", slug[1]);
 
   const res = await getCountry(+slug[0]);
   const country = res?.data;

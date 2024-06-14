@@ -9,8 +9,14 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import LoginForm from "@/components/auth/loginForm";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 
-const LoginPage = () => {
+const LoginPage = async () => {
+  const session = await auth();
+
+  if (session?.user) redirect("/redirect");
+
   return (
     <div>
       <AuthPageLayout

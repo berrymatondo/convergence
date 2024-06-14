@@ -55,9 +55,9 @@ const Header = ({ userSession }: HeaderProps) => {
           </Link>
         </div>
         <nav className=" max-md:hidden items-start flex justify-between gap-4">
-          {navLinks.map((nv) => (
+          {navLinks.map((nv: any, index) => (
             <Link
-              key={nv.id}
+              key={index}
               href={nv.href}
               className={
                 pathname == nv.href
@@ -164,9 +164,9 @@ const Header = ({ userSession }: HeaderProps) => {
       {isOpen && (
         <div className="bloc bg-blue-600 rounded-lg">
           <nav className=" md:hidden items-center flex flex-col gap-4 pt-2">
-            {navLinks.map((nv) => (
+            {navLinks.map((nv: any, index) => (
               <div
-                key={nv.id}
+                key={index}
                 onClick={() => {
                   setIsOpen(!isOpen);
                   router.push(nv.href);

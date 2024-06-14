@@ -40,10 +40,11 @@ export default function Continentayout({
 
   const { slug } = params;
 
-  // console.log("slug", slug);
+  //console.log("slug", slug);
 
   const contId = slug?.[0];
 
+  //console.log("continents", continents);
   return (
     <PageLayout title="Tous les continents">
       <div className=" flex flex-col gap-4 p-2 md:p-8 ">

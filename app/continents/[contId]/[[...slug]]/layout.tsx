@@ -36,7 +36,7 @@ export default function Continentayout({
 
       setCountries(data);
 
-      // console.log("data celes: ", data);
+      //console.log("data celes: ", data);
     };
     fetchCountries();
   }, [cont]);

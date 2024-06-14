@@ -82,24 +82,38 @@ const config = {
   callbacks: {
     authorized({ request, auth }) {
       // console.log("URL+++", request.nextUrl);
-      console.log("AUTHH+++", auth);
+      // console.log("AUTHH+++", auth);
 
       const { pathname } = request.nextUrl;
       if (pathname === "/dashboard" || pathname === "/coucou/users")
         return !!auth;
+
+      if (pathname.startsWith("/_next") || pathname === "/favicon.ico")
+        return true;
+
       const usr: any = auth?.user;
       const seg = usr?.continent + "/" + usr?.countryId;
-      //console.log("seg", seg);
+      /*       console.log("path", pathname);
+      console.log("seg", seg);
+      console.log("dir", "/conts/" + seg);
+      console.log("request.url", request.url);
+
+      console.log("va", pathname.includes(seg)); */
 
       if (usr?.role == "AGENT") {
         if (pathname.includes("continents") && !pathname.includes(seg)) {
+          // if (pathname.includes("conts") && !pathname.includes(seg)) {
+          //console.log("IN");
+
           //const tempo = usr.
           //console.log("contv", usr.continent);
           //console.log("PATHNAMEv", pathname);
-          const test = pathname.split(usr.continent + "/")[1];
+          // const test = pathname.split(usr.continent + "/")[1];
           //console.log("testv", test);
           //NextResponse.rewrite(`/continents/${seg}`);
-          return NextResponse.redirect(new URL("/redirect", request.url));
+          return NextResponse.redirect(
+            new URL("/continents/" + seg, request.url)
+          );
           // return true;
         }
       }

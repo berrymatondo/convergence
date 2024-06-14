@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { logoutUser } from "@/lib/_userActions";
+import { signOut } from "next-auth/react";
 
 type LogoutFormProps = {
   session: any;
@@ -33,7 +34,8 @@ const LogoutForm = ({ session }: LogoutFormProps) => {
           <form
             action={async () => {
               setShow(!show);
-              logoutUser();
+              await signOut();
+              //logoutUser();
               // console.log("in");
 
               //window.location.reload;

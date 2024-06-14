@@ -310,9 +310,12 @@ export const loginlogin = async (data: Inputs3) => {
 
 // Logout
 export const logoutUser = async () => {
-  //  console.log("LOGOUTTTTTTTTTTTTTTTTTTTTTTTTTT");
+  console.log("LOGOUTTTTTTTTTTTTTTTTTTTTTTTTTT");
 
-  await signOut();
+  const res = await signOut();
+
+  console.log("RESSSS", res);
+
   // redirect("/");
 };
 

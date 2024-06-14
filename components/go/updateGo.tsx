@@ -17,7 +17,8 @@ const UpdateGO = ({ go }: UpdateGOProps) => {
         className="text-blue-600"
         onClick={() => setOpen(!open)}
       />
-      {open && <AddGeneralOverview countryId={go.countryId} go={go} />}
+      {/*       {open && <AddGeneralOverview countryId={go.countryId} go={go} />}
+       */}{" "}
     </>
     /*     <form>
       <Button

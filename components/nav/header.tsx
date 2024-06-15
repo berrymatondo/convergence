@@ -7,10 +7,10 @@ import { GiSuspensionBridge } from "react-icons/gi";
 import { usePathname, useRouter } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { MdLogin, MdLogout, MdPerson } from "react-icons/md";
-import { signOut } from "@/auth";
 import { logoutUser } from "@/lib/_userActions";
 import Image from "next/image";
 import stats from "../../public/stats.png";
+import { signOut } from "next-auth/react";
 
 const navLinks = [
   { id: 1, href: "/dashboard", title: "Dashboard", role: "" },
@@ -56,6 +56,13 @@ const Header = ({ userSession }: HeaderProps) => {
             </p>
           </Link>
         </div>
+        <Button
+          onClick={() =>
+            signOut({ callbackUrl: `${window.location.origin}/auth/login` })
+          }
+        >
+          LOG OUT
+        </Button>
         <nav className=" max-md:hidden items-start flex justify-between gap-4">
           {navLinks
             .filter(

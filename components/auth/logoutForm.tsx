@@ -33,14 +33,20 @@ const LogoutForm = ({ session }: LogoutFormProps) => {
 
           <form
             action={async () => {
+              console.log(1);
+
               setShow(!show);
-              //await signOut();
+              console.log(2);
+              await signOut();
+              console.log(3);
               logoutUser();
+              console.log(4);
               // console.log("in");
 
               //window.location.reload;
               //console.log("out");
-              //router.refresh();
+              // router.push("/");
+              //console.log(5);
             }}
           >
             <Button

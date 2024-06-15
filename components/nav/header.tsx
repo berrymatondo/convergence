@@ -56,13 +56,7 @@ const Header = ({ userSession }: HeaderProps) => {
             </p>
           </Link>
         </div>
-        <Button
-          onClick={() =>
-            signOut({ callbackUrl: `${window.location.origin}/auth/login` })
-          }
-        >
-          LOG OUT
-        </Button>
+
         <nav className=" max-md:hidden items-start flex justify-between gap-4">
           {navLinks
             .filter(

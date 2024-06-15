@@ -7,7 +7,6 @@ import { Toaster } from "@/components/ui/sonner";
 import Providers from "@/components/providers";
 import AppBar from "@/components/nav/appBar";
 import Footer from "@/components/nav/footer";
-import AppBre from "@/components/nav/appBre";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -34,7 +33,6 @@ export default function RootLayout({
             {/*             <Header />
              */}{" "}
             <AppBar />
-            <AppBre />
             {children}
             <Footer />
             <Toaster richColors />

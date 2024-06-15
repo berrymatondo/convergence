@@ -88,11 +88,11 @@ const config = {
       if (pathname === "/dashboard" || pathname === "/coucou/users")
         return !!auth;
 
-      if (pathname.startsWith("/_next") || pathname === "/favicon.ico")
+      /*       if (pathname.startsWith("/_next") || pathname === "/favicon.ico")
         return true;
 
       const usr: any = auth?.user;
-      const seg = usr?.continent + "/" + usr?.countryId;
+      const seg = usr?.continent + "/" + usr?.countryId; */
       /*       console.log("path", pathname);
       console.log("seg", seg);
       console.log("dir", "/conts/" + seg);
@@ -100,7 +100,7 @@ const config = {
 
       console.log("va", pathname.includes(seg)); */
 
-      if (usr?.role == "AGENT") {
+      /*       if (usr?.role == "AGENT") {
         if (pathname.includes("continents") && !pathname.includes(seg)) {
           // if (pathname.includes("conts") && !pathname.includes(seg)) {
           //console.log("IN");
@@ -116,7 +116,7 @@ const config = {
           );
           // return true;
         }
-      }
+      } */
       return true;
     },
     async jwt({ token, user }) {

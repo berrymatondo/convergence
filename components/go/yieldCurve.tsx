@@ -17,6 +17,7 @@ import {
   TableHeader,
   TableRow,
 } from "../ui/table";
+import DeleteYC from "../yc/deleteYC";
 
 type YieldCurveProps = {
   slug?: string[];
@@ -34,6 +35,8 @@ const YieldCurveComp = async ({ slug, continent }: YieldCurveProps) => {
   if (slug) {
     res = await getCountry(+slug[0]);
     country = res?.data;
+
+    //console.log("Country:", country);
   }
 
   if (continent) {
@@ -49,7 +52,41 @@ const YieldCurveComp = async ({ slug, continent }: YieldCurveProps) => {
   return (
     <div className="w-1/2 max-md:w-full p-4  rounded-lg  backdrop-blur-md bg-gray-100 dark:bg-opacity-10">
       {slug ? (
-        <AddYield countryId={+slug[0]} userSession={session} />
+        <>
+          <AddYield countryId={+slug[0]} userSession={session} />
+          <div>
+            <Table>
+              <TableCaption>A list of your recent countrie.</TableCaption>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-[100px]">Tenor</TableHead>
+                  <TableHead>Yield</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {country?.yieldcurve
+                  .sort((a, b) => a.tenor - b.tenor)
+                  .map((ct) => (
+                    <TableRow key={ct.id}>
+                      <TableCell className="font-medium">{ct.tenor}</TableCell>
+                      <TableCell className="font-medium">{ct.yield}</TableCell>
+                      <TableCell className="flex justify-end gap-6 ">
+                        <DeleteYC ycId={ct.id} />
+
+                        <MdEdit size={20} className="text-gray-300" />
+                      </TableCell>
+                    </TableRow>
+                  ))}
+              </TableBody>
+              {/*               <TableFooter>
+            <TableRow>
+              <TableCell colSpan={3}>Total</TableCell>
+            </TableRow>
+          </TableFooter> */}
+            </Table>{" "}
+          </div>
+        </>
       ) : (
         <>
           <AddYield continent={continent} userSession={session} />
@@ -69,8 +106,9 @@ const YieldCurveComp = async ({ slug, continent }: YieldCurveProps) => {
                     <TableCell className="font-medium">{ct.tenor}</TableCell>
                     <TableCell className="font-medium">{ct.yield}</TableCell>
                     <TableCell className="flex justify-end gap-6 ">
-                      <MdDelete size={20} className="text-red-600" />
-
+                      {/*                       <MdDelete size={20} className="text-red-600" />
+                       */}{" "}
+                      <DeleteYC ycId={ct.id} />
                       <MdEdit size={20} className="text-gray-300" />
                     </TableCell>
                   </TableRow>
@@ -85,7 +123,7 @@ const YieldCurveComp = async ({ slug, continent }: YieldCurveProps) => {
           </div>
         </>
       )}
-      <div className="">
+      {/*       <div className="">
         <p className="uppercase text-white text-center font-semibold bg-teal-600 p-2 rounded-lg  gap-2 mb-1">
           <span className="">{country?.name}</span>
         </p>
@@ -97,12 +135,12 @@ const YieldCurveComp = async ({ slug, continent }: YieldCurveProps) => {
                 {go.value}
               </span>
               {usr?.role == "ADMIN" ? <DeleteGO goId={go.id} /> : ""}
-              {/*               <UpdateGO go={go} />
-               */}{" "}
+                          <UpdateGO go={go} />
+       
             </div>
           </div>
         ))}
-      </div>
+      </div> */}
     </div>
   );
 };

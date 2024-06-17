@@ -126,6 +126,26 @@ export const getYCByContinent = async (continent: string) => {
   } catch (error) {}
 };
 
+// Get all gos by country
+export const getYCByCountry = async (countryId: number) => {
+  try {
+    const yc = await prisma.yieldCurve.findMany({
+      where: {
+        countryId: countryId,
+      },
+      orderBy: {
+        tenor: "asc",
+      },
+    });
+    //revalidatePath(`/continents/${continent}`);
+
+    return {
+      success: true,
+      data: yc,
+    };
+  } catch (error) {}
+};
+
 // GET SPECIFIC go
 export const getGO = async (goId: number) => {
   try {

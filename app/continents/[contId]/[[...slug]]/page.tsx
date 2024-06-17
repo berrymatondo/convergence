@@ -11,8 +11,9 @@ const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
   const { slug } = params;
 
   const session = await auth();
+  const usr: any = session?.user;
 
-  console.log("sulg2:", slug);
+  //console.log("sulg2:", slug);
 
   const headersList = headers();
   //const domain = headersList.get("host") || "";
@@ -23,6 +24,7 @@ const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
 
   //console.log("continent:=" + continent);
 
+  // IF CONTINENT
   if (!slug) {
     return (
       <div>

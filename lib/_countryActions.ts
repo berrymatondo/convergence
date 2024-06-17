@@ -110,6 +110,7 @@ export const getCountry = async (countryId: number) => {
       },
       include: {
         gos: true,
+        yieldcurve: true,
       },
     });
 

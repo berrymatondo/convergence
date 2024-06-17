@@ -46,7 +46,7 @@ const AddYield = ({ yc, countryId, continent, userSession }: AddYieldProps) => {
   //console.log("continent", continent);
 
   //console.log("countryId", countryId);
-  //console.log("go", go);
+  console.log("yc", yc);
 
   const pathname = usePathname();
   console.log("pathname", pathname);

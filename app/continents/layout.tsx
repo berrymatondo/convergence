@@ -51,7 +51,7 @@ export default function Continentayout({
   return (
     <PageLayout title={usr?.role == "ADMIN" ? "Tous les continents" : ""}>
       <div className=" flex flex-col gap-4 p-2 md:p-8 ">
-        {usr?.role == "ADMIN" && (
+        {usr?.role != "AGENT" && (
           <ul className=" flex max-md:flex-wrap justify-between gap-2 ">
             {continents.map((conti: any) => (
               <div key={conti}>

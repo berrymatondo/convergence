@@ -75,3 +75,17 @@ export const GoSchema = z.object({
   order: z.string(),
   countryId: z.number(),
 });
+
+export const YcSchema = z.object({
+  id: z.number().optional(),
+  tenor: z.string().min(1, {
+    message: "Ce champ est obligatoire",
+  }),
+  yld: z.string().min(1, {
+    message: "Ce champ est obligatoire",
+  }),
+
+  continent: z.string().optional(),
+  countryId: z.number().optional(),
+  //isContinent: z.boolean().default(false),
+});

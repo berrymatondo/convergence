@@ -1,37 +1,37 @@
 "use server";
 import { revalidatePath } from "next/cache";
 import { prisma } from "./prisma";
-import { GoSchema } from "./schemas";
 import bcrypt from "bcrypt";
 import { z } from "zod";
 import { auth, signIn, signOut } from "@/auth";
 import { ContinentsList } from "@prisma/client";
+import { YcSchema } from "./schemas";
 
-type Inputs = z.infer<typeof GoSchema>;
+type Inputs = z.infer<typeof YcSchema>;
 
-// Create GO
-export const createGO = async (data: Inputs) => {
+// Create YC
+export const createYC = async (data: Inputs) => {
   //console.log("registerUser", data);
 
-  const result = GoSchema.safeParse(data);
+  const result = YcSchema.safeParse(data);
 
   if (result.success) {
-    const { key, value, order, countryId } = result.data;
+    const { tenor, yld, continent, countryId } = result.data;
 
-    console.log("Order", order, countryId);
+    //console.log("Order", order, countryId);
 
     try {
-      const go = await prisma.go.create({
+      const yc = await prisma.yieldCurve.create({
         data: {
-          key: data.key,
-          value: data.value,
-          order: +data.order,
-          countryId: +data.countryId,
+          tenor: +data.tenor,
+          yield: +data.yld,
+          continent: data.continent as ContinentsList,
+          countryId: data.countryId ? +data.countryId : undefined,
         },
       });
       revalidatePath(`/admin/countries/${data.countryId}`);
 
-      return { success: true, data: go };
+      return { success: true, data: yc };
     } catch (error) {
       return { success: false, error };
     }
@@ -42,8 +42,8 @@ export const createGO = async (data: Inputs) => {
   }
 };
 
-// update contact message
-export const updateGO = async (data: Inputs) => {
+// update yield curve
+/* export const updateGO = async (data: Inputs) => {
   //console.log("registerUser", data);
 
   const result = GoSchema.safeParse(data);
@@ -74,9 +74,9 @@ export const updateGO = async (data: Inputs) => {
     return { success: false, error: result.error.format() };
   }
 };
-
+ */
 // Get all countries
-export const getAllGO = async () => {
+/* export const getAllGO = async () => {
   try {
     const gos = await prisma.go.findMany();
 
@@ -87,10 +87,10 @@ export const getAllGO = async () => {
       data: gos,
     };
   } catch (error) {}
-};
+}; */
 
 // Get all gos by country
-export const getGosByCountry = async (countryId: string) => {
+/* export const getGosByCountry = async (countryId: string) => {
   try {
     const gos = await prisma.go.findMany({
       where: {
@@ -104,30 +104,10 @@ export const getGosByCountry = async (countryId: string) => {
       data: gos,
     };
   } catch (error) {}
-};
-
-// Get all gos by country
-export const getYCByContinent = async (continent: string) => {
-  try {
-    const yc = await prisma.yieldCurve.findMany({
-      where: {
-        continent: continent as ContinentsList,
-      },
-      orderBy: {
-        tenor: "asc",
-      },
-    });
-    revalidatePath(`/continents/${continent}`);
-
-    return {
-      success: true,
-      data: yc,
-    };
-  } catch (error) {}
-};
+}; */
 
 // GET SPECIFIC go
-export const getGO = async (goId: number) => {
+/* export const getGO = async (goId: number) => {
   try {
     const go = await prisma.go.findUnique({
       where: {
@@ -140,26 +120,26 @@ export const getGO = async (goId: number) => {
       data: go,
     };
   } catch (error) {}
-};
+}; */
 
 // DELETE country
-export const deleteGo = async (goId: number) => {
+export const deleteYc = async (ycId: number) => {
   const check = await checkAuth("ADMIN");
 
   if (check.status == "KO") return check;
 
   try {
-    const go = await prisma.go.delete({
+    const yc = await prisma.yieldCurve.delete({
       where: {
-        id: +goId,
+        id: +ycId,
       },
     });
 
-    revalidatePath(`/admin/countries/${goId}`);
+    revalidatePath(`/admin/countries/${ycId}`);
 
     return {
       success: true,
-      data: go,
+      data: yc,
       status: "OK",
       msg: "",
     };
@@ -169,7 +149,7 @@ export const deleteGo = async (goId: number) => {
 export const checkAuth = async (role: string) => {
   const session = await auth();
 
-  console.log("AUTH SESSION:", session?.user);
+  // console.log("AUTH SESSION:", session?.user);
 
   let user: any = session?.user;
   let status = "KO";

@@ -66,19 +66,28 @@ const chartdata = [
   },
 ];
 
-export default function AreaChartUsageExampleWithClickEvent() {
+type AreaCharYieldCurveProps = {
+  data: any[];
+};
+
+export default function AreaCharYieldCurve({ data }: AreaCharYieldCurveProps) {
+  // console.log("data: ", data);
+
+  //console.log(Object.keys(data[0])[0]);
+
+  const index = Object.keys(data[0])[0];
+  const country = Object.keys(data[0])[1];
+  const contin = Object.keys(data[0])[2];
+
   const [value, setValue] = useState<EventProps>(null);
   return (
-    <div className="flex justify-center ">
+    <div className="flex justify-center w-full ">
       <div className="p-2 flex max-md:flex-col bg-gray-200 dark:bg-dark-tremor-background my-4 rounded-lg w-full md:w-1/2 justify-center ">
-        {/*       <h3 className="my-2 text-center text-lg font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong">
-        Closed Pull Requests
-      </h3> */}
         <AreaChart
-          className="mt-4 h-72"
-          data={chartdata}
-          index="date"
-          categories={["2022", "2023"]}
+          className="w-full mt-4 h-72"
+          data={data}
+          index={index}
+          categories={[country, contin]}
           colors={["orange", "green"]}
           yAxisWidth={30}
           onValueChange={(v) => setValue(v)}

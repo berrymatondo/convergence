@@ -40,19 +40,19 @@ export default function Continentayout({
 
       setCountries(data);
 
-      console.log("data celes: ", data);
+      //console.log("data celes: ", data);
     };
     fetchCountries();
   }, [cont]);
 
   const contId = slug?.[0];
   //console.log("contId: ", contId);
-  console.log("ROLE: ", usr?.role);
+  //console.log("ROLE: ", usr?.role);
 
   return (
     <div>
-      <div className=" flex max-md:flex-col gap-4 md:p-8 ">
-        {usr?.role == "ADMIN" && (
+      <div className=" flex md:items-center max-md:flex-col gap-4 md:p-8 ">
+        {usr?.role != "AGENT" && (
           <ul className="bg-neutral-100 dark:bg-opacity-0 py-4 md:w-1/5 flex flex-col items-center gap-2 border rounded-lg">
             <Link
               href="/admin/countries"
@@ -64,7 +64,7 @@ export default function Continentayout({
             {countries
               ?.filter(
                 (co: Country) =>
-                  co.id.toString() == contId || usr?.role == "ADMIN"
+                  co.id.toString() == contId || usr?.role != "AGENT"
               )
               ?.map((count: Country) => (
                 <div key={count.id}>

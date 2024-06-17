@@ -63,6 +63,7 @@ model Country{
   continent ContinentsList  @default(AFRIQUE)
   users User[] 
   gos Go[]
+  yieldcurve YieldCurve[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -132,4 +133,19 @@ model Go{
   updatedAt DateTime @updatedAt
 
   @@map("gos")
+}
+
+model YieldCurve{
+  id Int @id @default(autoincrement())
+  tenor Int
+  yield Float
+  continent ContinentsList?
+  countryId Int?
+  country Country? @relation(fields: [countryId], references: [id])
+
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("yieldcurve")
 }

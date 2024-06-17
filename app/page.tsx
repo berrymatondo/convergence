@@ -5,7 +5,7 @@ import Link from "next/link";
 export default function Home() {
   return (
     /*     <div className="flex min-h-screen flex-col items-center justify-between p-24">
-     */ <div className="container py-24 flex flex-col gap-4 justify-center my-auto bg-gray-100 dark:bg-transparent">
+     */ <div className="container py-24 max-md:py-4 flex flex-col gap-4 justify-center my-auto bg-gray-100 dark:bg-transparent">
       <p className="text-center py-4 text-6xl text-teal-600 font-semibold">
         Emerging Markets
       </p>

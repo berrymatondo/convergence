@@ -108,7 +108,7 @@ const YieldCurveComp = async ({ slug, continent }: YieldCurveProps) => {
                   <TableHead className="w-[100px]">Tenor</TableHead>
                   <TableHead>Yield</TableHead>
                   <TableHead className="">Date</TableHead>
-                  <TableHead className="text-right"></TableHead>
+                  <TableHead className="text-right  max-md:pr-2"></TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -121,7 +121,7 @@ const YieldCurveComp = async ({ slug, continent }: YieldCurveProps) => {
                     <TableCell className="font-medium">
                       {ct.date?.toLocaleDateString()}
                     </TableCell>
-                    <TableCell className="flex justify-end gap-6 ">
+                    <TableCell className="flex justify-arounded gap-4 ">
                       <DeleteYC ycId={ct.id} />
                       <UpdateYC ycId={ct.id} userSession={session} />
                       {/*                       <MdEdit size={20} className="text-gray-300" />

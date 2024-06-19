@@ -59,8 +59,8 @@ export default function Continentayout({
                   href={`/continents/${conti}`}
                   className={
                     conti == cont
-                      ? "flex gap-1 items-center max-md:text-sm font-semibold text-blue-600 dark:text-blue-300 underline"
-                      : "flex gap-1 items-center max-md:text-sm font-semibold text-gray-400 dark:text-gray-500"
+                      ? "flex gap-1 items-center max-md:text-xs font-semibold text-blue-600 dark:text-blue-300 underline"
+                      : "flex gap-1 items-center max-md:text-xs font-semibold text-gray-400 dark:text-gray-500"
                   }
                 >
                   {conti == "AFRIQUE" ? (

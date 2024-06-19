@@ -18,6 +18,8 @@ import {
   TableRow,
 } from "../ui/table";
 import DeleteYC from "../yc/deleteYC";
+import { ScrollArea } from "../ui/scroll-area";
+import UpdateYC from "../yc/updateYC";
 
 type YieldCurveProps = {
   slug?: string[];
@@ -42,6 +44,8 @@ const YieldCurveComp = async ({ slug, continent }: YieldCurveProps) => {
   if (continent) {
     res2 = await getYCByContinent(continent);
     conts = res2?.data;
+
+    console.log("Continent:", conts);
   }
   const session: any = await auth();
   const usr: any = session?.user;
@@ -61,6 +65,7 @@ const YieldCurveComp = async ({ slug, continent }: YieldCurveProps) => {
                 <TableRow>
                   <TableHead className="w-[100px]">Tenor</TableHead>
                   <TableHead>Yield</TableHead>
+                  <TableHead>Date</TableHead>
                   <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
               </TableHeader>
@@ -71,6 +76,9 @@ const YieldCurveComp = async ({ slug, continent }: YieldCurveProps) => {
                     <TableRow key={ct.id}>
                       <TableCell className="font-medium">{ct.tenor}</TableCell>
                       <TableCell className="font-medium">{ct.yield}</TableCell>
+                      <TableCell className="font-medium">
+                        {ct.date?.toLocaleDateString()}
+                      </TableCell>
                       <TableCell className="flex justify-end gap-6 ">
                         <DeleteYC ycId={ct.id} />
 
@@ -90,26 +98,34 @@ const YieldCurveComp = async ({ slug, continent }: YieldCurveProps) => {
       ) : (
         <>
           <AddYield continent={continent} userSession={session} />
-          <div>
+          <ScrollArea className="h-96 w-full mx-auto  rounded-md border">
             <Table>
-              <TableCaption>A list of your recent invoices.</TableCaption>
+              <TableCaption>
+                A list of your recent yields for {continent}.
+              </TableCaption>
               <TableHeader>
-                <TableRow>
+                <TableRow className="">
                   <TableHead className="w-[100px]">Tenor</TableHead>
                   <TableHead>Yield</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
+                  <TableHead className="">Date</TableHead>
+                  <TableHead className="text-right"></TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {conts?.map((ct) => (
                   <TableRow key={ct.id}>
-                    <TableCell className="font-medium">{ct.tenor}</TableCell>
+                    <TableCell className="font-medium max-md:flex max-md:flex-col">
+                      {ct.tenor}
+                    </TableCell>
                     <TableCell className="font-medium">{ct.yield}</TableCell>
+                    <TableCell className="font-medium">
+                      {ct.date?.toLocaleDateString()}
+                    </TableCell>
                     <TableCell className="flex justify-end gap-6 ">
-                      {/*                       <MdDelete size={20} className="text-red-600" />
-                       */}{" "}
                       <DeleteYC ycId={ct.id} />
-                      <MdEdit size={20} className="text-gray-300" />
+                      <UpdateYC ycId={ct.id} userSession={session} />
+                      {/*                       <MdEdit size={20} className="text-gray-300" />
+                       */}{" "}
                     </TableCell>
                   </TableRow>
                 ))}
@@ -120,7 +136,7 @@ const YieldCurveComp = async ({ slug, continent }: YieldCurveProps) => {
                 </TableRow>
               </TableFooter> */}
             </Table>{" "}
-          </div>
+          </ScrollArea>
         </>
       )}
       {/*       <div className="">

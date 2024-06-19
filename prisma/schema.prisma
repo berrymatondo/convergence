@@ -40,6 +40,12 @@ enum ContinentsList {
  OCEANIE
 }
 
+enum AssetTypesList{
+  INDEX
+  EQUITY
+  BOND
+}
+
 model User {
   id Int @id @default(autoincrement())
   email String @unique
@@ -139,6 +145,7 @@ model YieldCurve{
   id Int @id @default(autoincrement())
   tenor Int
   yield Float
+  date DateTime @default(now()) @db.Date
   continent ContinentsList?
   countryId Int?
   country Country? @relation(fields: [countryId], references: [id])
@@ -147,5 +154,17 @@ model YieldCurve{
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  @@unique([tenor, date, countryId, continent])
+
   @@map("yieldcurve")
+}
+
+
+model StaticInfoAction{
+  id Int @id @default(autoincrement())
+  assetName String
+  isin String @unique()
+  assetType AssetTypesList
+
+  @@map("staticinfoaction")
 }

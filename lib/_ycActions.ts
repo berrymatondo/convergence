@@ -16,7 +16,7 @@ export const createYC = async (data: Inputs) => {
   const result = YcSchema.safeParse(data);
 
   if (result.success) {
-    const { tenor, yld, continent, countryId } = result.data;
+    const { tenor, yld, continent, countryId, date } = result.data;
 
     //console.log("Order", order, countryId);
 
@@ -25,6 +25,7 @@ export const createYC = async (data: Inputs) => {
         data: {
           tenor: +data.tenor,
           yield: +data.yld,
+          date: data.date,
           continent: data.countryId
             ? undefined
             : (data.continent as ContinentsList),

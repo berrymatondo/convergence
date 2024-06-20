@@ -84,7 +84,7 @@ export const YcSchema = z.object({
   yld: z.string().min(1, {
     message: "Ce champ est obligatoire",
   }),
-  date: z.string().datetime(),
+  date: z.string(),
 
   continent: z.string().optional(),
   countryId: z.number().optional(),

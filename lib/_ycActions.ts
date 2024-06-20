@@ -45,6 +45,44 @@ export const createYC = async (data: Inputs) => {
   }
 };
 
+export const updateYC = async (data: Inputs) => {
+  //console.log("registerUser", data);
+
+  const result = YcSchema.safeParse(data);
+
+  if (result.success) {
+    const { tenor, yld, continent, countryId, date } = result.data;
+
+    //console.log("Order", order, countryId);
+
+    try {
+      const yc = await prisma.yieldCurve.update({
+        where: {
+          id: data.id ? +data.id : undefined,
+        },
+        data: {
+          tenor: +data.tenor,
+          yield: +data.yld,
+          date: new Date(data.date),
+          continent: data.countryId
+            ? undefined
+            : (data.continent as ContinentsList),
+          countryId: data.countryId ? +data.countryId : undefined,
+        },
+      });
+      revalidatePath(`/${data.continent}`);
+
+      return { success: true, data: yc };
+    } catch (error) {
+      return { success: false, error };
+    }
+  }
+
+  if (result.error) {
+    return { success: false, error: result.error.format() };
+  }
+};
+
 // update yield curve
 /* export const updateGO = async (data: Inputs) => {
   //console.log("registerUser", data);

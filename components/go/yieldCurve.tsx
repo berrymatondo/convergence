@@ -30,6 +30,11 @@ const YieldCurveComp = async ({ slug, continent }: YieldCurveProps) => {
   //console.log("slug: ", slug);
   //console.log("slug: ", slug);
 
+  const session: any = await auth();
+  const usr: any = session?.user;
+
+  console.log("usr: ", usr);
+
   let res;
   let res2;
   let country;
@@ -47,8 +52,7 @@ const YieldCurveComp = async ({ slug, continent }: YieldCurveProps) => {
 
     console.log("Continent:", conts);
   }
-  const session: any = await auth();
-  const usr: any = session?.user;
+
   //console.log("LOS", session);
 
   //console.log("Country: ", country?.data);
@@ -58,15 +62,21 @@ const YieldCurveComp = async ({ slug, continent }: YieldCurveProps) => {
       {slug ? (
         <>
           <AddYield countryId={+slug[0]} userSession={session} />
-          <div>
+          <ScrollArea className="h-96 mx-auto  rounded-md border">
             <Table>
               <TableCaption>A list of your recent countrie.</TableCaption>
               <TableHeader>
                 <TableRow>
                   <TableHead className="w-[100px]">Tenor</TableHead>
-                  <TableHead>Yield</TableHead>
-                  <TableHead>Date</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
+                  <TableHead
+                    className={`usr.role != 'ADMIN' ? text-right : ''`}
+                  >
+                    Yield
+                  </TableHead>
+                  {usr.role == "ADMIN" && <TableHead>Date</TableHead>}
+                  {usr.role == "ADMIN" && (
+                    <TableHead className="text-right">Actions</TableHead>
+                  )}
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -75,15 +85,23 @@ const YieldCurveComp = async ({ slug, continent }: YieldCurveProps) => {
                   .map((ct) => (
                     <TableRow key={ct.id}>
                       <TableCell className="font-medium">{ct.tenor}</TableCell>
-                      <TableCell className="font-medium">{ct.yield}</TableCell>
-                      <TableCell className="font-medium">
-                        {ct.date?.toLocaleDateString()}
+                      <TableCell
+                        className={`usr.role != 'ADMIN' ? text-right : ''`}
+                      >
+                        {ct.yield}
                       </TableCell>
-                      <TableCell className="flex justify-end gap-6 ">
-                        <DeleteYC ycId={ct.id} />
+                      {usr.role == "ADMIN" && (
+                        <TableCell className="font-medium">
+                          {ct.date?.toLocaleDateString()}
+                        </TableCell>
+                      )}
+                      {usr.role == "ADMIN" && (
+                        <TableCell className="flex justify-end gap-6 ">
+                          <DeleteYC ycId={ct.id} />
 
-                        <MdEdit size={20} className="text-gray-300" />
-                      </TableCell>
+                          <MdEdit size={20} className="text-gray-300" />
+                        </TableCell>
+                      )}
                     </TableRow>
                   ))}
               </TableBody>
@@ -93,7 +111,7 @@ const YieldCurveComp = async ({ slug, continent }: YieldCurveProps) => {
             </TableRow>
           </TableFooter> */}
             </Table>{" "}
-          </div>
+          </ScrollArea>
         </>
       ) : (
         <>

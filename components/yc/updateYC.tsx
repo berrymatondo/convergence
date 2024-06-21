@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { MdDelete, MdUpdate } from "react-icons/md";
+import { MdClose, MdDelete, MdUpdate } from "react-icons/md";
 import { Button } from "../ui/button";
 import { deleteGo } from "@/lib/_goActions";
 import { createYC, deleteYc, updateYC } from "@/lib/_ycActions";
@@ -138,8 +138,15 @@ const UpdateYC = ({
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>
-              Mettre à jour la courbe de rendement
+            <AlertDialogTitle className="flex items-center justify-between">
+              <span>Mettre à jour la courbe de rendement</span>
+              <span>
+                <MdClose
+                  size={25}
+                  className="text-red-600"
+                  onClick={() => setOpen(!open)}
+                />
+              </span>
             </AlertDialogTitle>
             <AlertDialogDescription>
               Cette transaction permet de mettre à jour la courbe de rendement.

@@ -20,6 +20,7 @@ import {
 import DeleteYC from "../yc/deleteYC";
 import { ScrollArea } from "../ui/scroll-area";
 import UpdateYC from "../yc/updateYC";
+import AddYC from "../yc/addYC";
 
 type YieldCurveProps = {
   slug?: string[];
@@ -33,7 +34,7 @@ const YieldCurveComp = async ({ slug, continent }: YieldCurveProps) => {
   const session: any = await auth();
   const usr: any = session?.user;
 
-  console.log("usr: ", usr);
+  //console.log("usr: ", usr);
 
   let res;
   let res2;
@@ -50,7 +51,7 @@ const YieldCurveComp = async ({ slug, continent }: YieldCurveProps) => {
     res2 = await getYCByContinent(continent);
     conts = res2?.data;
 
-    console.log("Continent:", conts);
+    //console.log("Continent:", conts);
   }
 
   //console.log("LOS", session);
@@ -115,7 +116,13 @@ const YieldCurveComp = async ({ slug, continent }: YieldCurveProps) => {
         </>
       ) : (
         <>
-          <AddYield continent={continent} userSession={session} />
+          {/*           <AddYield continent={continent} userSession={session} />
+           */}{" "}
+          <AddYC
+            continent={continent}
+            userSession={session}
+            openDialog={false}
+          />
           <ScrollArea className="h-96 w-full mx-auto  rounded-md border">
             <Table>
               <TableCaption>
@@ -150,33 +157,10 @@ const YieldCurveComp = async ({ slug, continent }: YieldCurveProps) => {
                   </TableRow>
                 ))}
               </TableBody>
-              {/*               <TableFooter>
-                <TableRow>
-                  <TableCell colSpan={3}>Total</TableCell>
-                </TableRow>
-              </TableFooter> */}
             </Table>{" "}
           </ScrollArea>
         </>
       )}
-      {/*       <div className="">
-        <p className="uppercase text-white text-center font-semibold bg-teal-600 p-2 rounded-lg  gap-2 mb-1">
-          <span className="">{country?.name}</span>
-        </p>
-        {country?.gos.map((go: Go, index) => (
-          <div key={index} className="flex justify-between gap-4 mb-1">
-            <span>{go.key}:</span>
-            <div className="flex items-center gap-3">
-              <span className="text-blue-800 dark:text-yellow-400">
-                {go.value}
-              </span>
-              {usr?.role == "ADMIN" ? <DeleteGO goId={go.id} /> : ""}
-                          <UpdateGO go={go} />
-       
-            </div>
-          </div>
-        ))}
-      </div> */}
     </div>
   );
 };

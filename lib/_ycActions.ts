@@ -25,7 +25,7 @@ export const createYC = async (data: Inputs) => {
         data: {
           tenor: +data.tenor,
           yield: +data.yld,
-          date: data.date,
+          date: new Date(data.date),
           continent: data.countryId
             ? undefined
             : (data.continent as ContinentsList),

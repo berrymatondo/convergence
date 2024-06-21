@@ -113,9 +113,12 @@ export const getYCByContinent = async (continent: string) => {
       where: {
         continent: continent as ContinentsList,
       },
-      orderBy: {
-        tenor: "asc",
-      },
+      orderBy: [
+        {
+          tenor: "asc",
+        },
+        { date: "desc" },
+      ],
     });
     revalidatePath(`/continents/${continent}`);
 

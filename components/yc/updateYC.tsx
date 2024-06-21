@@ -50,23 +50,24 @@ const UpdateYC = ({
 }: UpdateYCProps) => {
   const [open, setOpen] = useState(openDialog);
   const [show, setShow] = useState(false);
+  const [upd, setUpd] = useState(true);
   const [add, setAdd] = useState(yc ? false : true);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const usr: any = userSession?.user;
 
-  console.log("yc", yc);
+  //console.log("yc", yc);
 
   const pathname = usePathname();
-  console.log("pathname", pathname);
+  //console.log("pathname", pathname);
 
   const conti = pathname.split("continents/")[1];
 
-  console.log(
+  /*   console.log(
     "DATE",
     yc.date.toLocaleDateString().split("/").reverse().join("-")
   );
-
+ */
   const form = useForm<z.infer<typeof YcSchema>>({
     resolver: zodResolver(YcSchema),
     defaultValues: {
@@ -85,8 +86,13 @@ const UpdateYC = ({
   });
 
   const procesForm = async (values: z.infer<typeof YcSchema>) => {
+    // console.log("LOAD: ", loading);
+    //  console.log("UPD: ", upd);
+
+    if (!upd) return;
+
     setLoading(true);
-    console.log("Value:", values);
+    //console.log("Value: ", values);
     //console.log("usr: ", usr);YcSchema
     let res;
     if (yc) res = await updateYC(values);
@@ -118,6 +124,7 @@ const UpdateYC = ({
     form.reset();
     setAdd(true);
     setOpen(false);
+    setUpd(true);
     //router.push("/admin/countries");
   };
 
@@ -126,27 +133,20 @@ const UpdateYC = ({
       <AlertDialog open={open} onOpenChange={setOpen}>
         <AlertDialogTrigger asChild>
           <Button variant="empty">
-            <MdUpdate size={25} className="text-gray-200" />
+            <MdUpdate size={25} className="text-gray-400" />
           </Button>
         </AlertDialogTrigger>
         <AlertDialogContent>
-          {/*           <form
-            action={() => {
-              console.log("xxxxxxxx");
-
-              ("use serve");
-              console.log("HELLLLOOOOOO");
-            }}
-          > */}
           <AlertDialogHeader>
-            <AlertDialogTitle>Mettre à jour le yield</AlertDialogTitle>
+            <AlertDialogTitle>
+              Mettre à jour la courbe de rendement
+            </AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete your
-              account and remove your data from our servers.
+              Cette transaction permet de mettre à jour la courbe de rendement.
             </AlertDialogDescription>
           </AlertDialogHeader>
           {!add && (
-            <div className="flex justify-center bg-teal-600/40 p-4 my-2 border rounded-lg">
+            <div className="flex justify-center  p-4 my-2  rounded-lg">
               <Form {...form}>
                 <form
                   onSubmit={form.handleSubmit(procesForm)}
@@ -240,35 +240,23 @@ const UpdateYC = ({
                     </div>
                   </div>
                   <div className="md:flex md:gap-2">
-                    {/*                       <Button
-                        onClick={() => {
-                          setLoading(!loading);
-                          form.reset();
-                        }}
-                        variant="empty"
-                        className="w-full"
-                      >
-                        {"Reinitialiser"}
-                      </Button>
-                      <Button type="submit" className="w-full">
-                        {loading ? "En cours de traitemnt ..." : "Enregistrer"}
-                      </Button> */}
+                    <Button
+                      onClick={() => {
+                        setUpd(false);
+                        setOpen(!open);
+                        //  setLoading(false);
+                        //  form.reset();
+                      }}
+                      variant="empty"
+                      className="w-full text-red-400"
+                    >
+                      {"Annuler"}
+                    </Button>
                     <AlertDialogFooter>
-                      <Button
-                        onClick={() => {
-                          setLoading(!loading);
-                          form.reset();
-                        }}
-                        variant="empty"
-                        className="w-full"
-                      >
-                        {"Reinitialiser"}
-                      </Button>
-                      {/*                       <AlertDialogAction type="submit">
-                        {loading ? "En cours de traitemnt ..." : "Enregistrer"}
-                      </AlertDialogAction> */}
                       <Button type="submit">
-                        {loading ? "En cours de traitemnt ..." : "REC"}
+                        {loading
+                          ? "En cours de traitemnt ..."
+                          : "Enregistrement"}
                       </Button>
                     </AlertDialogFooter>
                   </div>
@@ -276,8 +264,6 @@ const UpdateYC = ({
               </Form>
             </div>
           )}
-          {/*           </form>
-           */}{" "}
         </AlertDialogContent>
       </AlertDialog>
     </div>

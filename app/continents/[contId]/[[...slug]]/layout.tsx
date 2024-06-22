@@ -52,7 +52,7 @@ export default function Continentayout({
 
   return (
     <div>
-      <div className=" flex md:items-center max-md:flex-col gap-4 md:p-8 ">
+      <div className=" flex md:items-center flex-col gap-4 md:p-8 ">
         {!show ? (
           <p
             className="hover:cursor-pointer hover:text-blue-600 text-center "

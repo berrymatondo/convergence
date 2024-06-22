@@ -23,6 +23,12 @@ import UpdateYC from "../yc/updateYC";
 import AddYC from "../yc/addYC";
 import { Button } from "../ui/button";
 import SyncYC from "../yc/syncYC";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "../ui/accordion";
 
 type YieldCurveProps = {
   slug?: string[];
@@ -61,7 +67,7 @@ const YieldCurveComp = async ({ slug, continent }: YieldCurveProps) => {
   //console.log("Country: ", country?.data);
 
   return (
-    <div className="w-1/2 max-md:w-full p-4  rounded-lg  backdrop-blur-md bg-gray-100 dark:bg-opacity-10">
+    <div className="w-full max-md:w-full p-4  rounded-lg  backdrop-blur-md bg-gray-100 dark:bg-opacity-10">
       {slug ? (
         <>
           <AddYield countryId={+slug[0]} userSession={session} />
@@ -137,7 +143,7 @@ const YieldCurveComp = async ({ slug, continent }: YieldCurveProps) => {
                 <TableRow className="">
                   <TableHead className="w-[100px]">Tenor</TableHead>
                   <TableHead>Yield</TableHead>
-                  <TableHead className="">Date</TableHead>
+                  <TableHead className="">Change</TableHead>
                   <TableHead className="text-right  max-md:pr-2"></TableHead>
                 </TableRow>
               </TableHeader>
@@ -154,34 +160,26 @@ const YieldCurveComp = async ({ slug, continent }: YieldCurveProps) => {
                       {/*                       {ct.date?.toLocaleDateString()}
                        */}{" "}
                       {ct.type == "L" ? (
-                        <p className="py-1 gap-2   rounded-full w-full flex justify-between">
+                        <div className="py-1 gap-2 w-full flex max-md:flex-col max-md:justify-center justify-between">
                           {ct.change >= 0 ? (
-                            <span className="ml-1 font-semibold text-green-600 p-1">
+                            <p className="text-center ml-1 font-semibold text-green-600 p-1">
                               +{ct.change.toFixed(2)}%
-                            </span>
+                            </p>
                           ) : (
-                            <span className="ml-1 font-semibold text-red-400 p-1">
+                            <p className="text-center ml-1 font-semibold text-red-400 p-1">
                               {ct.change.toFixed(2)}%
-                            </span>
+                            </p>
                           )}
-                          <span className="py-1 flex-1 text-white rounded-full w-full text-center">
+                          <p className=" text-center py-1 flex-1 text-white rounded-full w-full ">
                             {ct.date}{" "}
-                          </span>
-                        </p>
+                          </p>
+                          {/* <AccordionDemo date={ct.date} /> */}
+                        </div>
                       ) : (
-                        <p className="py-1 px-2 bg-neutral-400 text-white rounded-full w-full text-center">
+                        <p className="text-center py-1 px-2 bg-neutral-400 text-white rounded-full w-full ">
                           {ct.date}
                         </p>
                       )}
-                      {/*                       {ct.type == "L" ? (
-                        <span className="py-1 px-2.5 ml-1 bg-teal-800 text-white rounded-full">
-                          {ct.type}
-                        </span>
-                      ) : (
-                        <span className="py-1 px-2.5 ml-1 bg-red-800 text-white rounded-full">
-                          {ct.type}
-                        </span>
-                      )} */}
                     </TableCell>
                     <TableCell className=" flex justify-center">
                       <DeleteYC
@@ -210,3 +208,36 @@ const YieldCurveComp = async ({ slug, continent }: YieldCurveProps) => {
 };
 
 export default YieldCurveComp;
+
+type DateProps = {
+  date: any;
+};
+export function AccordionDemo({ date }: DateProps) {
+  return (
+    <Accordion type="single" collapsible className="w-full">
+      <AccordionItem value="item-1">
+        <AccordionTrigger>Détails</AccordionTrigger>
+        <AccordionContent>
+          {" "}
+          <p className="py-1 px-2 bg-neutral-400 text-white rounded-full w-full text-center">
+            {date}
+          </p>
+        </AccordionContent>
+      </AccordionItem>
+      {/*       <AccordionItem value="item-2">
+        <AccordionTrigger>Is it styled?</AccordionTrigger>
+        <AccordionContent>
+          Yes. It comes with default styles that matches the other
+          components&apos; aesthetic.
+        </AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="item-3">
+        <AccordionTrigger>Is it animated?</AccordionTrigger>
+        <AccordionContent>
+          Yes. It&apos;s animated by default, but you can disable it if you
+          prefer.
+        </AccordionContent>
+      </AccordionItem> */}
+    </Accordion>
+  );
+}

@@ -1,9 +1,9 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MdClose, MdDelete, MdUpdate } from "react-icons/md";
 import { Button } from "../ui/button";
 import { deleteGo } from "@/lib/_goActions";
-import { createYC, deleteYc, updateYC } from "@/lib/_ycActions";
+import { createYC, deleteYc, getYC, syncYC, updateYC } from "@/lib/_ycActions";
 import AddYield from "../go/addYield";
 import {
   AlertDialog,
@@ -49,6 +49,7 @@ const UpdateYC = ({
   openDialog,
 }: UpdateYCProps) => {
   const [open, setOpen] = useState(openDialog);
+  const [readYC, setReadYC] = useState(yc);
   const [show, setShow] = useState(false);
   const [upd, setUpd] = useState(true);
   const [add, setAdd] = useState(yc ? false : true);
@@ -56,10 +57,10 @@ const UpdateYC = ({
   const router = useRouter();
   const usr: any = userSession?.user;
 
-  //console.log("yc", yc);
+  console.log("yc", yc);
 
   const pathname = usePathname();
-  //console.log("pathname", pathname);
+  console.log("pathname", pathname);
 
   const conti = pathname.split("continents/")[1];
 
@@ -68,14 +69,26 @@ const UpdateYC = ({
     yc.date.toLocaleDateString().split("/").reverse().join("-")
   );
  */
+
+  /*   useEffect(() => {
+    const fetchYCToUpdate = async (idd: any) => {
+      const resu = await getYC(idd);
+      const dat = resu?.data;
+      setReadYC(dat);
+      console.log("IDd", dat);
+    };
+    if (yc) fetchYCToUpdate(yc.id);
+  }, [yc]); */
+
   const form = useForm<z.infer<typeof YcSchema>>({
     resolver: zodResolver(YcSchema),
     defaultValues: {
-      id: yc?.id ? yc.id : undefined,
-      tenor: yc ? yc.tenor.toString() : "",
-      yld: yc ? yc.yield.toString() : "",
+      id: yc?.id ? yc?.id : undefined,
+      tenor: yc ? yc?.tenor.toString() : "",
+      yld: yc ? yc?.yield.toString() : "",
       date: yc
-        ? yc.date.toLocaleDateString().split("/").reverse().join("-")
+        ? // ? yc.date.toLocaleDateString().split("/").reverse().join("-")
+          yc?.date
         : undefined,
       //date: "2024-06-21",
 
@@ -120,12 +133,15 @@ const UpdateYC = ({
         description: new Date().toISOString().split("T")[0],
       });
 
+    if (continent) syncYC(continent);
+
     setLoading(false);
     form.reset();
-    setAdd(true);
+    //setAdd(true);
     setOpen(false);
     setUpd(true);
-    //router.push("/admin/countries");
+    //router.refresh();
+    window.location.reload();
   };
 
   return (

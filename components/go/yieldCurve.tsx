@@ -1,6 +1,6 @@
 import React from "react";
 import { getCountry } from "@/lib/_countryActions";
-import { Go, YieldCurve } from "@prisma/client";
+import { ContinentsList, Go, YieldCurve } from "@prisma/client";
 import { MdDelete, MdEdit } from "react-icons/md";
 import DeleteGO from "./deleteGo";
 import UpdateGO from "./updateGo";
@@ -21,6 +21,8 @@ import DeleteYC from "../yc/deleteYC";
 import { ScrollArea } from "../ui/scroll-area";
 import UpdateYC from "../yc/updateYC";
 import AddYC from "../yc/addYC";
+import { Button } from "../ui/button";
+import SyncYC from "../yc/syncYC";
 
 type YieldCurveProps = {
   slug?: string[];
@@ -93,13 +95,13 @@ const YieldCurveComp = async ({ slug, continent }: YieldCurveProps) => {
                       </TableCell>
                       {usr.role == "ADMIN" && (
                         <TableCell className="font-medium">
-                          {ct.date?.toLocaleDateString()}
+                          {ct.date}{" "}
                         </TableCell>
                       )}
                       {usr.role == "ADMIN" && (
                         <TableCell className="flex justify-end gap-6 ">
-                          <DeleteYC ycId={ct.id} />
-
+                          {/*                           <DeleteYC ycId={ct.id} />
+                           */}
                           <MdEdit size={20} className="text-gray-300" />
                         </TableCell>
                       )}
@@ -118,11 +120,14 @@ const YieldCurveComp = async ({ slug, continent }: YieldCurveProps) => {
         <>
           {/*           <AddYield continent={continent} userSession={session} />
            */}{" "}
-          <AddYC
-            continent={continent}
-            userSession={session}
-            openDialog={false}
-          />
+          <div className="flex justify-between items-center">
+            <SyncYC continent={continent} />
+            <AddYC
+              continent={continent}
+              userSession={session}
+              openDialog={false}
+            />
+          </div>
           <ScrollArea className="h-96 w-full mx-auto  rounded-md border">
             <Table>
               <TableCaption>
@@ -141,15 +146,38 @@ const YieldCurveComp = async ({ slug, continent }: YieldCurveProps) => {
                   <TableRow key={ct.id}>
                     <TableCell className="font-medium ">{ct.tenor}</TableCell>
                     <TableCell className="font-medium">{ct.yield}</TableCell>
-                    <TableCell className="font-medium">
-                      {ct.date?.toLocaleDateString()}
+                    <TableCell className="font-medium  w-full">
+                      {/*                       {ct.date?.toLocaleDateString()}
+                       */}{" "}
+                      {ct.type == "L" ? (
+                        <span className="py-1 px-2.5 bg-teal-800 text-white rounded-full">
+                          {ct.date}
+                        </span>
+                      ) : (
+                        <span className="py-1 px-2.5 bg-red-800 text-white rounded-full">
+                          {ct.date}
+                        </span>
+                      )}
+                      {/*                       {ct.type == "L" ? (
+                        <span className="py-1 px-2.5 ml-1 bg-teal-800 text-white rounded-full">
+                          {ct.type}
+                        </span>
+                      ) : (
+                        <span className="py-1 px-2.5 ml-1 bg-red-800 text-white rounded-full">
+                          {ct.type}
+                        </span>
+                      )} */}
                     </TableCell>
                     <TableCell className=" flex justify-center">
-                      <DeleteYC ycId={ct.id} />
+                      <DeleteYC
+                        ycId={ct.id}
+                        continent={ct.continent as ContinentsList}
+                      />
                       <UpdateYC
                         yc={ct}
                         userSession={session}
                         openDialog={false}
+                        continent={ct.continent as ContinentsList}
                       />
                       {/*                       <MdEdit size={20} className="text-gray-300" />
                        */}{" "}

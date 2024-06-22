@@ -40,10 +40,15 @@ enum ContinentsList {
  OCEANIE
 }
 
-enum AssetTypesList{
+enum AssetTypesList {
   INDEX
   EQUITY
   BOND
+}
+
+enum YCTypesList {
+  L
+  H
 }
 
 model User {
@@ -145,10 +150,12 @@ model YieldCurve{
   id Int @id @default(autoincrement())
   tenor Int
   yield Float
-  date DateTime @default(now()) @db.Date
+  //date DateTime @default(now()) @db.Date
+  date String
   continent ContinentsList?
   countryId Int?
   country Country? @relation(fields: [countryId], references: [id])
+  type YCTypesList @default(H)
 
 
   createdAt DateTime @default(now())

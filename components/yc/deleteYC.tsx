@@ -3,12 +3,13 @@ import React from "react";
 import { MdDelete } from "react-icons/md";
 import { Button } from "../ui/button";
 import { deleteGo } from "@/lib/_goActions";
-import { deleteYc } from "@/lib/_ycActions";
+import { deleteYc, syncYC } from "@/lib/_ycActions";
 
 type DeleteYCProps = {
   ycId: number;
+  continent: string;
 };
-const DeleteYC = ({ ycId }: DeleteYCProps) => {
+const DeleteYC = ({ ycId, continent }: DeleteYCProps) => {
   return (
     <form>
       <Button
@@ -17,6 +18,7 @@ const DeleteYC = ({ ycId }: DeleteYCProps) => {
         formAction={() => {
           "use serer";
           deleteYc(ycId);
+          syncYC(continent);
         }}
       >
         <MdDelete size={25} className="text-red-600" />

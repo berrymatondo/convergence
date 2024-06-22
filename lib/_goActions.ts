@@ -115,6 +115,9 @@ export const getYCByContinent = async (continent: string) => {
       },
       orderBy: [
         {
+          type: "asc",
+        },
+        {
           tenor: "asc",
         },
         { date: "desc" },

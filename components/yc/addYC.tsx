@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { MdAdd, MdClose, MdDelete, MdUpdate } from "react-icons/md";
 import { Button } from "../ui/button";
 import { deleteGo } from "@/lib/_goActions";
-import { createYC, deleteYc, updateYC } from "@/lib/_ycActions";
+import { createYC, deleteYc, syncYC, updateYC } from "@/lib/_ycActions";
 import AddYield from "../go/addYield";
 import {
   AlertDialog,
@@ -120,6 +120,8 @@ const AddYC = ({
       toast.success(`La donnée a été créée avec succès.`, {
         description: new Date().toISOString().split("T")[0],
       });
+
+    syncYC(conti);
 
     setLoading(false);
     form.reset();

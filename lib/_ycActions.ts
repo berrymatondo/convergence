@@ -18,21 +18,23 @@ export const createYC = async (data: Inputs) => {
   if (result.success) {
     const { tenor, yld, continent, countryId, date } = result.data;
 
-    //console.log("Order", order, countryId);
+    console.log("Order", date);
 
     try {
       const yc = await prisma.yieldCurve.create({
         data: {
           tenor: +data.tenor,
           yield: +data.yld,
-          date: new Date(data.date),
+          date: data.date,
           continent: data.countryId
             ? undefined
             : (data.continent as ContinentsList),
           countryId: data.countryId ? +data.countryId : undefined,
         },
       });
+
       revalidatePath(`/admin/countries/${data.countryId}`);
+      revalidatePath(`/continents/${data.continent}`);
 
       return { success: true, data: yc };
     } catch (error) {
@@ -63,14 +65,19 @@ export const updateYC = async (data: Inputs) => {
         data: {
           tenor: +data.tenor,
           yield: +data.yld,
-          date: new Date(data.date),
+          date: data.date,
           continent: data.countryId
             ? undefined
             : (data.continent as ContinentsList),
           countryId: data.countryId ? +data.countryId : undefined,
         },
       });
-      revalidatePath(`/${data.continent}`);
+
+      console.log("REFRESH");
+
+      revalidatePath(`/admin/countries/${data.countryId}`);
+      revalidatePath(`/continents/${data.continent}`);
+      revalidatePath(`/continents`);
 
       return { success: true, data: yc };
     } catch (error) {
@@ -148,20 +155,20 @@ export const updateYC = async (data: Inputs) => {
 }; */
 
 // GET SPECIFIC go
-/* export const getGO = async (goId: number) => {
+export const getYC = async (ycId: number) => {
   try {
-    const go = await prisma.go.findUnique({
+    const yc = await prisma.yieldCurve.findUnique({
       where: {
-        id: goId,
+        id: ycId,
       },
     });
 
     return {
       success: true,
-      data: go,
+      data: yc,
     };
   } catch (error) {}
-}; */
+};
 
 // DELETE country
 export const deleteYc = async (ycId: number) => {
@@ -207,4 +214,112 @@ export const checkAuth = async (role: string) => {
         ? ""
         : "Vous n'avez pas les droits nécessaires pour effectuer cette opération",
   };
+};
+
+// DELETE country
+//export const syncYC = async () => {
+export const syncYC = async (continent: string) => {
+  console.log("continent:", continent);
+
+  try {
+    // Select  different continent
+    const getContis = await prisma.yieldCurve.findMany({
+      /*       where: {
+        NOT: {
+          continent: null,
+        },
+      },
+      distinct: ["continent"], */
+      where: {
+        continent: continent as ContinentsList,
+      },
+    });
+
+    console.log("getContis", getContis);
+
+    //Loop on each continent
+    //  for (let i = 0; i < getContis.length; i++) {
+    //Set H all YC of the contienet
+    const updAllYC = await prisma.yieldCurve.updateMany({
+      where: {
+        continent: continent as ContinentsList,
+      },
+      data: {
+        type: "H",
+      },
+    });
+
+    console.log("updAllYC:", updAllYC);
+
+    // Get distinct tenor of a contient
+    const getDistincTenor = await prisma.yieldCurve.findMany({
+      where: {
+        continent: continent as ContinentsList,
+      },
+      distinct: ["tenor"],
+    });
+
+    console.log("getDistincTenor:", getDistincTenor);
+
+    //Get MAX date for each tenor for a contient
+    for (let j = 0; j < getDistincTenor.length; j++) {
+      const getMaxDate = await prisma.yieldCurve.aggregate({
+        where: {
+          AND: [
+            { continent: continent as ContinentsList },
+            { tenor: getDistincTenor[j].tenor },
+          ],
+        },
+        _max: { date: true },
+      });
+
+      console.log("getMaxDate:", getMaxDate._max.date);
+
+      /*       const newDate = getMaxDate._max.date
+        ?.toLocaleDateString()
+        .split("/")
+        .reverse()
+        .join("-"); */
+      console.log("continent", continent);
+      console.log("tenor", getDistincTenor[j].tenor);
+      //  console.log("newDate", newDate);
+
+      // yc.date.toLocaleDateString().split("/").reverse().join("-")
+
+      // Update max tenor
+      console.log("Iciiiiii 1");
+      const ycr = await prisma.yieldCurve.updateMany({
+        where: {
+          AND: [
+            { continent: continent as ContinentsList },
+            { tenor: getDistincTenor[j].tenor },
+            { date: getMaxDate._max.date as string },
+          ],
+        },
+        data: {
+          type: "L",
+        },
+      });
+
+      console.log("Iciiiiii 2");
+
+      console.log("ycr:", ycr);
+    }
+    // }
+
+    const yc = await prisma.yieldCurve.findMany({
+      distinct: ["tenor"],
+    });
+
+    revalidatePath(`/continents/${continent}`);
+
+    console.log("FOUND", yc);
+
+    return {
+      success: true,
+      data: yc,
+      status: "OK",
+      msg: "",
+    };
+  } catch (error) {}
 };

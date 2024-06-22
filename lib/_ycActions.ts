@@ -243,6 +243,7 @@ export const syncYC = async (continent: string) => {
     const updAllYC = await prisma.yieldCurve.updateMany({
       where: {
         continent: continent as ContinentsList,
+        change: 0,
       },
       data: {
         type: "H",
@@ -280,14 +281,14 @@ export const syncYC = async (continent: string) => {
         .split("/")
         .reverse()
         .join("-"); */
-      console.log("continent", continent);
-      console.log("tenor", getDistincTenor[j].tenor);
+      //console.log("continent", continent);
+      //console.log("tenor", getDistincTenor[j].tenor);
       //  console.log("newDate", newDate);
 
       // yc.date.toLocaleDateString().split("/").reverse().join("-")
 
       // Update max tenor
-      console.log("Iciiiiii 1");
+      //console.log("Iciiiiii 1");
       const ycr = await prisma.yieldCurve.updateMany({
         where: {
           AND: [
@@ -301,9 +302,68 @@ export const syncYC = async (continent: string) => {
         },
       });
 
-      console.log("Iciiiiii 2");
+      //console.log("Iciiiiii 2");
 
       console.log("ycr:", ycr);
+
+      // Get max day of historical data for a Ternor
+
+      const getMaxHDate = await prisma.yieldCurve.aggregate({
+        where: {
+          AND: [
+            { continent: continent as ContinentsList },
+            { tenor: getDistincTenor[j].tenor },
+            { type: "H" },
+          ],
+        },
+        _max: { date: true },
+      });
+
+      console.log("getMaxHDate:", getMaxHDate);
+      if (getMaxHDate._max.date) {
+        // GEt LIVE DATA
+        const LData = await prisma.yieldCurve.findMany({
+          where: {
+            AND: [
+              { continent: continent as ContinentsList },
+              { tenor: getDistincTenor[j].tenor },
+              { type: "L" },
+            ],
+          },
+        });
+
+        console.log("LData", LData);
+
+        // Get recent Histotic data
+        const HData = await prisma.yieldCurve.findMany({
+          where: {
+            AND: [
+              { continent: continent as ContinentsList },
+              { tenor: getDistincTenor[j].tenor },
+              { type: "H" },
+              { date: getMaxHDate._max.date as string },
+            ],
+          },
+        });
+
+        // console.log("HData", HData);
+        // console.log("DIFF", LData[0]?.yield - HData[0]?.yield);
+
+        // Update change of Live data
+        const updChange = await prisma.yieldCurve.updateMany({
+          where: {
+            AND: [
+              { continent: continent as ContinentsList },
+              { tenor: getDistincTenor[j].tenor },
+              { date: getMaxDate._max.date as string },
+              { type: "L" },
+            ],
+          },
+          data: {
+            change: (LData[0]?.yield - HData[0]?.yield) / HData[0]?.yield,
+          },
+        });
+      }
     }
     // }
 

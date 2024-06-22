@@ -69,26 +69,15 @@ const UpdateYC = ({
     yc.date.toLocaleDateString().split("/").reverse().join("-")
   );
  */
-
-  /*   useEffect(() => {
-    const fetchYCToUpdate = async (idd: any) => {
-      const resu = await getYC(idd);
-      const dat = resu?.data;
-      setReadYC(dat);
-      console.log("IDd", dat);
-    };
-    if (yc) fetchYCToUpdate(yc.id);
-  }, [yc]); */
-
   const form = useForm<z.infer<typeof YcSchema>>({
     resolver: zodResolver(YcSchema),
     defaultValues: {
-      id: yc?.id ? yc?.id : undefined,
-      tenor: yc ? yc?.tenor.toString() : "",
-      yld: yc ? yc?.yield.toString() : "",
+      id: yc?.id ? readYC?.id : undefined,
+      tenor: yc ? readYC?.tenor.toString() : "",
+      yld: yc ? readYC?.yield.toString() : "",
       date: yc
         ? // ? yc.date.toLocaleDateString().split("/").reverse().join("-")
-          yc?.date
+          readYC?.date
         : undefined,
       //date: "2024-06-21",
 
@@ -97,6 +86,18 @@ const UpdateYC = ({
       //  isContinent: yc?.isContinent ? yc?.isContinent : false,
     },
   });
+
+  useEffect(() => {
+    const fetchYCToUpdate = async (idd: any) => {
+      const resu = await getYC(idd);
+      const dat = resu?.data;
+      setReadYC(dat);
+
+      //  console.log("IDd ", dat);
+    };
+    if (yc) fetchYCToUpdate(yc.id);
+  }, [form, yc.id]);
+  //console.log("YC ", yc);
 
   const procesForm = async (values: z.infer<typeof YcSchema>) => {
     // console.log("LOAD: ", loading);

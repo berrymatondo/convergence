@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "yieldcurve" ADD COLUMN     "change" DOUBLE PRECISION NOT NULL DEFAULT 0;

@@ -145,22 +145,33 @@ const YieldCurveComp = async ({ slug, continent }: YieldCurveProps) => {
                 {conts?.map((ct) => (
                   <TableRow key={ct.id}>
                     <TableCell className="font-medium max-md:text-xs">
-                      {ct.tenor}
+                      {ct.tenor}Y
                     </TableCell>
                     <TableCell className="font-medium max-md:text-xs ">
-                      {ct.yield}
+                      {ct.yield}%
                     </TableCell>
                     <TableCell className="text-xs mx-0 w-full">
                       {/*                       {ct.date?.toLocaleDateString()}
                        */}{" "}
                       {ct.type == "L" ? (
-                        <p className="py-1 px-2 bg-teal-800 text-white rounded-full w-full text-center">
-                          {ct.date}
+                        <p className="py-1 gap-2   rounded-full w-full flex justify-between">
+                          <span className="py-1 px-2 bg-teal-800 text-white rounded-full w-full text-center">
+                            {ct.date}{" "}
+                          </span>
+                          {ct.change >= 0 ? (
+                            <span className="ml-1 font-semibold text-green-600 p-1">
+                              +{ct.change.toFixed(2)}%
+                            </span>
+                          ) : (
+                            <span className="ml-1 font-semibold text-red-400 p-1">
+                              {ct.change.toFixed(2)}%
+                            </span>
+                          )}
                         </p>
                       ) : (
-                        <span className="py-1 px-2 bg-red-800 text-white rounded-full">
+                        <p className="py-1 px-2 bg-neutral-400 text-white rounded-full w-full text-center">
                           {ct.date}
-                        </span>
+                        </p>
                       )}
                       {/*                       {ct.type == "L" ? (
                         <span className="py-1 px-2.5 ml-1 bg-teal-800 text-white rounded-full">
@@ -176,6 +187,7 @@ const YieldCurveComp = async ({ slug, continent }: YieldCurveProps) => {
                       <DeleteYC
                         ycId={ct.id}
                         continent={ct.continent as ContinentsList}
+                        openDialog={false}
                       />
                       <UpdateYC
                         yc={ct}

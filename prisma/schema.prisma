@@ -150,6 +150,7 @@ model YieldCurve{
   id Int @id @default(autoincrement())
   tenor Int
   yield Float
+  change Float @default(0)
   //date DateTime @default(now()) @db.Date
   date String
   continent ContinentsList?

@@ -158,7 +158,7 @@ const AddYC = ({
               </span>
             </AlertDialogTitle>
             <AlertDialogDescription>
-              Cette transaction permet d'enregistrer de nouveaux rendements.
+              {"Cette transaction permet d'enregistrer de nouveaux rendements"}
             </AlertDialogDescription>
           </AlertDialogHeader>
 

@@ -19,6 +19,7 @@ export default function Continentayout({
   const pathname = usePathname();
   const cont = pathname.split("continents")[1].split("/")[1];
   const [countries, setCountries] = useState<any>();
+  const [show, setShow] = useState(false);
 
   const { data: session } = useSession();
   const usr: any = session?.user;
@@ -52,7 +53,22 @@ export default function Continentayout({
   return (
     <div>
       <div className=" flex md:items-center max-md:flex-col gap-4 md:p-8 ">
-        {usr?.role != "AGENT" && (
+        {!show ? (
+          <p
+            className="hover:cursor-pointer hover:text-blue-600 text-center "
+            onClick={() => setShow(!show)}
+          >
+            Afficher les pays
+          </p>
+        ) : (
+          <p
+            className="hover:cursor-pointer hover:text-blue-600  text-center "
+            onClick={() => setShow(!show)}
+          >
+            Cacher les pays
+          </p>
+        )}
+        {show && usr?.role != "AGENT" && (
           <ul className="bg-neutral-100 dark:bg-opacity-0 py-4 md:w-1/5 flex flex-col items-center gap-2 border rounded-lg">
             <Link
               href="/admin/countries"

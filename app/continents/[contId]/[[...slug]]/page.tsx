@@ -28,7 +28,8 @@ const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
   if (!slug) {
     return (
       <div>
-        {"Sélectionner un pays"}
+        {/*         {"Sélectionner un pays"}
+         */}{" "}
         {/*         <AddYield continent={continent} userSession={session} />
          */}{" "}
         <YieldCurveComp continent={continent} />

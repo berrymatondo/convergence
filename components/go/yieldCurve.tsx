@@ -155,9 +155,6 @@ const YieldCurveComp = async ({ slug, continent }: YieldCurveProps) => {
                        */}{" "}
                       {ct.type == "L" ? (
                         <p className="py-1 gap-2   rounded-full w-full flex justify-between">
-                          <span className="py-1 px-2 bg-teal-800 text-white rounded-full w-full text-center">
-                            {ct.date}{" "}
-                          </span>
                           {ct.change >= 0 ? (
                             <span className="ml-1 font-semibold text-green-600 p-1">
                               +{ct.change.toFixed(2)}%
@@ -167,6 +164,9 @@ const YieldCurveComp = async ({ slug, continent }: YieldCurveProps) => {
                               {ct.change.toFixed(2)}%
                             </span>
                           )}
+                          <span className="py-1 flex-1 text-white rounded-full w-full text-center">
+                            {ct.date}{" "}
+                          </span>
                         </p>
                       ) : (
                         <p className="py-1 px-2 bg-neutral-400 text-white rounded-full w-full text-center">

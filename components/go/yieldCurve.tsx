@@ -146,15 +146,15 @@ const YieldCurveComp = async ({ slug, continent }: YieldCurveProps) => {
                   <TableRow key={ct.id}>
                     <TableCell className="font-medium ">{ct.tenor}</TableCell>
                     <TableCell className="font-medium">{ct.yield}</TableCell>
-                    <TableCell className="font-medium  w-full">
+                    <TableCell className="text-xs w-full">
                       {/*                       {ct.date?.toLocaleDateString()}
                        */}{" "}
                       {ct.type == "L" ? (
-                        <span className="py-1 px-2.5 bg-teal-800 text-white rounded-full">
+                        <span className="py-1 px-1 bg-teal-800 text-white rounded-full">
                           {ct.date}
                         </span>
                       ) : (
-                        <span className="py-1 px-2.5 bg-red-800 text-white rounded-full">
+                        <span className="py-1 px-1 bg-red-800 text-white rounded-full">
                           {ct.date}
                         </span>
                       )}

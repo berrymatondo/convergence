@@ -3,7 +3,14 @@ import React, { useEffect, useState } from "react";
 import { MdClose, MdDelete, MdUpdate } from "react-icons/md";
 import { Button } from "../ui/button";
 import { deleteGo } from "@/lib/_goActions";
-import { createYC, deleteYc, getYC, syncYC, updateYC } from "@/lib/_ycActions";
+import {
+  createYC,
+  deleteYc,
+  getYC,
+  syncYC,
+  syncYCConti,
+  updateYC,
+} from "@/lib/_ycActions";
 import AddYield from "../go/addYield";
 import {
   AlertDialog,
@@ -35,6 +42,7 @@ import { Label } from "../ui/label";
 
 type UpdateYCProps = {
   yc?: any;
+  tenor: number;
   countryId?: any;
   continent?: any;
   userSession: any;
@@ -43,6 +51,7 @@ type UpdateYCProps = {
 
 const UpdateYC = ({
   yc,
+  tenor,
   userSession,
   countryId,
   continent,
@@ -134,7 +143,7 @@ const UpdateYC = ({
         description: new Date().toISOString().split("T")[0],
       });
 
-    if (continent) syncYC(continent);
+    if (continent) syncYCConti(continent, tenor);
 
     setLoading(false);
     form.reset();

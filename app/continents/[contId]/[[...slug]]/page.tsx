@@ -27,7 +27,7 @@ const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
   // IF CONTINENT
   if (!slug) {
     return (
-      <div className="">
+      <div className="max-md:full w-1/2">
         {/*         {"Sélectionner un pays"}
          */}{" "}
         {/*         <AddYield continent={continent} userSession={session} />
@@ -37,8 +37,8 @@ const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
     );
   }
   return (
-    <div className="flex flex-col  gap-4">
-      <div className="flex max-md:flex-col gap-4">
+    <div className=" w-full flex flex-col  gap-4">
+      <div className="w-full flex max-md:flex-col gap-4">
         <Signaletique slug={slug} />
         <YieldCurveComp slug={slug} />
       </div>

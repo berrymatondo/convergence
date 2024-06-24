@@ -51,6 +51,19 @@ enum YCTypesList {
   H
 }
 
+enum CurrencyList {
+  USD
+  EUR
+  XAF
+}
+
+enum SectorList {
+  ENERGY
+  METALS
+  AGRICULTURE
+}
+
+
 model User {
   id Int @id @default(autoincrement())
   email String @unique
@@ -67,6 +80,9 @@ model User {
   @@map("users")
 
 }
+
+
+
 
 model Country{
   id Int @id @default(autoincrement())
@@ -176,3 +192,34 @@ model StaticInfoAction{
 
   @@map("staticinfoaction")
 }
+
+
+model StaticInfoCommo{
+  id Int @id @default(autoincrement())
+  assetName String
+  currency CurrencyList
+  sector SectorList
+  ric String
+  ticker String
+  historicalDataCommo HistoricalDataCommo[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@map("staticInfoCommo")
+}
+
+model HistoricalDataCommo{
+  id Int @id @default(autoincrement())
+  date String
+  staticInfoCommoId Int?
+  staticInfoCommo StaticInfoCommo? @relation(fields: [staticInfoCommoId], references: [id])
+  price Float
+  volume Float
+  type YCTypesList @default(H) 
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@map("historicalDataCommo")
+}
+
+

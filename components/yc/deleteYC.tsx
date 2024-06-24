@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { MdClose, MdDelete } from "react-icons/md";
 import { Button } from "../ui/button";
 import { deleteGo } from "@/lib/_goActions";
-import { deleteYc, syncYC } from "@/lib/_ycActions";
+import { deleteYc, syncYC, syncYCConti } from "@/lib/_ycActions";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -19,10 +19,11 @@ import { Form } from "../ui/form";
 
 type DeleteYCProps = {
   ycId: number;
+  tenor: number;
   continent: string;
   openDialog: boolean;
 };
-const DeleteYC = ({ ycId, continent, openDialog }: DeleteYCProps) => {
+const DeleteYC = ({ ycId, tenor, continent, openDialog }: DeleteYCProps) => {
   const [open, setOpen] = useState(openDialog);
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
@@ -65,7 +66,7 @@ const DeleteYC = ({ ycId, continent, openDialog }: DeleteYCProps) => {
               formAction={() => {
                 "use serer";
                 deleteYc(ycId);
-                syncYC(continent);
+                syncYCConti(continent, tenor);
                 setOpen(!open);
               }}
             >

@@ -383,3 +383,126 @@ export const syncYC = async (continent: string) => {
     };
   } catch (error) {}
 };
+
+export const syncYCConti = async (continent: string, tenor: number) => {
+  console.log("cont:", continent, tenor);
+  const getContYC = await prisma.yieldCurve.findMany({
+    where: {
+      AND: [{ continent: continent as ContinentsList }, { tenor: tenor }],
+    },
+  });
+
+  // Set all tenor to H
+  if (getContYC.length > 0) {
+    //Set H all YC of the contienet
+    const updAllYC = await prisma.yieldCurve.updateMany({
+      where: {
+        AND: [{ continent: continent as ContinentsList }, { tenor: tenor }],
+      },
+      data: {
+        type: "H",
+        change: 0,
+      },
+    });
+
+    //console.log("getContYC", getContYC);
+
+    // Get MAX date of this tenor
+    const getMaxDate = await prisma.yieldCurve.aggregate({
+      where: {
+        AND: [{ continent: continent as ContinentsList }, { tenor: tenor }],
+      },
+      _max: { date: true },
+    });
+
+    console.log("getMaxDate:", getMaxDate._max.date);
+
+    //Update to L the tenor max date
+    const ycr = await prisma.yieldCurve.updateMany({
+      where: {
+        AND: [
+          { continent: continent as ContinentsList },
+          { tenor: tenor },
+          { date: getMaxDate._max.date as string },
+        ],
+      },
+      data: {
+        type: "L",
+      },
+    });
+
+    // Get max day of historical data for a Ternor
+
+    const getMaxHDate = await prisma.yieldCurve.aggregate({
+      where: {
+        AND: [
+          { continent: continent as ContinentsList },
+          { tenor: tenor },
+          { type: "H" },
+        ],
+      },
+      _max: { date: true },
+    });
+
+    // console.log("getMaxHDate:", getMaxHDate);
+
+    if (getMaxHDate._max.date) {
+      // GEt LIVE DATA
+      const LData = await prisma.yieldCurve.findMany({
+        where: {
+          AND: [
+            { continent: continent as ContinentsList },
+            { tenor: tenor },
+            { type: "L" },
+          ],
+        },
+      });
+
+      console.log("LData", LData);
+
+      // Get recent Histotic data
+      const HData = await prisma.yieldCurve.findMany({
+        where: {
+          AND: [
+            { continent: continent as ContinentsList },
+            { tenor: tenor },
+            { type: "H" },
+            { date: getMaxHDate._max.date as string },
+          ],
+        },
+      });
+
+      console.log("HData", HData);
+
+      // Update change of Live data
+      const updChange = await prisma.yieldCurve.updateMany({
+        where: {
+          AND: [
+            { continent: continent as ContinentsList },
+            { tenor: tenor },
+            { date: getMaxDate._max.date as string },
+            { type: "L" },
+          ],
+        },
+        data: {
+          change: (LData[0]?.yield - HData[0]?.yield) / HData[0]?.yield,
+        },
+      });
+    } else {
+      // Update change of Live data
+      const updChange = await prisma.yieldCurve.updateMany({
+        where: {
+          AND: [
+            { continent: continent as ContinentsList },
+            { tenor: tenor },
+            { date: getMaxDate._max.date as string },
+            { type: "L" },
+          ],
+        },
+        data: {
+          change: 0,
+        },
+      });
+    }
+  }
+};

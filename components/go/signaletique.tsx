@@ -20,7 +20,7 @@ const Signaletique = async ({ slug }: { slug: string[] }) => {
   //console.log("Country: ", country?.data);
 
   return (
-    <div className="w-1/2 max-md:w-full p-4  rounded-lg  backdrop-blur-md bg-gray-100 dark:bg-opacity-10">
+    <div className="w-full max-md:w-full p-4  rounded-lg  backdrop-blur-md bg-gray-100 dark:bg-opacity-10">
       <AddGeneralOverview countryId={+slug[0]} userSession={session} />
       <div className="">
         <p className="uppercase text-white text-center font-semibold bg-teal-600 p-2 rounded-lg  gap-2 mb-1">

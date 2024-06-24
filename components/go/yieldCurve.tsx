@@ -90,7 +90,8 @@ const YieldCurveComp = async ({ slug, continent }: YieldCurveProps) => {
               </TableHeader>
               <TableBody>
                 {country?.yieldcurve
-                  .sort((a, b) => a.tenor - b.tenor)
+                  /*                   .filter((el) => el.type == "L")
+                   */ .sort((a, b) => a.tenor - b.tenor)
                   .map((ct) => (
                     <TableRow key={ct.id}>
                       <TableCell className="font-medium">{ct.tenor}</TableCell>
@@ -184,11 +185,13 @@ const YieldCurveComp = async ({ slug, continent }: YieldCurveProps) => {
                     <TableCell className=" flex justify-center">
                       <DeleteYC
                         ycId={ct.id}
+                        tenor={ct.tenor}
                         continent={ct.continent as ContinentsList}
                         openDialog={false}
                       />
                       <UpdateYC
                         yc={ct}
+                        tenor={ct.tenor}
                         userSession={session}
                         openDialog={false}
                         continent={ct.continent as ContinentsList}

@@ -99,7 +99,7 @@ export default function Continentayout({
               ))}
           </ul>
         )}
-        <div className="flex-1 ">{children}</div>
+        <div className="w-full flex-1 ">{children}</div>
       </div>
     </div>
   );

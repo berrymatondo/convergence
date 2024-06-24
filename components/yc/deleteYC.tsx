@@ -65,9 +65,14 @@ const DeleteYC = ({ ycId, tenor, continent, openDialog }: DeleteYCProps) => {
               type="submit"
               formAction={() => {
                 "use serer";
-                deleteYc(ycId);
-                syncYCConti(continent, tenor);
+                deleteYc(ycId, continent, tenor);
+                console.log("Tenors in", tenor);
+
+                //syncYCConti(continent, tenor);
+                console.log("Tenors in2", tenor);
                 setOpen(!open);
+                console.log("Tenors in3", tenor);
+                window.location.reload();
               }}
             >
               Confirmer

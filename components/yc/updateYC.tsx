@@ -105,7 +105,7 @@ const UpdateYC = ({
       //  console.log("IDd ", dat);
     };
     if (yc) fetchYCToUpdate(yc.id);
-  }, [form, yc.id]);
+  }, [form, yc.id, yc]);
   //console.log("YC ", yc);
 
   const procesForm = async (values: z.infer<typeof YcSchema>) => {

@@ -16,7 +16,7 @@ const DeleteYC = ({ ycId }: DeleteYCProps) => {
         variant="empty"
         formAction={() => {
           "use serer";
-          deleteYc(ycId);
+          //deleteYc(ycId);
         }}
       >
         <MdDelete size={25} className="text-red-600" />

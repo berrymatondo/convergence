@@ -171,7 +171,11 @@ export const getYC = async (ycId: number) => {
 };
 
 // DELETE country
-export const deleteYc = async (ycId: number) => {
+export const deleteYc = async (
+  ycId: number,
+  continent: string,
+  tenor: number
+) => {
   const check = await checkAuth("ADMIN");
 
   if (check.status == "KO") return check;
@@ -183,6 +187,9 @@ export const deleteYc = async (ycId: number) => {
       },
     });
 
+    syncYCConti(continent, tenor);
+
+    revalidatePath(`/continents/${continent}`);
     revalidatePath(`/admin/countries/${ycId}`);
 
     return {
@@ -385,7 +392,7 @@ export const syncYC = async (continent: string) => {
 };
 
 export const syncYCConti = async (continent: string, tenor: number) => {
-  console.log("cont:", continent, tenor);
+  console.log("cont: ", continent, tenor);
   const getContYC = await prisma.yieldCurve.findMany({
     where: {
       AND: [{ continent: continent as ContinentsList }, { tenor: tenor }],
@@ -405,7 +412,7 @@ export const syncYCConti = async (continent: string, tenor: number) => {
       },
     });
 
-    //console.log("getContYC", getContYC);
+    console.log("getContYC", getContYC);
 
     // Get MAX date of this tenor
     const getMaxDate = await prisma.yieldCurve.aggregate({
@@ -444,7 +451,7 @@ export const syncYCConti = async (continent: string, tenor: number) => {
       _max: { date: true },
     });
 
-    // console.log("getMaxHDate:", getMaxHDate);
+    console.log("getMaxHDate:", getMaxHDate);
 
     if (getMaxHDate._max.date) {
       // GEt LIVE DATA

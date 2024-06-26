@@ -71,7 +71,7 @@ const YieldCurveComp = async ({ slug, continent }: YieldCurveProps) => {
       {slug ? (
         <>
           <AddYield countryId={+slug[0]} userSession={session} />
-          <ScrollArea className="h-96 mx-auto  rounded-md border">
+          <ScrollArea className="h-96 max-md:h-48 mx-auto  rounded-md border">
             <Table>
               <TableCaption>A list of your recent countrie.</TableCaption>
               <TableHeader>

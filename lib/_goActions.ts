@@ -1,11 +1,11 @@
 "use server";
 import { revalidatePath } from "next/cache";
-import { prisma } from "./prisma";
 import { GoSchema } from "./schemas";
 import bcrypt from "bcrypt";
 import { z } from "zod";
 import { auth, signIn, signOut } from "@/auth";
 import { ContinentsList } from "@prisma/client";
+import prisma from "./prisma";
 
 type Inputs = z.infer<typeof GoSchema>;
 

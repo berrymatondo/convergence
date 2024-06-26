@@ -51,8 +51,8 @@ export default function Continentayout({
   //console.log("ROLE: ", usr?.role);
 
   return (
-    <div>
-      <div className=" flex md:items-center flex-col gap-4 md:p-8 ">
+    <div className="">
+      <div className="flex md:items-center flex-col gap-4 ">
         {!show ? (
           <p
             className="hover:cursor-pointer hover:text-blue-600 text-center "
@@ -99,7 +99,7 @@ export default function Continentayout({
               ))}
           </ul>
         )}
-        <div className="w-full flex-1 ">{children}</div>
+        <div className=" w-full flex-1 ">{children}</div>
       </div>
     </div>
   );

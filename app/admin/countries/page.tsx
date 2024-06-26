@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import Link from "next/link";
 import { MdAddCircle } from "react-icons/md";
-import { prisma } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 import PageLayout from "@/components/pageLayout";
 import { auth } from "@/auth";
 import SearchCountry from "@/components/country/searchCountry";

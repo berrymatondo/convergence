@@ -37,12 +37,37 @@ const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
     );
   }
   return (
-    <div className=" w-full flex flex-col  gap-4">
-      <div className="w-full flex max-md:flex-col gap-4">
-        <Signaletique slug={slug} />
-        <YieldCurveComp slug={slug} />
+    <div>
+      <div className="grid md:grid-cols-5 ">
+        <div className="md:col-span-1 ">
+          <Signaletique slug={slug} />
+        </div>
+        <div className="md:border md:border-blue-600 rounded-lg md:p-1 md:col-span-3 grid md:grid-cols-3 md:mx-2 max-md:my-2 gap-2">
+          <div>
+            <YieldCurveComp slug={slug} />
+          </div>
+          <div>
+            <YieldCurveComp slug={slug} />
+          </div>
+          <div>
+            <YieldCurveComp slug={slug} />
+          </div>
+        </div>
+        <div className="col-span-1">
+          <YieldCurveComp slug={slug} />
+        </div>
       </div>
-      <YiedlGraphe continent={continent} countryId={+slug[0]} />
+      <div className="grid md:grid-cols-5 gap-1 rounded-lg overflow-hidden">
+        <div className="md:col-span-1">
+          <YiedlGraphe continent={continent} countryId={+slug[0]} />
+        </div>
+        <div className="md:col-span-3">
+          <YiedlGraphe continent={continent} countryId={+slug[0]} />
+        </div>
+        <div className="md:col-span-1">
+          <YiedlGraphe continent={continent} countryId={+slug[0]} />
+        </div>
+      </div>
     </div>
   );
 };

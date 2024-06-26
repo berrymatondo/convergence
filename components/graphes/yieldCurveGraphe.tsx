@@ -81,27 +81,25 @@ export default function AreaCharYieldCurve({ data }: AreaCharYieldCurveProps) {
 
   const [value, setValue] = useState<EventProps>(null);
   return (
-    <div className="flex justify-center w-full ">
-      <div className="p-2 flex max-md:flex-col bg-gray-200 dark:bg-dark-tremor-background my-4 rounded-lg w-full md:w-1/2 justify-center ">
-        <AreaChart
-          className="w-full mt-4 h-72"
-          data={data}
-          index={index}
-          categories={[country, contin]}
-          colors={["orange", "green"]}
-          yAxisWidth={30}
-          onValueChange={(v) => setValue(v)}
-          connectNulls={true}
-        />
-        {/*       <pre className="rounded-lg bg-dark-tremor-brand-faint p-8 text-white md:w-1/4">
+    <div className="flex justify-center ">
+      <AreaChart
+        className=" mt-4 h-72"
+        data={data}
+        index={index}
+        categories={[country, contin]}
+        colors={["orange", "green"]}
+        yAxisWidth={30}
+        onValueChange={(v) => setValue(v)}
+        connectNulls={true}
+      />
+      {/*       <pre className="rounded-lg bg-dark-tremor-brand-faint p-8 text-white md:w-1/4">
         <code>{JSON.stringify(value, null, 2)}</code>
       </pre> */}
-        {/*       <BiCodeBlock
+      {/*       <BiCodeBlock
         source={JSON.stringify(value, null, 2)}
         variant="empty"
         className="mt-8"
       /> */}
-      </div>
     </div>
   );
 }

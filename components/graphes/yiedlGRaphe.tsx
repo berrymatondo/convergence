@@ -40,11 +40,7 @@ const YiedlGraphe = async ({ continent, countryId }: YiedlGRapheProps) => {
 
   //console.log("data: ", data);
 
-  return (
-    <div className="w-full">
-      <AreaCharYieldCurve data={data} />
-    </div>
-  );
+  return <AreaCharYieldCurve data={data} />;
 };
 
 export default YiedlGraphe;

@@ -1,6 +1,6 @@
 "use server";
 import { revalidatePath } from "next/cache";
-import { prisma } from "./prisma";
+import prisma from "./prisma";
 import { ContactSchema } from "./schemas";
 import bcrypt from "bcrypt";
 import { z } from "zod";

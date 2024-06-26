@@ -76,39 +76,44 @@ const YieldCurveComp = async ({ slug, continent }: YieldCurveProps) => {
               <TableCaption>A list of your recent countrie.</TableCaption>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-[100px]">Tenor</TableHead>
+                  <TableHead className="w-8 md:w-8 ">Tenor</TableHead>
                   <TableHead
-                    className={`usr.role != 'ADMIN' ? text-right : ''`}
+                    className={
+                      usr.role != "ADMIN" ? "text-right " : " px-0 text-center "
+                    }
                   >
                     Yield
                   </TableHead>
-                  {usr.role == "ADMIN" && <TableHead>Date</TableHead>}
                   {usr.role == "ADMIN" && (
-                    <TableHead className="text-right">Actions</TableHead>
+                    <TableHead className="text-center">Date</TableHead>
+                  )}
+                  {usr.role == "ADMIN" && (
+                    <TableHead className="text-right"></TableHead>
                   )}
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {country?.yieldcurve
                   /*                   .filter((el) => el.type == "L")
-                   */ .sort((a, b) => a.tenor - b.tenor)
-                  .map((ct) => (
+                   */ .sort((a: any, b: any) => a.tenor - b.tenor)
+                  .map((ct: any) => (
                     <TableRow key={ct.id}>
                       <TableCell className="font-medium">{ct.tenor}</TableCell>
                       <TableCell
-                        className={`usr.role != 'ADMIN' ? text-right : ''`}
+                        className={usr.role != "ADMIN" ? "text-right" : ""}
                       >
                         {ct.yield}
                       </TableCell>
                       {usr.role == "ADMIN" && (
-                        <TableCell className="font-medium">
+                        <TableCell className="font-medium px-0  ">
                           {ct.date}{" "}
                         </TableCell>
                       )}
                       {usr.role == "ADMIN" && (
-                        <TableCell className="flex justify-end gap-6 ">
+                        <TableCell className="flex justify-start gap-4 ">
                           {/*                           <DeleteYC ycId={ct.id} />
                            */}
+                          <MdEdit size={20} className="text-gray-300" />
                           <MdEdit size={20} className="text-gray-300" />
                         </TableCell>
                       )}

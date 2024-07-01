@@ -66,7 +66,7 @@ const UpdateYC = ({
   const router = useRouter();
   const usr: any = userSession?.user;
 
-  console.log("yc", yc);
+  //console.log("yc", yc);
 
   const pathname = usePathname();
   console.log("pathname", pathname);

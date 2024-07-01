@@ -18,7 +18,7 @@ export const createYC = async (data: Inputs) => {
   if (result.success) {
     const { tenor, yld, continent, countryId, date } = result.data;
 
-    console.log("Order", date);
+    //console.log("Order", date);
 
     try {
       const yc = await prisma.yieldCurve.create({
@@ -174,7 +174,8 @@ export const getYC = async (ycId: number) => {
 export const deleteYc = async (
   ycId: number,
   continent: string,
-  tenor: number
+  tenor: number,
+  countryId: number
 ) => {
   const check = await checkAuth("ADMIN");
 

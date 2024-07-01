@@ -45,6 +45,7 @@ type AddYCProps = {
   continent?: any;
   userSession: any;
   openDialog: boolean;
+  countryName?: any;
 };
 
 const AddYC = ({
@@ -53,6 +54,7 @@ const AddYC = ({
   countryId,
   continent,
   openDialog,
+  countryName,
 }: AddYCProps) => {
   const [open, setOpen] = useState(openDialog);
   const [show, setShow] = useState(false);
@@ -62,7 +64,7 @@ const AddYC = ({
   const router = useRouter();
   const usr: any = userSession?.user;
 
-  //console.log("yc", yc);
+  console.log("yc", yc);
   // console.log("add", add);
 
   const pathname = usePathname();
@@ -157,7 +159,9 @@ const AddYC = ({
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle className="flex items-center justify-between">
-              <span>Nouveau rendement</span>
+              <span>
+                Nouveau rendement - {countryId ? countryName : continent}
+              </span>
               <span>
                 <MdClose
                   size={25}
@@ -240,7 +244,7 @@ const AddYC = ({
                         );
                       }}
                     />
-                    {conti && (
+                    {!countryId && conti && (
                       <FormField
                         control={form.control}
                         name="continent"
@@ -252,6 +256,29 @@ const AddYC = ({
                                 <Input
                                   {...field}
                                   placeholder="Entrer le Tenor"
+                                  type="text"
+                                  disabled
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          );
+                        }}
+                      />
+                    )}
+
+                    {countryId && (
+                      <FormField
+                        control={form.control}
+                        name="countryId"
+                        render={({ field }) => {
+                          return (
+                            <FormItem className="w-1/2 hidden">
+                              <FormLabel>{countryName}</FormLabel>
+                              <FormControl>
+                                <Input
+                                  {...field}
+                                  placeholder="Entrer le pays"
                                   type="text"
                                   disabled
                                 />

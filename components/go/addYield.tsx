@@ -46,10 +46,10 @@ const AddYield = ({ yc, countryId, continent, userSession }: AddYieldProps) => {
   //console.log("continent", continent);
 
   //console.log("countryId", countryId);
-  console.log("yc", yc);
+  //console.log("yc", yc);
 
   const pathname = usePathname();
-  console.log("pathname", pathname);
+  // console.log("pathname", pathname);
 
   const conti = pathname.split("continents/")[1];
 
@@ -107,7 +107,7 @@ const AddYield = ({ yc, countryId, continent, userSession }: AddYieldProps) => {
   return (
     <div className="relative border-b border-white/30 mb-2 ">
       <h1 className=" uppercase text-center mb-2 text-teal-600 font-semibold">
-        Yield Curve
+        Fixed Income Market
       </h1>
       {usr?.role == "ADMIN" ? (
         add ? (
@@ -176,36 +176,6 @@ const AddYield = ({ yc, countryId, continent, userSession }: AddYieldProps) => {
                   />
                 </div>
 
-                {/*                 <FormField
-                  control={form.control}
-                  name="isContinent"
-                  render={({ field }) => {
-                    return (
-                      <FormItem>
-                        <FormControl>
-                                        <Input
-                        {...field}
-                        placeholder="Confirmer le mot de passe"
-                        type="password"
-                      /> 
-                          <Checkbox
-                            checked={field.value}
-                            onCheckedChange={field.onChange}
-                          />
-                        </FormControl>
-                        <Label className="ml-2" htmlFor="isAdmin">
-                          Continent ?{" "}
-                          <span className="">
-                            {field.value ? "OUI " : "NON "}
-                          </span>
-                        </Label>
-
-                        <FormMessage />
-                      </FormItem>
-                    );
-                  }}
-                /> */}
-
                 {continent && (
                   <FormField
                     control={form.control}
@@ -227,35 +197,6 @@ const AddYield = ({ yc, countryId, continent, userSession }: AddYieldProps) => {
                       );
                     }}
                   />
-
-                  /*                   <FormField
-                    control={form.control}
-                    name="continent"
-                    render={({ field }) => {
-                      return (
-                        <FormItem className="w-1/2">
-                          <FormLabel>Continent</FormLabel>
-                          <Select
-                            onValueChange={field.onChange}
-                            defaultValue={field.value}
-                          >
-                            <SelectTrigger id="framework">
-                              <SelectValue placeholder="Sélectionner un continent" />
-                            </SelectTrigger>
-                            <SelectContent position="popper">
-                              {Object.values(ContinentsList)?.map((ur: any) => (
-                                <SelectItem key={ur} value={ur}>
-                                  {ur}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-
-                          <FormMessage />
-                        </FormItem>
-                      );
-                    }}
-                  /> */
                 )}
                 {/* 
                 {!continent && (

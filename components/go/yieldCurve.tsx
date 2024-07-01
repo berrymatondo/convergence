@@ -33,9 +33,10 @@ import {
 type YieldCurveProps = {
   slug?: string[];
   continent?: string;
+  title?: string;
 };
 
-const YieldCurveComp = async ({ slug, continent }: YieldCurveProps) => {
+const YieldCurveComp = async ({ slug, continent, title }: YieldCurveProps) => {
   //console.log("slug: ", slug);
   //console.log("slug: ", slug);
 
@@ -70,10 +71,24 @@ const YieldCurveComp = async ({ slug, continent }: YieldCurveProps) => {
     <div className="w-full max-md:w-full p-4  rounded-lg  backdrop-blur-md bg-gray-100 dark:bg-opacity-10">
       {slug ? (
         <>
-          <AddYield countryId={+slug[0]} userSession={session} />
+          {/*           <AddYield countryId={+slug[0]} userSession={session} />
+           */}
+          <div>
+            <p className="text-center my-2 text-teal-400 uppercase">{title}</p>
+            <div className="flex justify-between items-center">
+              <SyncYC continent={continent} />
+              <AddYC
+                countryId={+slug[0]}
+                countryName={country?.name}
+                userSession={session}
+                openDialog={false}
+              />
+            </div>
+          </div>
+
           <ScrollArea className="h-96 max-md:h-48 mx-auto  rounded-md border">
             <Table>
-              <TableCaption>A list of your recent countrie.</TableCaption>
+              <TableCaption>{"Country Yield curbe"}.</TableCaption>
               <TableHeader>
                 <TableRow>
                   <TableHead className="w-8 md:w-8 ">Tenor</TableHead>
@@ -110,11 +125,23 @@ const YieldCurveComp = async ({ slug, continent }: YieldCurveProps) => {
                         </TableCell>
                       )}
                       {usr.role == "ADMIN" && (
-                        <TableCell className="flex justify-start gap-4 ">
+                        <TableCell className="flex justify-start ">
                           {/*                           <DeleteYC ycId={ct.id} />
                            */}
-                          <MdEdit size={20} className="text-gray-300" />
-                          <MdEdit size={20} className="text-gray-300" />
+                          <DeleteYC
+                            ycId={ct.id}
+                            tenor={ct.tenor}
+                            countryId={country.id}
+                            openDialog={false}
+                          />
+
+                          <UpdateYC
+                            yc={ct}
+                            tenor={ct.tenor}
+                            userSession={session}
+                            openDialog={false}
+                            countryId={country.id}
+                          />
                         </TableCell>
                       )}
                     </TableRow>

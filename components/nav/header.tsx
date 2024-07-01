@@ -11,6 +11,56 @@ import { logoutUser } from "@/lib/_userActions";
 import Image from "next/image";
 import stats from "../../public/stats.png";
 import { signOut } from "next-auth/react";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
+} from "../ui/navigation-menu";
+
+import { cn } from "@/lib/utils";
+
+const components: { title: string; href: string; description: string }[] = [
+  {
+    title: "Index",
+    href: "/admin/indexes",
+    description:
+      "Définition : Un index est un indicateur statistique reflétant la performance d'un groupe spécifique d'actifs, comme des actions ou des obligations. Comporte : Des indices boursiers (comme le S&P 500), des indices obligataires, des indices sectoriels, etc.",
+  },
+  {
+    title: "Equity (Actions)",
+    href: "/admin/equities",
+    description:
+      "Définition : Les actions représentent une part de propriété dans une entreprise. Comporte : Actions ordinaires et préférentielles, dividendes, et parfois des actions de préférence convertible.",
+  },
+  {
+    title: "Bond (Obligations)",
+    href: "/admin/bonds",
+    description:
+      "Définition : Une obligation est un instrument de dette par lequel une entité emprunte de l'argent à des investisseurs en échange de paiements d'intérêts réguliers et du remboursement du principal à l'échéance. Comporte : Obligations d'État, obligations d'entreprises, obligations municipales, obligations à haut rendement, obligations à taux fixe et variable.",
+  },
+  {
+    title: "Commodities (Matières premières)",
+    href: "/admin/commodities",
+    description:
+      "Définition : Les matières premières sont des produits de base échangés sur des marchés financiers. Comporte : Métaux précieux (or, argent), énergie (pétrole, gaz naturel), produits agricoles (blé, café), métaux industriels (cuivre, aluminium).",
+  },
+  {
+    title: "FX_rate (Taux de change) ",
+    href: "/admin/fxrates",
+    description:
+      "Définition : Un taux de change est le taux auquel une devise peut être échangée contre une autre. Comporte : Taux de change entre différentes paires de devises, taux de change futurs et à terme",
+  },
+  {
+    title: "CDS",
+    href: "/admin/cds",
+    description:
+      "Définition : Un CDS est un contrat financier qui permet de transférer le risque de crédit d'un emprunteur entre deux parties. Comporte : Primes de CDS, protection contre le défaut de paiement, spreads de CDS.",
+  },
+];
 
 const navLinks = [
   { id: 1, href: "/dashboard", title: "Dashboard", role: "" },
@@ -58,7 +108,8 @@ const Header = ({ userSession }: HeaderProps) => {
         </div>
 
         <nav className=" max-md:hidden items-start flex justify-between gap-4">
-          {navLinks
+          <NavigationMenuDemo />
+          {/*           {navLinks
             .filter(
               (nvv: any) =>
                 (nvv?.role != "ADMIN" && usr?.role != "ADMIN") ||
@@ -76,7 +127,7 @@ const Header = ({ userSession }: HeaderProps) => {
               >
                 {nv.title}
               </Link>
-            ))}
+            ))} */}
         </nav>
 
         <div className=" flex gap-5 items-center">
@@ -172,8 +223,12 @@ const Header = ({ userSession }: HeaderProps) => {
 
       {isOpen && (
         <div className="bloc bg-blue-600 rounded-lg">
-          <nav className=" md:hidden items-center flex flex-col gap-4 pt-2">
-            {navLinks
+          <nav className=" md:hidden items-center flex flex-col gap-4 pt-2 ">
+            <div className=" w-full">
+              <NavigationMenuDemo />
+            </div>
+
+            {/*             {navLinks
               .filter(
                 (nvv: any) =>
                   (nvv?.role != "ADMIN" && usr?.role != "ADMIN") ||
@@ -186,11 +241,11 @@ const Header = ({ userSession }: HeaderProps) => {
                     setIsOpen(!isOpen);
                     router.push(nv.href);
                   }}
-                  className="border-b w-full text-center pb-2 text-white"
+                  className="border-b w-full text-center pb-2 text-white "
                 >
                   {nv.title}
                 </div>
-              ))}
+              ))} */}
           </nav>
         </div>
       )}
@@ -199,3 +254,94 @@ const Header = ({ userSession }: HeaderProps) => {
 };
 
 export default Header;
+
+export function NavigationMenuDemo() {
+  return (
+    <NavigationMenu className=" w-full">
+      <NavigationMenuList className="max-md:flex max-md:flex-col ">
+        <NavigationMenuItem className="">
+          <NavigationMenuTrigger className="">
+            Administration
+          </NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+              <li className="row-span-3">
+                <NavigationMenuLink asChild>
+                  <a
+                    className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
+                    href="/"
+                  >
+                    <div className="mb-2 mt-4 text-lg font-medium">Admin</div>
+                    <p className="text-sm leading-tight text-muted-foreground">
+                      Cette page permet la gestion de plusieurs paramètres du
+                      système par les admins.
+                    </p>
+                  </a>
+                </NavigationMenuLink>
+              </li>
+
+              <ListItem href="/continents" title="General Overview">
+                Vue générale de tous les continents.
+              </ListItem>
+              <ListItem href="/admin/countries" title="Pays">
+                Liste de tous les pays enregistrés dans Emergence.
+              </ListItem>
+              <ListItem href="/admin/users" title="Utilisateurs">
+                Liste de tous les utilisateurs enregistrés dans Emergence.
+              </ListItem>
+            </ul>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <NavigationMenuTrigger className="">Assets</NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+              {components.map((component) => (
+                <ListItem
+                  key={component.title}
+                  title={component.title}
+                  href={component.href}
+                >
+                  {component.description}
+                </ListItem>
+              ))}
+            </ul>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+        <NavigationMenuItem className="">
+          <Link href="/contact" legacyBehavior passHref>
+            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              contact
+            </NavigationMenuLink>
+          </Link>
+        </NavigationMenuItem>
+      </NavigationMenuList>
+    </NavigationMenu>
+  );
+}
+
+const ListItem = React.forwardRef<
+  React.ElementRef<"a">,
+  React.ComponentPropsWithoutRef<"a">
+>(({ className, title, children, ...props }, ref) => {
+  return (
+    <li>
+      <NavigationMenuLink asChild>
+        <a
+          ref={ref}
+          className={cn(
+            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+            className
+          )}
+          {...props}
+        >
+          <div className="text-sm font-medium leading-none">{title}</div>
+          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+            {children}
+          </p>
+        </a>
+      </NavigationMenuLink>
+    </li>
+  );
+});
+ListItem.displayName = "ListItem";

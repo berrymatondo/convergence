@@ -20,10 +20,17 @@ import { Form } from "../ui/form";
 type DeleteYCProps = {
   ycId: number;
   tenor: number;
-  continent: string;
+  continent?: string;
+  countryId?: number;
   openDialog: boolean;
 };
-const DeleteYC = ({ ycId, tenor, continent, openDialog }: DeleteYCProps) => {
+const DeleteYC = ({
+  ycId,
+  tenor,
+  continent,
+  countryId,
+  openDialog,
+}: DeleteYCProps) => {
   const [open, setOpen] = useState(openDialog);
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
@@ -65,13 +72,13 @@ const DeleteYC = ({ ycId, tenor, continent, openDialog }: DeleteYCProps) => {
               type="submit"
               formAction={() => {
                 "use serer";
-                deleteYc(ycId, continent, tenor);
+                deleteYc(ycId, continent as string, tenor, countryId as number);
                 console.log("Tenors in", tenor);
 
                 //syncYCConti(continent, tenor);
-                console.log("Tenors in2", tenor);
+                //console.log("Tenors in2", tenor);
                 setOpen(!open);
-                console.log("Tenors in3", tenor);
+                //console.log("Tenors in3", tenor);
                 window.location.reload();
               }}
             >

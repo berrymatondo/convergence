@@ -38,33 +38,44 @@ const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
   }
   return (
     <div>
-      <div className="grid md:grid-cols-5 ">
+      <div className="grid md:grid-cols-4 md:gap-2 ">
         <div className="md:col-span-1 ">
           <Signaletique slug={slug} />
         </div>
-        <div className="md:border md:border-blue-600 rounded-lg md:p-1 md:col-span-3 grid md:grid-cols-3 md:mx-2 max-md:my-2 gap-2">
+        {/*         <div className="md:border md:border-blue-600 rounded-lg md:p-1 md:col-span-2 grid md:grid-cols-2 md:mx-2 max-md:my-2 gap-2">
           <div>
             <YieldCurveComp slug={slug} />
           </div>
           <div>
             <YieldCurveComp slug={slug} />
-          </div>
-          <div>
             <YieldCurveComp slug={slug} />
           </div>
+        </div> */}
+        <div className="col-span-1">
+          <YieldCurveComp slug={slug} title="Fixed Income Market" />
         </div>
         <div className="col-span-1">
-          <YieldCurveComp slug={slug} />
+          <YieldCurveComp slug={slug} title="Commodities" />
+        </div>
+        <div className="col-span-1">
+          <YieldCurveComp slug={slug} title="African Equity Market" />
         </div>
       </div>
-      <div className="grid md:grid-cols-5 gap-1 rounded-lg overflow-hidden">
-        <div className="md:col-span-1">
-          <YiedlGraphe continent={continent} countryId={+slug[0]} />
-        </div>
+      <div className=" md:grid-cols-5 gap-1 rounded-lg overflow-hidden my-2 grid">
+        <div className="md:col-span-1"></div>
         <div className="md:col-span-3">
+          <YieldCurveComp slug={slug} title="SOVEREIGN BONDS MODEL PRICE" />
+        </div>
+        <div className="md:col-span-1"></div>
+      </div>
+      <div className="grid md:grid-cols-6 gap-1 rounded-lg overflow-hidden my-2">
+        <div className="md:col-span-2">
           <YiedlGraphe continent={continent} countryId={+slug[0]} />
         </div>
-        <div className="md:col-span-1">
+        <div className="md:col-span-2">
+          <YiedlGraphe continent={continent} countryId={+slug[0]} />
+        </div>
+        <div className="md:col-span-2">
           <YiedlGraphe continent={continent} countryId={+slug[0]} />
         </div>
       </div>

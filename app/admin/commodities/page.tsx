@@ -142,7 +142,7 @@ const CommoditiesPage = async ({
         title="Liste des matières premières"
         description="Toutes les matières premières enregistrées dans le système"
       >
-        <div className="">
+        <div className="px-2">
           <CustomBreadcrumb name="Commodities" />
           <div className="grid md:grid-cols-4 gap-2">
             <Card className="md:col-span-1">

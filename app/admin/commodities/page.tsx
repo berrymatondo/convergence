@@ -1,4 +1,5 @@
 import { auth } from "@/auth";
+import CommoItem from "@/components/commo/commoItem";
 import SearchCommo from "@/components/commo/searchCommo";
 import PageLayout from "@/components/pageLayout";
 import {
@@ -192,24 +193,8 @@ const CommoditiesPage = async ({
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {commos.map((invoice) => (
-                        <TableRow
-                          className="hover:cursor-pointer"
-                          key={invoice.id}
-                        >
-                          <TableCell className="font-medium text-blue-600">
-                            {invoice.assetName}
-                          </TableCell>
-                          <TableCell className="max-md:hidden">
-                            {invoice.currency}
-                          </TableCell>
-                          <TableCell>{invoice.sector}</TableCell>
-                          <TableCell>{invoice.ric}</TableCell>
-                          <TableCell>{invoice.ticker}</TableCell>
-                          <TableCell className="text-right">
-                            {invoice.symbol}
-                          </TableCell>
-                        </TableRow>
+                      {commos.map((commo) => (
+                        <CommoItem commo={commo} key={commo.id} />
                       ))}
                     </TableBody>
                   </Table>

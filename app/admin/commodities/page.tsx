@@ -131,7 +131,7 @@ const CommoditiesPage = () => {
                   <TableHeader>
                     <TableRow>
                       <TableHead className="w-[100px]">Asset Name</TableHead>
-                      <TableHead>Currency</TableHead>
+                      <TableHead className="max-md:hidden">Currency</TableHead>
                       <TableHead>Sector</TableHead>
                       <TableHead>RIC</TableHead>
                       <TableHead>Ticker</TableHead>
@@ -144,7 +144,9 @@ const CommoditiesPage = () => {
                         <TableCell className="font-medium">
                           {invoice.assetName}
                         </TableCell>
-                        <TableCell>{invoice.currencey}</TableCell>
+                        <TableCell className="max-md:hidden">
+                          {invoice.currencey}
+                        </TableCell>
                         <TableCell>{invoice.sector}</TableCell>
                         <TableCell>{invoice.ric}</TableCell>
                         <TableCell>{invoice.ticker}</TableCell>

@@ -1,5 +1,12 @@
 import { auth } from "@/auth";
+import SearchCommo from "@/components/commo/searchCommo";
 import PageLayout from "@/components/pageLayout";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -143,27 +150,34 @@ const CommoditiesPage = async ({
                 <CardTitle>Matières Premières</CardTitle>
               </CardHeader>
               <CardContent>
-                {infos.map((notification, index) => (
-                  <div
-                    key={index}
-                    className="mb-4 grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0"
-                  >
-                    <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
-                    <div className="space-y-1">
-                      <p className="text-sm font-medium leading-none">
-                        {notification.title}
-                      </p>
-                      <p className="text-sm text-muted-foreground">
-                        {notification.description}
-                      </p>
-                    </div>
-                  </div>
-                ))}
+                <Accordion type="single" collapsible className="w-full">
+                  <AccordionItem value="item-1">
+                    <AccordionTrigger>
+                      <div className="flex items-start gap-2">
+                        <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
+                        {infos[0].title}
+                      </div>
+                    </AccordionTrigger>
+                    <AccordionContent>{infos[0].description}</AccordionContent>
+                  </AccordionItem>
+                  <AccordionItem value="item-2">
+                    <AccordionTrigger>
+                      <div className="flex items-start gap-2">
+                        <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
+                        {infos[1].title}
+                      </div>
+                    </AccordionTrigger>
+                    <AccordionContent>{infos[1].description}</AccordionContent>
+                  </AccordionItem>
+                </Accordion>
               </CardContent>
             </Card>
             <Card className="md:col-span-3">
+              <div className="">
+                <SearchCommo search={search} />
+              </div>
               <CardContent>
-                <ScrollArea className="h-96 max-md:h-48 pr-2">
+                <ScrollArea className="h-96 max-md:h-[20rem] pr-2">
                   <Table>
                     <TableHeader>
                       <TableRow>
@@ -179,7 +193,10 @@ const CommoditiesPage = async ({
                     </TableHeader>
                     <TableBody>
                       {commos.map((invoice) => (
-                        <TableRow key={invoice.id}>
+                        <TableRow
+                          className="hover:cursor-pointer"
+                          key={invoice.id}
+                        >
                           <TableCell className="font-medium text-blue-600">
                             {invoice.assetName}
                           </TableCell>
@@ -199,12 +216,6 @@ const CommoditiesPage = async ({
                 </ScrollArea>
               </CardContent>
             </Card>
-
-            {/*           <div className="max-sm:max-h-[600px] overflow-auto md:mt-4 md:gap-3 max-w-[800px] mx-auto">
-            {countries?.map((ctr: any) => (
-              <CountryItem key={ctr.id} ctr={ctr} />
-            ))}
-          </div> */}
           </div>
         </div>
       </PageLayout>

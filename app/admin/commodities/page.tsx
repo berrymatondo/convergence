@@ -176,7 +176,7 @@ const CommoditiesPage = async ({
               <div className="">
                 <SearchCommo search={search} />
               </div>
-              <CardContent>
+              <CardContent className="max-md:px-2">
                 <ScrollArea className="h-96 max-md:h-[20rem] pr-2">
                   <Table>
                     <TableHeader>

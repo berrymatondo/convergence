@@ -36,6 +36,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import prisma from "@/lib/prisma";
+import { SectorList, StaticInfoCommo } from "@prisma/client";
 import React from "react";
 
 const infos = [
@@ -112,7 +113,10 @@ const CommoditiesPage = async ({
   const search =
     typeof searchParams.search === "string" ? searchParams.search : undefined;
 
-  const usrCount = await prisma.staticInfoCommo.count();
+  //const usrCount = await prisma.staticInfoCommo.count();
+
+  //const commos = await prisma.$queryRaw`SELECT * FROM "StaticInfoCommo"`;
+  //const commos = await prisma.$queryRaw`SELECT * FROM public."staticInfoCommo"`;
 
   const commos = await prisma.staticInfoCommo.findMany({
     take: take,
@@ -193,7 +197,7 @@ const CommoditiesPage = async ({
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {commos.map((commo) => (
+                      {commos?.map((commo: StaticInfoCommo) => (
                         <CommoItem commo={commo} key={commo.id} />
                       ))}
                     </TableBody>

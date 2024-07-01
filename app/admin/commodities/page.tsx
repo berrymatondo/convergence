@@ -1,0 +1,193 @@
+import PageLayout from "@/components/pageLayout";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import React from "react";
+
+const infos = [
+  {
+    title: "Définition",
+    description:
+      "Les matières premières sont des produits de base échangés sur des marchés financiers.",
+  },
+  {
+    title: "Comporte",
+    description:
+      "Métaux précieux (or, argent), énergie (pétrole, gaz naturel), produits agricoles (blé, café), métaux industriels (cuivre, aluminium).",
+  },
+];
+
+const commos = [
+  {
+    assetName: "Cocoa",
+    id: 20,
+    currencey: "USD",
+    sector: "AGRICULTURE",
+    ric: "",
+    ticker: "CC=F",
+    symbol: "",
+  },
+  {
+    assetName: "Cotton",
+    id: 21,
+    currencey: "USD",
+    sector: "AGRICULTURE",
+    ric: "",
+    ticker: "CT=F",
+    symbol: "",
+  },
+  {
+    assetName: "Orange Juice",
+    id: 22,
+    currencey: "USD",
+    sector: "AGRICULTURE",
+    ric: "",
+    ticker: "OJ=F",
+    symbol: "",
+  },
+  {
+    assetName: "Cobalt",
+    id: 23,
+    currencey: "USD",
+    sector: "ENERGY",
+    ric: "",
+    ticker: "",
+    symbol: "cobalt",
+  },
+  {
+    assetName: "Nickel",
+    id: 24,
+    currencey: "USD",
+    sector: "METALS",
+    ric: "",
+    ticker: "",
+    symbol: "nickel",
+  },
+];
+
+const CommoditiesPage = () => {
+  return (
+    <div>
+      {" "}
+      <PageLayout
+        title="Liste des matières premières"
+        description="Toutes les matières premières enregistrées dans le système"
+      >
+        <div className="">
+          <CustomBreadcrumb name="Commodities" />
+          <div className="grid md:grid-cols-4 gap-2">
+            <Card className="md:col-span-1">
+              <CardHeader>
+                <CardTitle>Matières Premières</CardTitle>
+              </CardHeader>
+              <CardContent>
+                {infos.map((notification, index) => (
+                  <div
+                    key={index}
+                    className="mb-4 grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0"
+                  >
+                    <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
+                    <div className="space-y-1">
+                      <p className="text-sm font-medium leading-none">
+                        {notification.title}
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        {notification.description}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+            <Card className="md:col-span-3">
+              <CardHeader>
+                <CardTitle></CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="w-[100px]">Asset Name</TableHead>
+                      <TableHead>Currency</TableHead>
+                      <TableHead>Sector</TableHead>
+                      <TableHead>RIC</TableHead>
+                      <TableHead>Ticker</TableHead>
+                      <TableHead className="text-right">Symbol</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {commos.map((invoice) => (
+                      <TableRow key={invoice.id}>
+                        <TableCell className="font-medium">
+                          {invoice.assetName}
+                        </TableCell>
+                        <TableCell>{invoice.currencey}</TableCell>
+                        <TableCell>{invoice.sector}</TableCell>
+                        <TableCell>{invoice.ric}</TableCell>
+                        <TableCell>{invoice.ticker}</TableCell>
+                        <TableCell className="text-right">
+                          {invoice.symbol}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </CardContent>
+            </Card>
+
+            {/*           <div className="max-sm:max-h-[600px] overflow-auto md:mt-4 md:gap-3 max-w-[800px] mx-auto">
+            {countries?.map((ctr: any) => (
+              <CountryItem key={ctr.id} ctr={ctr} />
+            ))}
+          </div> */}
+          </div>
+        </div>
+      </PageLayout>
+    </div>
+  );
+};
+
+export default CommoditiesPage;
+
+const CustomBreadcrumb = ({ name }: { name: string }) => {
+  return (
+    <Breadcrumb className=" p-2 ">
+      <BreadcrumbList>
+        <BreadcrumbItem>
+          <BreadcrumbLink href="/">Accueil</BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        {/*         <BreadcrumbItem>
+            <BreadcrumbLink href="/zones">Zones</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator /> */}
+        <BreadcrumbItem>
+          <BreadcrumbPage className="font-semibold">{name}</BreadcrumbPage>
+        </BreadcrumbItem>
+      </BreadcrumbList>
+    </Breadcrumb>
+  );
+};

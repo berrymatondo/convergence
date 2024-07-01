@@ -1,3 +1,4 @@
+import { auth } from "@/auth";
 import PageLayout from "@/components/pageLayout";
 import {
   Breadcrumb,
@@ -15,6 +16,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Table,
   TableBody,
@@ -25,6 +27,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import prisma from "@/lib/prisma";
 import React from "react";
 
 const infos = [
@@ -40,7 +43,7 @@ const infos = [
   },
 ];
 
-const commos = [
+/* const commos = [
   {
     assetName: "Cocoa",
     id: 20,
@@ -86,9 +89,45 @@ const commos = [
     ticker: "",
     symbol: "nickel",
   },
-];
+]; */
 
-const CommoditiesPage = () => {
+const CommoditiesPage = async ({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) => {
+  const skip =
+    typeof searchParams.skip === "string" ? Number(searchParams.skip) : 0;
+  const take =
+    typeof searchParams.take === "string" ? Number(searchParams.take) : 100;
+
+  const search =
+    typeof searchParams.search === "string" ? searchParams.search : undefined;
+
+  const usrCount = await prisma.staticInfoCommo.count();
+
+  const commos = await prisma.staticInfoCommo.findMany({
+    take: take,
+    skip: skip,
+
+    where: {
+      assetName: { contains: search as string, mode: "insensitive" },
+    },
+    /*       select: {
+        id: true,
+        assetName: true,
+        continent: true,
+        gos: true,
+        //users: true,
+        //  company: true,
+      }, */
+    orderBy: {
+      assetName: "asc",
+    },
+  });
+
+  const session = await auth();
+
   return (
     <div>
       {" "}
@@ -123,40 +162,41 @@ const CommoditiesPage = () => {
               </CardContent>
             </Card>
             <Card className="md:col-span-3">
-              <CardHeader>
-                <CardTitle></CardTitle>
-              </CardHeader>
               <CardContent>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead className="w-[100px]">Asset Name</TableHead>
-                      <TableHead className="max-md:hidden">Currency</TableHead>
-                      <TableHead>Sector</TableHead>
-                      <TableHead>RIC</TableHead>
-                      <TableHead>Ticker</TableHead>
-                      <TableHead className="text-right">Symbol</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {commos.map((invoice) => (
-                      <TableRow key={invoice.id}>
-                        <TableCell className="font-medium">
-                          {invoice.assetName}
-                        </TableCell>
-                        <TableCell className="max-md:hidden">
-                          {invoice.currencey}
-                        </TableCell>
-                        <TableCell>{invoice.sector}</TableCell>
-                        <TableCell>{invoice.ric}</TableCell>
-                        <TableCell>{invoice.ticker}</TableCell>
-                        <TableCell className="text-right">
-                          {invoice.symbol}
-                        </TableCell>
+                <ScrollArea className="h-96 max-md:h-48 pr-2">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className="w-[100px]">Asset Name</TableHead>
+                        <TableHead className="max-md:hidden">
+                          Currency
+                        </TableHead>
+                        <TableHead>Sector</TableHead>
+                        <TableHead>RIC</TableHead>
+                        <TableHead>Ticker</TableHead>
+                        <TableHead className="text-right">Symbol</TableHead>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
+                    </TableHeader>
+                    <TableBody>
+                      {commos.map((invoice) => (
+                        <TableRow key={invoice.id}>
+                          <TableCell className="font-medium text-blue-600">
+                            {invoice.assetName}
+                          </TableCell>
+                          <TableCell className="max-md:hidden">
+                            {invoice.currency}
+                          </TableCell>
+                          <TableCell>{invoice.sector}</TableCell>
+                          <TableCell>{invoice.ric}</TableCell>
+                          <TableCell>{invoice.ticker}</TableCell>
+                          <TableCell className="text-right">
+                            {invoice.symbol}
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </ScrollArea>
               </CardContent>
             </Card>
 

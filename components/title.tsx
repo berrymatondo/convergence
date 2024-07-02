@@ -24,7 +24,7 @@ const Title = ({ title, description, position, descPosition }: TitleProps) => {
 
   return (
     <div className={pos}>
-      <h1 className="uppercase font-bold text-3xl max-md:text-lg text-blue-500 md:my-4">
+      <h1 className="uppercase font-bold text-3xl max-md:text-lg text-sky-700 dark:text-sky-500 md:my-4">
         {title}
       </h1>
       <p className={desc}>{description}</p>

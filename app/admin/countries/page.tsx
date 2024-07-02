@@ -25,14 +25,12 @@ import {
 
 const infos = [
   {
-    title: "Définition",
-    description:
-      "Les matières premières sont des produits de base échangés sur des marchés financiers.",
+    title: "Continents",
+    description: "tous les continents ...",
   },
   {
-    title: "Comporte",
-    description:
-      "Métaux précieux (or, argent), énergie (pétrole, gaz naturel), produits agricoles (blé, café), métaux industriels (cuivre, aluminium).",
+    title: "Pays",
+    description: "Infos sur les pays ...",
   },
 ];
 
@@ -96,7 +94,9 @@ const CountriesPage = async ({
         <div className="grid md:grid-cols-4 gap-2">
           <Card className="md:col-span-1">
             <CardHeader>
-              <CardTitle>Matières Premières</CardTitle>
+              <CardTitle className="text-sky-700 dark:text-sky-500">
+                Infos Pays
+              </CardTitle>
             </CardHeader>
             <CardContent>
               {infos.map((notification, index) => (
@@ -118,7 +118,7 @@ const CountriesPage = async ({
             </CardContent>
           </Card>
           <Card className="md:col-span-3">
-            <div className=" flex items-center justify-between max-md:m-2 md:mt-2">
+            <div className="flex items-center justify-between max-md:mx-2">
               <SearchCountry search={search} />
               <div className="flex justify-normal gap-2 ">
                 {skip == 0 ? null : (

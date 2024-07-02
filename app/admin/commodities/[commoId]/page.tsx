@@ -1,4 +1,5 @@
 "use client";
+import HistoCommoItem from "@/components/commo/histoCommoItem";
 import PageLayout from "@/components/pageLayout";
 import {
   Accordion,
@@ -48,7 +49,14 @@ const CommoDetailPage = () => {
       const data = resu?.data;
       setCommo(data);
 
-      //  console.log("data ", data);
+      /*       console.log("data ", data);
+
+      console.log(
+        "SORT",
+        data?.historicalDataCommo.sort(
+          (a: any, b: any) => Date.parse(b.date) - Date.parse(a.date)
+        )
+      ); */
     };
     fetchCommo(commoId);
   }, [commoId]);
@@ -65,36 +73,44 @@ const CommoDetailPage = () => {
           <div className="grid md:grid-cols-4 gap-2">
             <Card className="md:col-span-1">
               <CardHeader>
-                <CardTitle className="text-blue-600">
+                <CardTitle className="text-sky-700 dark:text-sky-500">
                   {commo?.assetName}
                 </CardTitle>
               </CardHeader>
-              <CardContent>
-                <p>Currency: {commo?.currency}</p>
-                <p>Sector: {commo?.sector}</p>
-                <p>RIC: {commo?.ric}</p>
-                <p>Ticker: {commo?.ticker}</p>
-                <p>Symbol: {commo?.symbol}</p>
-                {/*                 <Accordion type="single" collapsible className="w-full">
-                  <AccordionItem value="item-1">
-                    <AccordionTrigger>
-                      <div className="flex items-start gap-2">
-                        <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
-                        {commo?.assetName}
-                      </div>
-                    </AccordionTrigger>
-                    <AccordionContent>{infos[0].description}</AccordionContent>
-                  </AccordionItem>
-                  <AccordionItem value="item-2">
-                    <AccordionTrigger>
-                      <div className="flex items-start gap-2">
-                        <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
-                        {infos[1].title}
-                      </div>
-                    </AccordionTrigger>
-                    <AccordionContent>{infos[1].description}</AccordionContent>
-                  </AccordionItem>
-                </Accordion> */}
+              <CardContent className=" w-3/5">
+                <p className=" w-full flex items-start justify-between gap-2">
+                  <span className="">Currency: </span>
+                  <span className="text-sky-700 dark:text-sky-500">
+                    {commo?.currency}
+                  </span>
+                </p>
+                <p className=" w-full flex items-start justify-between gap-2">
+                  <span className="">Sector:</span>
+                  <span className="text-sky-700 dark:text-sky-500">
+                    {" "}
+                    {commo?.sector}
+                  </span>
+                </p>
+                <p className=" w-full flex items-start justify-between gap-2">
+                  <span className="">RIC: </span>
+                  <span className="text-sky-700 dark:text-sky-500">
+                    {commo?.ric}
+                  </span>
+                </p>
+                <p className=" w-full flex items-start justify-between gap-2">
+                  <span className="">Ticker:</span>
+                  <span className="text-sky-700 dark:text-sky-500">
+                    {" "}
+                    {commo?.ticker}
+                  </span>
+                </p>
+                <p className=" w-full flex items-start justify-between gap-2">
+                  <span className="">Symbol:</span>
+                  <span className="text-sky-700 dark:text-sky-500">
+                    {" "}
+                    {commo?.symbol}
+                  </span>
+                </p>
               </CardContent>
             </Card>
             <Card className="md:col-span-3">
@@ -104,22 +120,30 @@ const CommoDetailPage = () => {
               <CardContent className="max-md:px-2">
                 <ScrollArea className="h-96 max-md:h-[20rem] pr-2">
                   <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead className="w-[100px]">Asset Name</TableHead>
-                        <TableHead className="max-md:hidden">
-                          Currency
+                    <TableHeader className="">
+                      <TableRow className="">
+                        <TableHead className="max-md:w-[100px] md:pl-4">
+                          Date
                         </TableHead>
-                        <TableHead>Sector</TableHead>
-                        <TableHead>RIC</TableHead>
-                        <TableHead>Ticker</TableHead>
-                        <TableHead className="text-right">Symbol</TableHead>
+                        <TableHead className="text-center">Close</TableHead>
+                        <TableHead className="text-center">Change</TableHead>
+                        <TableHead className="text-right md:pr-4">
+                          Change %
+                        </TableHead>
                       </TableRow>
                     </TableHeader>
-                    <TableBody>
-                      {/*                       {commos.map((commo) => (
-                        <CommoItem commo={commo} key={commo.id} />
-                      ))} */}
+                    <TableBody className="">
+                      {commo?.historicalDataCommo
+                        .sort(
+                          (a: any, b: any) =>
+                            Date.parse(b.date) - Date.parse(a.date)
+                        )
+                        .map((histoCommo: any) => (
+                          <HistoCommoItem
+                            histoCommo={histoCommo}
+                            key={histoCommo.id}
+                          />
+                        ))}
                     </TableBody>
                   </Table>
                 </ScrollArea>

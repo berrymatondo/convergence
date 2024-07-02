@@ -581,12 +581,12 @@ model StaticInfoCommo{
 
 model HistoricalDataCommo{
   id Int @id @default(autoincrement())
-  date String
   staticInfoCommoId Int?
   staticInfoCommo StaticInfoCommo? @relation(fields: [staticInfoCommoId], references: [id])
-  price Float
-  volume Float
-  type YCTypesList @default(H) 
+  date String
+  close Float
+  change Float
+  changePercentage Float
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

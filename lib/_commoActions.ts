@@ -23,10 +23,9 @@ export const getCommo = async (commoId: number) => {
       where: {
         id: +commoId,
       },
-      /*       include: {
-        gos: true,
-        yieldcurve: true,
-      }, */
+      include: {
+        historicalDataCommo: true,
+      },
     });
 
     return {

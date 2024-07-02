@@ -14,7 +14,7 @@ const CommoItem = ({ commo }: CommoItemProps) => {
       className="hover:cursor-pointer"
       key={commo.id}
     >
-      <TableCell className="font-medium text-blue-600">
+      <TableCell className="font-medium text-sky-700 dark:text-sky-500">
         {commo.assetName}
       </TableCell>
       <TableCell className="max-md:hidden">{commo.currency}</TableCell>

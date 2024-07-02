@@ -93,10 +93,13 @@ const Header = ({ userSession }: HeaderProps) => {
       <div className="w-full md:container  flex justify-between items-end py-4 ">
         <div className="flex max-md:flex-col max-md:justify-center items-center md:items-end gap-2 ">
           <GiSuspensionBridge
-            className="max-md:hidden  text-blue-600"
+            className="max-md:hidden  text-sky-700 dark:text-sky-500"
             size={50}
           />
-          <GiSuspensionBridge className="md:hidden  text-blue-600" size={20} />
+          <GiSuspensionBridge
+            className="md:hidden  text-sky-700 dark:text-sky-500"
+            size={20}
+          />
           <Link
             href="/"
             className="dark:text-white  font-bold text-xl max-md:text-md  text-blue-800"

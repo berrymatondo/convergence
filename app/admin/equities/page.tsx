@@ -1,6 +1,7 @@
 import { auth } from "@/auth";
-import CommoItem from "@/components/commo/commoItem";
 import SearchCommo from "@/components/commo/searchCommo";
+import EquityItem from "@/components/equity/equityItem";
+import SearchEquity from "@/components/equity/searchEquity";
 import PageLayout from "@/components/pageLayout";
 import {
   Accordion,
@@ -36,71 +37,23 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import prisma from "@/lib/prisma";
-import { SectorList, StaticInfoCommo } from "@prisma/client";
+import { StaticInfoEquity } from "@prisma/client";
 import React from "react";
 
 const infos = [
   {
     title: "Définition",
     description:
-      "Les matières premières sont des produits de base échangés sur des marchés financiers.",
+      "Les actions représentent une part de propriété dans une entreprise.",
   },
   {
     title: "Comporte",
     description:
-      "Métaux précieux (or, argent), énergie (pétrole, gaz naturel), produits agricoles (blé, café), métaux industriels (cuivre, aluminium).",
+      "Actions ordinaires et préférentielles, dividendes, et parfois des actions de préférence convertibles.",
   },
 ];
 
-/* const commos = [
-  {
-    assetName: "Cocoa",
-    id: 20,
-    currencey: "USD",
-    sector: "AGRICULTURE",
-    ric: "",
-    ticker: "CC=F",
-    symbol: "",
-  },
-  {
-    assetName: "Cotton",
-    id: 21,
-    currencey: "USD",
-    sector: "AGRICULTURE",
-    ric: "",
-    ticker: "CT=F",
-    symbol: "",
-  },
-  {
-    assetName: "Orange Juice",
-    id: 22,
-    currencey: "USD",
-    sector: "AGRICULTURE",
-    ric: "",
-    ticker: "OJ=F",
-    symbol: "",
-  },
-  {
-    assetName: "Cobalt",
-    id: 23,
-    currencey: "USD",
-    sector: "ENERGY",
-    ric: "",
-    ticker: "",
-    symbol: "cobalt",
-  },
-  {
-    assetName: "Nickel",
-    id: 24,
-    currencey: "USD",
-    sector: "METALS",
-    ric: "",
-    ticker: "",
-    symbol: "nickel",
-  },
-]; */
-
-const CommoditiesPage = async ({
+const EquitiesPage = async ({
   searchParams,
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
@@ -118,7 +71,7 @@ const CommoditiesPage = async ({
   //const commos = await prisma.$queryRaw`SELECT * FROM "StaticInfoCommo"`;
   //const commos = await prisma.$queryRaw`SELECT * FROM public."staticInfoCommo"`;
 
-  const commos = await prisma.staticInfoCommo.findMany({
+  const equities = await prisma.staticInfoEquity.findMany({
     take: take,
     skip: skip,
 
@@ -144,16 +97,16 @@ const CommoditiesPage = async ({
     <div>
       {" "}
       <PageLayout
-        title="Liste des matières premières"
-        description="Toutes les matières premières enregistrées dans le système"
+        title="Liste des actions"
+        description="Toutes les actions enregistrées dans le système"
       >
         <div className="px-2">
-          <CustomBreadcrumb name="Commodities" />
+          <CustomBreadcrumb name="Equities" />
           <div className="grid md:grid-cols-4 gap-2">
             <Card className="md:col-span-1">
               <CardHeader>
                 <CardTitle className="text-sky-700 dark:text-sky-500">
-                  Matières Premières
+                  Actions
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -181,7 +134,7 @@ const CommoditiesPage = async ({
             </Card>
             <Card className="md:col-span-3">
               <div className="">
-                <SearchCommo search={search} />
+                <SearchEquity search={search} />
               </div>
               <CardContent className="max-md:px-2">
                 <ScrollArea className="h-96 max-md:h-[20rem] pr-2">
@@ -189,18 +142,19 @@ const CommoditiesPage = async ({
                     <TableHeader>
                       <TableRow>
                         <TableHead className="w-[100px]">Asset Name</TableHead>
-                        <TableHead className="max-md:hidden">
-                          Currency
-                        </TableHead>
+                        <TableHead className="max-md:hidden">ISIN</TableHead>
+                        <TableHead>Currency</TableHead>
+                        <TableHead>Country</TableHead>
                         <TableHead>Sector</TableHead>
+                        <TableHead>ACF</TableHead>
                         <TableHead>RIC</TableHead>
                         <TableHead>Ticker</TableHead>
                         <TableHead className="text-right">Symbol</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {commos?.map((commo: StaticInfoCommo) => (
-                        <CommoItem commo={commo} key={commo.id} />
+                      {equities?.map((equity: StaticInfoEquity) => (
+                        <EquityItem equity={equity} key={equity.id} />
                       ))}
                     </TableBody>
                   </Table>
@@ -214,7 +168,7 @@ const CommoditiesPage = async ({
   );
 };
 
-export default CommoditiesPage;
+export default EquitiesPage;
 
 const CustomBreadcrumb = ({ name }: { name: string }) => {
   return (

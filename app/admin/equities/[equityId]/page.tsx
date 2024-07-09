@@ -1,6 +1,8 @@
 "use client";
 import CommoViews from "@/components/commo/commoViews";
 import HistoCommoItem from "@/components/commo/histoCommoItem";
+import EquityViews from "@/components/equity/equityViews";
+import HistoEquityItem from "@/components/equity/histoEquityItem";
 import PageLayout from "@/components/pageLayout";
 import {
   Accordion,
@@ -36,19 +38,23 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { getCommo } from "@/lib/_commoActions";
+import { getEquity } from "@/lib/_equityActions";
 import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 const CommoDetailPage = () => {
   const pathname = usePathname();
-  const [commo, setCommo] = useState<any>();
-  //console.log("pathname", pathname);
-  const commoId = pathname.split("commodities/")[1];
+  const [equity, setEquity] = useState<any>();
+  console.log("pathname", pathname);
+  const equityId = pathname.split("equities/")[1];
   useEffect(() => {
-    const fetchCommo = async (id: any) => {
-      const resu = await getCommo(id);
+    // console.log("equityId ", equityId);
+    const fetchEquity = async (id: any) => {
+      const resu = await getEquity(id);
       const data = resu?.data;
-      setCommo(data);
+      setEquity(data);
+
+      // console.log("data ", data);
 
       /*       console.log("data ", data);
 
@@ -59,8 +65,8 @@ const CommoDetailPage = () => {
         )
       ); */
     };
-    fetchCommo(commoId);
-  }, [commoId]);
+    fetchEquity(equityId);
+  }, [equityId]);
 
   return (
     <div>
@@ -70,53 +76,53 @@ const CommoDetailPage = () => {
         description="Détails et historiques d'une matière première"
       >
         <div className="px-2">
-          <CustomBreadcrumb name={`${commo?.assetName}`} />
+          <CustomBreadcrumb name={`${equity?.assetName}`} />
           <div className="grid md:grid-cols-6 gap-2">
             <Card className="md:col-span-1">
               <CardHeader>
                 <CardTitle className="text-sky-700 dark:text-sky-500">
-                  {commo?.assetName}
+                  {equity?.assetName}
                 </CardTitle>
               </CardHeader>
               <CardContent className="text-sm w-3/5">
                 <p className=" w-full flex items-start justify-between gap-2">
                   <span className="">Currency: </span>
                   <span className="text-sky-700 dark:text-sky-500">
-                    {commo?.currency}
+                    {equity?.currency}
                   </span>
                 </p>
                 <p className=" w-full flex items-start justify-between gap-2">
                   <span className="">Sector:</span>
                   <span className="text-sky-700 dark:text-sky-500">
                     {" "}
-                    {commo?.sector}
+                    {equity?.sector}
                   </span>
                 </p>
                 <p className=" w-full flex items-start justify-between gap-2">
                   <span className="">RIC: </span>
                   <span className="text-sky-700 dark:text-sky-500">
-                    {commo?.ric}
+                    {equity?.ric}
                   </span>
                 </p>
                 <p className=" w-full flex items-start justify-between gap-2">
                   <span className="">Ticker:</span>
                   <span className="text-sky-700 dark:text-sky-500">
                     {" "}
-                    {commo?.ticker}
+                    {equity?.ticker}
                   </span>
                 </p>
                 <p className=" w-full flex items-start justify-between gap-2">
                   <span className="">Symbol:</span>
                   <span className="text-sky-700 dark:text-sky-500">
                     {" "}
-                    {commo?.symbol}
+                    {equity?.symbol}
                   </span>
                 </p>
               </CardContent>
             </Card>
 
             <div className="md:col-span-2">
-              <CommoViews commo={commo} />
+              <EquityViews equity={equity} />
             </div>
 
             <Card className="md:col-span-3">
@@ -139,17 +145,17 @@ const CommoDetailPage = () => {
                       </TableRow>
                     </TableHeader>
                     <TableBody className="">
-                      {commo?.historicalDataCommo
+                      {/*                       {equity?.historicalDataEquity
                         .sort(
                           (a: any, b: any) =>
                             Date.parse(b.date) - Date.parse(a.date)
                         )
-                        .map((histoCommo: any) => (
-                          <HistoCommoItem
-                            histoCommo={histoCommo}
-                            key={histoCommo.id}
+                        .map((histoEquity: any) => (
+                          <HistoEquityItem
+                            histoEquity={histoEquity}
+                            key={histoEquity.id}
                           />
-                        ))}
+                        ))} */}
                     </TableBody>
                   </Table>
                 </ScrollArea>
@@ -173,7 +179,7 @@ const CustomBreadcrumb = ({ name }: { name: string }) => {
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbLink href="/admin/commodities">Commodities</BreadcrumbLink>
+          <BreadcrumbLink href="/admin/equities">Equities</BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>

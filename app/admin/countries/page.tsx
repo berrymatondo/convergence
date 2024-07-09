@@ -22,16 +22,34 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { ContinentsList } from "@prisma/client";
+import { Accordion } from "@radix-ui/react-accordion";
+import {
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 const infos = [
   {
     title: "Continents",
     description: "tous les continents ...",
   },
-  {
+  /*   {
     title: "Pays",
     description: "Infos sur les pays ...",
-  },
+  }, */
 ];
 
 const CountriesPage = async ({
@@ -89,36 +107,57 @@ const CountriesPage = async ({
 
   return (
     <PageLayout title="Liste des pays" description="La liste de tous les pays">
-      <div className="">
+      <div className="px-2">
         <CustomBreadcrumb name="Pays" />
         <div className="grid md:grid-cols-4 gap-2">
           <Card className="md:col-span-1">
-            <CardHeader>
-              <CardTitle className="text-sky-700 dark:text-sky-500">
-                Infos Pays
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              {infos.map((notification, index) => (
-                <div
-                  key={index}
-                  className="mb-4 grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0"
-                >
-                  <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
-                  <div className="space-y-1">
-                    <p className="text-sm font-medium leading-none">
-                      {notification.title}
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      {notification.description}
-                    </p>
-                  </div>
+            <CardContent className="">
+              <div className="max-md:hidden">
+                <div className="flex gap-1 my-2">
+                  {" "}
+                  <span className="text-sky-700 dark:text-sky-500 font-medium leading-none">
+                    Continents
+                  </span>
                 </div>
-              ))}
+                {Object.values(ContinentsList)?.map((ur: any) => (
+                  <Link
+                    href={`/continents/${ur}`}
+                    className="flex flex-col italic text-sm text-muted-foreground py-1"
+                    key={ur}
+                  >
+                    {ur}
+                  </Link>
+                ))}
+              </div>
+              <Accordion type="single" collapsible className="w-full md:hidden">
+                <AccordionItem value="item-1">
+                  <AccordionTrigger>
+                    <div className="flex gap-1">
+                      {" "}
+                      <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
+                      <span className="text-sm font-medium leading-none">
+                        Continents
+                      </span>
+                    </div>
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    {" "}
+                    {Object.values(ContinentsList)?.map((ur: any) => (
+                      <Link
+                        href={`/continents/${ur}`}
+                        className="flex flex-col italic text-sm text-muted-foreground"
+                        key={ur}
+                      >
+                        {ur}
+                      </Link>
+                    ))}
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
             </CardContent>
           </Card>
           <Card className="md:col-span-3">
-            <div className="flex items-center justify-between max-md:mx-2">
+            <div className="flex items-center justify-between md:container">
               <SearchCountry search={search} />
               <div className="flex justify-normal gap-2 ">
                 {skip == 0 ? null : (
@@ -148,18 +187,41 @@ const CountriesPage = async ({
                   </Link>
                 )}
               </div>
-              <Link className="" href="/admin/countries/new">
-                <MdAddCircle size={50} className="md:hidden text-teal-800" />
-                <span className="text-sm font-semibold max-md:hidden  px-4 py-3 rounded-md hover:bg-teal-600 hover:cursor-pointer bg-teal-800 text-white ">
+              <Link className="mx-12" href="/admin/countries/new">
+                <MdAddCircle
+                  size={50}
+                  className="md:hidden text-sky-700 dark:text-sky-500"
+                />
+                <span className="text-sm font-semibold max-md:hidden px-4 py-3 rounded-md hover:bg-sky-800 hover:cursor-pointer bg-sky-700  text-white ">
                   Nouveau
                 </span>
               </Link>
             </div>
-            <div className="max-sm:max-h-[600px] overflow-auto md:mt-4 md:gap-3 max-w-[800px] mx-auto">
+            {/*             <div className="max-sm:max-h-[600px] overflow-auto md:mt-4 md:gap-3 max-w-[800px] mx-auto">
               {countries?.map((ctr: any) => (
                 <CountryItem key={ctr.id} ctr={ctr} />
               ))}
-            </div>
+            </div> */}
+
+            <CardContent className="max-md:px-2">
+              <ScrollArea className="h-96 max-md:h-[20rem] pr-2">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="w-[100px]"> Pays</TableHead>
+                      <TableHead className="">Continent</TableHead>
+
+                      <TableHead className="text-right"></TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {countries?.map((ctr: any) => (
+                      <CountryItem key={ctr.id} ctr={ctr} />
+                    ))}
+                  </TableBody>
+                </Table>
+              </ScrollArea>
+            </CardContent>
           </Card>
         </div>
       </div>

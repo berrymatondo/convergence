@@ -208,9 +208,12 @@ SUPRANATIONAL
 
 
 enum MarketList {
-OECD
-EMERGING
+OECD @map("1")
+EMERGING @map("2")
 }
+
+
+
 
 enum CountryList {
 AFGHANISTAN
@@ -433,6 +436,11 @@ OTHER
 }
 
 
+enum ACFList {
+  ACF_1 @map("1")
+  ACF_2 @map("2")
+}
+
 
 model User {
   id Int @id @default(autoincrement())
@@ -554,13 +562,20 @@ model YieldCurve{
 }
 
 
-model StaticInfoAction{
+model StaticInfoEquity{
   id Int @id @default(autoincrement())
   assetName String
   isin String @unique()
-  assetType AssetTypesList
+  currency CurrencyList
+  country CountryList
+  sector SectorList
+  acf ACFList
+  ric String
+  ticker String
+  symbol String
 
-  @@map("staticinfoaction")
+
+  @@map("staticinfoequity")
 }
 
 
@@ -591,6 +606,41 @@ model HistoricalDataCommo{
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   @@map("historicalDataCommo")
+}
+
+
+
+
+model StaticInfoIndex{
+  id Int @id @default(autoincrement())
+  assetName String
+  isin String @unique 
+  currency CurrencyList
+  country CountryList
+  sector SectorList
+  acf ACFList
+  ric String
+  ticker String
+  symbol String
+  historicalDataIndex HistoricalDataIndex[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@map("staticInfoIndex")
+}
+
+model HistoricalDataIndex{
+  id Int @id @default(autoincrement())
+  staticInfoIndexId Int?
+  staticInfoIndex StaticInfoIndex? @relation(fields: [staticInfoIndexId], references: [id])
+  date String
+  close Float
+  change Float
+  changePercentage Float
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@map("historicalDataIndex")
 }
 
 

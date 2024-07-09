@@ -8,6 +8,9 @@ type EquityItemProps = {
 };
 const EquityItem = ({ equity }: EquityItemProps) => {
   const router = useRouter();
+
+  //console.log("equity", equity);
+
   return (
     <TableRow
       onClick={() => router.push(`/admin/equities/${equity.id}`)}
@@ -17,14 +20,18 @@ const EquityItem = ({ equity }: EquityItemProps) => {
       <TableCell className="font-medium text-sky-700 dark:text-sky-500">
         {equity.assetName}
       </TableCell>
-      <TableCell className="max-md:hidden">{equity.isin}</TableCell>
-      <TableCell className="max-md:hidden">{equity.currency}</TableCell>
+      <TableCell className="max-md:text-xs">{equity.isin}</TableCell>
+      <TableCell className="max-md:text-xs">{equity.currency}</TableCell>
       <TableCell className="max-md:hidden">{equity.country}</TableCell>
-      <TableCell>{equity.sector}</TableCell>
-      <TableCell>{equity.acf}</TableCell>
-      <TableCell>{equity.ric}</TableCell>
-      <TableCell>{equity.ticker}</TableCell>
-      <TableCell className="text-right">{equity.symbol}</TableCell>
+      <TableCell className="max-md:text-xs max-md:text-right">
+        {equity.sector}
+      </TableCell>
+      <TableCell className="max-md:hidden">{equity.acf}</TableCell>
+      <TableCell className="max-md:hidden">{equity.ric}</TableCell>
+      <TableCell className="max-md:hidden">{equity.ticker}</TableCell>
+      <TableCell className="text-right max-md:hidden">
+        {equity.symbol}
+      </TableCell>
     </TableRow>
   );
 };

@@ -86,9 +86,27 @@ const CommoDetailPage = () => {
               </CardHeader>
               <CardContent className="text-sm w-3/5">
                 <p className=" w-full flex items-start justify-between gap-2">
+                  <span className="">ISIN: </span>
+                  <span className="text-sky-700 dark:text-sky-500">
+                    {equity?.isin}
+                  </span>
+                </p>
+                <p className=" w-full flex items-start justify-between gap-2">
                   <span className="">Currency: </span>
                   <span className="text-sky-700 dark:text-sky-500">
                     {equity?.currency}
+                  </span>
+                </p>
+                <p className=" w-full flex items-start justify-between gap-2">
+                  <span className="">Country: </span>
+                  <span className="text-sky-700 dark:text-sky-500">
+                    {equity?.country}
+                  </span>
+                </p>
+                <p className=" w-full flex items-start justify-between gap-2">
+                  <span className="">ACF: </span>
+                  <span className="text-sky-700 dark:text-sky-500">
+                    {equity?.acf}
                   </span>
                 </p>
                 <p className=" w-full flex items-start justify-between gap-2">

@@ -142,14 +142,18 @@ const EquitiesPage = async ({
                     <TableHeader>
                       <TableRow>
                         <TableHead className="w-[100px]">Asset Name</TableHead>
-                        <TableHead className="max-md:hidden">ISIN</TableHead>
+                        <TableHead>ISIN</TableHead>
                         <TableHead>Currency</TableHead>
-                        <TableHead>Country</TableHead>
-                        <TableHead>Sector</TableHead>
-                        <TableHead>ACF</TableHead>
-                        <TableHead>RIC</TableHead>
-                        <TableHead>Ticker</TableHead>
-                        <TableHead className="text-right">Symbol</TableHead>
+                        <TableHead className="max-md:hidden">Country</TableHead>
+                        <TableHead className="max-md:text-right">
+                          Sector
+                        </TableHead>
+                        <TableHead className="max-md:hidden">ACF</TableHead>
+                        <TableHead className="max-md:hidden">RIC</TableHead>
+                        <TableHead className="max-md:hidden">Ticker</TableHead>
+                        <TableHead className="text-right max-md:hidden">
+                          Symbol
+                        </TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>

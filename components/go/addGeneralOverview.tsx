@@ -88,7 +88,7 @@ const AddGeneralOverview = ({
 
   return (
     <div className="relative border-b border-white/30 mb-2 ">
-      <h1 className=" uppercase text-center mb-2 text-teal-600 font-semibold">
+      <h1 className=" uppercase text-center mb-2  font-semibold">
         General Overview
       </h1>
       {usr?.role == "ADMIN" ? (

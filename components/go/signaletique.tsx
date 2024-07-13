@@ -20,14 +20,17 @@ const Signaletique = async ({ slug }: { slug: string[] }) => {
   //console.log("Country: ", country?.data);
 
   return (
-    <div className="w-full max-md:w-full p-4  rounded-lg  backdrop-blur-md bg-gray-100 dark:bg-opacity-10">
+    <div className="w-full max-md:w-full p-4  rounded-lg  backdrop-blur-md border bg-gray-100 dark:bg-opacity-0 ">
       <AddGeneralOverview countryId={+slug[0]} userSession={session} />
       <div className="">
-        <p className="uppercase text-white text-center font-semibold bg-teal-600 p-2 rounded-lg  gap-2 mb-1">
+        <p className="uppercase text-center font-semibold text-sky-700 dark:text-sky-500 p-2 rounded-lg  gap-2 mb-1">
           <span className="">{country?.name}</span>
         </p>
         {country?.gos.map((go: Go, index) => (
-          <div key={index} className="flex justify-between gap-4 mb-1">
+          <div
+            key={index}
+            className="flex justify-between items-center gap-4 mb-1"
+          >
             <span>{go.key}:</span>
             <div className="flex items-center gap-3">
               <span className="text-blue-800 dark:text-yellow-400">

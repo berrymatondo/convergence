@@ -36,6 +36,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { getCommo } from "@/lib/_commoActions";
+import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
@@ -43,6 +44,10 @@ const CommoDetailPage = () => {
   const pathname = usePathname();
   const [commo, setCommo] = useState<any>();
   //console.log("pathname", pathname);
+
+  const { data: session } = useSession();
+  const usr: any = session?.user;
+
   const commoId = pathname.split("commodities/")[1];
   useEffect(() => {
     const fetchCommo = async (id: any) => {
@@ -71,41 +76,47 @@ const CommoDetailPage = () => {
       >
         <div className="px-2">
           <CustomBreadcrumb name={`${commo?.assetName}`} />
-          <div className="grid md:grid-cols-6 gap-2">
-            <Card className="md:col-span-1">
+          <div className="grid md:grid-cols-8 gap-2">
+            <Card className="md:col-span-2">
               <CardHeader>
                 <CardTitle className="text-sky-700 dark:text-sky-500">
                   {commo?.assetName}
                 </CardTitle>
               </CardHeader>
-              <CardContent className="text-sm w-3/5">
-                <p className=" w-full flex items-start justify-between gap-2">
+              <CardContent className="text-sm">
+                {usr && usr.role == "ADMIN" && (
+                  <p className="text-red-400 w-full flex items-center justify-between gap-2">
+                    <span className="">Identification: </span>
+                    <span className="">{commo?.id}</span>
+                  </p>
+                )}
+                <p className="w-full flex items-center justify-between gap-2">
                   <span className="">Currency: </span>
                   <span className="text-sky-700 dark:text-sky-500">
                     {commo?.currency}
                   </span>
                 </p>
-                <p className=" w-full flex items-start justify-between gap-2">
+                <p className=" w-full flex items-center justify-between gap-2">
                   <span className="">Sector:</span>
                   <span className="text-sky-700 dark:text-sky-500">
                     {" "}
                     {commo?.sector}
                   </span>
                 </p>
-                <p className=" w-full flex items-start justify-between gap-2">
+                <p className=" w-full flex items-center justify-between gap-2">
                   <span className="">RIC: </span>
                   <span className="text-sky-700 dark:text-sky-500">
                     {commo?.ric}
                   </span>
                 </p>
-                <p className=" w-full flex items-start justify-between gap-2">
+                <p className=" w-full flex items-center justify-between gap-2">
                   <span className="">Ticker:</span>
                   <span className="text-sky-700 dark:text-sky-500">
                     {" "}
                     {commo?.ticker}
                   </span>
                 </p>
-                <p className=" w-full flex items-start justify-between gap-2">
+                <p className=" w-full flex items-center justify-between gap-2">
                   <span className="">Symbol:</span>
                   <span className="text-sky-700 dark:text-sky-500">
                     {" "}
@@ -115,9 +126,9 @@ const CommoDetailPage = () => {
               </CardContent>
             </Card>
 
-            <div className="md:col-span-2">
+            <Card className="md:col-span-3">
               <CommoViews commo={commo} />
-            </div>
+            </Card>
 
             <Card className="md:col-span-3">
               {/*               <div className="">

@@ -37,7 +37,7 @@ type equityViewsProps = {
   equity: any;
 };
 const EquityViews = ({ equity }: equityViewsProps) => {
-  //console.log("commo:", commo);
+  console.log("equity:", equity);
 
   //console.log("commo.historicalDataCommo:", commo.historicalDataCommo);
   let equityH;
@@ -59,7 +59,7 @@ const EquityViews = ({ equity }: equityViewsProps) => {
   // console.log("tempo:", tempo);
 
   return (
-    <Card>
+    <Card className="border-none">
       <CardHeader>
         <CardTitle className="text-sky-700 dark:text-sky-500">
           Area Chart - Linear

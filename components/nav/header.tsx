@@ -100,18 +100,24 @@ const Header = ({ userSession }: HeaderProps) => {
             className="md:hidden  text-sky-700 dark:text-sky-500"
             size={20}
           />
-          <Link
-            href="/"
-            className="dark:text-white  font-bold text-xl max-md:text-md  text-blue-800"
-          >
-            <p className="text-xs md:text-3xl text-teal-600">
-              Emerging Markets
-            </p>
-          </Link>
+          <div className="flex items-start gap-2">
+            <Link
+              href="/"
+              className="dark:text-white  font-bold text-xl max-md:text-md  text-blue-800"
+            >
+              <p className="text-xs md:text-3xl text-teal-600">
+                Emerging Markets
+              </p>
+            </Link>
+            <div className="max-md:hidden">
+              <NavigationMenuDemo />
+            </div>
+          </div>
         </div>
 
         <nav className=" max-md:hidden items-start flex justify-between gap-4">
-          <NavigationMenuDemo />
+          {/*           <NavigationMenuDemo />
+           */}{" "}
           {/*           {navLinks
             .filter(
               (nvv: any) =>
@@ -133,7 +139,15 @@ const Header = ({ userSession }: HeaderProps) => {
             ))} */}
         </nav>
 
-        <div className=" flex gap-5 items-center">
+        <div className=" flex gap-4 items-center">
+          {userSession && userSession.user && (
+            <p className="max-md:hidden md:container flex justify-center md:justify-end items-end gap-2 mb-2">
+              <MdPerson className="max-md:text-xs  text-orange-600" size={25} />
+              <strong className="max-md:text-xs text-lg dark:text-blue-400 text-blue-600">
+                {userSession?.user?.username}
+              </strong>
+            </p>
+          )}
           <ModeToggle />
           {(!userSession || !userSession.user) && (
             <Button
@@ -169,44 +183,10 @@ const Header = ({ userSession }: HeaderProps) => {
             />
           )}
           {userSession && userSession.user && (
-            /*  <form
-                         action={async () => {
-                logoutUser();
-                console.log("in");
-                
-                window.location.reload;
-                console.log("out");
-                //router.push("/auth/login");
-              }}
-            >
-              <Button
-                className="md:hidden px-2 bg-gray-600"
-                onClick={() => router.push("/redirout")}
-                variant="empty"
-                // type="submit"
-              >
-                <MdLogout className="text-red-600" size={25} />
-              </Button> 
-            </form>*/
             <Link href="/redirout">
               {" "}
               <MdLogout className="text-red-600" size={25} />
             </Link>
-            /*             <form
-              action={async () => {
-                //console.log("EXIT");
-                logoutUser();
-                router.push("/auth/login");
-              }}
-            >
-              <Button type="submit" variant="empty">
-                <MdLogout
-                  className="md:hidden text-red-600"
-                  // onClick={() => router.push("/auth/login")}
-                  size={25}
-                />
-              </Button>
-            </form> */
           )}
 
           <div className="md:hidden" onClick={() => setIsOpen(!isOpen)}>
@@ -216,7 +196,7 @@ const Header = ({ userSession }: HeaderProps) => {
       </div>
 
       {userSession && userSession.user && (
-        <p className=" md:container flex justify-center md:justify-end items-end gap-2 mb-2">
+        <p className="md:hidden md:container flex justify-center md:justify-end items-end gap-2 mb-2">
           <MdPerson className="max-md:text-xs  text-orange-600" size={25} />
           <strong className="max-md:text-xs text-lg dark:text-blue-400 text-blue-600">
             {userSession?.user?.username}
@@ -225,7 +205,7 @@ const Header = ({ userSession }: HeaderProps) => {
       )}
 
       {isOpen && (
-        <div className="bloc bg-blue-600 rounded-lg">
+        <div className="bloc border rounded-lg">
           <nav className=" md:hidden items-center flex flex-col gap-4 pt-2 ">
             <div className=" w-full">
               <NavigationMenuDemo />
@@ -263,7 +243,7 @@ export function NavigationMenuDemo() {
     <NavigationMenu className=" w-full">
       <NavigationMenuList className="max-md:flex max-md:flex-col ">
         <NavigationMenuItem className="">
-          <NavigationMenuTrigger className="">
+          <NavigationMenuTrigger className="border-none">
             Administration
           </NavigationMenuTrigger>
           <NavigationMenuContent>
@@ -296,7 +276,9 @@ export function NavigationMenuDemo() {
           </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuTrigger className="">Assets</NavigationMenuTrigger>
+          <NavigationMenuTrigger className="border-none">
+            Assets
+          </NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
               {components.map((component) => (

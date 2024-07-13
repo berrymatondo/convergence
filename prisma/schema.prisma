@@ -573,10 +573,29 @@ model StaticInfoEquity{
   ric String
   ticker String
   symbol String
+  historicalDataEquity HistoricalDataEquity[]
 
 
   @@map("staticinfoequity")
 }
+
+
+model HistoricalDataEquity{
+  id Int @id @default(autoincrement())
+  staticInfoEquityId Int?
+  staticInfoEquity StaticInfoEquity? @relation(fields: [staticInfoEquityId], references: [id])
+  date String
+  close Float
+  change Float
+  changePercentage Float
+ 
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@map("historicalDataEquity")
+}
+
+
 
 
 model StaticInfoCommo{

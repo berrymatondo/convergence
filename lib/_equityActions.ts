@@ -23,9 +23,9 @@ export const getEquity = async (equityId: number) => {
       where: {
         id: +equityId,
       },
-      /*       include: {
-        historicalDataCommo: true,
-      }, */
+      include: {
+        historicalDataEquity: true,
+      },
     });
 
     return {

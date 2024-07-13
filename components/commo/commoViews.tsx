@@ -59,7 +59,7 @@ const commoViews = ({ commo }: commoViewsProps) => {
   // console.log("tempo:", tempo);
 
   return (
-    <Card>
+    <Card className="border-none">
       <CardHeader>
         <CardTitle className="text-sky-700 dark:text-sky-500">
           Area Chart - Linear

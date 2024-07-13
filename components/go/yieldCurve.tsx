@@ -120,7 +120,7 @@ const YieldCurveComp = async ({ slug, continent, title }: YieldCurveProps) => {
                         {ct.yield}
                       </TableCell>
                       {usr.role == "ADMIN" && (
-                        <TableCell className="font-medium px-0  ">
+                        <TableCell className="font-medium px-0 text-black ">
                           {ct.date}{" "}
                         </TableCell>
                       )}
@@ -203,13 +203,13 @@ const YieldCurveComp = async ({ slug, continent, title }: YieldCurveProps) => {
                               {ct.change.toFixed(2)}%
                             </p>
                           )}
-                          <p className=" text-center py-1 flex-1 text-white rounded-full w-full ">
+                          <p className="text-black text-center py-1 flex-1 dark:text-white rounded-full w-full ">
                             {ct.date}{" "}
                           </p>
                           {/* <AccordionDemo date={ct.date} /> */}
                         </div>
                       ) : (
-                        <p className="text-center py-1 px-2 bg-neutral-400 text-white rounded-full w-full ">
+                        <p className="text-center py-1 px-2 bg-neutral-400 text-black dark:text-white rounded-full w-full ">
                           {ct.date}
                         </p>
                       )}

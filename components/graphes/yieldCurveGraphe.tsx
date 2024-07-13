@@ -71,27 +71,34 @@ type AreaCharYieldCurveProps = {
 };
 
 export default function AreaCharYieldCurve({ data }: AreaCharYieldCurveProps) {
-  // console.log("data: ", data);
+  console.log("dataxxxx: ", data);
 
   //console.log(Object.keys(data[0])[0]);
+  let index: string = "";
+  let country: string = "";
+  let contin: string = "";
 
-  const index = Object.keys(data[0])[0];
-  const country = Object.keys(data[0])[1];
-  const contin = Object.keys(data[0])[2];
+  if (data.length > 0) {
+    index = Object?.keys(data[0])[0];
+    country = Object?.keys(data[0])[1];
+    contin = Object?.keys(data[0])[2];
+  }
 
   const [value, setValue] = useState<EventProps>(null);
   return (
     <div className="flex justify-center ">
-      <AreaChart
-        className=" mt-4 h-72"
-        data={data}
-        index={index}
-        categories={[country, contin]}
-        colors={["orange", "green"]}
-        yAxisWidth={30}
-        onValueChange={(v) => setValue(v)}
-        connectNulls={true}
-      />
+      {data && index && (
+        <AreaChart
+          className=" mt-4 h-72"
+          data={data}
+          index={index}
+          categories={[country, contin]}
+          colors={["orange", "green"]}
+          yAxisWidth={30}
+          onValueChange={(v) => setValue(v)}
+          connectNulls={true}
+        />
+      )}
       {/*       <pre className="rounded-lg bg-dark-tremor-brand-faint p-8 text-white md:w-1/4">
         <code>{JSON.stringify(value, null, 2)}</code>
       </pre> */}

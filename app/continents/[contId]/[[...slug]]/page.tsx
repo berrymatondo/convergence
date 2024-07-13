@@ -38,7 +38,7 @@ const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
   }
   return (
     <div>
-      <div className="grid md:grid-cols-4 md:gap-2 ">
+      <div className="grid md:grid-cols-4 gap-2 ">
         <div className="md:col-span-1 ">
           <Signaletique slug={slug} />
         </div>

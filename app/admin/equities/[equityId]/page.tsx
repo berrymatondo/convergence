@@ -39,13 +39,18 @@ import {
 } from "@/components/ui/table";
 import { getCommo } from "@/lib/_commoActions";
 import { getEquity } from "@/lib/_equityActions";
+import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-const CommoDetailPage = () => {
+const EquityDetailPage = () => {
   const pathname = usePathname();
   const [equity, setEquity] = useState<any>();
-  console.log("pathname", pathname);
+  //console.log("pathname", pathname);
+
+  const { data: session } = useSession();
+  const usr: any = session?.user;
+
   const equityId = pathname.split("equities/")[1];
   useEffect(() => {
     // console.log("equityId ", equityId);
@@ -54,7 +59,7 @@ const CommoDetailPage = () => {
       const data = resu?.data;
       setEquity(data);
 
-      // console.log("data ", data);
+      //console.log("data", data);
 
       /*       console.log("data ", data);
 
@@ -72,64 +77,70 @@ const CommoDetailPage = () => {
     <div>
       {" "}
       <PageLayout
-        title="Détails matière première"
-        description="Détails et historiques d'une matière première"
+        title="Détails d'une action"
+        description="Détails et historiques d'une action"
       >
         <div className="px-2">
           <CustomBreadcrumb name={`${equity?.assetName}`} />
-          <div className="grid md:grid-cols-6 gap-2">
-            <Card className="md:col-span-1">
+          <div className="grid md:grid-cols-8 gap-2">
+            <Card className="md:col-span-2">
               <CardHeader>
                 <CardTitle className="text-sky-700 dark:text-sky-500">
                   {equity?.assetName}
                 </CardTitle>
               </CardHeader>
-              <CardContent className="text-sm w-3/5">
-                <p className=" w-full flex items-start justify-between gap-2">
+              <CardContent className="text-sm">
+                {usr && usr.role == "ADMIN" && (
+                  <p className="text-red-400 w-full flex items-center justify-between gap-2">
+                    <span className="">Identification: </span>
+                    <span className="">{equity?.id}</span>
+                  </p>
+                )}
+                <p className=" w-full flex items-center justify-between gap-2">
                   <span className="">ISIN: </span>
                   <span className="text-sky-700 dark:text-sky-500">
                     {equity?.isin}
                   </span>
                 </p>
-                <p className=" w-full flex items-start justify-between gap-2">
+                <p className=" w-full flex items-center justify-between gap-2">
                   <span className="">Currency: </span>
                   <span className="text-sky-700 dark:text-sky-500">
                     {equity?.currency}
                   </span>
                 </p>
-                <p className=" w-full flex items-start justify-between gap-2">
+                <p className=" w-full flex items-center justify-between gap-2">
                   <span className="">Country: </span>
                   <span className="text-sky-700 dark:text-sky-500">
                     {equity?.country}
                   </span>
                 </p>
-                <p className=" w-full flex items-start justify-between gap-2">
+                <p className=" w-full flex items-center justify-between gap-2">
                   <span className="">ACF: </span>
                   <span className="text-sky-700 dark:text-sky-500">
                     {equity?.acf}
                   </span>
                 </p>
-                <p className=" w-full flex items-start justify-between gap-2">
+                <p className=" w-full flex items-center justify-between gap-2">
                   <span className="">Sector:</span>
                   <span className="text-sky-700 dark:text-sky-500">
                     {" "}
                     {equity?.sector}
                   </span>
                 </p>
-                <p className=" w-full flex items-start justify-between gap-2">
+                <p className=" w-full flex items-center justify-between gap-2">
                   <span className="">RIC: </span>
                   <span className="text-sky-700 dark:text-sky-500">
                     {equity?.ric}
                   </span>
                 </p>
-                <p className=" w-full flex items-start justify-between gap-2">
+                <p className=" w-full flex items-center justify-between gap-2">
                   <span className="">Ticker:</span>
                   <span className="text-sky-700 dark:text-sky-500">
                     {" "}
                     {equity?.ticker}
                   </span>
                 </p>
-                <p className=" w-full flex items-start justify-between gap-2">
+                <p className=" w-full flex items-center justify-between gap-2">
                   <span className="">Symbol:</span>
                   <span className="text-sky-700 dark:text-sky-500">
                     {" "}
@@ -139,9 +150,9 @@ const CommoDetailPage = () => {
               </CardContent>
             </Card>
 
-            <div className="md:col-span-2">
+            <Card className="md:col-span-3">
               <EquityViews equity={equity} />
-            </div>
+            </Card>
 
             <Card className="md:col-span-3">
               {/*               <div className="">
@@ -163,7 +174,7 @@ const CommoDetailPage = () => {
                       </TableRow>
                     </TableHeader>
                     <TableBody className="">
-                      {/*                       {equity?.historicalDataEquity
+                      {equity?.historicalDataEquity
                         .sort(
                           (a: any, b: any) =>
                             Date.parse(b.date) - Date.parse(a.date)
@@ -173,7 +184,7 @@ const CommoDetailPage = () => {
                             histoEquity={histoEquity}
                             key={histoEquity.id}
                           />
-                        ))} */}
+                        ))}
                     </TableBody>
                   </Table>
                 </ScrollArea>
@@ -186,7 +197,7 @@ const CommoDetailPage = () => {
   );
 };
 
-export default CommoDetailPage;
+export default EquityDetailPage;
 
 const CustomBreadcrumb = ({ name }: { name: string }) => {
   return (

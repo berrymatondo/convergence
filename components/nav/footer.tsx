@@ -3,8 +3,9 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <div>
-      <p className="text-center">
+    /*     <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2">
+     */ <div className="">
+      <p className="text-center text-sm">
         &copy; 2024{" "}
         <Link
           className="hover:text-yellow-600 hover:cursor-pointer"

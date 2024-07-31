@@ -64,7 +64,7 @@ const AddYC = ({
   const router = useRouter();
   const usr: any = userSession?.user;
 
-  console.log("yc", yc);
+  //console.log("yc", yc);
   // console.log("add", add);
 
   const pathname = usePathname();

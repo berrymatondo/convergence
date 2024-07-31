@@ -68,7 +68,7 @@ const YieldCurveComp = async ({ slug, continent, title }: YieldCurveProps) => {
   //console.log("Country: ", country?.data);
 
   return (
-    <div className="w-full max-md:w-full p-4  rounded-lg  backdrop-blur-md bg-gray-100 dark:bg-opacity-10">
+    <div className="w-full max-md:w-full p-4  rounded-lg  backdrop-blur-md bg-red-100 dark:bg-opacity-0">
       {slug ? (
         <>
           {/*           <AddYield countryId={+slug[0]} userSession={session} />
@@ -87,7 +87,7 @@ const YieldCurveComp = async ({ slug, continent, title }: YieldCurveProps) => {
           </div>
 
           <ScrollArea className="h-96 max-md:h-48 mx-auto  rounded-md border">
-            <Table>
+            <Table className=" border-none">
               <TableCaption>{"Country Yield curbe"}.</TableCaption>
               <TableHeader>
                 <TableRow>

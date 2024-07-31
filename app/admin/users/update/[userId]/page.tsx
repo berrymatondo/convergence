@@ -26,7 +26,7 @@ const UpdatePerPage = async ({ params }: UpdatePerPageProps) => {
   const res2 = await getAllCountries();
   const ctrs = await res2?.data;
 
-  console.log("ctrs", ctrs);
+  //console.log("ctrs", ctrs);
 
   /*   const res1 = await getAllCels();
   const cels = await res1?.data; */

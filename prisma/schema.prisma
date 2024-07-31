@@ -588,6 +588,7 @@ model HistoricalDataEquity{
   close Float
   change Float
   changePercentage Float
+  type YCTypesList
  
 
   createdAt DateTime @default(now())

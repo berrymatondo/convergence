@@ -51,7 +51,7 @@ const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
             <YieldCurveComp slug={slug} />
           </div>
         </div> */}
-        <div className="col-span-1">
+        <div className="col-span-1 ">
           <YieldCurveComp slug={slug} title="Fixed Income Market" />
         </div>
         <div className="col-span-1">

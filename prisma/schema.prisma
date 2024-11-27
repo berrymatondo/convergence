@@ -33,11 +33,12 @@ enum ContactStatuses {
 }
 
 enum ContinentsList {
- AFRIQUE
- AMERIQUE
- ASIE
+ AFRICA
+ AMERICA
+ ASIA
  EUROPE
- OCEANIE
+ OCEANIA
+ WORLD
 }
 
 enum AssetTypesList {
@@ -105,6 +106,7 @@ GHS
 GTQ
 GNF
 GYD
+HKD
 HTG
 HNL
 HUF
@@ -213,209 +215,6 @@ EMERGING @map("2")
 }
 
 
-
-
-enum CountryList {
-AFGHANISTAN
-ALBANIA
-ALGERIA
-ANDORRA
-ANGOLA
-ANTIGUA_AND_BARBUDA
-ARGENTINA
-ARMENIA
-AUSTRALIA
-AUSTRIA
-AZERBAIJAN
-BAHAMAS
-BAHRAIN
-BANGLADESH
-BARBADOS
-BELARUS
-BELGIUM
-BELIZE
-BENIN
-BHUTAN
-BOLIVIA
-BOSNIA_AND_HERZEGOVINA
-BOTSWANA
-BRAZIL
-BRUNEI
-BULGARIA
-BURKINA_FASO
-BURUNDI
-CABO_VERDE
-CAMBODIA
-CAMEROON
-CANADA
-CENTRAL_AFRICAN_REPUBLIC
-CHAD
-CHILE
-CHINA
-COLOMBIA
-COMOROS
-CONGO_DEMOCRATIC_REPUBLIC_OF_THE
-CONGO_REPUBLIC_OF_THE
-COSTA_RICA
-CROATIA
-CUBA
-CYPRUS
-CZECH_REPUBLIC
-DENMARK
-DJIBOUTI
-DOMINICA
-DOMINICAN_REPUBLIC
-EAST_TIMOR
-ECUADOR
-EGYPT
-EL_SALVADOR
-EQUATORIAL_GUINEA
-ERITREA
-ESTONIA
-ESWATINI
-ETHIOPIA
-FIJI
-FINLAND
-FRANCE
-GABON
-GAMBIA
-GEORGIA
-GERMANY
-GHANA
-GREECE
-GRENADA
-GUATEMALA
-GUINEA
-GUINEA_BISSAU
-GUYANA
-HAITI
-HONDURAS
-HUNGARY
-ICELAND
-INDIA
-INDONESIA
-IRAN
-IRAQ
-IRELAND
-ISRAEL
-ITALY
-IVORY_COAST
-JAMAICA
-JAPAN
-JORDAN
-KAZAKHSTAN
-KENYA
-KIRIBATI
-KOREA_NORTH
-KOREA_SOUTH
-KOSOVO
-KUWAIT
-KYRGYZSTAN
-LAOS
-LATVIA
-LEBANON
-LESOTHO
-LIBERIA
-LIBYA
-LIECHTENSTEIN
-LITHUANIA
-LUXEMBOURG
-MADAGASCAR
-MALAWI
-MALAYSIA
-MALDIVES
-MALI
-MALTA
-MARSHALL_ISLANDS
-MAURITANIA
-MAURITIUS
-MEXICO
-MICRONESIA
-MOLDOVA
-MONACO
-MONGOLIA
-MONTENEGRO
-MOROCCO
-MOZAMBIQUE
-MYANMAR
-NAMIBIA
-NAURU
-NEPAL
-NETHERLANDS
-NEW_ZEALAND
-NICARAGUA
-NIGER
-NIGERIA
-NORTH_MACEDONIA
-NORWAY
-OMAN
-PAKISTAN
-PALAU
-PANAMA
-PAPUA_NEW_GUINEA
-PARAGUAY
-PERU
-PHILIPPINES
-POLAND
-PORTUGAL
-QATAR
-ROMANIA
-RUSSIA
-RWANDA
-SAINT_KITTS_AND_NEVIS
-SAINT_LUCIA
-SAINT_VINCENT_AND_THE_GRENADINES
-SAMOA
-SAN_MARINO
-SAO_TOME_AND_PRINCIPE
-SAUDI_ARABIA
-SENEGAL
-SERBIA
-SEYCHELLES
-SIERRA_LEONE
-SINGAPORE
-SLOVAKIA
-SLOVENIA
-SOLOMON_ISLANDS
-SOMALIA
-SOUTH_AFRICA
-SOUTH_SUDAN
-SPAIN
-SRI_LANKA
-SUDAN
-SURINAME
-SWEDEN
-SWITZERLAND
-SYRIA
-TAIWAN
-TAJIKISTAN
-TANZANIA
-THAILAND
-TOGO
-TONGA
-TRINIDAD_AND_TOBAGO
-TUNISIA
-TURKEY
-TURKMENISTAN
-TUVALU
-UGANDA
-UKRAINE
-UNITED_ARAB_EMIRATES
-UNITED_KINGDOM
-UNITED_STATES
-URUGUAY
-UZBEKISTAN
-VANUATU
-VATICAN_CITY
-VENEZUELA
-VIETNAM
-YEMEN
-ZAMBIA
-ZIMBABWE
-EURO_ZONE
-WEST_AFRICA_UEMOA
-}
-
 enum SectorList {
 AGRICULTURE
 COMMUNICATION
@@ -441,6 +240,14 @@ enum ACFList {
   ACF_2 @map("2")
 }
 
+enum CreditRating {
+ VISITOR
+ CLIENT
+ AGENT
+ ADMIN
+}
+
+
 
 model User {
   id Int @id @default(autoincrement())
@@ -453,7 +260,7 @@ model User {
   country Country? @relation(fields: [countryId], references: [id])
 
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt  @default(now())
 
   @@map("users")
 
@@ -465,13 +272,16 @@ model User {
 model Country{
   id Int @id @default(autoincrement())
   name String @unique
-  continent ContinentsList  @default(AFRIQUE)
+  continent ContinentsList  @default(AFRICA)
   users User[] 
   gos Go[]
   yieldcurve YieldCurve[]
+  staticInfoCountry StaticInfoCountry?
+  staticInfoFx StaticInfoFx[]
+  staticInfoBond StaticInfoBond[]
 
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt  @default(now())
 
   @@map("countries")
 }
@@ -487,7 +297,7 @@ model Company{
 
 
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt  @default(now())
 
   @@map("companies")
 }
@@ -502,7 +312,7 @@ model Person{
 
 
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt  @default(now())
 
   @@map("persons")
 }
@@ -518,7 +328,7 @@ model Contact{
   status ContactStatuses @default(NOUVEAU) 
 
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt  @default(now())
 
   @@map("contacts")
 }
@@ -535,7 +345,7 @@ model Go{
   //@@unique([order, countryId])
 
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt  @default(now())
 
   @@map("gos")
 }
@@ -554,7 +364,7 @@ model YieldCurve{
 
 
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt  @default(now())
 
   @@unique([tenor, date, countryId, continent])
 
@@ -567,7 +377,7 @@ model StaticInfoEquity{
   assetName String
   isin String @unique()
   currency CurrencyList
-  country CountryList
+  country String
   sector SectorList
   acf ACFList
   ric String
@@ -575,8 +385,9 @@ model StaticInfoEquity{
   symbol String
   historicalDataEquity HistoricalDataEquity[]
 
-
-  @@map("staticinfoequity")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
+  @@map("staticInfoEquity")
 }
 
 
@@ -588,11 +399,11 @@ model HistoricalDataEquity{
   close Float
   change Float
   changePercentage Float
-  type YCTypesList
+  type YCTypesList @default(H)
  
 
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt @default(now())
   @@map("historicalDataEquity")
 }
 
@@ -610,7 +421,7 @@ model StaticInfoCommo{
   historicalDataCommo HistoricalDataCommo[]
 
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt @default(now())
   @@map("staticInfoCommo")
 }
 
@@ -622,9 +433,10 @@ model HistoricalDataCommo{
   close Float
   change Float
   changePercentage Float
+  type YCTypesList @default(H)
 
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt @default(now())
   @@map("historicalDataCommo")
 }
 
@@ -636,7 +448,7 @@ model StaticInfoIndex{
   assetName String
   isin String @unique 
   currency CurrencyList
-  country CountryList
+  country String
   sector SectorList
   acf ACFList
   ric String
@@ -645,7 +457,7 @@ model StaticInfoIndex{
   historicalDataIndex HistoricalDataIndex[]
 
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt @default(now())
   @@map("staticInfoIndex")
 }
 
@@ -657,10 +469,110 @@ model HistoricalDataIndex{
   close Float
   change Float
   changePercentage Float
+  type YCTypesList @default(H)
 
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt @default(now())
   @@map("historicalDataIndex")
 }
 
 
+model StaticInfoCountry{
+  id Int @id @default(autoincrement())
+  countryId Int? @unique
+  country Country? @relation(fields: [countryId], references: [id])
+  gdpGrowhtRate Float @default(0)
+  interestRate Float @default(0)
+  inflationRate Float @default(0)
+  unemploymentRate Float @default(0)
+  balanceOfTrade Float @default(0)
+  balanceOfTradeCurrency String ?
+  creditRating String @default("NR")
+  defaultProbability  Float @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
+  @@map("staticInfoCountry")
+}
+
+model StaticInfoFx{
+  id Int @id @default(autoincrement())
+  countryId Int? @unique
+  country Country? @relation(fields: [countryId], references: [id])
+  pair String
+  currency1 CurrencyList
+  currency2 CurrencyList
+  ric String
+  ticker String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
+  @@map("staticInfoFx")
+}
+
+model StaticInfoBond{
+  id Int @id @default(autoincrement())
+  isin String? @unique
+  description String
+  issuer String
+  countryId Int? 
+  country Country? @relation(fields: [countryId], references: [id])
+  acf ACFList
+  maturity String?
+  issueDate String?
+  issuePrice Float
+  amountIssuedUSD Float
+  couponRate Float
+  couponType String?
+  couponClass String?
+  couponFrequency String?
+  principalCurrency CurrencyList
+  couponCurrency CurrencyList
+  instrumentType String?
+  bondGrade String?
+  issuerType String?
+  marketOfIssue String?
+  domicile String?
+  sector String?
+  seniority String?
+  inflationLinked Boolean @default(false)	
+  dualCurrency Boolean @default(false)	
+  callable Boolean @default(false)	
+  putable Boolean @default(false)	
+  greenBond Boolean @default(false)	
+  guaranteed Boolean @default(false) 	
+  marketPrice Boolean @default(false)
+  details String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
+  @@map("staticInfoBond")
+}
+
+
+model StaticInfoFund{
+  id Int @id @default(autoincrement())
+  name	 String?
+  isin	 String? @unique
+  lipperClassificationScheme	 String?
+  instrumentType	 String?
+  domicile	String ?
+  countryRegisteredForSale String?
+  	
+  currency	CurrencyList
+  exchange String?	
+  ric String?	
+  exchangeiNAV String?	
+  supportCompanyName String?	
+  promoter String?	
+  portfolioManager String?	
+  custodian String?	
+  advisor String?	
+  administrator	 String?
+  sedol String?	
+  wertpapier String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
+  @@map("staticInfoFund")
+}

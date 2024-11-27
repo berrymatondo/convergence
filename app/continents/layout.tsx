@@ -64,11 +64,11 @@ export default function Continentayout({
                       : "flex gap-1 items-center max-md:text-xs font-semibold text-gray-400 dark:text-gray-500"
                   }
                 >
-                  {conti == "AFRIQUE" ? (
+                  {conti == "AFRICA" ? (
                     <GiAfrica />
-                  ) : conti == "AMERIQUE" ? (
+                  ) : conti == "AMERICA" ? (
                     <FaGlobeAmericas />
-                  ) : conti == "ASIE" ? (
+                  ) : conti == "ASIA" ? (
                     <FaGlobeAsia />
                   ) : conti == "EUROPE" ? (
                     <FaGlobeEurope />

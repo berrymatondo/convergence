@@ -4,8 +4,32 @@ import AddYield from "@/components/go/addYield";
 import Signaletique from "@/components/go/signaletique";
 import YieldCurveComp from "@/components/go/yieldCurve";
 import YiedlGraphe from "@/components/graphes/yiedlGRaphe";
+import PageLayout from "@/components/pageLayout";
 import { headers } from "next/headers";
 import React from "react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { getCountry } from "@/lib/_countryActions";
 
 const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
   const { slug } = params;
@@ -13,7 +37,9 @@ const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
   const session = await auth();
   const usr: any = session?.user;
 
-  //console.log("sulg2:", slug);
+  const country = await getCountry(slug ? +slug[0] : 1);
+
+  console.log("sulg2:", country?.data?.name);
 
   const headersList = headers();
   //const domain = headersList.get("host") || "";
@@ -28,29 +54,56 @@ const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
   if (!slug) {
     return (
       <div className="max-md:w-full w-1/2">
-        {/*         {"Sélectionner un pays"}
-         */}{" "}
-        {/*         <AddYield continent={continent} userSession={session} />
-         */}{" "}
         <YieldCurveComp continent={continent} />
       </div>
     );
   }
   return (
     <div>
-      <div className="grid md:grid-cols-4 gap-2 ">
+      <PageLayout
+        title={country?.data?.name ? country?.data?.name : " "}
+        description="Toutes les matières premières enregistrées dans le système"
+      >
+        <div className="px-2">
+          <CustomBreadcrumb name="Commodities" />
+          <div className="grid md:grid-cols-4 gap-2">
+            <Card className="md:col-span-1">
+              <CardHeader>
+                <CardTitle className="text-sky-700 dark:text-sky-500">
+                  Matières Premières
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Accordion type="single" collapsible className="w-full">
+                  <AccordionItem value="item-1">
+                    <AccordionTrigger>
+                      <div className="flex items-start gap-2">
+                        <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
+                        xxxxxx
+                      </div>
+                    </AccordionTrigger>
+                    <AccordionContent>description</AccordionContent>
+                  </AccordionItem>
+                  <AccordionItem value="item-2">
+                    <AccordionTrigger>
+                      <div className="flex items-start gap-2">
+                        <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
+                        info
+                      </div>
+                    </AccordionTrigger>
+                    <AccordionContent>content</AccordionContent>
+                  </AccordionItem>
+                </Accordion>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </PageLayout>
+      {/*       <div className="grid md:grid-cols-4 gap-2 ">
         <div className="md:col-span-1 ">
           <Signaletique slug={slug} />
         </div>
-        {/*         <div className="md:border md:border-blue-600 rounded-lg md:p-1 md:col-span-2 grid md:grid-cols-2 md:mx-2 max-md:my-2 gap-2">
-          <div>
-            <YieldCurveComp slug={slug} />
-          </div>
-          <div>
-            <YieldCurveComp slug={slug} />
-            <YieldCurveComp slug={slug} />
-          </div>
-        </div> */}
+
         <div className="col-span-1 ">
           <YieldCurveComp slug={slug} title="Fixed Income Market" />
         </div>
@@ -78,9 +131,29 @@ const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
         <div className="md:col-span-2">
           <YiedlGraphe continent={continent} countryId={+slug[0]} />
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
 
 export default DetailPage;
+
+const CustomBreadcrumb = ({ name }: { name: string }) => {
+  return (
+    <Breadcrumb className=" p-2 ">
+      <BreadcrumbList>
+        <BreadcrumbItem>
+          <BreadcrumbLink href="/">Accueil</BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        {/*         <BreadcrumbItem>
+            <BreadcrumbLink href="/zones">Zones</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator /> */}
+        <BreadcrumbItem>
+          <BreadcrumbPage className="font-semibold">{name}</BreadcrumbPage>
+        </BreadcrumbItem>
+      </BreadcrumbList>
+    </Breadcrumb>
+  );
+};

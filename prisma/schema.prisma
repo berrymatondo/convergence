@@ -279,6 +279,9 @@ model Country{
   staticInfoCountry StaticInfoCountry?
   staticInfoFx StaticInfoFx[]
   staticInfoBond StaticInfoBond[]
+  staticInfoEquity StaticInfoEquity[]
+  staticInfoIndex StaticInfoIndex[]
+  staticInfoFund StaticInfoFund[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt  @default(now())
@@ -377,13 +380,15 @@ model StaticInfoEquity{
   assetName String
   isin String @unique()
   currency CurrencyList
-  country String
+  countryId Int?
+  country Country? @relation(fields: [countryId], references: [id])
   sector SectorList
   acf ACFList
   ric String
   ticker String
   symbol String
-  historicalDataEquity HistoricalDataEquity[]
+  micCode String
+  historicalDataEquity  HistoricalDataEquity[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt @default(now())
@@ -448,7 +453,8 @@ model StaticInfoIndex{
   assetName String
   isin String @unique 
   currency CurrencyList
-  country String
+  countryId Int?
+  country Country? @relation(fields: [countryId], references: [id])
   sector SectorList
   acf ACFList
   ric String
@@ -497,7 +503,7 @@ model StaticInfoCountry{
 
 model StaticInfoFx{
   id Int @id @default(autoincrement())
-  countryId Int? @unique
+  countryId Int?
   country Country? @relation(fields: [countryId], references: [id])
   pair String
   currency1 CurrencyList
@@ -556,19 +562,19 @@ model StaticInfoFund{
   isin	 String? @unique
   lipperClassificationScheme	 String?
   instrumentType	 String?
-  domicile	String ?
-  countryRegisteredForSale String?
+  countryId Int? 
+  country Country? @relation(fields: [countryId], references: [id])
   	
   currency	CurrencyList
   exchange String?	
   ric String?	
   exchangeiNAV String?	
-  supportCompanyName String?	
-  promoter String?	
-  portfolioManager String?	
-  custodian String?	
-  advisor String?	
-  administrator	 String?
+ // supportCompanyName String?	
+ // promoter String?	
+ // portfolioManager String?	
+ // custodian String?	
+ // advisor String?	
+ // administrator	 String?
   sedol String?	
   wertpapier String?
 

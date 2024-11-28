@@ -19,7 +19,7 @@ export default function Continentayout({
   const pathname = usePathname();
   const cont = pathname.split("continents")[1].split("/")[1];
   const [countries, setCountries] = useState<any>();
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(false);
 
   const { data: session } = useSession();
   const usr: any = session?.user;

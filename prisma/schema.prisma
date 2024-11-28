@@ -280,6 +280,7 @@ model Country{
   staticInfoCountry StaticInfoCountry?
   staticInfoFx StaticInfoFx[]
   staticInfoBond StaticInfoBond[]
+  domicile StaticInfoBond[] @relation("domicile")
   staticInfoEquity StaticInfoEquity[]
   staticInfoIndex StaticInfoIndex[]
   staticInfoFund StaticInfoFund[]
@@ -307,6 +308,7 @@ model Currency{
   staticInfoFx2 StaticInfoFx[]  @relation("currency2")
   principalCurrency StaticInfoBond[] @relation("principalCurrency")
   couponCurrency StaticInfoBond[] @relation("couponCurrency")
+ 
   staticInfoFund StaticInfoFund[] 
 
 
@@ -558,9 +560,9 @@ model StaticInfoBond{
   acf ACFList
   maturity String?
   issueDate String?
-  issuePrice Float
-  amountIssuedUSD Float
-  couponRate Float
+  issuePrice Float?
+  amountIssuedUSD Float?
+  couponRate Float?
   couponType String?
   couponClass String?
   couponFrequency String?
@@ -574,7 +576,8 @@ model StaticInfoBond{
   bondGrade String?
   issuerType String?
   marketOfIssue String?
-  domicile String?
+  domicileId Int?
+  domicile Country? @relation(name: "domicile", fields: [domicileId], references: [id])
   sector String?
   seniority String?
   inflationLinked Boolean @default(false)	
@@ -595,7 +598,7 @@ model StaticInfoBond{
 model StaticInfoFund{
   id Int @id @default(autoincrement())
   name	 String?
-  isin	 String? @default(uuid()) @unique
+  isin	 String?
   lipperClassificationScheme	 String?
   instrumentType	 String?
   countryId Int? 

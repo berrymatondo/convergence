@@ -11,11 +11,13 @@ type PageLayoutProps = {
   description?: string;
   children: React.ReactNode;
   position?: string;
+  flagCode?: string;
 };
 const PageLayout = ({
   title,
   description,
   position,
+  flagCode,
   children,
 }: PageLayoutProps) => {
   const router = useRouter();
@@ -63,7 +65,12 @@ const PageLayout = ({
         {/*       <MobileAdminNav />
          */}{" "}
         {title && (
-          <Title title={title} description={description} position={position} />
+          <Title
+            flagCode={flagCode}
+            title={title}
+            description={description}
+            position={position}
+          />
         )}
         <div className=" gap-4 mt-4 h-full ">
           <div className="rounded-lg bg-transparent md:p-2  ">{children}</div>

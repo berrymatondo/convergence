@@ -39,7 +39,7 @@ const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
 
   const country = await getCountry(slug ? +slug[0] : 1);
 
-  console.log("sulg2:", country?.data?.name);
+  //console.log("sulg2:", country?.data?.name);
 
   const headersList = headers();
   //const domain = headersList.get("host") || "";
@@ -62,6 +62,7 @@ const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
     <div>
       <PageLayout
         title={country?.data?.name ? country?.data?.name : " "}
+        flagCode={country?.data?.flagCode ? country?.data?.flagCode : "ng"}
         description="Toutes les matières premières enregistrées dans le système"
       >
         <div className="px-2">

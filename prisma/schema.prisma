@@ -273,6 +273,7 @@ model Country{
   id Int @id @default(autoincrement())
   name String @unique
   continent ContinentsList  @default(AFRICA)
+  flagCode String?
   users User[] 
   gos Go[]
   yieldcurve YieldCurve[]
@@ -283,12 +284,37 @@ model Country{
   staticInfoIndex StaticInfoIndex[]
   staticInfoFund StaticInfoFund[]
 
+  currencyId Int?
+  currency Currency? @relation(fields: [currencyId], references: [id])
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt  @default(now())
 
   @@map("countries")
 }
 
+
+
+model Currency{
+  id Int @id @default(autoincrement())
+  mic String @unique
+  currency String
+  country Country[]
+  staticInfoCommo StaticInfoCommo[] 
+  staticInfoEquity StaticInfoEquity[] 
+  staticInfoIndex StaticInfoIndex[] 
+  staticInfoFx1 StaticInfoFx[]  @relation("currency1")
+  staticInfoFx2 StaticInfoFx[]  @relation("currency2")
+  principalCurrency StaticInfoBond[] @relation("principalCurrency")
+  couponCurrency StaticInfoBond[] @relation("couponCurrency")
+  staticInfoFund StaticInfoFund[] 
+
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt  @default(now())
+
+  @@map("currencies")
+}
 
 
 
@@ -378,8 +404,9 @@ model YieldCurve{
 model StaticInfoEquity{
   id Int @id @default(autoincrement())
   assetName String
-  isin String @unique()
-  currency CurrencyList
+  isin String? @default(uuid()) @unique
+    currencyId Int?
+  currency Currency? @relation(fields: [currencyId], references: [id])
   countryId Int?
   country Country? @relation(fields: [countryId], references: [id])
   sector SectorList
@@ -418,7 +445,9 @@ model HistoricalDataEquity{
 model StaticInfoCommo{
   id Int @id @default(autoincrement())
   assetName String
-  currency CurrencyList
+  currencyId Int?
+  currency Currency? @relation(fields: [currencyId], references: [id])
+
   sector SectorList
   ric String
   ticker String
@@ -451,8 +480,9 @@ model HistoricalDataCommo{
 model StaticInfoIndex{
   id Int @id @default(autoincrement())
   assetName String
-  isin String @unique 
-  currency CurrencyList
+  isin String? @default(uuid()) @unique 
+  currencyId Int?
+  currency Currency? @relation(fields: [currencyId], references: [id])
   countryId Int?
   country Country? @relation(fields: [countryId], references: [id])
   sector SectorList
@@ -505,9 +535,11 @@ model StaticInfoFx{
   id Int @id @default(autoincrement())
   countryId Int?
   country Country? @relation(fields: [countryId], references: [id])
-  pair String
-  currency1 CurrencyList
-  currency2 CurrencyList
+  currencyId1 Int?
+  currency1 Currency? @relation(name: "currency1", fields: [currencyId1], references: [id])
+  currencyId2 Int?
+  currency2 Currency? @relation(name: "currency2", fields: [currencyId2], references: [id])
+
   ric String
   ticker String
 
@@ -518,7 +550,7 @@ model StaticInfoFx{
 
 model StaticInfoBond{
   id Int @id @default(autoincrement())
-  isin String? @unique
+  isin String? @default(uuid()) @unique
   description String
   issuer String
   countryId Int? 
@@ -532,8 +564,12 @@ model StaticInfoBond{
   couponType String?
   couponClass String?
   couponFrequency String?
-  principalCurrency CurrencyList
-  couponCurrency CurrencyList
+  
+
+  principalCurrencyId Int?
+  principalCurrency Currency? @relation(name: "principalCurrency", fields: [principalCurrencyId], references: [id])
+  couponCurrencyId Int?
+  couponCurrency Currency? @relation(name: "couponCurrency", fields: [couponCurrencyId], references: [id])
   instrumentType String?
   bondGrade String?
   issuerType String?
@@ -559,13 +595,14 @@ model StaticInfoBond{
 model StaticInfoFund{
   id Int @id @default(autoincrement())
   name	 String?
-  isin	 String? @unique
+  isin	 String? @default(uuid()) @unique
   lipperClassificationScheme	 String?
   instrumentType	 String?
   countryId Int? 
   country Country? @relation(fields: [countryId], references: [id])
   	
-  currency	CurrencyList
+    currencyId Int?
+  currency Currency? @relation(fields: [currencyId], references: [id])
   exchange String?	
   ric String?	
   exchangeiNAV String?	

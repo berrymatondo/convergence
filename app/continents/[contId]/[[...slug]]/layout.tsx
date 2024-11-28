@@ -19,7 +19,7 @@ export default function Continentayout({
   const pathname = usePathname();
   const cont = pathname.split("continents")[1].split("/")[1];
   const [countries, setCountries] = useState<any>();
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState(true);
 
   const { data: session } = useSession();
   const usr: any = session?.user;
@@ -52,7 +52,7 @@ export default function Continentayout({
 
   return (
     <div className="">
-      <div className="flex md:items-center flex-col gap-4 ">
+      <div className="flex md:items-center max-md:flex-col gap-4 ">
         {!show ? (
           <p
             className="hover:cursor-pointer hover:text-blue-600 text-center "
@@ -93,7 +93,7 @@ export default function Continentayout({
                         : "text-gray-500 dark:text-gray-500"
                     }
                   >
-                    {count.name}
+                    {count.name.split("_").join(" ")}
                   </Link>
                 </div>
               ))}

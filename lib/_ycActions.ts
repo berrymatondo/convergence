@@ -227,7 +227,7 @@ export const checkAuth = async (role: string) => {
 // DELETE country
 //export const syncYC = async () => {
 export const syncYC = async (continent: string) => {
-  console.log("continent:", continent);
+  // console.log("continent:", continent);
 
   try {
     // Select  different continent
@@ -243,7 +243,7 @@ export const syncYC = async (continent: string) => {
       },
     });
 
-    console.log("getContis", getContis);
+    // console.log("getContis", getContis);
 
     //Loop on each continent
     //  for (let i = 0; i < getContis.length; i++) {
@@ -258,7 +258,7 @@ export const syncYC = async (continent: string) => {
       },
     });
 
-    console.log("updAllYC:", updAllYC);
+    // console.log("updAllYC:", updAllYC);
 
     // Get distinct tenor of a contient
     const getDistincTenor = await prisma.yieldCurve.findMany({
@@ -268,7 +268,7 @@ export const syncYC = async (continent: string) => {
       distinct: ["tenor"],
     });
 
-    console.log("getDistincTenor:", getDistincTenor);
+    // console.log("getDistincTenor:", getDistincTenor);
 
     //Get MAX date for each tenor for a contient
     for (let j = 0; j < getDistincTenor.length; j++) {
@@ -282,7 +282,7 @@ export const syncYC = async (continent: string) => {
         _max: { date: true },
       });
 
-      console.log("getMaxDate:", getMaxDate._max.date);
+      // console.log("getMaxDate:", getMaxDate._max.date);
 
       /*       const newDate = getMaxDate._max.date
         ?.toLocaleDateString()
@@ -312,7 +312,7 @@ export const syncYC = async (continent: string) => {
 
       //console.log("Iciiiiii 2");
 
-      console.log("ycr:", ycr);
+      // console.log("ycr:", ycr);
 
       // Get max day of historical data for a Ternor
 
@@ -327,7 +327,7 @@ export const syncYC = async (continent: string) => {
         _max: { date: true },
       });
 
-      console.log("getMaxHDate:", getMaxHDate);
+      //  console.log("getMaxHDate:", getMaxHDate);
       if (getMaxHDate._max.date) {
         // GEt LIVE DATA
         const LData = await prisma.yieldCurve.findMany({
@@ -423,7 +423,7 @@ export const syncYCConti = async (continent: string, tenor: number) => {
       _max: { date: true },
     });
 
-    console.log("getMaxDate:", getMaxDate._max.date);
+    // console.log("getMaxDate:", getMaxDate._max.date);
 
     //Update to L the tenor max date
     const ycr = await prisma.yieldCurve.updateMany({
@@ -452,7 +452,7 @@ export const syncYCConti = async (continent: string, tenor: number) => {
       _max: { date: true },
     });
 
-    console.log("getMaxHDate:", getMaxHDate);
+    //  console.log("getMaxHDate:", getMaxHDate);
 
     if (getMaxHDate._max.date) {
       // GEt LIVE DATA

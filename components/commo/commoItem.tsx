@@ -17,9 +17,9 @@ const CommoItem = ({ commo }: CommoItemProps) => {
       <TableCell className="font-medium text-sky-700 dark:text-sky-500">
         {commo.assetName}
       </TableCell>
-      <TableCell className="max-md:hidden">{commo.currency}</TableCell>
+      <TableCell className="max-md:hidden">{commo.currency.mic}</TableCell>
       <TableCell>{commo.sector}</TableCell>
-      <TableCell>{commo.ric}</TableCell>
+      <TableCell>{commo.currency.ic}</TableCell>
       <TableCell>{commo.ticker}</TableCell>
       <TableCell className="text-right">{commo.symbol}</TableCell>
     </TableRow>

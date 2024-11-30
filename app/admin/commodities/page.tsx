@@ -37,6 +37,7 @@ import {
 } from "@/components/ui/table";
 import prisma from "@/lib/prisma";
 import { SectorList, StaticInfoCommo } from "@prisma/client";
+import { log } from "console";
 import React from "react";
 
 const infos = [
@@ -118,13 +119,14 @@ const CommoditiesPage = async ({
   //const commos = await prisma.$queryRaw`SELECT * FROM "StaticInfoCommo"`;
   //const commos = await prisma.$queryRaw`SELECT * FROM public."staticInfoCommo"`;
 
-  const commos = await prisma.staticInfoCommo.findMany({
+  let commos = await prisma.staticInfoCommo.findMany({
     take: take,
     skip: skip,
 
     where: {
       assetName: { contains: search as string, mode: "insensitive" },
     },
+    include: { currency: true },
     /*       select: {
         id: true,
         assetName: true,
@@ -133,10 +135,27 @@ const CommoditiesPage = async ({
         //users: true,
         //  company: true,
       }, */
+    // include: { historicalDataCommo: true },
     orderBy: {
       assetName: "asc",
     },
   });
+
+  //console.log("max ", commosH?._max?.date);
+
+  /*   const produitWithMaxPrix = await prisma.historicalDataCommo.findFirst({
+    where: {
+      id: 6,
+      date:commosH?.date
+    },
+    select: {
+      id: true,
+      nom: true,
+      prix: true,
+    },
+  });
+  
+  console.log(produitWithMaxPrix); */
 
   const session = await auth();
 

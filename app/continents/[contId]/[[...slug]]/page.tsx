@@ -30,6 +30,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { getCountry } from "@/lib/_countryActions";
+import Title from "@/components/title";
 
 const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
   const { slug } = params;
@@ -59,23 +60,87 @@ const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
     );
   }
   return (
-    <div>
-      <PageLayout
-        title={country?.data?.name ? country?.data?.name : " "}
+    <div className=" pt-8">
+      <Title
         flagCode={country?.data?.flagCode ? country?.data?.flagCode : "ng"}
-        description="Toutes les matières premières enregistrées dans le système"
+        title={country?.data?.name ? country?.data?.name : " "}
+      />
+      <div
+      // title={country?.data?.name ? country?.data?.name : " "}
+      // flagCode={country?.data?.flagCode ? country?.data?.flagCode : "ng"}
+      // description="Toutes les matières premières enregistrées dans le système"
       >
-        <div className="px-2">
-          <CustomBreadcrumb name="Commodities" />
-          <div className="grid md:grid-cols-4 gap-2">
-            <Card className="md:col-span-1">
+        <div className="px-2 w-full ">
+          {/*           <CustomBreadcrumb name="Commodities" />
+           */}{" "}
+          <div className=" w-full grid md:grid-cols-4 gap-2">
+            <Card className="md:col-span-2 h-68">
               <CardHeader>
                 <CardTitle className="text-sky-700 dark:text-sky-500">
-                  Matières Premières
+                  GENERAL
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="flex flex-col gap-2">
+                <div>
+                  <p className="text-xl flex justify-between">
+                    <span>GDP Growth Rate</span>
+                    <span className="text-sky-600"> 3,40 %</span>
+                  </p>
+                  <p className="text-sm flex justify-between">
+                    <span className="text-gray-400">Interest Rate</span>
+                    <span> 23 %</span>
+                  </p>
+                  <p className="text-sm flex justify-between">
+                    {" "}
+                    <span className="text-gray-400">Inflation Rate</span>
+                    <span> 19 %</span>
+                  </p>
+                  <p className="text-sm flex justify-between">
+                    <span className="text-gray-400">Unemployment Rate</span>
+                    <span> 15 %</span>{" "}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-xl flex justify-between">
+                    <span>Government Debt to GDP</span>
+                    <span className="text-sky-600"> 54 %</span>
+                  </p>
+                  <p className="text-sm flex justify-between">
+                    {" "}
+                    <span className="text-gray-400">
+                      Balance of Trade (NGN Millions){" "}
+                    </span>
+                    <span>2.158.251</span>
+                  </p>
+                  <p className="text-sm flex justify-between">
+                    <span className="text-gray-400">Credit Rating (S&P) </span>
+                    <span>B </span>
+                  </p>
+                </div>
+                <p className="text-sm flex justify-between">
+                  <span className="text-gray-400">
+                    Default Probability (Starmine){" "}
+                  </span>
+                  <span>11 %</span>
+                </p>
+              </CardContent>
+            </Card>
+            <Card className="md:col-span-2 h-68">
+              <CardHeader>
+                <CardTitle className="text-sky-700 dark:text-sky-500">
+                  USD/NGN SPOT
+                </CardTitle>
+              </CardHeader>
+              <CardContent></CardContent>
+            </Card>
+            <Card className="md:col-span-2 h-68">
+              <CardHeader>
+                <CardTitle className="text-sky-700 dark:text-sky-500">
+                  EQUITY MARKET NSE 30
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <Accordion type="single" collapsible className="w-full">
+                {/*                 <Accordion type="single" collapsible className="w-full">
                   <AccordionItem value="item-1">
                     <AccordionTrigger>
                       <div className="flex items-start gap-2">
@@ -94,12 +159,20 @@ const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
                     </AccordionTrigger>
                     <AccordionContent>content</AccordionContent>
                   </AccordionItem>
-                </Accordion>
+                </Accordion> */}
               </CardContent>
+            </Card>
+            <Card className="md:col-span-2 h-68">
+              <CardHeader>
+                <CardTitle className="text-sky-700 dark:text-sky-500">
+                  FIXED INCOME MARKET
+                </CardTitle>
+              </CardHeader>
+              <CardContent>x</CardContent>
             </Card>
           </div>
         </div>
-      </PageLayout>
+      </div>
       {/*       <div className="grid md:grid-cols-4 gap-2 ">
         <div className="md:col-span-1 ">
           <Signaletique slug={slug} />

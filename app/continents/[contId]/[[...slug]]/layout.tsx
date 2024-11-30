@@ -53,8 +53,8 @@ export default function Continentayout({
 
   return (
     <div className="">
-      <div className="flex md:items-start max-md:flex-col gap-4 ">
-        <div className=" max-md:w-full w-1/4  mx-auto  rounded-md border mt-16 px-4">
+      <div className="flex md:items-start max-md:flex-col  ">
+        <div className=" max-md:w-full w-1/5  mx-auto  rounded-md border mt-[7.25rem] px-4">
           {!show ? (
             <p
               className="hover:cursor-pointer hover:text-blue-600 text-center "
@@ -71,7 +71,7 @@ export default function Continentayout({
             </p>
           )}
           {show && usr?.role != "AGENT" && (
-            <ul className="h-96 bg-neutral-100 dark:bg-opacity-0 py-4 md:w-full flex flex-col items-center gap-2 ">
+            <ul className="h-[29rem] bg-neutral-100 dark:bg-opacity-0 py-4 md:w-full flex flex-col items-center gap-2 ">
               <Link
                 href="/admin/countries"
                 className="text-black dark:text-white underline"
@@ -79,7 +79,7 @@ export default function Continentayout({
                 Vers tous les pays
               </Link>
 
-              <ScrollArea className="h-96 pr-2">
+              <ScrollArea className="h-[40rem] pr-2">
                 {countries
                   ?.filter(
                     (co: Country) =>

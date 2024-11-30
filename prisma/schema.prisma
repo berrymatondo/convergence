@@ -541,6 +541,7 @@ model StaticInfoFx{
   currency1 Currency? @relation(name: "currency1", fields: [currencyId1], references: [id])
   currencyId2 Int?
   currency2 Currency? @relation(name: "currency2", fields: [currencyId2], references: [id])
+  historicalDataFx HistoricalDataFx[]
 
   ric String
   ticker String
@@ -549,6 +550,24 @@ model StaticInfoFx{
   updatedAt DateTime @updatedAt @default(now())
   @@map("staticInfoFx")
 }
+
+
+model HistoricalDataFx{
+  id Int @id @default(autoincrement())
+  staticInfoFxId Int?
+  staticInfoFx StaticInfoFx? @relation(fields: [staticInfoFxId], references: [id])
+  date String
+  close Float
+  change Float
+  changePercentage Float
+  type YCTypesList @default(H)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
+  @@map("historicalDataFx")
+}
+
+
 
 model StaticInfoBond{
   id Int @id @default(autoincrement())

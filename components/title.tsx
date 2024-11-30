@@ -31,11 +31,17 @@ const Title = ({
 
   const flag = "https://flagcdn.Com/w40/" + flagCode + ".png";
 
+  //console.log("flag: ", flagCode);
+
   return (
     <div className={pos}>
-      <div className="flex gap-2 items-center w-full justify-center">
+      <div
+        className={`flex gap-2 items-center w-full ${
+          flagCode ? "justify-start" : "justify-start"
+        }`}
+      >
         {" "}
-        <img src={flag} alt="Flag" style={{ width: "3rem" }} />
+        {flagCode && <img src={flag} alt="Flag" style={{ width: "3rem" }} />}
         <h1 className="uppercase font-bold text-3xl max-md:text-lg text-sky-700 dark:text-sky-500 md:my-4">
           {title.split("_").join(" ")}
         </h1>

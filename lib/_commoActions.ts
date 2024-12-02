@@ -30,7 +30,7 @@ export const getCommo = async (commoId: number) => {
       },
     });
 
-    console.log("res", commo);
+    //console.log("res", commo);
 
     return {
       success: true,
@@ -62,6 +62,29 @@ export const getCommoHsitoMaxDate = async (commoId: number) => {
         close20: commo[20],
         close60: commo[60],
         close252: commo[252],
+      },
+    };
+  } catch (error) {}
+};
+
+// GET last historical for a SPECIFIC commo
+export const getLastCommoHsitoMaxDate = async (commoId: number) => {
+  try {
+    const commo = await prisma.historicalDataCommo.findMany({
+      where: {
+        staticInfoCommoId: +commoId,
+      },
+      orderBy: {
+        date: "desc",
+      },
+    });
+
+    //console.log("res", commo);
+
+    return {
+      success: true,
+      data: {
+        close: commo[0],
       },
     };
   } catch (error) {}

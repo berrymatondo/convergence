@@ -166,3 +166,22 @@ export const checkAuth = async (role: string) => {
         : "Vous n'avez pas les droits nécessaires pour effectuer cette opération",
   };
 };
+
+// GET Static  country
+export const getStaticInfoCountry = async (countryId: number) => {
+  try {
+    const country = await prisma.staticInfoCountry.findUnique({
+      where: {
+        id: +countryId,
+      },
+      include: {
+        country: true,
+      },
+    });
+
+    return {
+      success: true,
+      data: country,
+    };
+  } catch (error) {}
+};

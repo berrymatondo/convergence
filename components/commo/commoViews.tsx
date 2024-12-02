@@ -17,6 +17,18 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { ScrollArea } from "../ui/scroll-area";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../ui/table";
+import HistoCommoItem from "./histoCommoItem";
 const chartData = [
   { month: "January", desktop: 186 },
   { month: "February", desktop: 305 },
@@ -35,8 +47,9 @@ const chartConfig = {
 
 type commoViewsProps = {
   commo: any;
+  commos: any;
 };
-const commoViews = ({ commo }: commoViewsProps) => {
+const commoViews = ({ commo, commos }: commoViewsProps) => {
   //console.log("commo:", commo);
 
   //console.log("commo.historicalDataCommo:", commo.historicalDataCommo);
@@ -45,29 +58,27 @@ const commoViews = ({ commo }: commoViewsProps) => {
   if (commo?.historicalDataCommo) {
     commoH = [...commo.historicalDataCommo];
 
-    for (let i = 0; i < commoH.length && i < 10; i++) {
+    for (let i = 0; i < commoH.length && i < 300; i++) {
       tempo.push({
         date: commoH[i].date,
         //desktop: i,
-        desktop: commoH[i].changePercentage.toFixed(2),
+        desktop: commoH[i].close.toFixed(2),
       });
     }
 
     tempo.sort((a: any, b: any) => Date.parse(a.date) - Date.parse(b.date));
   }
 
-  // console.log("tempo:", tempo);
+  //console.log("tempo:", tempo.length);
 
   return (
     <Card className="border-none">
       <CardHeader>
-        <CardTitle className="text-sky-700 dark:text-sky-500">
-          Area Chart - Linear
-        </CardTitle>
-        <CardDescription>Showing values of the last 10 days</CardDescription>
+        <CardTitle className="text-sky-700 dark:text-sky-500"></CardTitle>
+        <CardDescription></CardDescription>
       </CardHeader>
-      <CardContent>
-        <ChartContainer config={chartConfig}>
+      <CardContent className="flex flex-col justify-between">
+        <ChartContainer style={{ width: "100%" }} config={chartConfig}>
           <AreaChart
             accessibilityLayer
             data={tempo}
@@ -84,7 +95,7 @@ const commoViews = ({ commo }: commoViewsProps) => {
               tickMargin={8}
               tickFormatter={(value) => value.slice(0, 10)}
             />
-            <YAxis tickMargin={8} />
+            <YAxis domain={["dataMin", "dataMax"]} tickMargin={8} />
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent indicator="dot" hideLabel />}
@@ -100,16 +111,27 @@ const commoViews = ({ commo }: commoViewsProps) => {
         </ChartContainer>
       </CardContent>
       <CardFooter>
-        <div className="flex w-full items-start gap-2 text-sm">
-          <div className="grid gap-2">
-            <div className="flex items-center gap-2 font-medium leading-none">
-              Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-            </div>
-            <div className="flex items-center gap-2 leading-none text-muted-foreground">
-              January - June 2024
-            </div>
-          </div>
-        </div>
+        <ScrollArea className="mt-4 w-full h-56 max-md:h-[20rem] pr-2">
+          <Table>
+            <TableHeader className="">
+              <TableRow className="">
+                <TableHead className="max-md:w-[100px] md:pl-4">Date</TableHead>
+                <TableHead className="text-center">Close</TableHead>
+                <TableHead className="text-center">Change</TableHead>
+                <TableHead className="text-right md:pr-4">Change %</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody className="">
+              {commo?.historicalDataCommo
+                ?.sort(
+                  (a: any, b: any) => Date.parse(b.date) - Date.parse(a.date)
+                )
+                .map((histoCommo: any) => (
+                  <HistoCommoItem histoCommo={histoCommo} key={histoCommo.id} />
+                ))}
+            </TableBody>
+          </Table>
+        </ScrollArea>
       </CardFooter>
     </Card>
   );

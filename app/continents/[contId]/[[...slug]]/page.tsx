@@ -29,7 +29,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { getCountry } from "@/lib/_countryActions";
+import { getCountry, getStaticInfoCountry } from "@/lib/_countryActions";
 import Title from "@/components/title";
 
 const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
@@ -39,8 +39,9 @@ const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
   const usr: any = session?.user;
 
   const country = await getCountry(slug ? +slug[0] : 1);
+  const staticCountry = await getStaticInfoCountry(slug ? +slug[0] : 1);
 
-  //console.log("sulg2:", country?.data?.name);
+  console.log("sulg2:", staticCountry);
 
   const headersList = headers();
   //const domain = headersList.get("host") || "";
@@ -84,7 +85,10 @@ const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
                 <div>
                   <p className="text-xl flex justify-between">
                     <span>GDP Growth Rate</span>
-                    <span className="text-sky-600"> 3,40 %</span>
+                    <span className="text-sky-600">
+                      {" "}
+                      {staticCountry?.data?.gdpGrowhtRate} %
+                    </span>
                   </p>
                   <p className="text-sm flex justify-between">
                     <span className="text-gray-400">Interest Rate</span>

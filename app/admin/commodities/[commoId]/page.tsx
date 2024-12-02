@@ -40,8 +40,10 @@ import {
   getAllStaticCommo,
   getCommo,
   getCommoHsitoMaxDate,
+  getLastCommoHsitoMaxDate,
 } from "@/lib/_commoActions";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
@@ -49,18 +51,22 @@ const CommoDetailPage = () => {
   const pathname = usePathname();
   const [commo, setCommo] = useState<any>();
   const [commos, setCommos] = useState<any>([]);
+  const [tout, setTout] = useState<any>([]);
   //console.log("pathname", pathname);
 
   const { data: session } = useSession();
   const usr: any = session?.user;
 
   const commoId = pathname.split("commodities/")[1];
+
+  let ttt: any = [];
+
   useEffect(() => {
     const fetchCommo = async (id: any) => {
       const rs = await getAllStaticCommo();
       const dt = rs?.data;
 
-      console.log("data", dt);
+      //  console.log("data", dt);
 
       setCommos(rs?.data);
 
@@ -73,8 +79,6 @@ const CommoDetailPage = () => {
         // console.log("data2", data2);
         //console.log("data2", data);
 
-        /*         if(res2?.data)
-        data = {...data, last:res2?.data} */
         const tempo: any = {
           ...data,
           last: res2?.data?.close,
@@ -88,15 +92,23 @@ const CommoDetailPage = () => {
         setCommo(tempo);
       } else setCommo(data);
 
-      //console.log("data ", data);
-      /*       console.log("data ", data);
+      //console.log("comos", rs?.data);
+      /* 
+      if (rs?.data) {
+        for (let i = 0; i < rs.data.length; i++) {
+          const res3 = await getCommoHsitoMaxDate(rs.data[i].id);
+          const data3 = res3?.data?.close;
+          // console.log("data2", data2);
+          //console.log("data2", data);
 
-      console.log(
-        "SORT",
-        data?.historicalDataCommo.sort(
-          (a: any, b: any) => Date.parse(b.date) - Date.parse(a.date)
-        )
-      ); */
+          ttt.push({
+            id: rs.data[i].id,
+            name: rs.data[i].assetName,
+            close: data3,
+          });
+        }
+        setTout(ttt);
+      } */
     };
     fetchCommo(commoId);
   }, [commoId]);
@@ -112,36 +124,24 @@ const CommoDetailPage = () => {
       >
         <div className="px-2">
           <CustomBreadcrumb name={`${commo?.assetName}`} />
-          <p className="my-2 text-2xl font-semibold text-sky-700 dark:text-sky-500">
+          <p className="uppercase my-4 text-4xl font-semibold text-sky-700 dark:text-sky-500">
             {commo?.assetName}
           </p>
           <div className="grid md:grid-cols-8 gap-2 ">
             <Card className="md:col-span-2 py-4">
-              {/*               <CardHeader>
-                <CardTitle className="text-sky-700 dark:text-sky-500">
-                  {commo?.assetName}
-                </CardTitle>
-              </CardHeader> */}
               <CardContent className="text-sm">
-                {/*                 {usr && usr.role == "ADMIN" && (
-                  <p className=" w-full flex items-center justify-between gap-2">
-                    <span className="">Identification: </span>
-                    <span className="">{commo?.id}</span>
-                  </p>
-                )} */}
-
-                <p className="w-full flex items-center justify-between gap-2">
-                  <span className="text-sky-700 dark:text-sky-500">
-                    {commo?.currency?.mic}{" "}
+                <p className="w-full flex items-center justify-between gap-2 mb-2">
+                  <span className="text-xl text-orange-700 dark:text-orange-500">
+                    {commo?.currency?.mic}
                   </span>
-                </p>
 
-                <p className="w-full flex items-center justify-end gap-2">
-                  <span className="text-4xl text-orange-700 dark:text-orange-500">
-                    {commo?.last?.close}
-                  </span>
+                  {commo?.currency?.mic && (
+                    <span className="text-5xl text-orange-700 dark:text-orange-500">
+                      {+commo?.last?.close.toFixed(2)}
+                    </span>
+                  )}
                 </p>
-                <p className=" w-full flex items-center justify-end gap-2">
+                <p className=" w-full flex items-center justify-end gap-2 mb-2">
                   <span
                     className={
                       +commo?.last?.change < 0
@@ -149,7 +149,8 @@ const CommoDetailPage = () => {
                         : "text-green-600"
                     }
                   >
-                    {commo?.last?.change}
+                    {+commo?.last?.change > 0 ? "+" : ""}
+                    {commo?.last?.change?.toFixed(2)}
                   </span>
                   <span
                     className={
@@ -158,146 +159,130 @@ const CommoDetailPage = () => {
                         : "text-green-600"
                     }
                   >
+                    {+commo?.last?.change > 0 ? "+" : ""}
                     {commo?.last?.changePercentage?.toFixed(2)} %
                   </span>
                 </p>
-                <p className=" w-full flex items-center justify-between gap-2">
-                  <span className="">
-                    {new Date(commo?.last?.date.toString()).toUTCString()} CDT
-                  </span>
-                </p>
+                <div className=" w-full flex items-center justify-between gap-2">
+                  <p className="gap-4 flex justify-between">
+                    {new Date(commo?.last?.date.toString()).toDateString()}
+                    <span>CDT</span>
+                  </p>
+                </div>
                 <div className="mt-2 space-y-1 w-full flex flex-col items-start justify-start gap-2">
-                  <span className="">Delayted quote</span>
+                  <span className="text-lg">Delayted quote</span>
                   <Separator />
                 </div>
                 <div className="mt-2 space-y-1 w-full flex flex-col items-start justify-start gap-2">
-                  <span className="text-xl text-orange-700 dark:text-orange-500">
+                  <span className="text-xl font-semibold text-orange-700 dark:text-orange-500">
                     Key Data
                   </span>
-                  <Separator className="text-orange-500" />
                 </div>
 
-                <p className=" w-full flex  flex-col items-start  justify-between gap-2">
-                  <span className="">Previous close:</span>
-                  <span className="text-sky-700 dark:text-sky-500">
-                    {commo?.close1?.close}
+                <p className=" mb-2 w-full flex  flex-col items-start  justify-between gap-2">
+                  <span className="text-gray-400">Previous close:</span>
+                  <span className="text-2xl font-semibold text-sky-700 dark:text-sky-500">
+                    {commo?.close1?.close.toFixed(2)}
                   </span>
+                  <Separator className="text-orange-500" />
                 </p>
-                <p className=" w-full flex  flex-col items-start justify-between gap-2">
-                  <span className="">Day Range</span>
+                <div className=" mb-2 w-full flex  flex-col items-start justify-between gap-2">
+                  <span className="text-gray-400">Day Range</span>
                   <p>
-                    <span className="text-sky-700 dark:text-sky-500">
-                      {commo?.close1?.close}
+                    <span className="text-2xl font-semibold text-sky-700 dark:text-sky-500">
+                      {commo?.close1?.close.toFixed(2)}
                     </span>
-                    {"-"}
-                    <span className="text-sky-700 dark:text-sky-500">
-                      {commo?.last?.close}
+                    {" - "}
+                    <span className="text-2xl font-semibold text-sky-700 dark:text-sky-500">
+                      {commo?.last?.close.toFixed(2)}
                     </span>
                   </p>
-                </p>
-                <p className=" w-full flex  flex-col items-start  justify-between gap-2">
-                  <span className="">52 Wk Range</span>
+                </div>
+                <Separator className="text-orange-500" />
+                <div className=" mt-2 w-full flex  flex-col items-start  justify-between gap-2">
+                  <span className="text-gray-400">52 Wk Range</span>
                   <p>
                     {" "}
-                    <span className="text-sky-700 dark:text-sky-500">
-                      {commo?.close252?.close}
+                    <span className="text-2xl font-semibold text-sky-700 dark:text-sky-500">
+                      {commo?.close252?.close.toFixed(2)}
                     </span>
-                    {"-"}
-                    <span className="text-sky-700 dark:text-sky-500">
-                      {commo?.last?.close}
+                    {" - "}
+                    <span className="text-2xl font-semibold text-sky-700 dark:text-sky-500">
+                      {commo?.last?.close.toFixed(2)}
                     </span>
                   </p>
-                </p>
+                </div>
                 <div className="mt-2 space-y-1 w-full flex flex-col items-start justify-start gap-2">
-                  <span className="text-xl text-orange-700 dark:text-orange-500">
+                  <span className="text-xl font-semibold text-orange-700 dark:text-orange-500">
                     Performance
                   </span>
                   <Separator className="text-orange-500" />
                 </div>
-                <p className=" w-full flex  flex-col items-start  justify-between gap-2">
-                  <span className="">5 Day:</span>
-                  <span className="text-sky-700 dark:text-sky-500">
-                    {(
-                      (+commo?.last?.close / +commo?.close5?.close - 1) *
-                      100
-                    ).toFixed(2)}{" "}
-                    %
-                  </span>
-                </p>
-                <p className=" w-full flex  flex-col items-start justify-between gap-2">
-                  <span className="">1 Month:</span>
-                  <span className="text-sky-700 dark:text-sky-500">
-                    {(
-                      (+commo?.last?.close / +commo?.close20?.close - 1) *
-                      100
-                    ).toFixed(2)}{" "}
-                    %
-                  </span>
-                </p>
-                <p className=" w-full flex  flex-col items-start justify-between gap-2">
-                  <span className="">3 Month:</span>
-                  <span className="text-sky-700 dark:text-sky-500">
-                    {(
-                      (+commo?.last?.close / +commo?.close60?.close - 1) *
-                      100
-                    ).toFixed(2)}{" "}
-                    %
-                  </span>
-                </p>
-                <p className=" w-full flex flex-col items-start justify-between gap-2">
-                  <span className="">1 Year:</span>
-                  <span className="text-sky-700 dark:text-sky-500">
-                    {(
-                      (+commo?.last?.close / +commo?.close252?.close - 1) *
-                      100
-                    ).toFixed(2)}{" "}
-                    %
-                  </span>
-                </p>
+                <div className="flex flex-col gap-2">
+                  <p className="mt-2 w-full flex items-start  justify-between gap-2">
+                    <span className="">5 Day:</span>
+                    <span className="text-sky-700 dark:text-sky-500">
+                      {(
+                        (+commo?.last?.close / +commo?.close5?.close - 1) *
+                        100
+                      ).toFixed(2)}{" "}
+                      %
+                    </span>
+                  </p>
+                  <p className=" w-full flex items-start justify-between gap-2">
+                    <span className="">1 Month:</span>
+                    <span className="text-sky-700 dark:text-sky-500">
+                      {(
+                        (+commo?.last?.close / +commo?.close20?.close - 1) *
+                        100
+                      ).toFixed(2)}{" "}
+                      %
+                    </span>
+                  </p>
+                  <p className=" w-full flex   items-start justify-between gap-2">
+                    <span className="">3 Month:</span>
+                    <span className="text-sky-700 dark:text-sky-500">
+                      {(
+                        (+commo?.last?.close / +commo?.close60?.close - 1) *
+                        100
+                      ).toFixed(2)}{" "}
+                      %
+                    </span>
+                  </p>
+                  <p className=" w-full flex  items-start justify-between gap-2">
+                    <span className="">1 Year:</span>
+                    <span className="text-sky-700 dark:text-sky-500">
+                      {(
+                        (+commo?.last?.close / +commo?.close252?.close - 1) *
+                        100
+                      ).toFixed(2)}{" "}
+                      %
+                    </span>
+                  </p>
+                </div>
               </CardContent>
             </Card>
 
-            <Card className="md:col-span-3">
-              <CommoViews commo={commo} />
+            <Card className="md:col-span-5">
+              <CommoViews commo={commo} commos={commos} />
             </Card>
 
-            <Card className="md:col-span-3">
-              {/*               <div className="">
-                <SearchCommo search={search} />
-              </div> */}
+            <Card className="md:col-span-1">
+              <CardHeader>
+                <CardTitle>Other Commodities</CardTitle>
+              </CardHeader>
               <CardContent className="max-md:px-2">
-                <ScrollArea className="h-96 max-md:h-[20rem] pr-2">
-                  {commos?.length}
+                <ScrollArea className="h-[36rem] max-md:h-[20rem] pr-2 py-4">
                   {commos?.map((el: any) => (
-                    <div>{el?.assetName}</div>
+                    <div key={el.id} className="">
+                      <Link
+                        href={`/admin/commodities/${el.id}`}
+                        className="text-sky-600 text-lg hover:text-sky-400"
+                      >
+                        {el?.assetName}
+                      </Link>
+                    </div>
                   ))}
-                  {/*                   <Table>
-                    <TableHeader className="">
-                      <TableRow className="">
-                        <TableHead className="max-md:w-[100px] md:pl-4">
-                          Date
-                        </TableHead>
-                        <TableHead className="text-center">Close</TableHead>
-                        <TableHead className="text-center">Change</TableHead>
-                        <TableHead className="text-right md:pr-4">
-                          Change %
-                        </TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody className="">
-                      {commo?.historicalDataCommo
-                        .sort(
-                          (a: any, b: any) =>
-                            Date.parse(b.date) - Date.parse(a.date)
-                        )
-                        .map((histoCommo: any) => (
-                          <HistoCommoItem
-                            histoCommo={histoCommo}
-                            key={histoCommo.id}
-                          />
-                        ))}
-                    </TableBody>
-                  </Table> */}
                 </ScrollArea>
               </CardContent>
             </Card>

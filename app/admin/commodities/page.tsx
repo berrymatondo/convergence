@@ -53,54 +53,6 @@ const infos = [
   },
 ];
 
-/* const commos = [
-  {
-    assetName: "Cocoa",
-    id: 20,
-    currencey: "USD",
-    sector: "AGRICULTURE",
-    ric: "",
-    ticker: "CC=F",
-    symbol: "",
-  },
-  {
-    assetName: "Cotton",
-    id: 21,
-    currencey: "USD",
-    sector: "AGRICULTURE",
-    ric: "",
-    ticker: "CT=F",
-    symbol: "",
-  },
-  {
-    assetName: "Orange Juice",
-    id: 22,
-    currencey: "USD",
-    sector: "AGRICULTURE",
-    ric: "",
-    ticker: "OJ=F",
-    symbol: "",
-  },
-  {
-    assetName: "Cobalt",
-    id: 23,
-    currencey: "USD",
-    sector: "ENERGY",
-    ric: "",
-    ticker: "",
-    symbol: "cobalt",
-  },
-  {
-    assetName: "Nickel",
-    id: 24,
-    currencey: "USD",
-    sector: "METALS",
-    ric: "",
-    ticker: "",
-    symbol: "nickel",
-  },
-]; */
-
 const CommoditiesPage = async ({
   searchParams,
 }: {

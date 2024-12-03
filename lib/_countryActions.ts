@@ -175,7 +175,11 @@ export const getStaticInfoCountry = async (countryId: number) => {
         id: +countryId,
       },
       include: {
-        country: true,
+        country: {
+          include: {
+            staticInfoBond: true,
+          },
+        },
       },
     });
 

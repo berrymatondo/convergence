@@ -54,56 +54,58 @@ export default function Continentayout({
   return (
     <div className="">
       <div className="flex md:items-start max-md:flex-col  ">
-        <div className=" max-md:w-full w-1/5  mx-auto  rounded-md border mt-[7.25rem] px-4">
-          {!show ? (
-            <p
-              className="hover:cursor-pointer hover:text-blue-600 text-center "
-              onClick={() => setShow(!show)}
-            >
-              Afficher les pays
-            </p>
-          ) : (
-            <p
-              className="hover:cursor-pointer hover:text-blue-600  text-center "
-              onClick={() => setShow(!show)}
-            >
-              Cacher les pays
-            </p>
-          )}
-          {show && usr?.role != "AGENT" && (
-            <ul className="h-[29rem] bg-neutral-100 dark:bg-opacity-0 py-4 md:w-full flex flex-col items-center gap-2 ">
-              <Link
-                href="/admin/countries"
-                className="text-black dark:text-white underline"
+        {!contId && (
+          <div className=" max-md:w-full w-1/5  mx-auto  rounded-md border mt-[7.25rem] px-4">
+            {!show ? (
+              <p
+                className="hover:cursor-pointer hover:text-blue-600 text-center "
+                onClick={() => setShow(!show)}
               >
-                Vers tous les pays
-              </Link>
+                Afficher les pays
+              </p>
+            ) : (
+              <p
+                className="hover:cursor-pointer hover:text-blue-600  text-center "
+                onClick={() => setShow(!show)}
+              >
+                Cacher les pays
+              </p>
+            )}
+            {show && usr?.role != "AGENT" && (
+              <ul className="h-[29rem] bg-neutral-100 dark:bg-opacity-0 py-4 md:w-full flex flex-col items-center gap-2 ">
+                <Link
+                  href="/admin/countries"
+                  className="text-black dark:text-white underline"
+                >
+                  Vers tous les pays
+                </Link>
 
-              <ScrollArea className="h-[40rem] pr-2">
-                {countries
-                  ?.filter(
-                    (co: Country) =>
-                      co.id.toString() == contId || usr?.role != "AGENT"
-                  )
-                  ?.map((count: Country) => (
-                    <div key={count.id} className="w-full ">
-                      <Link
-                        href={`/continents/${cont}/${count.id}`}
-                        //href={`/continents/`}
-                        className={
-                          contId == count.id.toString()
-                            ? "font-semibold text-blue-600 dark:text-blue-300 "
-                            : "text-gray-500 dark:text-gray-500"
-                        }
-                      >
-                        {count.name.split("_").join(" ")}
-                      </Link>
-                    </div>
-                  ))}
-              </ScrollArea>
-            </ul>
-          )}
-        </div>
+                <ScrollArea className="h-[40rem] pr-2">
+                  {countries
+                    ?.filter(
+                      (co: Country) =>
+                        co.id.toString() == contId || usr?.role != "AGENT"
+                    )
+                    ?.map((count: Country) => (
+                      <div key={count.id} className="w-full ">
+                        <Link
+                          href={`/continents/${cont}/${count.id}`}
+                          //href={`/continents/`}
+                          className={
+                            contId == count.id.toString()
+                              ? "font-semibold text-blue-600 dark:text-blue-300 "
+                              : "text-gray-500 dark:text-gray-500"
+                          }
+                        >
+                          {count.name.split("_").join(" ")}
+                        </Link>
+                      </div>
+                    ))}
+                </ScrollArea>
+              </ul>
+            )}
+          </div>
+        )}
         <div className=" w-full flex-1 ">{children}</div>
       </div>
     </div>

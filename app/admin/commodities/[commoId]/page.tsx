@@ -45,7 +45,7 @@ import {
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 
 const CommoDetailPage = () => {
   const pathname = usePathname();
@@ -118,156 +118,155 @@ const CommoDetailPage = () => {
   return (
     <div>
       {" "}
-      <PageLayout
-        title="Détails matière première"
-        description="Détails et historiques d'une matière première"
-      >
-        <div className="px-2">
+      <PageLayout>
+        <div className="">
           <CustomBreadcrumb name={`${commo?.assetName}`} />
           <p className="uppercase my-4 text-4xl font-semibold text-sky-700 dark:text-sky-500">
             {commo?.assetName}
           </p>
-          <div className="grid md:grid-cols-8 gap-2 ">
-            <Card className="md:col-span-2 py-4">
-              <CardContent className="text-sm">
-                <p className="w-full flex items-center justify-between gap-2 mb-2">
-                  <span className="text-xl text-orange-700 dark:text-orange-500">
-                    {commo?.currency?.mic}
-                  </span>
-
-                  {commo?.currency?.mic && (
-                    <span className="text-5xl text-orange-700 dark:text-orange-500">
-                      {+commo?.last?.close.toFixed(2)}
+          <div className="grid md:grid-cols-12 gap-2 ">
+            <Suspense fallback={<p className="text-3xl">Loading feed...</p>}>
+              <Card className="md:col-span-3 py-4">
+                <CardContent className="text-sm">
+                  <p className="w-full flex items-center justify-between gap-2 mb-2">
+                    <span className="text-xl text-orange-700 dark:text-orange-500">
+                      {commo?.currency?.mic}
                     </span>
-                  )}
-                </p>
-                <p className=" w-full flex items-center justify-end gap-2 mb-2">
-                  <span
-                    className={
-                      +commo?.last?.change < 0
-                        ? `text-red-600`
-                        : "text-green-600"
-                    }
-                  >
-                    {+commo?.last?.change > 0 ? "+" : ""}
-                    {commo?.last?.change?.toFixed(2)}
-                  </span>
-                  <span
-                    className={
-                      +commo?.last?.change < 0
-                        ? `text-red-600`
-                        : "text-green-600"
-                    }
-                  >
-                    {+commo?.last?.change > 0 ? "+" : ""}
-                    {commo?.last?.changePercentage?.toFixed(2)} %
-                  </span>
-                </p>
-                <div className=" w-full flex items-center justify-between gap-2">
-                  <p className="gap-4 flex justify-between">
-                    {new Date(commo?.last?.date.toString()).toDateString()}
-                    <span>CDT</span>
-                  </p>
-                </div>
-                <div className="mt-2 space-y-1 w-full flex flex-col items-start justify-start gap-2">
-                  <span className="text-lg">Delayted quote</span>
-                  <Separator />
-                </div>
-                <div className="mt-2 space-y-1 w-full flex flex-col items-start justify-start gap-2">
-                  <span className="text-xl font-semibold text-orange-700 dark:text-orange-500">
-                    Key Data
-                  </span>
-                </div>
 
-                <p className=" mb-2 w-full flex  flex-col items-start  justify-between gap-2">
-                  <span className="text-gray-400">Previous close:</span>
-                  <span className="text-2xl font-semibold text-sky-700 dark:text-sky-500">
-                    {commo?.close1?.close.toFixed(2)}
-                  </span>
-                  <Separator className="text-orange-500" />
-                </p>
-                <div className=" mb-2 w-full flex  flex-col items-start justify-between gap-2">
-                  <span className="text-gray-400">Day Range</span>
-                  <p>
+                    {commo?.currency?.mic && (
+                      <span className="text-5xl text-orange-700 dark:text-orange-500">
+                        {+commo?.last?.close.toFixed(2)}
+                      </span>
+                    )}
+                  </p>
+                  <p className=" w-full flex items-center justify-end gap-2 mb-2">
+                    <span
+                      className={
+                        +commo?.last?.change < 0
+                          ? `text-red-600`
+                          : "text-green-600"
+                      }
+                    >
+                      {+commo?.last?.change > 0 ? "+" : ""}
+                      {commo?.last?.change?.toFixed(2)}
+                    </span>
+                    <span
+                      className={
+                        +commo?.last?.change < 0
+                          ? `text-red-600`
+                          : "text-green-600"
+                      }
+                    >
+                      {+commo?.last?.change > 0 ? "+" : ""}
+                      {commo?.last?.changePercentage?.toFixed(2)} %
+                    </span>
+                  </p>
+                  <div className=" w-full flex items-center justify-between gap-2">
+                    <p className="gap-4 flex justify-between">
+                      {new Date(commo?.last?.date.toString()).toDateString()}
+                      <span>CDT</span>
+                    </p>
+                  </div>
+                  <div className="mt-2 space-y-1 w-full flex flex-col items-start justify-start gap-2">
+                    <span className="text-lg">Delayted quote</span>
+                    <Separator />
+                  </div>
+                  <div className="mt-2 space-y-1 w-full flex flex-col items-start justify-start gap-2">
+                    <span className="text-xl font-semibold text-orange-700 dark:text-orange-500">
+                      Key Data
+                    </span>
+                  </div>
+
+                  <p className=" mb-2 w-full flex  flex-col items-start  justify-between gap-2">
+                    <span className="text-gray-400">Previous close:</span>
                     <span className="text-2xl font-semibold text-sky-700 dark:text-sky-500">
                       {commo?.close1?.close.toFixed(2)}
                     </span>
-                    {" - "}
-                    <span className="text-2xl font-semibold text-sky-700 dark:text-sky-500">
-                      {commo?.last?.close.toFixed(2)}
-                    </span>
                   </p>
-                </div>
-                <Separator className="text-orange-500" />
-                <div className=" mt-2 w-full flex  flex-col items-start  justify-between gap-2">
-                  <span className="text-gray-400">52 Wk Range</span>
-                  <p>
-                    {" "}
-                    <span className="text-2xl font-semibold text-sky-700 dark:text-sky-500">
-                      {commo?.close252?.close.toFixed(2)}
-                    </span>
-                    {" - "}
-                    <span className="text-2xl font-semibold text-sky-700 dark:text-sky-500">
-                      {commo?.last?.close.toFixed(2)}
-                    </span>
-                  </p>
-                </div>
-                <div className="mt-2 space-y-1 w-full flex flex-col items-start justify-start gap-2">
-                  <span className="text-xl font-semibold text-orange-700 dark:text-orange-500">
-                    Performance
-                  </span>
                   <Separator className="text-orange-500" />
-                </div>
-                <div className="flex flex-col gap-2">
-                  <p className="mt-2 w-full flex items-start  justify-between gap-2">
-                    <span className="">5 Day:</span>
-                    <span className="text-sky-700 dark:text-sky-500">
-                      {(
-                        (+commo?.last?.close / +commo?.close5?.close - 1) *
-                        100
-                      ).toFixed(2)}{" "}
-                      %
+                  <div className=" mb-2 w-full flex  flex-col items-start justify-between gap-2">
+                    <span className="text-gray-400">Day Range</span>
+                    <p>
+                      <span className="text-2xl font-semibold text-sky-700 dark:text-sky-500">
+                        {commo?.close1?.close.toFixed(2)}
+                      </span>
+                      {" - "}
+                      <span className="text-2xl font-semibold text-sky-700 dark:text-sky-500">
+                        {commo?.last?.close.toFixed(2)}
+                      </span>
+                    </p>
+                  </div>
+                  <Separator className="text-orange-500" />
+                  <div className=" mt-2 w-full flex  flex-col items-start  justify-between gap-2">
+                    <span className="text-gray-400">52 Wk Range</span>
+                    <p>
+                      {" "}
+                      <span className="text-2xl font-semibold text-sky-700 dark:text-sky-500">
+                        {commo?.close252?.close.toFixed(2)}
+                      </span>
+                      {" - "}
+                      <span className="text-2xl font-semibold text-sky-700 dark:text-sky-500">
+                        {commo?.last?.close.toFixed(2)}
+                      </span>
+                    </p>
+                  </div>
+                  <div className="mt-2 space-y-1 w-full flex flex-col items-start justify-start gap-2">
+                    <span className="text-xl font-semibold text-orange-700 dark:text-orange-500">
+                      Performance
                     </span>
-                  </p>
-                  <p className=" w-full flex items-start justify-between gap-2">
-                    <span className="">1 Month:</span>
-                    <span className="text-sky-700 dark:text-sky-500">
-                      {(
-                        (+commo?.last?.close / +commo?.close20?.close - 1) *
-                        100
-                      ).toFixed(2)}{" "}
-                      %
-                    </span>
-                  </p>
-                  <p className=" w-full flex   items-start justify-between gap-2">
-                    <span className="">3 Month:</span>
-                    <span className="text-sky-700 dark:text-sky-500">
-                      {(
-                        (+commo?.last?.close / +commo?.close60?.close - 1) *
-                        100
-                      ).toFixed(2)}{" "}
-                      %
-                    </span>
-                  </p>
-                  <p className=" w-full flex  items-start justify-between gap-2">
-                    <span className="">1 Year:</span>
-                    <span className="text-sky-700 dark:text-sky-500">
-                      {(
-                        (+commo?.last?.close / +commo?.close252?.close - 1) *
-                        100
-                      ).toFixed(2)}{" "}
-                      %
-                    </span>
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="md:col-span-5">
-              <CommoViews commo={commo} commos={commos} />
-            </Card>
-
-            <Card className="md:col-span-1">
+                    <Separator className="text-orange-500" />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <p className="mt-2 w-full flex items-start  justify-between gap-2">
+                      <span className="">5 Day:</span>
+                      <span className="text-sky-700 dark:text-sky-500">
+                        {(
+                          (+commo?.last?.close / +commo?.close5?.close - 1) *
+                          100
+                        ).toFixed(2)}{" "}
+                        %
+                      </span>
+                    </p>
+                    <p className=" w-full flex items-start justify-between gap-2">
+                      <span className="">1 Month:</span>
+                      <span className="text-sky-700 dark:text-sky-500">
+                        {(
+                          (+commo?.last?.close / +commo?.close20?.close - 1) *
+                          100
+                        ).toFixed(2)}{" "}
+                        %
+                      </span>
+                    </p>
+                    <p className=" w-full flex   items-start justify-between gap-2">
+                      <span className="">3 Month:</span>
+                      <span className="text-sky-700 dark:text-sky-500">
+                        {(
+                          (+commo?.last?.close / +commo?.close60?.close - 1) *
+                          100
+                        ).toFixed(2)}{" "}
+                        %
+                      </span>
+                    </p>
+                    <p className=" w-full flex  items-start justify-between gap-2">
+                      <span className="">1 Year:</span>
+                      <span className="text-sky-700 dark:text-sky-500">
+                        {(
+                          (+commo?.last?.close / +commo?.close252?.close - 1) *
+                          100
+                        ).toFixed(2)}{" "}
+                        %
+                      </span>
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            </Suspense>
+            <Suspense fallback={<p className="text-3xl">Loading feed...</p>}>
+              <Card className="md:col-span-7">
+                <CommoViews commo={commo} commos={commos} />
+              </Card>
+            </Suspense>
+            <Card className="md:col-span-2">
               <CardHeader>
                 <CardTitle>Other Commodities</CardTitle>
               </CardHeader>

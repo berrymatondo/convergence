@@ -58,7 +58,7 @@ const commoViews = ({ commo, commos }: commoViewsProps) => {
   if (commo?.historicalDataCommo) {
     commoH = [...commo.historicalDataCommo];
 
-    for (let i = 0; i < commoH.length && i < 300; i++) {
+    for (let i = 0; i < commoH.length && i < 500; i++) {
       tempo.push({
         date: commoH[i].date,
         //desktop: i,
@@ -111,7 +111,7 @@ const commoViews = ({ commo, commos }: commoViewsProps) => {
         </ChartContainer>
       </CardContent>
       <CardFooter>
-        <ScrollArea className="mt-4 w-full h-56 max-md:h-[20rem] pr-2">
+        <ScrollArea className="mt-4 w-full h-60 max-md:h-[20rem] pr-2">
           <Table>
             <TableHeader className="">
               <TableRow className="">

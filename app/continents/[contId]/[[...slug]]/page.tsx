@@ -31,6 +31,10 @@ import {
 } from "@/components/ui/card";
 import { getCountry, getStaticInfoCountry } from "@/lib/_countryActions";
 import Title from "@/components/title";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
 
 const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
   const { slug } = params;
@@ -41,7 +45,7 @@ const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
   const country = await getCountry(slug ? +slug[0] : 1);
   const staticCountry = await getStaticInfoCountry(slug ? +slug[0] : 1);
 
-  console.log("sulg2:", staticCountry);
+  //console.log("sulg2:", staticCountry);
 
   const headersList = headers();
   //const domain = headersList.get("host") || "";
@@ -83,9 +87,9 @@ const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
               </CardHeader>
               <CardContent className="flex flex-col gap-2">
                 <div>
-                  <p className="text-xl flex justify-between">
+                  <p className="text-xl text-orange-600 flex justify-between">
                     <span>GDP Growth Rate</span>
-                    <span className="text-sky-600">
+                    <span className="">
                       {" "}
                       {staticCountry?.data?.gdpGrowhtRate} %
                     </span>
@@ -105,9 +109,9 @@ const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
                   </p>
                 </div>
                 <div>
-                  <p className="text-xl flex justify-between">
+                  <p className="text-orange-600 text-xl flex justify-between">
                     <span>Government Debt to GDP</span>
-                    <span className="text-sky-600"> 54 %</span>
+                    <span className="text-orange-600"> 54 %</span>
                   </p>
                   <p className="text-sm flex justify-between">
                     {" "}
@@ -174,6 +178,81 @@ const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
               </CardHeader>
               <CardContent>x</CardContent>
             </Card>
+            {/*        <Card className="md:col-span-4 h-68">
+              <CardHeader>
+                <CardTitle className="text-center text-sky-700 dark:text-sky-500">
+                  FUNDING STRUCTURE
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Tabs defaultValue="domestic" className="w-full">
+                  <TabsList className="grid w-full grid-cols-2">
+                    <TabsTrigger value="domestic">Domestic Market</TabsTrigger>
+                    <TabsTrigger value="password">
+                      International Market
+                    </TabsTrigger>
+                  </TabsList>
+                  <TabsContent value="domestic">
+                    <Card>
+                      <CardHeader>
+              
+                        <CardDescription className="flex justify-center gap-4">
+                          <div className="flex flex-col items-center">
+                            <Label className="">Issues</Label>
+                            <span>xxx</span>
+                          </div>
+                          <div className="flex flex-col items-center">
+                            <Label htmlFor="name"> Issued Amount USD</Label>
+                            <span>xxx</span>
+                          </div>
+                          <div className="flex flex-col items-center">
+                            <Label htmlFor="name">Average Coupon Rate</Label>
+                            <span>xxx</span>
+                          </div>
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent className="space-y-2">
+                        <div className="space-y-1">
+                          <Label htmlFor="name">Name</Label>
+                          <Input id="name" defaultValue="Pedro Duarte" />
+                        </div>
+                        <div className="space-y-1">
+                          <Label htmlFor="username">Username</Label>
+                          <Input id="username" defaultValue="@peduarte" />
+                        </div>
+                      </CardContent>
+                      <CardFooter>
+                        <Button>Save changes</Button>
+                      </CardFooter>
+                    </Card>
+                  </TabsContent>
+                  <TabsContent value="password">
+                    <Card>
+                      <CardHeader>
+                        <CardTitle>Password</CardTitle>
+                        <CardDescription>
+                          Change your password here. After saving, you'll be
+                          logged out.
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent className="space-y-2">
+                        <div className="space-y-1">
+                          <Label htmlFor="current">Current password</Label>
+                          <Input id="current" type="password" />
+                        </div>
+                        <div className="space-y-1">
+                          <Label htmlFor="new">New password</Label>
+                          <Input id="new" type="password" />
+                        </div>
+                      </CardContent>
+                      <CardFooter>
+                        <Button>Save password</Button>
+                      </CardFooter>
+                    </Card>
+                  </TabsContent>
+                </Tabs>
+              </CardContent>
+            </Card> */}
           </div>
         </div>
       </div>

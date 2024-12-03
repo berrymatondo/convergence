@@ -12,6 +12,7 @@ type PageLayoutProps = {
   children: React.ReactNode;
   position?: string;
   flagCode?: string;
+  wid?: string;
 };
 const PageLayout = ({
   title,
@@ -19,6 +20,7 @@ const PageLayout = ({
   position,
   flagCode,
   children,
+  wid,
 }: PageLayoutProps) => {
   const router = useRouter();
 
@@ -29,7 +31,7 @@ const PageLayout = ({
   };
 
   return (
-    <div className=" mx-auto max-w-screen-2xl">
+    <div className={wid ? wid : "md:container mx-auto max-w-screen-2xl"}>
       <div className="">
         {/*       <div className="bg-black/50 rounded-lg overflow-hidden relative max-sm:p-1  flex flex-col max-sm:h-[70px] h-[150px] w-full ">
         <div className="  overflow-hidden justify-between flex items-center gap-4 text-3xl md:p-10 w-full ">

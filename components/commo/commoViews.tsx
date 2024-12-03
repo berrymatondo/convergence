@@ -1,5 +1,3 @@
-"use client";
-
 import { TrendingUp } from "lucide-react";
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 
@@ -29,6 +27,7 @@ import {
   TableRow,
 } from "../ui/table";
 import HistoCommoItem from "./histoCommoItem";
+import { Suspense } from "react";
 const chartData = [
   { month: "January", desktop: 186 },
   { month: "February", desktop: 305 },
@@ -47,9 +46,9 @@ const chartConfig = {
 
 type commoViewsProps = {
   commo: any;
-  commos: any;
+  commos?: any;
 };
-const commoViews = ({ commo, commos }: commoViewsProps) => {
+const commoViews = async ({ commo, commos }: commoViewsProps) => {
   //console.log("commo:", commo);
 
   //console.log("commo.historicalDataCommo:", commo.historicalDataCommo);
@@ -111,7 +110,7 @@ const commoViews = ({ commo, commos }: commoViewsProps) => {
         </ChartContainer>
       </CardContent>
       <CardFooter>
-        <ScrollArea className="mt-4 w-full h-60 max-md:h-[20rem] pr-2">
+        {/*        <ScrollArea className="mt-4 w-full h-60 max-md:h-[20rem] pr-2">
           <Table>
             <TableHeader className="">
               <TableRow className="">
@@ -131,7 +130,7 @@ const commoViews = ({ commo, commos }: commoViewsProps) => {
                 ))}
             </TableBody>
           </Table>
-        </ScrollArea>
+        </ScrollArea> */}
       </CardFooter>
     </Card>
   );

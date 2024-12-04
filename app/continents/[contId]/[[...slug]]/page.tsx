@@ -204,7 +204,10 @@ const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
                       <SelectItem value="pineapple">Pineapple</SelectItem> */}
 
                       {country?.data?.fxMapping?.map((el: any) => (
-                        <SelectItem value="el.staticInfoFxId">
+                        <SelectItem
+                          key={el.staticInfoFxId}
+                          value={el.staticInfoFxId}
+                        >
                           {" "}
                           <p key={el.staticInfoFxId}>
                             {el.staticInfoFx?.currency1?.mic +

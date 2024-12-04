@@ -111,6 +111,13 @@ export const getCountry = async (countryId: number) => {
       include: {
         gos: true,
         yieldcurve: true,
+        fxMapping: {
+          include: {
+            staticInfoFx: {
+              include: { currency1: true, currency2: true },
+            },
+          },
+        },
       },
     });
 
@@ -177,7 +184,14 @@ export const getStaticInfoCountry = async (countryId: number) => {
       include: {
         country: {
           include: {
-            staticInfoBond: true,
+            staticInfoBond: {
+              include: {
+                couponCurrency: true,
+                principalCurrency: true,
+                country: true,
+                domicile: true,
+              },
+            },
           },
         },
       },

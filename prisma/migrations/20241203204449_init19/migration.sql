@@ -1,0 +1,8 @@
+-- AlterTable
+ALTER TABLE "staticInfoCountry" ALTER COLUMN "gdpGrowhtRate" DROP DEFAULT,
+ALTER COLUMN "interestRate" DROP DEFAULT,
+ALTER COLUMN "inflationRate" DROP DEFAULT,
+ALTER COLUMN "unemploymentRate" DROP DEFAULT,
+ALTER COLUMN "balanceOfTrade" DROP DEFAULT,
+ALTER COLUMN "defaultProbability" DROP DEFAULT,
+ALTER COLUMN "debtToGdp" DROP DEFAULT;

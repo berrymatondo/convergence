@@ -45,21 +45,18 @@ import {
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React, { Suspense, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const CommoDetailPage = () => {
   const pathname = usePathname();
   const [commo, setCommo] = useState<any>();
   const [commos, setCommos] = useState<any>([]);
-  const [tout, setTout] = useState<any>([]);
   //console.log("pathname", pathname);
 
   const { data: session } = useSession();
   const usr: any = session?.user;
 
   const commoId = pathname.split("commodities/")[1];
-
-  let ttt: any = [];
 
   useEffect(() => {
     const fetchCommo = async (id: any) => {

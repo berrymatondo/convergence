@@ -35,6 +35,24 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
+import {
+  Table,
+  TableBody,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import BondItem from "@/components/bond/bondItem";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
   const { slug } = params;
@@ -45,18 +63,35 @@ const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
   const country = await getCountry(slug ? +slug[0] : 1);
   const staticCountry = await getStaticInfoCountry(slug ? +slug[0] : 1);
 
-  //console.log("sulg2:", staticCountry);
+  // console.log("sulg2:", country?.data?.fxMapping);
 
   const headersList = headers();
   //const domain = headersList.get("host") || "";
   const fullUrl = headersList.get("referer") || "";
   const continent = fullUrl.split("continents/")[1];
 
-  //console.log(fullUrl);
+  //console.log(staticCountry);
 
   //console.log("continent:=" + continent);
 
   // IF CONTINENT
+
+  const buildSum = (vect: any) => {
+    let sum = 0;
+    for (let i = 0; i < vect?.length; i++) {
+      sum += vect[i]?.amountIssuedUSD;
+    }
+    return sum;
+  };
+
+  const buildMean = (vect: any) => {
+    let sum = 0;
+    for (let i = 0; i < vect?.length; i++) {
+      sum += vect[i]?.couponRate;
+    }
+    return (sum / vect?.length)?.toFixed(2);
+  };
+
   if (!slug) {
     return (
       <div className="max-md:w-full w-1/2">
@@ -79,7 +114,7 @@ const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
           {/*           <CustomBreadcrumb name="Commodities" />
            */}{" "}
           <div className=" w-full grid md:grid-cols-4 gap-2">
-            <Card className="md:col-span-2 h-68">
+            <Card className="md:col-span-1 h-68">
               <CardHeader>
                 <CardTitle className="text-sky-700 dark:text-sky-500">
                   GENERAL
@@ -87,7 +122,7 @@ const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
               </CardHeader>
               <CardContent className="flex flex-col gap-2">
                 <div>
-                  <p className="text-xl text-orange-600 flex justify-between">
+                  <p className="text-xl text-orange-600 flex justify-between  font-semibold">
                     <span>GDP Growth Rate</span>
                     <span className="">
                       {" "}
@@ -96,52 +131,95 @@ const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
                   </p>
                   <p className="text-sm flex justify-between">
                     <span className="text-gray-400">Interest Rate</span>
-                    <span> 23 %</span>
+                    <span> {staticCountry?.data?.interestRate} %</span>
                   </p>
                   <p className="text-sm flex justify-between">
                     {" "}
                     <span className="text-gray-400">Inflation Rate</span>
-                    <span> 19 %</span>
+                    <span> {staticCountry?.data?.inflationRate} %</span>
                   </p>
                   <p className="text-sm flex justify-between">
                     <span className="text-gray-400">Unemployment Rate</span>
-                    <span> 15 %</span>{" "}
+                    <span> {staticCountry?.data?.unemploymentRate} %</span>{" "}
                   </p>
                 </div>
                 <div>
-                  <p className="text-orange-600 text-xl flex justify-between">
+                  <p className="text-orange-600 text-xl flex justify-between  font-semibold">
                     <span>Government Debt to GDP</span>
-                    <span className="text-orange-600"> 54 %</span>
+                    <span className="text-orange-600">
+                      {" "}
+                      {staticCountry?.data?.debtToGdp} %
+                    </span>
                   </p>
                   <p className="text-sm flex justify-between">
                     {" "}
                     <span className="text-gray-400">
-                      Balance of Trade (NGN Millions){" "}
+                      Balance of Trade (
+                      {staticCountry?.data?.balanceOfTradeCurrency})
                     </span>
-                    <span>2.158.251</span>
+                    <span>{staticCountry?.data?.balanceOfTrade}</span>
                   </p>
                   <p className="text-sm flex justify-between">
                     <span className="text-gray-400">Credit Rating (S&P) </span>
-                    <span>B </span>
+                    <span> {staticCountry?.data?.creditRating}</span>
                   </p>
                 </div>
                 <p className="text-sm flex justify-between">
                   <span className="text-gray-400">
                     Default Probability (Starmine){" "}
                   </span>
-                  <span>11 %</span>
+                  <span>
+                    {staticCountry?.data?.defaultProbability?.toFixed(2)} %
+                  </span>
                 </p>
               </CardContent>
             </Card>
-            <Card className="md:col-span-2 h-68">
+            <Card className="md:col-span-1 h-68">
               <CardHeader>
                 <CardTitle className="text-sky-700 dark:text-sky-500">
                   USD/NGN SPOT
                 </CardTitle>
               </CardHeader>
-              <CardContent></CardContent>
+              <CardContent>
+                {/*                 {country?.data?.fxMapping?.map((el: any) => (
+                  <p key={el.staticInfoFxId}>
+                    {el.staticInfoFx?.currency1?.mic +
+                      "/" +
+                      el.staticInfoFx?.currency2?.mic}{" "}
+                    SPOT
+                  </p>
+                ))} */}
+
+                <Select>
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Select an option" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      {/*                       <SelectLabel>Fruits</SelectLabel>
+                      <SelectItem value="apple">Apple</SelectItem>
+                      <SelectItem value="banana">Banana</SelectItem>
+                      <SelectItem value="blueberry">Blueberry</SelectItem>
+                      <SelectItem value="grapes">Grapes</SelectItem>
+                      <SelectItem value="pineapple">Pineapple</SelectItem> */}
+
+                      {country?.data?.fxMapping?.map((el: any) => (
+                        <SelectItem value="el.staticInfoFxId">
+                          {" "}
+                          <p key={el.staticInfoFxId}>
+                            {el.staticInfoFx?.currency1?.mic +
+                              "/" +
+                              el.staticInfoFx?.currency2?.mic}{" "}
+                            SPOT
+                          </p>
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </CardContent>
             </Card>
-            <Card className="md:col-span-2 h-68">
+            <Card className="md:col-span-1 h-68">
               <CardHeader>
                 <CardTitle className="text-sky-700 dark:text-sky-500">
                   EQUITY MARKET NSE 30
@@ -170,7 +248,7 @@ const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
                 </Accordion> */}
               </CardContent>
             </Card>
-            <Card className="md:col-span-2 h-68">
+            <Card className="md:col-span-1 h-68">
               <CardHeader>
                 <CardTitle className="text-sky-700 dark:text-sky-500">
                   FIXED INCOME MARKET
@@ -178,7 +256,7 @@ const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
               </CardHeader>
               <CardContent>x</CardContent>
             </Card>
-            {/*        <Card className="md:col-span-4 h-68">
+            <Card className="md:col-span-4 h-68">
               <CardHeader>
                 <CardTitle className="text-center text-sky-700 dark:text-sky-500">
                   FUNDING STRUCTURE
@@ -186,73 +264,368 @@ const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
               </CardHeader>
               <CardContent>
                 <Tabs defaultValue="domestic" className="w-full">
-                  <TabsList className="grid w-full grid-cols-2">
+                  <TabsList className="grid w-full grid-cols-3">
                     <TabsTrigger value="domestic">Domestic Market</TabsTrigger>
-                    <TabsTrigger value="password">
+                    <TabsTrigger value="international">
                       International Market
                     </TabsTrigger>
+                    <TabsTrigger value="other">Other Market</TabsTrigger>
                   </TabsList>
                   <TabsContent value="domestic">
                     <Card>
                       <CardHeader>
-              
-                        <CardDescription className="flex justify-center gap-4">
-                          <div className="flex flex-col items-center">
+                        <CardDescription className="flex justify-start gap-4">
+                          <span className="flex flex-col items-center">
                             <Label className="">Issues</Label>
-                            <span>xxx</span>
-                          </div>
-                          <div className="flex flex-col items-center">
+                            <strong className="text-white text-xl">
+                              {
+                                staticCountry?.data?.country?.staticInfoBond?.filter(
+                                  (st: any) =>
+                                    st.countryId == st.marketOfIssueId &&
+                                    st.issuerType == "SOVEREIGN"
+                                ).length
+                              }
+                            </strong>
+                          </span>
+                          <span className="flex flex-col items-center">
                             <Label htmlFor="name"> Issued Amount USD</Label>
-                            <span>xxx</span>
-                          </div>
-                          <div className="flex flex-col items-center">
+                            <strong className="text-white text-xl">
+                              {buildSum(
+                                staticCountry?.data?.country?.staticInfoBond?.filter(
+                                  (st: any) =>
+                                    st.countryId == st.marketOfIssueId &&
+                                    st.issuerType == "SOVEREIGN"
+                                )
+                              )}
+                            </strong>
+                          </span>
+                          <span className="flex flex-col items-center">
                             <Label htmlFor="name">Average Coupon Rate</Label>
-                            <span>xxx</span>
-                          </div>
+                            <strong className="text-white text-xl">
+                              {" "}
+                              {buildMean(
+                                staticCountry?.data?.country?.staticInfoBond?.filter(
+                                  (st: any) =>
+                                    st.countryId == st.marketOfIssueId &&
+                                    st.issuerType == "SOVEREIGN"
+                                )
+                              )}
+                            </strong>
+                          </span>
                         </CardDescription>
                       </CardHeader>
                       <CardContent className="space-y-2">
-                        <div className="space-y-1">
+                        <ScrollArea className=" mt-4 w-full h-[30rem] pr-2">
+                          <Table>
+                            <TableHeader className="">
+                              <TableRow className="">
+                                <TableHead className="max-md:w-[100px] md:pl-4">
+                                  Description
+                                </TableHead>
+                                <TableHead className="text-center">
+                                  Maturity Date
+                                </TableHead>
+                                <TableHead className="text-center">
+                                  Issued Amount USD
+                                </TableHead>
+                                <TableHead className="text-center">
+                                  Coupon Rate
+                                </TableHead>
+                                <TableHead className="text-center">
+                                  Coupon Class
+                                </TableHead>
+                                <TableHead className="text-center">
+                                  Coupon Frequency
+                                </TableHead>
+                                <TableHead className="text-center">
+                                  Principal Currency
+                                </TableHead>
+                                <TableHead className="text-center">
+                                  Coupon Currency
+                                </TableHead>
+                                <TableHead className="text-center">
+                                  Market of Issue
+                                </TableHead>
+                                <TableHead className="text-center">
+                                  Inflation Linked
+                                </TableHead>
+                                <TableHead className="text-center">
+                                  Dual Currency
+                                </TableHead>
+                                <TableHead className="text-center">
+                                  Green Bond
+                                </TableHead>
+                                <TableHead className="text-right md:pr-4">
+                                  ISIN
+                                </TableHead>
+                              </TableRow>
+                            </TableHeader>
+                            <TableBody className="">
+                              {staticCountry?.data?.country?.staticInfoBond
+                                ?.filter(
+                                  (st: any) =>
+                                    st.countryId == st.marketOfIssueId &&
+                                    st.issuerType == "SOVEREIGN"
+                                )
+                                ?.sort(
+                                  (a: any, b: any) =>
+                                    Date.parse(b.date) - Date.parse(a.date)
+                                )
+                                .map((el: any) => (
+                                  <BondItem bond={el} key={el.id} />
+                                ))}
+                            </TableBody>
+                          </Table>
+                        </ScrollArea>
+                        {/*                        <div className="space-y-1">
                           <Label htmlFor="name">Name</Label>
                           <Input id="name" defaultValue="Pedro Duarte" />
                         </div>
                         <div className="space-y-1">
                           <Label htmlFor="username">Username</Label>
                           <Input id="username" defaultValue="@peduarte" />
-                        </div>
+                        </div> */}
                       </CardContent>
-                      <CardFooter>
+                      {/*                <CardFooter>
                         <Button>Save changes</Button>
-                      </CardFooter>
+                      </CardFooter> */}
                     </Card>
                   </TabsContent>
-                  <TabsContent value="password">
+                  <TabsContent value="international">
                     <Card>
                       <CardHeader>
-                        <CardTitle>Password</CardTitle>
-                        <CardDescription>
-                          Change your password here. After saving, you'll be
-                          logged out.
+                        <CardDescription className="flex justify-start gap-4">
+                          <span className="flex flex-col items-center">
+                            <Label className="">Issues</Label>
+                            <strong className="text-white text-xl">
+                              {
+                                staticCountry?.data?.country?.staticInfoBond?.filter(
+                                  (st: any) =>
+                                    st.countryId != st.marketOfIssueId &&
+                                    st.issuerType == "SOVEREIGN"
+                                ).length
+                              }
+                            </strong>
+                          </span>
+                          <span className="flex flex-col items-center">
+                            <Label htmlFor="name"> Issued Amount USD</Label>
+                            <strong className="text-white text-xl">
+                              {buildSum(
+                                staticCountry?.data?.country?.staticInfoBond?.filter(
+                                  (st: any) =>
+                                    st.countryId != st.marketOfIssueId &&
+                                    st.issuerType == "SOVEREIGN"
+                                )
+                              )}
+                            </strong>
+                          </span>
+                          <span className="flex flex-col items-center">
+                            <Label htmlFor="name">Average Coupon Rate</Label>
+                            <strong className="text-white text-xl">
+                              {" "}
+                              {buildMean(
+                                staticCountry?.data?.country?.staticInfoBond?.filter(
+                                  (st: any) =>
+                                    st.countryId != st.marketOfIssueId &&
+                                    st.issuerType == "SOVEREIGN"
+                                )
+                              )}
+                            </strong>
+                          </span>
                         </CardDescription>
                       </CardHeader>
                       <CardContent className="space-y-2">
-                        <div className="space-y-1">
-                          <Label htmlFor="current">Current password</Label>
-                          <Input id="current" type="password" />
+                        <ScrollArea className=" mt-4 w-full h-[30rem] pr-2">
+                          <Table>
+                            <TableHeader className="">
+                              <TableRow className="">
+                                <TableHead className="max-md:w-[100px] md:pl-4">
+                                  Description
+                                </TableHead>
+                                <TableHead className="text-center">
+                                  Maturity Date
+                                </TableHead>
+                                <TableHead className="text-center">
+                                  Issued Amount USD
+                                </TableHead>
+                                <TableHead className="text-center">
+                                  Coupon Rate
+                                </TableHead>
+                                <TableHead className="text-center">
+                                  Coupon Class
+                                </TableHead>
+                                <TableHead className="text-center">
+                                  Coupon Frequency
+                                </TableHead>
+                                <TableHead className="text-center">
+                                  Principal Currency
+                                </TableHead>
+                                <TableHead className="text-center">
+                                  Coupon Currency
+                                </TableHead>
+                                <TableHead className="text-center">
+                                  Market of Issue
+                                </TableHead>
+                                <TableHead className="text-center">
+                                  Inflation Linked
+                                </TableHead>
+                                <TableHead className="text-center">
+                                  Dual Currency
+                                </TableHead>
+                                <TableHead className="text-center">
+                                  Green Bond
+                                </TableHead>
+                                <TableHead className="text-right md:pr-4">
+                                  ISIN
+                                </TableHead>
+                              </TableRow>
+                            </TableHeader>
+                            <TableBody className="">
+                              {staticCountry?.data?.country?.staticInfoBond
+                                ?.filter(
+                                  (st: any) =>
+                                    st.countryId != st.marketOfIssueId &&
+                                    st.issuerType == "SOVEREIGN"
+                                )
+                                ?.sort(
+                                  (a: any, b: any) =>
+                                    Date.parse(b.date) - Date.parse(a.date)
+                                )
+                                .map((el: any) => (
+                                  <BondItem bond={el} key={el.id} />
+                                ))}
+                            </TableBody>
+                          </Table>
+                        </ScrollArea>
+                        {/*                        <div className="space-y-1">
+                          <Label htmlFor="name">Name</Label>
+                          <Input id="name" defaultValue="Pedro Duarte" />
                         </div>
                         <div className="space-y-1">
-                          <Label htmlFor="new">New password</Label>
-                          <Input id="new" type="password" />
-                        </div>
+                          <Label htmlFor="username">Username</Label>
+                          <Input id="username" defaultValue="@peduarte" />
+                        </div> */}
                       </CardContent>
-                      <CardFooter>
-                        <Button>Save password</Button>
-                      </CardFooter>
+                      {/*                <CardFooter>
+                        <Button>Save changes</Button>
+                      </CardFooter> */}
+                    </Card>
+                  </TabsContent>
+                  <TabsContent value="other">
+                    <Card>
+                      <CardHeader>
+                        <CardDescription className="flex justify-start gap-4">
+                          <span className="flex flex-col items-center">
+                            <Label className="">Issues</Label>
+                            <strong className="text-white text-xl">
+                              {
+                                staticCountry?.data?.country?.staticInfoBond?.filter(
+                                  (st: any) => st.issuerType != "SOVEREIGN"
+                                ).length
+                              }
+                            </strong>
+                          </span>
+                          <span className="flex flex-col items-center">
+                            <Label htmlFor="name"> Issued Amount USD</Label>
+                            <strong className="text-white text-xl">
+                              {buildSum(
+                                staticCountry?.data?.country?.staticInfoBond?.filter(
+                                  (st: any) => st.issuerType != "SOVEREIGN"
+                                )
+                              )}
+                            </strong>
+                          </span>
+                          <span className="flex flex-col items-center">
+                            <Label htmlFor="name">Average Coupon Rate</Label>
+                            <strong className="text-white text-xl">
+                              {" "}
+                              {buildMean(
+                                staticCountry?.data?.country?.staticInfoBond?.filter(
+                                  (st: any) => st.issuerType != "SOVEREIGN"
+                                )
+                              )}
+                            </strong>
+                          </span>
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent className="space-y-2">
+                        <ScrollArea className=" mt-4 w-full h-[30rem] pr-2">
+                          <Table>
+                            <TableHeader className="">
+                              <TableRow className="">
+                                <TableHead className="max-md:w-[100px] md:pl-4">
+                                  Description
+                                </TableHead>
+                                <TableHead className="text-center">
+                                  Maturity Date
+                                </TableHead>
+                                <TableHead className="text-center">
+                                  Issued Amount USD
+                                </TableHead>
+                                <TableHead className="text-center">
+                                  Coupon Rate
+                                </TableHead>
+                                <TableHead className="text-center">
+                                  Coupon Class
+                                </TableHead>
+                                <TableHead className="text-center">
+                                  Coupon Frequency
+                                </TableHead>
+                                <TableHead className="text-center">
+                                  Principal Currency
+                                </TableHead>
+                                <TableHead className="text-center">
+                                  Coupon Currency
+                                </TableHead>
+                                <TableHead className="text-center">
+                                  Market of Issue
+                                </TableHead>
+                                <TableHead className="text-center">
+                                  Inflation Linked
+                                </TableHead>
+                                <TableHead className="text-center">
+                                  Dual Currency
+                                </TableHead>
+                                <TableHead className="text-center">
+                                  Green Bond
+                                </TableHead>
+                                <TableHead className="text-right md:pr-4">
+                                  ISIN
+                                </TableHead>
+                              </TableRow>
+                            </TableHeader>
+                            <TableBody className="">
+                              {staticCountry?.data?.country?.staticInfoBond
+                                ?.filter(
+                                  (st: any) => st.issuerType != "SOVEREIGN"
+                                )
+                                ?.sort(
+                                  (a: any, b: any) =>
+                                    Date.parse(b.date) - Date.parse(a.date)
+                                )
+                                .map((el: any) => (
+                                  <BondItem bond={el} key={el.id} />
+                                ))}
+                            </TableBody>
+                          </Table>
+                        </ScrollArea>
+                        {/*                        <div className="space-y-1">
+                          <Label htmlFor="name">Name</Label>
+                          <Input id="name" defaultValue="Pedro Duarte" />
+                        </div>
+                        <div className="space-y-1">
+                          <Label htmlFor="username">Username</Label>
+                          <Input id="username" defaultValue="@peduarte" />
+                        </div> */}
+                      </CardContent>
+                      {/*                <CardFooter>
+                        <Button>Save changes</Button>
+                      </CardFooter> */}
                     </Card>
                   </TabsContent>
                 </Tabs>
               </CardContent>
-            </Card> */}
+            </Card>
           </div>
         </div>
       </div>

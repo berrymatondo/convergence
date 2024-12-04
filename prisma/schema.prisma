@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,32 +7,498 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id        Int          @id @default(autoincrement())
+  email     String       @unique
+  password  String
+  username  String       @unique
+  status    UserStatuses @default(INACTIF)
+  role      UserRoles    @default(VISITOR)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @default(now()) @updatedAt
+  countryId Int?
+  country   Country?     @relation(fields: [countryId], references: [id])
+
+  @@map("users")
+}
+
+model Country {
+  id                Int                @id @default(autoincrement())
+  name              String             @unique
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @default(now()) @updatedAt
+  continent         ContinentsList     @default(AFRICA)
+  currencyId        Int?
+  flagCode          String?
+  fxMapping         FxMapping[]
+  countryIndexMapping         CountryIndexMapping[]
+  fundCountryRegisteredForSales         FundCountryRegisteredForSales[]
+  currency          Currency?          @relation(fields: [currencyId], references: [id])
+  gos               Go[]
+  staticInfoBond    StaticInfoBond[]
+  domicile          StaticInfoBond[]   @relation("domicile")
+  staticInfoCountry StaticInfoCountry?
+  staticInfoEquity  StaticInfoEquity[]
+  staticInfoFund    StaticInfoFund[]
+  staticInfoFx2     StaticInfoFx[]     @relation("country2")
+  staticInfoFx1     StaticInfoFx[]     @relation("country")
+  staticInfoIndex   StaticInfoIndex[]
+  users             User[]
+  yieldcurve        YieldCurve[]
+  company   Company[]
+
+  @@map("countries")
+}
+
+model Currency {
+  id                Int                @id @default(autoincrement())
+  mic               String             @unique
+  currency          String
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @default(now()) @updatedAt
+  country           Country[]
+  couponCurrency    StaticInfoBond[]   @relation("couponCurrency")
+  principalCurrency StaticInfoBond[]   @relation("principalCurrency")
+  staticInfoCommo   StaticInfoCommo[]
+  staticInfoEquity  StaticInfoEquity[]
+  staticInfoFund    StaticInfoFund[]
+  staticInfoFx1     StaticInfoFx[]     @relation("currency1")
+  staticInfoFx2     StaticInfoFx[]     @relation("currency2")
+  staticInfoIndex   StaticInfoIndex[]
+ 
+
+  @@map("currencies")
+}
+
+model Company {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
+  sector               SectorList
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
+  description String
+  countryId        Int?
+  country          Country?          @relation(fields: [countryId], references: [id])
+
+  @@map("companies")
+}
+
+model Person {
+  id        Int      @id @default(autoincrement())
+  firstname String
+  lastname  String
+  mobile    String
+  email     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("persons")
+}
+
+model Contact {
+  id        Int             @id @default(autoincrement())
+  email     String
+  message   String
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @default(now()) @updatedAt
+  firstname String
+  lastname  String
+  status    ContactStatuses @default(NOUVEAU)
+  comments  String?
+
+  @@map("contacts")
+}
+
+model Go {
+  id        Int      @id @default(autoincrement())
+  order     Int      @default(0)
+  key       String
+  value     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  countryId Int?
+  country   Country? @relation(fields: [countryId], references: [id])
+
+  @@map("gos")
+}
+
+model YieldCurve {
+  id        Int             @id @default(autoincrement())
+  tenor     Int
+  yield     Float
+  continent ContinentsList?
+  countryId Int?
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @default(now()) @updatedAt
+  date      String
+  type      YCTypesList     @default(H)
+  change    Float           @default(0)
+  country   Country?        @relation(fields: [countryId], references: [id])
+
+  @@unique([tenor, date, countryId, continent])
+  @@map("yieldcurve")
+}
+
+model StaticInfoCountry {
+  id                     Int      @id @default(autoincrement())
+  countryId              Int      @unique
+  gdpGrowhtRate          Float?
+  interestRate           Float?
+  inflationRate          Float?
+  unemploymentRate       Float?
+  balanceOfTrade         Float?
+  balanceOfTradeCurrency String?
+  creditRating           String   @default("NR")
+  defaultProbability     Float?
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @default(now()) @updatedAt
+  debtToGdp              Float?
+  country                Country? @relation(fields: [countryId], references: [id])
+
+  @@map("staticInfoCountry")
+}
+
+model StaticInfoEquity {
+  id                   Int                    @id @default(autoincrement())
+  assetName            String
+  isin                 String?                @unique @default(uuid())
+  sector               SectorList
+  acf                  ACFList
+  ric                  String?
+  ticker               String?
+  symbol               String?
+  createdAt            DateTime               @default(now())
+  updatedAt            DateTime               @default(now()) @updatedAt
+  countryId            Int?
+  micCode              String?
+  description          String?
+  currencyId           Int?
+  historicalDataEquity HistoricalDataEquity[]
+  equityIndexMapping EquityIndexMapping[]
+  country              Country?               @relation(fields: [countryId], references: [id])
+  currency             Currency?              @relation(fields: [currencyId], references: [id])
+
+  @@map("staticInfoEquity")
+}
+
+model HistoricalDataEquity {
+  id                 Int               @id @default(autoincrement())
+  staticInfoEquityId Int
+  date               String
+  close              Float
+  change             Float?
+  changePercentage   Float?
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @default(now()) @updatedAt
+  type               YCTypesList       @default(H)
+  staticInfoEquity   StaticInfoEquity @relation(fields: [staticInfoEquityId], references: [id])
+
+  @@map("historicalDataEquity")
+}
+
+model EquityIndexMapping {
+  equityId      Int
+  indexId Int
+  staticInfoEquity  StaticInfoEquity      @relation(fields: [equityId], references: [id])
+  staticInfoIndex   StaticInfoIndex @relation(fields: [indexId], references: [id])
+
+  @@id([equityId, indexId])
+}
+
+model StaticInfoCommo {
+  id                  Int                   @id @default(autoincrement())
+  assetName           String
+  sector              SectorList
+  ric                 String?
+  ticker              String?
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @default(now()) @updatedAt
+  symbol              String?
+  currencyId          Int
+  historicalDataCommo HistoricalDataCommo[]
+  currency            Currency            @relation(fields: [currencyId], references: [id])
+
+  @@map("staticInfoCommo")
+}
+
+model HistoricalDataCommo {
+  id                Int              @id @default(autoincrement())
+  staticInfoCommoId Int
+  createdAt         DateTime         @default(now())
+  date              String
+  updatedAt         DateTime         @default(now()) @updatedAt
+  change            Float?
+  changePercentage  Float?
+  close             Float
+  type              YCTypesList      @default(H)
+  staticInfoCommo   StaticInfoCommo @relation(fields: [staticInfoCommoId], references: [id])
+
+  @@map("historicalDataCommo")
+}
+
+model StaticInfoIndex {
+  id                  Int                   @id @default(autoincrement())
+  assetName           String
+  isin                String?               @unique @default(uuid())
+  sector              SectorList
+  acf                 ACFList
+  ric                 String?
+  ticker              String?
+  symbol              String?
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @default(now()) @updatedAt
+  countryId           Int
+  currencyId          Int
+  historicalDataIndex HistoricalDataIndex[]
+  countryIndexMapping CountryIndexMapping[]
+  equityIndexMapping EquityIndexMapping[]
+  country             Country              @relation(fields: [countryId], references: [id])
+  currency            Currency             @relation(fields: [currencyId], references: [id])
+
+  @@map("staticInfoIndex")
+}
+
+
+model CountryIndexMapping {
+  country       Country     @relation(fields: [countryId], references: [id])
+  countryId     Int // relation scalar field (used in the `@relation` attribute above)
+  staticInfoIndex   StaticInfoIndex @relation(fields: [staticInfoIndexId], references: [id])
+  staticInfoIndexId Int // relation scalar field (used in the `@relation` attribute above)
+  assetTypesList AssetTypesList?
+
+  @@id([countryId, staticInfoIndexId])
+
+}
+
+
+model HistoricalDataIndex {
+  id                Int              @id @default(autoincrement())
+  staticInfoIndexId Int
+  date              String
+  close             Float
+  change            Float?
+  changePercentage  Float?
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @default(now()) @updatedAt
+  type              YCTypesList      @default(H)
+  staticInfoIndex   StaticInfoIndex @relation(fields: [staticInfoIndexId], references: [id])
+
+  @@map("historicalDataIndex")
+}
+
+model StaticInfoFx {
+  id               Int                @id @default(autoincrement())
+  ric              String?
+  ticker           String?
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @default(now()) @updatedAt
+  currencyId1      Int
+  currencyId2      Int
+  symbol           String?
+  countryId        Int
+  countryId2       Int
+  fxMapping        FxMapping[]
+  historicalDataFx HistoricalDataFx[]
+  country2         Country           @relation("country2", fields: [countryId2], references: [id])
+  country          Country           @relation("country", fields: [countryId], references: [id])
+  currency1        Currency          @relation("currency1", fields: [currencyId1], references: [id])
+  currency2        Currency          @relation("currency2", fields: [currencyId2], references: [id])
+
+  @@map("staticInfoFx")
+}
+
+model HistoricalDataFx {
+  id               Int           @id @default(autoincrement())
+  staticInfoFxId   Int
+  date             String
+  close            Float
+  change           Float?
+  changePercentage Float?
+  type             YCTypesList   @default(H)
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @default(now()) @updatedAt
+  staticInfoFx     StaticInfoFx @relation(fields: [staticInfoFxId], references: [id])
+
+  @@map("historicalDataFx")
+}
+
+model FxMapping {
+  countryId      Int
+  staticInfoFxId Int
+  country        Country      @relation(fields: [countryId], references: [id])
+  staticInfoFx   StaticInfoFx @relation(fields: [staticInfoFxId], references: [id])
+
+  @@id([countryId, staticInfoFxId])
+}
+
+model FundCountryRegisteredForSales {
+  countryId      Int
+  staticInfoFundId Int
+  country        Country      @relation(fields: [countryId], references: [id])
+  staticInfoFund   StaticInfoFund @relation(fields: [staticInfoFundId], references: [id])
+
+  @@id([countryId, staticInfoFundId])
+}
+
+model StaticInfoBond {
+  id                  Int                  @id @default(autoincrement())
+  isin                String?              @unique @default(uuid())
+  description         String
+  issuer              String
+  countryId           Int
+  acf                 ACFList
+  maturity            String?
+  issueDate           String?
+  issuePrice          Float?
+  amountIssuedUSD     Float?
+  couponRate          Float?
+  couponType          String?
+  couponClass         String?
+  couponFrequency     String?
+  instrumentType      String?
+  bondGrade           String?
+  issuerType          String?
+  marketOfIssue       String?
+  sector              String?
+  seniority           String?
+  inflationLinked     Boolean              @default(false)
+  dualCurrency        Boolean              @default(false)
+  callable            Boolean              @default(false)
+  putable             Boolean              @default(false)
+  greenBond           Boolean              @default(false)
+  guaranteed          Boolean              @default(false)
+  marketPrice         Boolean              @default(false)
+  details             String?
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @default(now()) @updatedAt
+  couponCurrencyId    Int?
+  principalCurrencyId Int?
+  domicileId          Int?
+  marketOfIssueId     Int?
+  historicalDataBond  HistoricalDataBond[]
+  country             Country             @relation(fields: [countryId], references: [id])
+  couponCurrency      Currency?            @relation("couponCurrency", fields: [couponCurrencyId], references: [id])
+  domicile            Country?             @relation("domicile", fields: [domicileId], references: [id])
+  principalCurrency   Currency?            @relation("principalCurrency", fields: [principalCurrencyId], references: [id])
+
+  @@map("staticInfoBond")
+}
+
+model HistoricalDataBond {
+  id               Int             @id @default(autoincrement())
+  staticInfoBondId Int
+  date             String
+  close            Float
+  change           Float?
+  changePercentage Float?
+  type             YCTypesList     @default(H)
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @default(now()) @updatedAt
+  staticInfoBond   StaticInfoBond @relation(fields: [staticInfoBondId], references: [id])
+
+  @@map("historicalDataBond")
+}
+
+model StaticInfoFund {
+  id                         Int       @id @default(autoincrement())
+  name                       String
+  isin                       String?
+  lipperClassificationScheme String?
+  instrumentType             String?
+  exchange                   String?
+  ric                        String?
+  exchangeiNAV               String?
+  sedol                      String?
+  wertpapier                 String?
+  createdAt                  DateTime  @default(now())
+  updatedAt                  DateTime  @default(now()) @updatedAt
+  countryId                  Int?
+  currencyId                 Int?
+  country                    Country?  @relation(fields: [countryId], references: [id])
+  currency                   Currency? @relation(fields: [currencyId], references: [id])
+  fundCustodiansMapping FundCustodiansMapping[]
+  fundAdvisorsMapping FundAdvisorsMapping[]
+  fundAdministratorsMapping FundAdministratorsMapping[]
+  fundPromotersManagerMapping FundPromotersManagerMapping[]
+  fundPromotersMapping FundPromotersMapping[]
+  fundCountryRegisteredForSales FundCountryRegisteredForSales[]
+
+  @@map("staticInfoFund")
+}
+
+model FundCustodiansMapping {
+  id                         Int       @id @default(autoincrement())
+  staticInfoFundId                  Int?
+  staticInfoFund                    StaticInfoFund?  @relation(fields: [staticInfoFundId], references: [id])
+  custodian String
+
+  @@index([staticInfoFundId])
+}
+
+model FundAdvisorsMapping {
+  id                         Int       @id @default(autoincrement())
+  staticInfoFundId                  Int?
+  staticInfoFund                    StaticInfoFund?  @relation(fields: [staticInfoFundId], references: [id])
+  advisor String
+
+   @@index([staticInfoFundId])
+}
+
+model FundAdministratorsMapping {
+  id                         Int       @id @default(autoincrement())
+  staticInfoFundId                  Int?
+  staticInfoFund                    StaticInfoFund?  @relation(fields: [staticInfoFundId], references: [id])
+  administrator String
+
+   @@index([staticInfoFundId])
+}
+
+model FundPromotersManagerMapping {
+  id                         Int       @id @default(autoincrement())
+  staticInfoFundId                  Int?
+  staticInfoFund                    StaticInfoFund?  @relation(fields: [staticInfoFundId], references: [id])
+  promoterManager String
+
+   @@index([staticInfoFundId])
+}
+
+model FundPromotersMapping {
+  id                         Int       @id @default(autoincrement())
+  staticInfoFundId                  Int?
+  staticInfoFund                    StaticInfoFund?  @relation(fields: [staticInfoFundId], references: [id])
+  promoter String
+
+   @@index([staticInfoFundId])
+}
+
+
 enum UserStatuses {
- ACTIF
- INACTIF
- SUSPENDU
+  ACTIF
+  INACTIF
+  SUSPENDU
 }
 
 enum UserRoles {
- VISITOR
- CLIENT
- AGENT
- ADMIN
+  VISITOR
+  CLIENT
+  AGENT
+  ADMIN
+  TRAINING
 }
 
 enum ContactStatuses {
- NOUVEAU
- ENCOURS
- TERMINE
+  NOUVEAU
+  ENCOURS
+  TERMINE
 }
 
 enum ContinentsList {
- AFRICA
- AMERICA
- ASIA
- EUROPE
- OCEANIA
- WORLD
+  AFRICA
+  AMERICA
+  ASIA
+  EUROPE
+  OCEANIA
+  WORLD
 }
 
 enum AssetTypesList {
@@ -52,188 +512,37 @@ enum YCTypesList {
   H
 }
 
-enum CurrencyList {
-AFN
-ALL
-DZD
-EUR
-AOA
-XCD
-ARS
-AMD
-AUD
-AZN
-BSD
-BHD
-BDT
-BBD
-BYN
-BZD
-XOF
-BTN
-BOB
-BAM
-BWP
-BRL
-BND
-BGN
-BIF
-CVE
-KHR
-XAF
-CAD
-CLP
-CNY
-COP
-KMF
-CDF
-CRC
-HRK
-CUP
-CZK
-DKK
-DJF
-DOP
-USD
-EGP
-ERN
-SZL
-ETB
-FJD
-GMD
-GEL
-GHS
-GTQ
-GNF
-GYD
-HKD
-HTG
-HNL
-HUF
-ISK
-INR
-IDR
-IRR
-IQD
-ILS
-JMD
-JPY
-JOD
-KZT
-KES
-KPW
-KRW
-KWD
-KGS
-LAK
-LBP
-LSL
-LRD
-LYD
-CHF
-MGA
-MWK
-MYR
-MVR
-MRU
-MUR
-MXN
-MDL
-MNT
-MAD
-MZN
-MMK
-NAD
-NPR
-NZD
-NIO
-NGN
-MKD
-NOK
-OMR
-PKR
-PAB
-PGK
-PYG
-PEN
-PHP
-PLN
-QAR
-RON
-RUB
-RWF
-WST
-STN
-SAR
-RSD
-SCR
-SLL
-SGD
-SBD
-SOS
-ZAR
-SSP
-LKR
-SDG
-SRD
-SEK
-SYP
-TWD
-TJS
-TZS
-THB
-TOP
-TTD
-TND
-TRY
-TMT
-UGX
-UAH
-AED
-GBP
-UYU
-UZS
-VUV
-VES
-VND
-YER
-ZMW
-ZWL
-}
 
 enum IssuerList {
-SOVEREIGN
-CORPORATE
-INTERNATIONAL
-SUPRANATIONAL
+  SOVEREIGN
+  CORPORATE
+  INTERNATIONAL
+  SUPRANATIONAL
 }
-
 
 enum MarketList {
-OECD @map("1")
-EMERGING @map("2")
+  OECD     @map("1")
+  EMERGING @map("2")
 }
-
 
 enum SectorList {
-AGRICULTURE
-COMMUNICATION
-CONSUMER
-EDUCATION
-ENERGY
-FINANCE
-FOOD
-HEALTHCARE
-INDUSTRIALS
-LOGISTICS
-MATERIALS
-METALS
-REAL_ESTATE
-TECHNOLOGY
-UTILITIES
-OTHER
+  AGRICULTURE
+  COMMUNICATION
+  CONSUMER
+  EDUCATION
+  ENERGY
+  FINANCE
+  FOOD
+  HEALTHCARE
+  INDUSTRIALS
+  LOGISTICS
+  MATERIALS
+  REAL_ESTATE
+  TECHNOLOGY
+  UTILITIES
+  OTHER
+  METALS
 }
-
 
 enum ACFList {
   ACF_1 @map("1")
@@ -241,404 +550,8 @@ enum ACFList {
 }
 
 enum CreditRating {
- VISITOR
- CLIENT
- AGENT
- ADMIN
-}
-
-
-
-model User {
-  id Int @id @default(autoincrement())
-  email String @unique
-  password String
-  username String @unique
-  status UserStatuses @default(INACTIF)
-  role UserRoles @default(VISITOR)
-  countryId Int?
-  country Country? @relation(fields: [countryId], references: [id])
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt  @default(now())
-
-  @@map("users")
-
-}
-
-
-
-
-model Country{
-  id Int @id @default(autoincrement())
-  name String @unique
-  continent ContinentsList  @default(AFRICA)
-  flagCode String?
-  users User[] 
-  gos Go[]
-  yieldcurve YieldCurve[]
-  staticInfoCountry StaticInfoCountry?
-  staticInfoFx StaticInfoFx[]
-  staticInfoBond StaticInfoBond[]
-  domicile StaticInfoBond[] @relation("domicile")
-  staticInfoEquity StaticInfoEquity[]
-  staticInfoIndex StaticInfoIndex[]
-  staticInfoFund StaticInfoFund[]
-
-  currencyId Int?
-  currency Currency? @relation(fields: [currencyId], references: [id])
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt  @default(now())
-
-  @@map("countries")
-}
-
-
-
-model Currency{
-  id Int @id @default(autoincrement())
-  mic String @unique
-  currency String
-  country Country[]
-  staticInfoCommo StaticInfoCommo[] 
-  staticInfoEquity StaticInfoEquity[] 
-  staticInfoIndex StaticInfoIndex[] 
-  staticInfoFx1 StaticInfoFx[]  @relation("currency1")
-  staticInfoFx2 StaticInfoFx[]  @relation("currency2")
-  principalCurrency StaticInfoBond[] @relation("principalCurrency")
-  couponCurrency StaticInfoBond[] @relation("couponCurrency")
- 
-  staticInfoFund StaticInfoFund[] 
-
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt  @default(now())
-
-  @@map("currencies")
-}
-
-
-
-model Company{
-  id Int @id @default(autoincrement())
-  name String @unique
-  description String
-  //users User[] 
-
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt  @default(now())
-
-  @@map("companies")
-}
-
-
-model Person{
-  id Int @id @default(autoincrement())
-  firstname String
-  lastname String
-  mobile String
-  email String @unique
-
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt  @default(now())
-
-  @@map("persons")
-}
-
-
-model Contact{
-  id Int @id @default(autoincrement())
-  firstname String
-  lastname String
-  email String
-  message String 
-  comments String? 
-  status ContactStatuses @default(NOUVEAU) 
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt  @default(now())
-
-  @@map("contacts")
-}
-
-
-
-model Go{
-  id Int @id @default(autoincrement())
-  order Int @default(0)
-  key String 
-  value String 
-  countryId Int?
-  country Country? @relation(fields: [countryId], references: [id])
-  //@@unique([order, countryId])
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt  @default(now())
-
-  @@map("gos")
-}
-
-model YieldCurve{
-  id Int @id @default(autoincrement())
-  tenor Int
-  yield Float
-  change Float @default(0)
-  //date DateTime @default(now()) @db.Date
-  date String
-  continent ContinentsList?
-  countryId Int?
-  country Country? @relation(fields: [countryId], references: [id])
-  type YCTypesList @default(H)
-
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt  @default(now())
-
-  @@unique([tenor, date, countryId, continent])
-
-  @@map("yieldcurve")
-}
-
-
-model StaticInfoEquity{
-  id Int @id @default(autoincrement())
-  assetName String
-  isin String? @default(uuid()) @unique
-    currencyId Int?
-  currency Currency? @relation(fields: [currencyId], references: [id])
-  countryId Int?
-  country Country? @relation(fields: [countryId], references: [id])
-  sector SectorList
-  acf ACFList
-  ric String
-  ticker String
-  symbol String
-  micCode String
-  historicalDataEquity  HistoricalDataEquity[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
-  @@map("staticInfoEquity")
-}
-
-
-model HistoricalDataEquity{
-  id Int @id @default(autoincrement())
-  staticInfoEquityId Int?
-  staticInfoEquity StaticInfoEquity? @relation(fields: [staticInfoEquityId], references: [id])
-  date String
-  close Float
-  change Float
-  changePercentage Float
-  type YCTypesList @default(H)
- 
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
-  @@map("historicalDataEquity")
-}
-
-
-
-
-model StaticInfoCommo{
-  id Int @id @default(autoincrement())
-  assetName String
-  currencyId Int?
-  currency Currency? @relation(fields: [currencyId], references: [id])
-
-  sector SectorList
-  ric String
-  ticker String
-  symbol String
-  historicalDataCommo HistoricalDataCommo[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
-  @@map("staticInfoCommo")
-}
-
-model HistoricalDataCommo{
-  id Int @id @default(autoincrement())
-  staticInfoCommoId Int?
-  staticInfoCommo StaticInfoCommo? @relation(fields: [staticInfoCommoId], references: [id])
-  date String
-  close Float
-  change Float
-  changePercentage Float
-  type YCTypesList @default(H)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
-  @@map("historicalDataCommo")
-}
-
-
-
-
-model StaticInfoIndex{
-  id Int @id @default(autoincrement())
-  assetName String
-  isin String? @default(uuid()) @unique 
-  currencyId Int?
-  currency Currency? @relation(fields: [currencyId], references: [id])
-  countryId Int?
-  country Country? @relation(fields: [countryId], references: [id])
-  sector SectorList
-  acf ACFList
-  ric String
-  ticker String
-  symbol String
-  historicalDataIndex HistoricalDataIndex[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
-  @@map("staticInfoIndex")
-}
-
-model HistoricalDataIndex{
-  id Int @id @default(autoincrement())
-  staticInfoIndexId Int?
-  staticInfoIndex StaticInfoIndex? @relation(fields: [staticInfoIndexId], references: [id])
-  date String
-  close Float
-  change Float
-  changePercentage Float
-  type YCTypesList @default(H)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
-  @@map("historicalDataIndex")
-}
-
-
-model StaticInfoCountry{
-  id Int @id @default(autoincrement())
-  countryId Int? @unique
-  country Country? @relation(fields: [countryId], references: [id])
-  gdpGrowhtRate Float @default(0)
-  interestRate Float @default(0)
-  inflationRate Float @default(0)
-  unemploymentRate Float @default(0)
-  balanceOfTrade Float @default(0)
-  balanceOfTradeCurrency String ?
-  creditRating String @default("NR")
-  defaultProbability  Float @default(0)
-  debtToGdp  Float @default(0)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
-  @@map("staticInfoCountry")
-}
-
-model StaticInfoFx{
-  id Int @id @default(autoincrement())
-  countryId Int?
-  country Country? @relation(fields: [countryId], references: [id])
-  currencyId1 Int?
-  currency1 Currency? @relation(name: "currency1", fields: [currencyId1], references: [id])
-  currencyId2 Int?
-  currency2 Currency? @relation(name: "currency2", fields: [currencyId2], references: [id])
-  historicalDataFx HistoricalDataFx[]
-
-  ric String
-  ticker String
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
-  @@map("staticInfoFx")
-}
-
-
-model HistoricalDataFx{
-  id Int @id @default(autoincrement())
-  staticInfoFxId Int?
-  staticInfoFx StaticInfoFx? @relation(fields: [staticInfoFxId], references: [id])
-  date String
-  close Float
-  change Float
-  changePercentage Float
-  type YCTypesList @default(H)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
-  @@map("historicalDataFx")
-}
-
-
-
-model StaticInfoBond{
-  id Int @id @default(autoincrement())
-  isin String? @default(uuid()) @unique
-  description String
-  issuer String
-  countryId Int? 
-  country Country? @relation(fields: [countryId], references: [id])
-  acf ACFList
-  maturity String?
-  issueDate String?
-  issuePrice Float?
-  amountIssuedUSD Float?
-  couponRate Float?
-  couponType String?
-  couponClass String?
-  couponFrequency String?
-  
-
-  principalCurrencyId Int?
-  principalCurrency Currency? @relation(name: "principalCurrency", fields: [principalCurrencyId], references: [id])
-  couponCurrencyId Int?
-  couponCurrency Currency? @relation(name: "couponCurrency", fields: [couponCurrencyId], references: [id])
-  instrumentType String?
-  bondGrade String?
-  issuerType String?
-  marketOfIssue String?
-  domicileId Int?
-  domicile Country? @relation(name: "domicile", fields: [domicileId], references: [id])
-  sector String?
-  seniority String?
-  inflationLinked Boolean @default(false)	
-  dualCurrency Boolean @default(false)	
-  callable Boolean @default(false)	
-  putable Boolean @default(false)	
-  greenBond Boolean @default(false)	
-  guaranteed Boolean @default(false) 	
-  marketPrice Boolean @default(false)
-  details String?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
-  @@map("staticInfoBond")
-}
-
-
-model StaticInfoFund{
-  id Int @id @default(autoincrement())
-  name	 String?
-  isin	 String?
-  lipperClassificationScheme	 String?
-  instrumentType	 String?
-  countryId Int? 
-  country Country? @relation(fields: [countryId], references: [id])
-  	
-    currencyId Int?
-  currency Currency? @relation(fields: [currencyId], references: [id])
-  exchange String?	
-  ric String?	
-  exchangeiNAV String?	
- // supportCompanyName String?	
- // promoter String?	
- // portfolioManager String?	
- // custodian String?	
- // advisor String?	
- // administrator	 String?
-  sedol String?	
-  wertpapier String?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
-  @@map("staticInfoFund")
+  VISITOR
+  CLIENT
+  AGENT
+  ADMIN
 }

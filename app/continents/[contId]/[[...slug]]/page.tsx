@@ -53,6 +53,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import FxCountry from "@/components/fx/fxCountry";
 
 const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
   const { slug } = params;
@@ -64,6 +65,7 @@ const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
   const staticCountry = await getStaticInfoCountry(slug ? +slug[0] : 1);
 
   // console.log("sulg2:", country?.data?.fxMapping);
+  console.log("sulg2:", country);
 
   const headersList = headers();
   //const domain = headersList.get("host") || "";
@@ -113,7 +115,7 @@ const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
         <div className="px-2 w-full ">
           {/*           <CustomBreadcrumb name="Commodities" />
            */}{" "}
-          <div className=" w-full grid md:grid-cols-4 gap-2">
+          <div className=" w-full grid md:grid-cols-5 gap-2">
             <Card className="md:col-span-1 h-68">
               <CardHeader>
                 <CardTitle className="text-sky-700 dark:text-sky-500">
@@ -157,7 +159,13 @@ const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
                       Balance of Trade (
                       {staticCountry?.data?.balanceOfTradeCurrency})
                     </span>
-                    <span>{staticCountry?.data?.balanceOfTrade}</span>
+                    <span>
+                      {new Intl.NumberFormat().format(
+                        staticCountry?.data?.balanceOfTrade
+                          ? +staticCountry?.data?.balanceOfTrade
+                          : 0
+                      )}
+                    </span>
                   </p>
                   <p className="text-sm flex justify-between">
                     <span className="text-gray-400">Credit Rating (S&P) </span>
@@ -174,21 +182,20 @@ const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
                 </p>
               </CardContent>
             </Card>
-            <Card className="md:col-span-1 h-68">
+            <div className="md:col-span-2  h-68 ">
+              <FxCountry
+                fxList={country?.data?.fxMapping}
+                countryIndexMapping={country?.data?.countryIndexMapping}
+              />
+            </div>
+            {/*          <Card className="md:col-span-1 h-68">
               <CardHeader>
                 <CardTitle className="text-sky-700 dark:text-sky-500">
                   USD/NGN SPOT
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                {/*                 {country?.data?.fxMapping?.map((el: any) => (
-                  <p key={el.staticInfoFxId}>
-                    {el.staticInfoFx?.currency1?.mic +
-                      "/" +
-                      el.staticInfoFx?.currency2?.mic}{" "}
-                    SPOT
-                  </p>
-                ))} */}
+
 
                 <Select>
                   <SelectTrigger className="w-[180px]">
@@ -196,12 +203,7 @@ const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
-                      {/*                       <SelectLabel>Fruits</SelectLabel>
-                      <SelectItem value="apple">Apple</SelectItem>
-                      <SelectItem value="banana">Banana</SelectItem>
-                      <SelectItem value="blueberry">Blueberry</SelectItem>
-                      <SelectItem value="grapes">Grapes</SelectItem>
-                      <SelectItem value="pineapple">Pineapple</SelectItem> */}
+    
 
                       {country?.data?.fxMapping?.map((el: any) => (
                         <SelectItem
@@ -221,8 +223,8 @@ const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
                   </SelectContent>
                 </Select>
               </CardContent>
-            </Card>
-            <Card className="md:col-span-1 h-68">
+            </Card> */}
+            <Card className="md:col-span-2 h-68">
               <CardHeader>
                 <CardTitle className="text-sky-700 dark:text-sky-500">
                   EQUITY MARKET NSE 30
@@ -251,15 +253,15 @@ const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
                 </Accordion> */}
               </CardContent>
             </Card>
-            <Card className="md:col-span-1 h-68">
+            {/*             <Card className="md:col-span-1 h-68">
               <CardHeader>
                 <CardTitle className="text-sky-700 dark:text-sky-500">
                   FIXED INCOME MARKET
                 </CardTitle>
               </CardHeader>
               <CardContent>x</CardContent>
-            </Card>
-            <Card className="md:col-span-4 h-68">
+            </Card> */}
+            <Card className="md:col-span-5 h-68">
               <CardHeader>
                 <CardTitle className="text-center text-sky-700 dark:text-sky-500">
                   FUNDING STRUCTURE

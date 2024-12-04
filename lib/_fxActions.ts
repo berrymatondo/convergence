@@ -34,3 +34,26 @@ export const getFx = async (fxId: number) => {
     };
   } catch (error) {}
 };
+
+// GET Historical data of a SPECIFIC fx
+export const getHistoricalDataFx = async (fxId: number) => {
+  //console.log("fxId", fxId);
+
+  try {
+    const fx = await prisma.historicalDataFx.findMany({
+      where: {
+        staticInfoFxId: +fxId,
+      },
+      orderBy: {
+        date: "desc",
+      },
+    });
+
+    // console.log("fx", fx);
+
+    return {
+      success: true,
+      data: fx,
+    };
+  } catch (error) {}
+};

@@ -21,7 +21,9 @@ const BondItem = ({ bond }: BondItemProps) => {
         {bond.description}
       </TableCell>
       <TableCell className="max-md:hidden">{bond.maturity}</TableCell>
-      <TableCell>{bond.amountIssuedUSD}</TableCell>
+      <TableCell>
+        {new Intl.NumberFormat().format(bond.amountIssuedUSD)}
+      </TableCell>
       <TableCell>{bond.couponRate}</TableCell>
       <TableCell>{bond.couponClass}</TableCell>
       <TableCell>{bond.couponFrequency}</TableCell>

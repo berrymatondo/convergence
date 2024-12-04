@@ -81,7 +81,7 @@ const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
     for (let i = 0; i < vect?.length; i++) {
       sum += vect[i]?.amountIssuedUSD;
     }
-    return sum;
+    return new Intl.NumberFormat().format(sum);
   };
 
   const buildMean = (vect: any) => {

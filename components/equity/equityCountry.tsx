@@ -10,34 +10,29 @@ import {
 } from "../ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { getHistoricalDataFx } from "@/lib/_fxActions";
-import FxCountryView from "./fxCountryView";
-type FxCountryProps = {
-  fxList: any;
+import { getHistoricalDataIndex } from "@/lib/_equityActions";
+import IndexCountryView from "../index/indexCountryView";
+type EquityCountryProps = {
+  equityList: any;
 };
-const FxCountry = ({ fxList }: FxCountryProps) => {
-  const fnd = fxList?.find(
-    (el: any) => el.staticInfoFx?.currency1?.mic == "USD"
+const EquityCountry = ({ equityList }: EquityCountryProps) => {
+  // console.log("lisr  ", equityList);
+
+  const [selectedOption, setSelectedOption] = useState(
+    equityList[2]?.staticInfoIndex?.assetName
   );
-
-  const tmm =
-    fnd.staticInfoFx?.currency1?.mic +
-    "/" +
-    fnd.staticInfoFx?.currency2?.mic +
-    " SPOT";
-
-  const [selectedOption, setSelectedOption] = useState(tmm);
-  const [fxs, setFxs] = useState<any>([]);
+  const [equities, setEquities] = useState<any>([]);
 
   useEffect(() => {
-    const fetchHistoFx = async () => {
-      const fnd2 = fxList?.find(
-        (el: any) =>
-          el.staticInfoFx?.currency1?.mic == selectedOption.substring(0, 3) &&
-          el.staticInfoFx?.currency2?.mic == selectedOption.substring(4, 7)
+    const fetchHistoEquity = async () => {
+      const fnd2 = equityList?.find(
+        (el: any) => el.staticInfoIndex?.assetName == selectedOption
       );
 
       if (fnd2) {
-        const res = await getHistoricalDataFx(fnd2?.staticInfoFxId);
+        //console.log("fnd2?.staticInfoFxId)", fnd2);
+
+        const res = await getHistoricalDataIndex(fnd2?.staticInfoIndexId);
         //console.log(res?.data);
         const histoVar: any = [];
         if (res?.data)
@@ -48,12 +43,12 @@ const FxCountry = ({ fxList }: FxCountryProps) => {
                 close: res?.data[i].close,
               });
 
-              setFxs(histoVar);
+              setEquities(histoVar);
             }
-          } else setFxs([]);
+          } else setEquities([]);
       }
     };
-    fetchHistoFx();
+    fetchHistoEquity();
   }, [selectedOption]);
 
   return (
@@ -72,27 +67,14 @@ const FxCountry = ({ fxList }: FxCountryProps) => {
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                {fxList.map((el: any) => (
+                {equityList.map((el: any) => (
                   <SelectItem
-                    key={
-                      el.staticInfoFx?.currency1?.mic +
-                      "/" +
-                      el.staticInfoFx?.currency2?.mic +
-                      " SPOT"
-                    }
-                    value={
-                      el.staticInfoFx?.currency1?.mic +
-                      "/" +
-                      el.staticInfoFx?.currency2?.mic +
-                      " SPOT"
-                    }
+                    key={el?.staticInfoIndex?.assetName}
+                    value={el?.staticInfoIndex?.assetName}
                   >
                     {" "}
                     <p key={el.staticInfoFxId}>
-                      {el.staticInfoFx?.currency1?.mic +
-                        "/" +
-                        el.staticInfoFx?.currency2?.mic}{" "}
-                      SPOT
+                      {el?.staticInfoIndex?.assetName}
                     </p>
                   </SelectItem>
                 ))}
@@ -102,10 +84,10 @@ const FxCountry = ({ fxList }: FxCountryProps) => {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <FxCountryView fxs={fxs} />
+        <IndexCountryView equities={equities} />
       </CardContent>
     </Card>
   );
 };
 
-export default FxCountry;
+export default EquityCountry;

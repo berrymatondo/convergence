@@ -118,7 +118,11 @@ export const getCountry = async (countryId: number) => {
             },
           },
         },
-        countryIndexMapping: true,
+        countryIndexMapping: {
+          include: {
+            staticInfoIndex: true,
+          },
+        },
       },
     });
 

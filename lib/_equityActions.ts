@@ -34,3 +34,26 @@ export const getEquity = async (equityId: number) => {
     };
   } catch (error) {}
 };
+
+// GET Historical data of a SPECIFIC Index
+export const getHistoricalDataIndex = async (fxId: number) => {
+  //console.log("fxId", fxId);
+
+  try {
+    const fx = await prisma.historicalDataIndex.findMany({
+      where: {
+        staticInfoIndexId: +fxId,
+      },
+      orderBy: {
+        date: "desc",
+      },
+    });
+
+    //console.log("fx", fx);
+
+    return {
+      success: true,
+      data: fx,
+    };
+  } catch (error) {}
+};

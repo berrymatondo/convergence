@@ -54,6 +54,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import FxCountry from "@/components/fx/fxCountry";
+import EquityCountry from "@/components/equity/equityCountry";
 
 const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
   const { slug } = params;
@@ -64,8 +65,13 @@ const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
   const country = await getCountry(slug ? +slug[0] : 1);
   const staticCountry = await getStaticInfoCountry(slug ? +slug[0] : 1);
 
-  // console.log("sulg2:", country?.data?.fxMapping);
-  console.log("sulg2:", country);
+  //console.log("sulg2:", country?.data);
+  /*   console.log(
+    "sulg2:",
+    country?.data?.countryIndexMapping?.filter(
+      (el: any) => el.assetTypesList == "EQUITY"
+    )
+  ); */
 
   const headersList = headers();
   //const domain = headersList.get("host") || "";
@@ -83,7 +89,10 @@ const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
     for (let i = 0; i < vect?.length; i++) {
       sum += vect[i]?.amountIssuedUSD;
     }
-    return new Intl.NumberFormat().format(sum);
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+    }).format(sum);
   };
 
   const buildMean = (vect: any) => {
@@ -180,79 +189,23 @@ const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
                     {staticCountry?.data?.defaultProbability?.toFixed(2)} %
                   </span>
                 </p>
+                <div className="bg-sky-950 flex items-center justify-center mx-auto mt-4 p-8 rounded-lg text-2xl font-semibold ">
+                  {buildSum(staticCountry?.data?.country?.staticInfoBond)}
+                </div>
               </CardContent>
             </Card>
             <div className="md:col-span-2  h-68 ">
-              <FxCountry
-                fxList={country?.data?.fxMapping}
-                countryIndexMapping={country?.data?.countryIndexMapping}
+              <FxCountry fxList={country?.data?.fxMapping} />
+            </div>
+
+            <div className="md:col-span-2  h-68 ">
+              <EquityCountry
+                equityList={country?.data?.countryIndexMapping?.filter(
+                  (el: any) => el.assetTypesList == "EQUITY"
+                )}
               />
             </div>
-            {/*          <Card className="md:col-span-1 h-68">
-              <CardHeader>
-                <CardTitle className="text-sky-700 dark:text-sky-500">
-                  USD/NGN SPOT
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
 
-
-                <Select>
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Select an option" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-    
-
-                      {country?.data?.fxMapping?.map((el: any) => (
-                        <SelectItem
-                          key={el.staticInfoFxId}
-                          value={el.staticInfoFxId}
-                        >
-                          {" "}
-                          <p key={el.staticInfoFxId}>
-                            {el.staticInfoFx?.currency1?.mic +
-                              "/" +
-                              el.staticInfoFx?.currency2?.mic}{" "}
-                            SPOT
-                          </p>
-                        </SelectItem>
-                      ))}
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-              </CardContent>
-            </Card> */}
-            <Card className="md:col-span-2 h-68">
-              <CardHeader>
-                <CardTitle className="text-sky-700 dark:text-sky-500">
-                  EQUITY MARKET NSE 30
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                {/*                 <Accordion type="single" collapsible className="w-full">
-                  <AccordionItem value="item-1">
-                    <AccordionTrigger>
-                      <div className="flex items-start gap-2">
-                        <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
-                        xxxxxx
-                      </div>
-                    </AccordionTrigger>
-                    <AccordionContent>description</AccordionContent>
-                  </AccordionItem>
-                  <AccordionItem value="item-2">
-                    <AccordionTrigger>
-                      <div className="flex items-start gap-2">
-                        <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
-                        info
-                      </div>
-                    </AccordionTrigger>
-                    <AccordionContent>content</AccordionContent>
-                  </AccordionItem>
-                </Accordion> */}
-              </CardContent>
-            </Card>
             {/*             <Card className="md:col-span-1 h-68">
               <CardHeader>
                 <CardTitle className="text-sky-700 dark:text-sky-500">

@@ -1,4 +1,3 @@
-import { TrendingUp } from "lucide-react";
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 
 import {
@@ -15,27 +14,6 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { ScrollArea } from "../ui/scroll-area";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "../ui/table";
-import HistoCommoItem from "./histoCommoItem";
-import { Suspense } from "react";
-const chartData = [
-  { month: "January", desktop: 186 },
-  { month: "February", desktop: 305 },
-  { month: "March", desktop: 237 },
-  { month: "April", desktop: 73 },
-  { month: "May", desktop: 209 },
-  { month: "June", desktop: 214 },
-];
 
 const chartConfig = {
   desktop: {
@@ -60,15 +38,12 @@ const commoViews = async ({ commo, commos }: commoViewsProps) => {
     for (let i = 0; i < commoH.length && i < 500; i++) {
       tempo.push({
         date: commoH[i].date,
-        //desktop: i,
         desktop: commoH[i].close.toFixed(2),
       });
     }
 
     tempo.sort((a: any, b: any) => Date.parse(a.date) - Date.parse(b.date));
   }
-
-  //console.log("tempo:", tempo.length);
 
   return (
     <Card className="border-none">

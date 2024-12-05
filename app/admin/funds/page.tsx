@@ -159,14 +159,13 @@ const CommoditiesPage = async ({
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead className="w-[100px]">Asset Name</TableHead>
-                        <TableHead className="max-md:hidden">
-                          Currency
-                        </TableHead>
-                        <TableHead>Sector</TableHead>
-                        <TableHead>RIC</TableHead>
-                        <TableHead>Ticker</TableHead>
-                        <TableHead className="text-right">Symbol</TableHead>
+                        <TableHead className="w-[100px]">Name</TableHead>
+                        <TableHead className="max-md:hidden">ISIN</TableHead>
+                        <TableHead>Lipper Classification</TableHead>
+                        <TableHead>Domicile</TableHead>
+                        <TableHead>Currency</TableHead>
+                        <TableHead>Exchange</TableHead>
+                        <TableHead className="text-right">Promoter</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -195,10 +194,6 @@ const CustomBreadcrumb = ({ name }: { name: string }) => {
           <BreadcrumbLink href="/">Home</BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
-        {/*         <BreadcrumbItem>
-            <BreadcrumbLink href="/zones">Zones</BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator /> */}
         <BreadcrumbItem>
           <BreadcrumbPage className="font-semibold">{name}</BreadcrumbPage>
         </BreadcrumbItem>

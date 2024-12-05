@@ -2,7 +2,6 @@
 import CommoBody from "@/components/commo/commoBody";
 import CommoViews from "@/components/commo/commoViews";
 import HistoCommoItem from "@/components/commo/histoCommoItem";
-import Loading from "@/components/commo/loading";
 import PageLayout from "@/components/pageLayout";
 import {
   Accordion,
@@ -47,7 +46,7 @@ import {
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React, { Suspense, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const CommoDetailPage = () => {
   const pathname = usePathname();
@@ -128,15 +127,13 @@ const CommoDetailPage = () => {
                   <span className="text-xl text-orange-700 dark:text-orange-500">
                     {commo?.currency?.mic}
                   </span>
-                  <Suspense fallback={<Loading />}>
-                    {commo?.currency?.mic && (
-                      <span className="text-5xl text-orange-700 dark:text-orange-500">
-                        {+commo?.last?.close.toFixed(2)}
-                      </span>
-                    )}{" "}
-                  </Suspense>
-                </p>
 
+                  {commo?.currency?.mic && (
+                    <span className="text-5xl text-orange-700 dark:text-orange-500">
+                      {+commo?.last?.close.toFixed(2)}
+                    </span>
+                  )}
+                </p>
                 <p className=" w-full flex items-center justify-end gap-2 mb-2">
                   <span
                     className={
@@ -259,9 +256,7 @@ const CommoDetailPage = () => {
               </CardContent>
             </Card>
             <Card className="md:col-span-5">
-              <Suspense fallback={<Loading />}>
-                <CommoViews commo={commo} commos={commos} />
-              </Suspense>
+              <CommoViews commo={commo} commos={commos} />
             </Card>
             <Card className="md:col-span-3">
               <CardHeader>
@@ -282,10 +277,9 @@ const CommoDetailPage = () => {
                         </TableHead>
                       </TableRow>
                     </TableHeader>
-                    <Suspense fallback={<Loading />}>
-                      <TableBody className="">
-                        <CommoBody commoList={commo?.historicalDataCommo} />
-                        {/*                       {commo?.historicalDataCommo
+                    <TableBody className="">
+                      <CommoBody commoList={commo?.historicalDataCommo} />
+                      {/*                       {commo?.historicalDataCommo
                         ?.sort(
                           (a: any, b: any) =>
                             Date.parse(b.date) - Date.parse(a.date)
@@ -296,8 +290,7 @@ const CommoDetailPage = () => {
                             key={histoCommo.id}
                           />
                         ))} */}
-                      </TableBody>
-                    </Suspense>
+                    </TableBody>
                   </Table>
                 </ScrollArea>
               </CardContent>

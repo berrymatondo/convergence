@@ -1,5 +1,13 @@
 "use client";
-import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import {
+  Area,
+  AreaChart,
+  CartesianGrid,
+  Line,
+  LineChart,
+  XAxis,
+  YAxis,
+} from "recharts";
 
 import {
   Card,
@@ -44,16 +52,16 @@ const FundViews = async ({ fund, funds, fund23 }: FundViewsProps) => {
     fundH = [...fund.historicalDataIndex];
     fund23H = [...fund23.historicalDataIndex];
 
-    // console.log("fund23H", fund23H.length);
+    // console.log("fund23H", fund23H);
 
-    for (let i = 0; i < fundH.length && i < 500; i++) {
+    for (let i = 0; i < fundH.length && i < 200; i++) {
       tempo.push({
         date: fundH[i].date,
         desktop: fundH[i].close.toFixed(2),
-        desktop23:
-          fund23H.length > 0
+        desktop23: fund23H[i].close.toFixed(2),
+        /*    fund23H.length > 0
             ? fund23H[i].close.toFixed(2)
-            : (fundH[i].close + 1).toFixed(2),
+            : (fundH[i].close + 1).toFixed(2), */
       });
     }
 
@@ -71,7 +79,7 @@ const FundViews = async ({ fund, funds, fund23 }: FundViewsProps) => {
       </CardHeader>
       <CardContent className="flex flex-col justify-between">
         <ChartContainer style={{ width: "100%" }} config={chartConfig}>
-          <AreaChart
+          <LineChart
             accessibilityLayer
             data={tempo}
             margin={{
@@ -87,26 +95,41 @@ const FundViews = async ({ fund, funds, fund23 }: FundViewsProps) => {
               tickMargin={8}
               tickFormatter={(value) => value.slice(0, 10)}
             />
-            <YAxis domain={["dataMin", "dataMax"]} tickMargin={8} />
+            <YAxis
+              yAxisId="left-axis"
+              domain={["dataMin", "dataMax"]}
+              tickMargin={8}
+            />
+            <YAxis
+              yAxisId="right-axis"
+              domain={[0, "dataMax + 50"]}
+              tickMargin={8}
+              orientation="right"
+            />
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent indicator="dot" hideLabel />}
             />
-            <Area
+
+            <Line
               dataKey="desktop"
+              yAxisId="left-axis"
               type="linear"
-              fill="var(--color-desktop)"
-              fillOpacity={0.2}
+              //  fill="var(--color-desktop)"
+              //   fillOpacity={0.2}
               stroke="var(--color-desktop)"
+              dot={false}
             />
-            <Area
+            <Line
               dataKey="desktop23"
+              yAxisId="right-axis"
               type="linear"
-              fill="var(--color-desktop23)"
-              fillOpacity={0.2}
+              //   fill="var(--color-desktop23)"
+              //   fillOpacity={0.2}
               stroke="var(--color-desktop23)"
+              dot={false}
             />
-          </AreaChart>
+          </LineChart>
         </ChartContainer>
       </CardContent>
       <CardFooter></CardFooter>
@@ -115,3 +138,11 @@ const FundViews = async ({ fund, funds, fund23 }: FundViewsProps) => {
 };
 
 export default FundViews;
+
+/* 
+<YAxis type="number" domain={['dataMin', 'dataMax']} />
+<YAxis type="number" domain={[0, 'dataMax']} />
+<YAxis type="number" domain={['auto', 'auto']} />
+<YAxis type="number" domain={[0, 'dataMax + 1000']} />
+<YAxis type="number" domain={['dataMin - 100', 'dataMax + 100']} />
+<YAxis type="number" domain={[dataMin => (0 - Math.abs(dataMin)), dataMax => (dataMax * 2)]} /> */

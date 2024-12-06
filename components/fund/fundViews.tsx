@@ -44,7 +44,7 @@ const FundViews = async ({ fund, funds, fund23 }: FundViewsProps) => {
   //console.log("fund:", fund);
   //console.log("fund23:", fund23);
 
-  console.log("fund.historicalDataFund:", fund.historicalDataIndex);
+  //console.log("fund.historicalDataFund:", fund.historicalDataIndex);
   let fundH;
   let fund23H;
   let tempo = [];

@@ -1,6 +1,8 @@
 import { auth } from "@/auth";
 import CommoItem from "@/components/commo/commoItem";
 import SearchCommo from "@/components/commo/searchCommo";
+import FundItem from "@/components/fund/fundItem";
+import SearchFund from "@/components/fund/searchFund";
 import PageLayout from "@/components/pageLayout";
 import {
   Accordion,
@@ -36,7 +38,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import prisma from "@/lib/prisma";
-import { SectorList, StaticInfoCommo } from "@prisma/client";
+import { SectorList, StaticInfoCommo, StaticInfoFund } from "@prisma/client";
 import { log } from "console";
 import React from "react";
 
@@ -53,7 +55,7 @@ const infos = [
   },
 ];
 
-const CommoditiesPage = async ({
+const FundsPage = async ({
   searchParams,
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
@@ -61,7 +63,7 @@ const CommoditiesPage = async ({
   const skip =
     typeof searchParams.skip === "string" ? Number(searchParams.skip) : 0;
   const take =
-    typeof searchParams.take === "string" ? Number(searchParams.take) : 100;
+    typeof searchParams.take === "string" ? Number(searchParams.take) : 200;
 
   const search =
     typeof searchParams.search === "string" ? searchParams.search : undefined;
@@ -71,14 +73,14 @@ const CommoditiesPage = async ({
   //const commos = await prisma.$queryRaw`SELECT * FROM "StaticInfoCommo"`;
   //const commos = await prisma.$queryRaw`SELECT * FROM public."staticInfoCommo"`;
 
-  let commos = await prisma.staticInfoCommo.findMany({
+  let funds = await prisma.staticInfoFund.findMany({
     take: take,
     skip: skip,
 
     where: {
-      assetName: { contains: search as string, mode: "insensitive" },
+      name: { contains: search as string, mode: "insensitive" },
     },
-    include: { currency: true },
+    include: { currency: true, country: true, fundPromotersMapping: true },
     /*       select: {
         id: true,
         assetName: true,
@@ -89,7 +91,7 @@ const CommoditiesPage = async ({
       }, */
     // include: { historicalDataCommo: true },
     orderBy: {
-      assetName: "asc",
+      name: "asc",
     },
   });
 
@@ -115,16 +117,16 @@ const CommoditiesPage = async ({
     <div>
       {" "}
       <PageLayout
-        title="Liste des matières premières"
-        description="Toutes les matières premières enregistrées dans le système"
+        title="List of Funds"
+        description="All funds recorderd in our system"
       >
         <div className="px-2">
-          <CustomBreadcrumb name="Commodities" />
+          <CustomBreadcrumb name="Funds" />
           <div className="grid md:grid-cols-4 gap-2">
             <Card className="md:col-span-1">
               <CardHeader>
                 <CardTitle className="text-sky-700 dark:text-sky-500">
-                  Matières Premières
+                  Funds
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -152,7 +154,7 @@ const CommoditiesPage = async ({
             </Card>
             <Card className="md:col-span-3">
               <div className="">
-                <SearchCommo search={search} />
+                <SearchFund search={search} />
               </div>
               <CardContent className="max-md:px-2">
                 <ScrollArea className="h-96 max-md:h-[20rem] pr-2">
@@ -169,8 +171,8 @@ const CommoditiesPage = async ({
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {commos?.map((commo: StaticInfoCommo) => (
-                        <CommoItem commo={commo} key={commo.id} />
+                      {funds?.map((fund: StaticInfoFund) => (
+                        <FundItem fund={fund} key={fund.id} />
                       ))}
                     </TableBody>
                   </Table>
@@ -184,7 +186,7 @@ const CommoditiesPage = async ({
   );
 };
 
-export default CommoditiesPage;
+export default FundsPage;
 
 const CustomBreadcrumb = ({ name }: { name: string }) => {
   return (

@@ -23,7 +23,7 @@ type DeleteCtcPageProps = {
 
 const DeleteCtcPage = async ({ params }: DeleteCtcPageProps) => {
   const res = await getContact(params.contactId);
-  const ctc = await res?.data;
+  const ctc = res?.data;
   //console.log("params.zoneId", params.zoneId);
   //console.log("USR", usr);
 

@@ -60,6 +60,12 @@ const components: { title: string; href: string; description: string }[] = [
     description:
       "Définition : Un CDS est un contrat financier qui permet de transférer le risque de crédit d'un emprunteur entre deux parties. Comporte : Primes de CDS, protection contre le défaut de paiement, spreads de CDS.",
   },
+  {
+    title: "Funds",
+    href: "/admin/funds",
+    description:
+      "Définition : Un fond est un contrat financier qui permet de transférer le risque de crédit d'un emprunteur entre deux parties. Comporte : Primes de CDS, protection contre le défaut de paiement, spreads de CDS.",
+  },
 ];
 
 const navLinks = [

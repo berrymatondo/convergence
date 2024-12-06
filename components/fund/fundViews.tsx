@@ -23,7 +23,7 @@ const chartConfig = {
   },
   desktop23: {
     label: "Price23",
-    color: "hsl(var(--chart-1))",
+    color: "hsl(var(--chart-3))",
   },
 } satisfies ChartConfig;
 
@@ -44,11 +44,16 @@ const FundViews = async ({ fund, funds, fund23 }: FundViewsProps) => {
     fundH = [...fund.historicalDataIndex];
     fund23H = [...fund23.historicalDataIndex];
 
+    // console.log("fund23H", fund23H.length);
+
     for (let i = 0; i < fundH.length && i < 500; i++) {
       tempo.push({
         date: fundH[i].date,
         desktop: fundH[i].close.toFixed(2),
-        desktop23: fundH[i].close.toFixed(2),
+        desktop23:
+          fund23H.length > 0
+            ? fund23H[i].close.toFixed(2)
+            : (fundH[i].close + 1).toFixed(2),
       });
     }
 

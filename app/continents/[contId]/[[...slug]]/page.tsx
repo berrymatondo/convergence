@@ -6,7 +6,7 @@ import YieldCurveComp from "@/components/go/yieldCurve";
 import YiedlGraphe from "@/components/graphes/yiedlGRaphe";
 import PageLayout from "@/components/pageLayout";
 import { headers } from "next/headers";
-import React from "react";
+import React, { Suspense } from "react";
 import {
   Accordion,
   AccordionContent,
@@ -55,6 +55,7 @@ import {
 } from "@/components/ui/select";
 import FxCountry from "@/components/fx/fxCountry";
 import EquityCountry from "@/components/equity/equityCountry";
+import Loading from "@/components/commo/loading";
 
 const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
   const { slug } = params;
@@ -195,15 +196,19 @@ const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
               </CardContent>
             </Card>
             <div className="md:col-span-2  h-68 ">
-              <FxCountry fxList={country?.data?.fxMapping} />
+              <Suspense fallback={<Loading />}>
+                <FxCountry fxList={country?.data?.fxMapping} />
+              </Suspense>
             </div>
 
             <div className="md:col-span-2  h-68 ">
-              <EquityCountry
-                equityList={country?.data?.countryIndexMapping?.filter(
-                  (el: any) => el.assetTypesList == "EQUITY"
-                )}
-              />
+              <Suspense fallback={<Loading />}>
+                <EquityCountry
+                  equityList={country?.data?.countryIndexMapping?.filter(
+                    (el: any) => el.assetTypesList == "EQUITY"
+                  )}
+                />{" "}
+              </Suspense>
             </div>
 
             {/*             <Card className="md:col-span-1 h-68">
@@ -268,6 +273,7 @@ const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
                                     st.issuerType == "SOVEREIGN"
                                 )
                               )}
+                              {"%"}
                             </strong>
                           </span>
                         </CardDescription>
@@ -387,7 +393,8 @@ const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
                                     st.countryId != st.marketOfIssueId &&
                                     st.issuerType == "SOVEREIGN"
                                 )
-                              )}
+                              )}{" "}
+                              {"%"}
                             </strong>
                           </span>
                         </CardDescription>
@@ -502,6 +509,7 @@ const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
                                   (st: any) => st.issuerType != "SOVEREIGN"
                                 )
                               )}
+                              {"%"}
                             </strong>
                           </span>
                         </CardDescription>

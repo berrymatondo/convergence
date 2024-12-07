@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -12,6 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { getHistoricalDataFx } from "@/lib/_fxActions";
 import { getHistoricalDataIndex } from "@/lib/_equityActions";
 import IndexCountryView from "../index/indexCountryView";
+import Loading from "../commo/loading";
 type EquityCountryProps = {
   equityList: any;
 };
@@ -84,7 +85,9 @@ const EquityCountry = ({ equityList }: EquityCountryProps) => {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <IndexCountryView equities={equities} />
+        <Suspense fallback={<Loading />}>
+          <IndexCountryView equities={equities} />
+        </Suspense>
       </CardContent>
     </Card>
   );

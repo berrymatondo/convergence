@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -11,18 +11,23 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { getHistoricalDataFx } from "@/lib/_fxActions";
 import FxCountryView from "./fxCountryView";
+import Loading from "../commo/loading";
 type FxCountryProps = {
   fxList: any;
 };
 const FxCountry = ({ fxList }: FxCountryProps) => {
+  //console.log("fxList", fxList);
+
   const fnd = fxList?.find(
     (el: any) => el.staticInfoFx?.currency1?.mic == "USD"
   );
 
+  // console.log("fnd: ", fnd);
+
   const tmm =
-    fnd.staticInfoFx?.currency1?.mic +
+    fnd?.staticInfoFx?.currency1?.mic +
     "/" +
-    fnd.staticInfoFx?.currency2?.mic +
+    fnd?.staticInfoFx?.currency2?.mic +
     " SPOT";
 
   const [selectedOption, setSelectedOption] = useState(tmm);
@@ -102,7 +107,10 @@ const FxCountry = ({ fxList }: FxCountryProps) => {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <FxCountryView fxs={fxs} />
+        <Suspense fallback={<Loading />}>
+          {" "}
+          <FxCountryView fxs={fxs} />
+        </Suspense>
       </CardContent>
     </Card>
   );

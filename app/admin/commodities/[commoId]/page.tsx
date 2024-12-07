@@ -122,8 +122,8 @@ const CommoDetailPage = () => {
             {commo?.assetName}
           </p>
           <div className="grid md:grid-cols-12 gap-2 ">
-            <Card className="md:col-span-2 py-4">
-              <CardContent className="text-sm">
+            <Card className="md:col-span-2 py-4 bg-blue-950/30 ">
+              <CardContent className="text-sm ">
                 <p className="w-full flex items-center justify-between gap-2 mb-2">
                   <span className="text-xl text-orange-700 dark:text-orange-500">
                     {commo?.currency?.mic}
@@ -263,7 +263,7 @@ const CommoDetailPage = () => {
                 <CommoViews commo={commo} commos={commos} />
               </Suspense>
             </Card>
-            <Card className="md:col-span-3">
+            <Card className="md:col-span-3 bg-blue-950/30 ">
               <CardHeader>
                 <CardTitle>Historical Data</CardTitle>
               </CardHeader>
@@ -302,7 +302,7 @@ const CommoDetailPage = () => {
                 </ScrollArea>
               </CardContent>
             </Card>
-            <Card className="md:col-span-2">
+            <Card className="md:col-span-2 bg-blue-950/30 ">
               <CardHeader>
                 <CardTitle>Other Commodities</CardTitle>
               </CardHeader>

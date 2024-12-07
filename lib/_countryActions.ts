@@ -90,6 +90,9 @@ export const getCountriesByContinent = async (continent: string) => {
       where: {
         continent: continent as ContinentsList,
       },
+      orderBy: {
+        name: "asc",
+      },
     });
 
     revalidatePath("/admin/countries");

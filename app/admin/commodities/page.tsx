@@ -35,6 +35,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { getAllStaticCommo } from "@/lib/_commoActions";
 import prisma from "@/lib/prisma";
 import { SectorList, StaticInfoCommo } from "@prisma/client";
 import { log } from "console";
@@ -70,6 +71,8 @@ const CommoditiesPage = async ({
 
   //const commos = await prisma.$queryRaw`SELECT * FROM "StaticInfoCommo"`;
   //const commos = await prisma.$queryRaw`SELECT * FROM public."staticInfoCommo"`;
+
+  const rrr = await getAllStaticCommo();
 
   let commos = await prisma.staticInfoCommo.findMany({
     take: take,

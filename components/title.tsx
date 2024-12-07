@@ -1,4 +1,5 @@
 import React from "react";
+import uemo from "../public/continents/uemoa.gif";
 
 type TitleProps = {
   title: string;
@@ -29,7 +30,9 @@ const Title = ({
       "max-md:hidden text-sm md:text-md text-blue-800 dark:text-white  text-center";
   }
 
-  const flag = "https://flagcdn.Com/w40/" + flagCode + ".png";
+  let flag = "https://flagcdn.Com/w40/" + flagCode + ".png";
+
+  if (flagCode == "zz") flag = "/continents/uemoa.gif";
 
   //console.log("flag: ", flagCode);
 

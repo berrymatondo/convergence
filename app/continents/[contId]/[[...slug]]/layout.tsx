@@ -38,7 +38,7 @@ export default function Continentayout({
   useEffect(() => {
     const fetchCountries = async () => {
       const res = await getCountriesByContinent(cont);
-      const data = await res?.data;
+      const data = res?.data;
 
       setCountries(data);
 

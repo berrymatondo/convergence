@@ -209,6 +209,8 @@ export const checkAuth = async (role: string) => {
 
   let user: any = session?.user;
   let status = "KO";
+  console.log("user:", user);
+
   if (user?.role == role) status = "OK";
 
   if (user?.status != "ACTIF") status = "KO";

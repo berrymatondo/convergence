@@ -98,16 +98,6 @@ const IndexesPage = async ({
     },
   });
 
-  const getIndexHistoMax = async (id: any) => {
-    const res = await getIndexHsitoMaxDate(id);
-    //console.log("ID: ", id, res?.data?.close?.close);
-
-    if (res?.data?.close) {
-      if (+res?.data?.close?.close < 0) return "-" + res?.data?.close?.close;
-      else return "+" + res?.data?.close?.close;
-    } else return "-";
-  };
-
   // console.log("indexes", indexes);
 
   const session = await auth();
@@ -122,35 +112,6 @@ const IndexesPage = async ({
         <div className="px-2">
           <CustomBreadcrumb name="Indices" />
           <div className="grid md:grid-cols-4 gap-2">
-            {/*             <Card className="md:col-span-1">
-              <CardHeader>
-                <CardTitle className="text-sky-700 dark:text-sky-500">
-                  Indices
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Accordion type="single" collapsible className="w-full">
-                  <AccordionItem value="item-1">
-                    <AccordionTrigger>
-                      <div className="flex items-start gap-2">
-                        <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
-                        {infos[0].title}
-                      </div>
-                    </AccordionTrigger>
-                    <AccordionContent>{infos[0].description}</AccordionContent>
-                  </AccordionItem>
-                  <AccordionItem value="item-2">
-                    <AccordionTrigger>
-                      <div className="flex items-start gap-2">
-                        <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
-                        {infos[1].title}
-                      </div>
-                    </AccordionTrigger>
-                    <AccordionContent>{infos[1].description}</AccordionContent>
-                  </AccordionItem>
-                </Accordion>
-              </CardContent>
-            </Card> */}
             <Card className="md:col-span-4">
               <div className="">
                 <SearchIndex search={search} />
@@ -164,46 +125,19 @@ const IndexesPage = async ({
                         className="hover:bg-blue-950/70 hover:cursor-pointer flex flex-col justify-between gap-4 bg-blue-950/30 border-2 p-2 mt-2 rounded-lg"
                       >
                         <p className="text-sky-400 text-lg ">{i?.assetName}</p>
-                        {/*                         {+getIndexHistoMax2(i.id) > 0 ? (
-                          <p className="text-green-600">
-                            {getIndexHistoMax2(i.id)}
-                          </p>
-                        ) : (
-                          <p className="text-blue-600">
-                            {getIndexHistoMax2(i.id)}
-                          </p>
-                        )} */}
+
                         <div className=" flex flex-col justify-end">
                           <Change id={i.id} />
                           <Close id={i.id} />
-                          {/*                         <p>{getIndexHistoMax(i.id)}</p>
-                           */}{" "}
-                          <p className="text-xs ">
+
+                          <div className="flex gap-2 items-baseline text-xs text-sky-400">
+                            {Flag(i?.country?.flagCode)}
                             {i?.country?.name.replaceAll("_", " ")}
-                          </p>
+                          </div>
                         </div>
                       </div>
                     ))}
                   </div>
-                  {/*                   <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead className="w-[100px]">Asset Name</TableHead>
-                        <TableHead className="max-md:hidden">
-                          Currency
-                        </TableHead>
-                        <TableHead>Sector</TableHead>
-                        <TableHead>RIC</TableHead>
-                        <TableHead>Ticker</TableHead>
-                        <TableHead className="text-right">Symbol</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {indexes?.map((commo: StaticInfoCommo) => (
-                        <CommoItem commo={commo} key={commo.id} />
-                      ))}
-                    </TableBody>
-                  </Table> */}
                 </ScrollArea>
               </CardContent>
             </Card>
@@ -224,26 +158,13 @@ const CustomBreadcrumb = ({ name }: { name: string }) => {
           <BreadcrumbLink href="/">Accueil</BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
-        {/*         <BreadcrumbItem>
-            <BreadcrumbLink href="/zones">Zones</BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator /> */}
+
         <BreadcrumbItem>
           <BreadcrumbPage className="font-semibold">{name}</BreadcrumbPage>
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>
   );
-};
-
-const getIndexHistoMax2 = async (id: any) => {
-  const res = await getIndexHsitoMaxDate(id);
-  //console.log("ID: ", id, res?.data?.close?.close);
-
-  return <p>OKOK</p>;
-  /*   if (res?.data?.close) 
-    return res?.data?.close?.change ? +res?.data?.close?.change : 0;
-  else return 0; */
 };
 
 const Change = async ({ id }: any) => {
@@ -277,4 +198,15 @@ const Close = async ({ id }: any) => {
       </p>
     );
   } else return <p></p>;
+};
+
+const Flag = async (flagCode: any) => {
+  let flag = "https://flagcdn.Com/w40/" + flagCode + ".png";
+  if (flagCode == "zz") flag = "/continents/uemoa.gif";
+
+  return (
+    <div>
+      {flagCode && <img src={flag} alt="Flag" style={{ width: "1.5rem" }} />}
+    </div>
+  );
 };

@@ -97,7 +97,7 @@ const IndexesPage = async ({
 
               <CardContent className="max-md:px-2">
                 <ScrollArea className="h-[38rem] ">
-                  <div className="grid max-md:grid-cols-2 grid-cols-6 gap-2">
+                  <div className="grid max-md:grid-cols-2 grid-cols-5 gap-2">
                     {indexes?.map((i: any, index: any) => (
                       <IndexItem key={i.id} index={i} />
                     ))}

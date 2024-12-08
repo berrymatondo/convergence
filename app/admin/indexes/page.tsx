@@ -122,7 +122,7 @@ const IndexesPage = async ({
         <div className="px-2">
           <CustomBreadcrumb name="Indices" />
           <div className="grid md:grid-cols-4 gap-2">
-            <Card className="md:col-span-1">
+            {/*             <Card className="md:col-span-1">
               <CardHeader>
                 <CardTitle className="text-sky-700 dark:text-sky-500">
                   Indices
@@ -150,14 +150,14 @@ const IndexesPage = async ({
                   </AccordionItem>
                 </Accordion>
               </CardContent>
-            </Card>
-            <Card className="md:col-span-3">
+            </Card> */}
+            <Card className="md:col-span-4">
               <div className="">
                 <SearchIndex search={search} />
               </div>
               <CardContent className="max-md:px-2">
                 <ScrollArea className="h-96 max-md:h-[20rem]">
-                  <div className="grid grid-cols-5 gap-2">
+                  <div className="grid grid-cols-6 gap-2">
                     {indexes?.map((i: any, index: any) => (
                       <div
                         key={index}

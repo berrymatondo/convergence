@@ -27,7 +27,7 @@ const CommoditiesPage = async ({
   const skip =
     typeof searchParams.skip === "string" ? Number(searchParams.skip) : 0;
   const take =
-    typeof searchParams.take === "string" ? Number(searchParams.take) : 10;
+    typeof searchParams.take === "string" ? Number(searchParams.take) : 50;
 
   const search =
     typeof searchParams.search === "string" ? searchParams.search : undefined;
@@ -37,7 +37,7 @@ const CommoditiesPage = async ({
   //const commos = await prisma.$queryRaw`SELECT * FROM "StaticInfoCommo"`;
   //const commos = await prisma.$queryRaw`SELECT * FROM public."staticInfoCommo"`;
 
-  const rrr = await getAllStaticCommo();
+  //const rrr = await getAllStaticCommo();
 
   let commos = await prisma.staticInfoCommo.findMany({
     take: take,
@@ -90,7 +90,7 @@ const CommoditiesPage = async ({
               </div>
               <CardContent className="max-md:px-2">
                 <ScrollArea className="h-[40rem] ">
-                  <div className="grid max-md:grid-cols-2 grid-cols-6 gap-2">
+                  <div className="grid max-md:grid-cols-2 grid-cols-5 gap-2">
                     {commos?.map((i: any, index: any) => (
                       <CommoItem key={i.id} commo={i} />
                     ))}

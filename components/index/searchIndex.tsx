@@ -24,7 +24,7 @@ const SearchIndex = ({ search }: { search?: string }) => {
   return (
     <div>
       <Input
-        placeholder="Rechercher un indice"
+        placeholder="Search an index ..."
         value={text}
         onChange={(e) => setText(e.target.value)}
       />

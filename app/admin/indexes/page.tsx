@@ -80,8 +80,16 @@ const IndexesPage = async ({
     skip: skip,
 
     where: {
-      assetName: { contains: search as string, mode: "insensitive" },
+      OR: [
+        { assetName: { contains: search as string, mode: "insensitive" } },
+        {
+          country: {
+            name: { contains: search as string, mode: "insensitive" },
+          },
+        },
+      ],
     },
+
     include: {
       country: true,
     },
@@ -113,7 +121,7 @@ const IndexesPage = async ({
           <CustomBreadcrumb name="Indices" />
           <div className="grid md:grid-cols-4 gap-2">
             <Card className="md:col-span-4">
-              <div className="">
+              <div className="m-6 w-1/4">
                 <SearchIndex search={search} />
               </div>
               <CardContent className="max-md:px-2">
@@ -174,13 +182,13 @@ const Change = async ({ id }: any) => {
   if (data?.close?.change) {
     if (+data?.close?.change < 0)
       return (
-        <Badge className="p-0 w-1/2 text-center bg-red-600 font-semibold">
+        <Badge className="p-0 px-2 w-1/2  bg-red-600 font-semibold">
           {data?.close?.change.toFixed(2)} <TrendingDown className="ml-2" />
         </Badge>
       );
     else
       return (
-        <Badge className="p-0 w-1/2 text-center bg-green-600 font-semibold">
+        <Badge className="p-0 px-2 w-1/2  bg-green-600 font-semibold">
           +{data?.close?.change.toFixed(2)} <TrendingUp className="ml-2" />
         </Badge>
       );

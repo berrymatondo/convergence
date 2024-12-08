@@ -43,7 +43,7 @@ const GeneralOverviewPage = async ({
                 <div>
                   Nr de pays :{ct?.countries?.length}
                   {ct?.countries?.map((c: any) => (
-                    <div>
+                    <div key={c.id}>
                       <p>{c.name}</p>
                       <p className="text-xs">Currency: {c.currency.mic}</p>
                       <p className="text-xs">Fx: {c._count.fxMapping}</p>

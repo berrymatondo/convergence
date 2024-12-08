@@ -50,7 +50,7 @@ const EquityCountry = ({ equityList }: EquityCountryProps) => {
       }
     };
     fetchHistoEquity();
-  }, [selectedOption]);
+  }, [selectedOption, equityList]);
 
   return (
     <Card className="md:col-span-1 h-full ">

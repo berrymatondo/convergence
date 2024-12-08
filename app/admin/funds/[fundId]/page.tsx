@@ -137,7 +137,7 @@ const FundDetailPage = async ({ params }: FundDetailPageProps) => {
       {" "}
       <PageLayout
         wid="mx-12"
-        title="Details of a Fund"
+        title={fund?.name}
         description="This page gives the details of a fund"
       >
         <CustomBreadcrumb name="Funds" />

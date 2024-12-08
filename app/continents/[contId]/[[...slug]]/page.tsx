@@ -56,6 +56,7 @@ import {
 import FxCountry from "@/components/fx/fxCountry";
 import EquityCountry from "@/components/equity/equityCountry";
 import Loading from "@/components/commo/loading";
+import { getContinent } from "@/lib/_continentActions";
 
 const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
   const { slug } = params;

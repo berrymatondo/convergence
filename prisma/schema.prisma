@@ -22,6 +22,15 @@ model User {
   @@map("users")
 }
 
+model Continent {
+    id                Int                @id @default(autoincrement())
+  name              String             @unique
+ countries Country[]
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @default(now()) @updatedAt
+    @@map("continents")
+}
+
 model Country {
   id                Int                @id @default(autoincrement())
   name              String             @unique
@@ -30,6 +39,8 @@ model Country {
   continent         ContinentsList     @default(AFRICA)
   currencyId        Int?
   flagCode          String?
+  continentDetail   Continent?     @relation(fields: [continentId], references: [id])
+  continentId       Int? 
   fxMapping         FxMapping[]
   countryIndexMapping         CountryIndexMapping[]
   fundCountryRegisteredForSales         FundCountryRegisteredForSales[]

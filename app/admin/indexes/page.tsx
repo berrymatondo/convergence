@@ -9,6 +9,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Badge } from "@/components/ui/badge";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -36,9 +37,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { getIndexHsitoMaxDate } from "@/lib/_indexActions";
 import prisma from "@/lib/prisma";
 import { SectorList, StaticInfoCommo } from "@prisma/client";
+import { TrendingDown, TrendingUp } from "lucide-react";
 import React from "react";
+import { OK } from "zod";
 
 const infos = [
   {
@@ -50,80 +54,6 @@ const infos = [
     title: "Comporte",
     description:
       "Métaux précieux (or, argent), énergie (pétrole, gaz naturel), produits agricoles (blé, café), métaux industriels (cuivre, aluminium).",
-  },
-];
-
-/*TEMPO*/
-const inds = [
-  {
-    id: 1,
-    label: "JSE Top 40",
-    val: 0.9,
-    price: 455.9,
-    country: "South Africa",
-  },
-  {
-    id: 2,
-    label: "JSE FRin  Index",
-    val: 0.9,
-    price: 455.9,
-    country: "South Africa",
-  },
-  {
-    id: 3,
-    label: "JSE Top 40",
-    val: 0.9,
-    price: 455.9,
-    country: "South Africa",
-  },
-  {
-    id: 4,
-    label: "JSE Top 40",
-    val: 0.9,
-    price: 455.9,
-    country: "South Africa",
-  },
-  {
-    id: 5,
-    label: "JSE Top 40",
-    val: 0.9,
-    price: 455.9,
-    country: "South Africa",
-  },
-  {
-    id: 6,
-    label: "JSE Top 40",
-    val: 0.9,
-    price: 455.9,
-    country: "South Africa",
-  },
-  {
-    id: 7,
-    label: "JSE Top 40",
-    val: 0.9,
-    price: 455.9,
-    country: "South Africa",
-  },
-  {
-    id: 8,
-    label: "JSE Top 40",
-    val: 0.9,
-    price: 455.9,
-    country: "South Africa",
-  },
-  {
-    id: 9,
-    label: "JSE Top 40",
-    val: 0.9,
-    price: 455.9,
-    country: "South Africa",
-  },
-  {
-    id: 10,
-    label: "JSE Top 40",
-    val: 0.9,
-    price: 455.9,
-    country: "South Africa",
   },
 ];
 
@@ -152,6 +82,9 @@ const IndexesPage = async ({
     where: {
       assetName: { contains: search as string, mode: "insensitive" },
     },
+    include: {
+      country: true,
+    },
     /*       select: {
         id: true,
         assetName: true,
@@ -165,7 +98,17 @@ const IndexesPage = async ({
     },
   });
 
-  //console.log("indexes", indexes);
+  const getIndexHistoMax = async (id: any) => {
+    const res = await getIndexHsitoMaxDate(id);
+    //console.log("ID: ", id, res?.data?.close?.close);
+
+    if (res?.data?.close) {
+      if (+res?.data?.close?.close < 0) return "-" + res?.data?.close?.close;
+      else return "+" + res?.data?.close?.close;
+    } else return "-";
+  };
+
+  // console.log("indexes", indexes);
 
   const session = await auth();
 
@@ -215,15 +158,30 @@ const IndexesPage = async ({
               <CardContent className="max-md:px-2">
                 <ScrollArea className="h-96 max-md:h-[20rem]">
                   <div className="grid grid-cols-5 gap-2">
-                    {inds.map((i: any, index: any) => (
+                    {indexes?.map((i: any, index: any) => (
                       <div
                         key={index}
-                        className=" border-2 p-2 mt-2 rounded-lg"
+                        className="flex flex-col justify-between gap-4 bg-blue-950/30 border-2 p-2 mt-2 rounded-lg"
                       >
-                        <p>{i.label}</p>
-                        <p>{i.val}</p>
-                        <p>{i.price}</p>
-                        <p>{i.country}</p>
+                        <p className="text-sky-400">{i?.assetName}</p>
+                        {/*                         {+getIndexHistoMax2(i.id) > 0 ? (
+                          <p className="text-green-600">
+                            {getIndexHistoMax2(i.id)}
+                          </p>
+                        ) : (
+                          <p className="text-blue-600">
+                            {getIndexHistoMax2(i.id)}
+                          </p>
+                        )} */}
+                        <div className=" flex flex-col justify-end">
+                          <Change id={i.id} />
+                          <Close id={i.id} />
+                          {/*                         <p>{getIndexHistoMax(i.id)}</p>
+                           */}{" "}
+                          <p className="text-sm">
+                            {i?.country?.name.replaceAll("_", " ")}
+                          </p>
+                        </div>
                       </div>
                     ))}
                   </div>
@@ -276,4 +234,43 @@ const CustomBreadcrumb = ({ name }: { name: string }) => {
       </BreadcrumbList>
     </Breadcrumb>
   );
+};
+
+const getIndexHistoMax2 = async (id: any) => {
+  const res = await getIndexHsitoMaxDate(id);
+  //console.log("ID: ", id, res?.data?.close?.close);
+
+  return <p>OKOK</p>;
+  /*   if (res?.data?.close) 
+    return res?.data?.close?.change ? +res?.data?.close?.change : 0;
+  else return 0; */
+};
+
+const Change = async ({ id }: any) => {
+  const res = await getIndexHsitoMaxDate(id);
+  const data = res?.data;
+
+  if (data?.close?.change) {
+    if (+data?.close?.change < 0)
+      return (
+        <Badge className="w-1/2 text-center bg-red-600 font-semibold">
+          {data?.close?.change.toFixed(2)} <TrendingDown className="ml-2" />
+        </Badge>
+      );
+    else
+      return (
+        <Badge className="w-1/2 text-center bg-green-600 font-semibold">
+          +{data?.close?.change.toFixed(2)} <TrendingUp className="ml-2" />
+        </Badge>
+      );
+  } else return <p></p>;
+};
+
+const Close = async ({ id }: any) => {
+  const res = await getIndexHsitoMaxDate(id);
+  const data = res?.data;
+
+  if (data?.close?.close) {
+    return <p className=" my-1 text-3xl font-bold">{data?.close?.close}</p>;
+  } else return <p></p>;
 };

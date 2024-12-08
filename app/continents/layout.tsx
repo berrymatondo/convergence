@@ -6,6 +6,10 @@ import { notFound, usePathname, useRouter } from "next/navigation";
 import { GiAfrica, GiEarthAsiaOceania } from "react-icons/gi";
 import { FaGlobeAmericas, FaGlobeAsia, FaGlobeEurope } from "react-icons/fa";
 import { useSession } from "next-auth/react";
+import { getContinent } from "@/lib/_continentActions";
+import Test from "@/components/continent/test";
+import { Suspense } from "react";
+import Loading from "@/components/commo/loading";
 
 export default function Continentayout({
   params,
@@ -21,6 +25,7 @@ export default function Continentayout({
   const usr: any = session?.user;
 
   /*   const { data: session } = useSession();
+
 
   let usr: any;
   let continent: any;
@@ -65,15 +70,15 @@ export default function Continentayout({
                   }
                 >
                   {conti == "AFRICA" ? (
-                    <GiAfrica />
+                    <GiAfrica className="text-green-600" size={50} />
                   ) : conti == "AMERICA" ? (
-                    <FaGlobeAmericas />
+                    <FaGlobeAmericas className="text-green-600" size={50} />
                   ) : conti == "ASIA" ? (
-                    <FaGlobeAsia />
+                    <FaGlobeAsia className="text-green-600" size={50} />
                   ) : conti == "EUROPE" ? (
-                    <FaGlobeEurope />
+                    <FaGlobeEurope className="text-green-600" size={50} />
                   ) : (
-                    <GiEarthAsiaOceania />
+                    <GiEarthAsiaOceania className="text-green-600" size={50} />
                   )}
                   {conti}
                 </Link>

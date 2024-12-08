@@ -38,3 +38,25 @@ export const getIndex = async (indexId: number) => {
     };
   } catch (error) {}
 };
+
+export const getIndexHsitoMaxDate = async (commoId: number) => {
+  try {
+    const commo = await prisma.historicalDataIndex.findMany({
+      where: {
+        staticInfoIndexId: +commoId,
+      },
+      orderBy: {
+        date: "desc",
+      },
+    });
+
+    //console.log("res", commo);
+
+    return {
+      success: true,
+      data: {
+        close: commo[0],
+      },
+    };
+  } catch (error) {}
+};

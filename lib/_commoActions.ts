@@ -6,7 +6,7 @@ import { checkAuth } from "./_contactActions";
 
 // Get all commos
 export const getAllStaticCommo = async () => {
-  const res = await checkAuth("x");
+  //const res = await checkAuth("x");
 
   try {
     const commos = await prisma.staticInfoCommo.findMany();

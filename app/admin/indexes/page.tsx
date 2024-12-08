@@ -161,7 +161,7 @@ const IndexesPage = async ({
                     {indexes?.map((i: any, index: any) => (
                       <div
                         key={index}
-                        className="hover:bg-blue-950/10 hover:cursor-pointer flex flex-col justify-between gap-4 bg-blue-950/30 border-2 p-2 mt-2 rounded-lg"
+                        className="hover:bg-blue-950/70 hover:cursor-pointer flex flex-col justify-between gap-4 bg-blue-950/30 border-2 p-2 mt-2 rounded-lg"
                       >
                         <p className="text-sky-400">{i?.assetName}</p>
                         {/*                         {+getIndexHistoMax2(i.id) > 0 ? (
@@ -178,7 +178,7 @@ const IndexesPage = async ({
                           <Close id={i.id} />
                           {/*                         <p>{getIndexHistoMax(i.id)}</p>
                            */}{" "}
-                          <p className="text-sm">
+                          <p className="text-xs">
                             {i?.country?.name.replaceAll("_", " ")}
                           </p>
                         </div>

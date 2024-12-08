@@ -195,7 +195,7 @@ export const deleteGo = async (goId: number) => {
 export const checkAuth = async (role: string) => {
   const session = await auth();
 
-  console.log("AUTH SESSION:", session?.user);
+  //console.log("AUTH SESSION:", session?.user);
 
   let user: any = session?.user;
   let status = "KO";

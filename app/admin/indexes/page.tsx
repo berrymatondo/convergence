@@ -2,6 +2,7 @@ import { auth } from "@/auth";
 
 import IndexItem from "@/components/index/indexItem";
 import SearchIndex from "@/components/index/searchIndex";
+import NotConnected from "@/components/notConnected";
 import PageLayout from "@/components/pageLayout";
 
 import {
@@ -59,12 +60,15 @@ const IndexesPage = async ({
   // console.log("indexes", indexes);
 
   const session = await auth();
+  const usr: any = session?.user;
+
+  if (!usr) return <NotConnected />;
 
   return (
     <div>
       {" "}
       <PageLayout
-        title="List of indexex"
+        title="Indexes"
         //  description="Tous les indices enregistrées dans le système"
       >
         <div className="px-2">

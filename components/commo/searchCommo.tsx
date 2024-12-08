@@ -24,7 +24,7 @@ const SearchCommo = ({ search }: { search?: string }) => {
   return (
     <div>
       <Input
-        placeholder="Rechercher une matière première"
+        placeholder="Search a commodity ..."
         value={text}
         onChange={(e) => setText(e.target.value)}
       />

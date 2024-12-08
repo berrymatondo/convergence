@@ -1,6 +1,7 @@
 import { auth } from "@/auth";
 import CommoItem from "@/components/commo/commoItem";
 import SearchCommo from "@/components/commo/searchCommo";
+import NotConnected from "@/components/notConnected";
 import PageLayout from "@/components/pageLayout";
 import {
   Accordion,
@@ -41,19 +42,6 @@ import { SectorList, StaticInfoCommo } from "@prisma/client";
 import { log } from "console";
 import React from "react";
 
-const infos = [
-  {
-    title: "Définition",
-    description:
-      "Les matières premières sont des produits de base échangés sur des marchés financiers.",
-  },
-  {
-    title: "Comporte",
-    description:
-      "Métaux précieux (or, argent), énergie (pétrole, gaz naturel), produits agricoles (blé, café), métaux industriels (cuivre, aluminium).",
-  },
-];
-
 const CommoditiesPage = async ({
   searchParams,
 }: {
@@ -81,6 +69,7 @@ const CommoditiesPage = async ({
     where: {
       assetName: { contains: search as string, mode: "insensitive" },
     },
+
     include: { currency: true },
     /*       select: {
         id: true,
@@ -96,88 +85,39 @@ const CommoditiesPage = async ({
     },
   });
 
-  //console.log("max ", commosH?._max?.date);
-
-  /*   const produitWithMaxPrix = await prisma.historicalDataCommo.findFirst({
-    where: {
-      id: 6,
-      date:commosH?.date
-    },
-    select: {
-      id: true,
-      nom: true,
-      prix: true,
-    },
-  });
-  
-  console.log(produitWithMaxPrix); */
+  console.log("Commo", commos);
 
   const session = await auth();
+  const usr: any = session?.user;
+
+  if (!usr) return <NotConnected />;
 
   return (
     <div>
       {" "}
       <PageLayout
-        title="Liste des matières premières"
-        description="Toutes les matières premières enregistrées dans le système"
+        title="Commodities"
+        // description="Toutes les matières premières enregistrées dans le système"
       >
         <div className="px-2">
           <CustomBreadcrumb name="Commodities" />
           <div className="grid md:grid-cols-4 gap-2">
-            <Card className="md:col-span-1">
-              <CardHeader>
-                <CardTitle className="text-sky-700 dark:text-sky-500">
-                  Matières Premières
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Accordion type="single" collapsible className="w-full">
-                  <AccordionItem value="item-1">
-                    <AccordionTrigger>
-                      <div className="flex items-start gap-2">
-                        <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
-                        {infos[0].title}
-                      </div>
-                    </AccordionTrigger>
-                    <AccordionContent>{infos[0].description}</AccordionContent>
-                  </AccordionItem>
-                  <AccordionItem value="item-2">
-                    <AccordionTrigger>
-                      <div className="flex items-start gap-2">
-                        <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
-                        {infos[1].title}
-                      </div>
-                    </AccordionTrigger>
-                    <AccordionContent>{infos[1].description}</AccordionContent>
-                  </AccordionItem>
-                </Accordion>
-              </CardContent>
-            </Card>
-            <Card className="md:col-span-3">
-              <div className="">
-                <SearchCommo search={search} />
+            <Card className="md:col-span-4">
+              <div className="max-md:m-2 m-6 full flex justify-between items-baseline">
+                <div className=" md:w-1/4">
+                  <SearchCommo search={search} />
+                </div>
+                <span className="max-md:text-xs text-orange-400">
+                  {commos?.length} index(es)
+                </span>{" "}
               </div>
               <CardContent className="max-md:px-2">
-                <ScrollArea className="h-96 max-md:h-[20rem] pr-2">
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead className="w-[100px]">Asset Name</TableHead>
-                        <TableHead className="max-md:hidden">
-                          Currency
-                        </TableHead>
-                        <TableHead>Sector</TableHead>
-                        <TableHead>RIC</TableHead>
-                        <TableHead>Ticker</TableHead>
-                        <TableHead className="text-right">Symbol</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {commos?.map((commo: StaticInfoCommo) => (
-                        <CommoItem commo={commo} key={commo.id} />
-                      ))}
-                    </TableBody>
-                  </Table>
+                <ScrollArea className="h-[40rem] ">
+                  <div className="grid max-md:grid-cols-2 grid-cols-6 gap-2">
+                    {commos?.map((i: any, index: any) => (
+                      <CommoItem key={i.id} commo={i} />
+                    ))}
+                  </div>
                 </ScrollArea>
               </CardContent>
             </Card>

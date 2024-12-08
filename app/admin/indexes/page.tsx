@@ -117,7 +117,7 @@ const IndexesPage = async ({
                 <SearchIndex search={search} />
               </div>
               <CardContent className="max-md:px-2">
-                <ScrollArea className="h-96 max-md:h-[20rem]">
+                <ScrollArea className="h-[40rem] max-md:h-[20rem]">
                   <div className="grid grid-cols-6 gap-2">
                     {indexes?.map((i: any, index: any) => (
                       <div

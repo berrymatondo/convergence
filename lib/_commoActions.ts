@@ -1,13 +1,9 @@
 "use server";
 import { revalidatePath } from "next/cache";
 import prisma from "./prisma";
-import { log } from "console";
-import { checkAuth } from "./_contactActions";
 
 // Get all commos
 export const getAllStaticCommo = async () => {
-  //const res = await checkAuth("x");
-
   try {
     const commos = await prisma.staticInfoCommo.findMany();
 

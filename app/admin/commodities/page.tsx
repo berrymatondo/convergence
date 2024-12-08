@@ -98,7 +98,7 @@ const CommoditiesPage = async ({
                 </span>{" "}
               </div>
               <CardContent className="max-md:px-2">
-                <ScrollArea className="h-[40rem] ">
+                <ScrollArea className="h-[38rem] ">
                   <div className="grid max-md:grid-cols-2 grid-cols-5 gap-2">
                     {commos?.map((i: any, index: any) => (
                       <CommoItem key={i.id} commo={i} />

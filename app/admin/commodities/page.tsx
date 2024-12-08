@@ -3,12 +3,7 @@ import CommoItem from "@/components/commo/commoItem";
 import SearchCommo from "@/components/commo/searchCommo";
 import NotConnected from "@/components/notConnected";
 import PageLayout from "@/components/pageLayout";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -17,29 +12,11 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+
 import { getAllStaticCommo } from "@/lib/_commoActions";
 import prisma from "@/lib/prisma";
-import { SectorList, StaticInfoCommo } from "@prisma/client";
-import { log } from "console";
 import React from "react";
 
 const CommoditiesPage = async ({
@@ -85,7 +62,7 @@ const CommoditiesPage = async ({
     },
   });
 
-  console.log("Commo", commos);
+  //console.log("Commo", commos);
 
   const session = await auth();
   const usr: any = session?.user;

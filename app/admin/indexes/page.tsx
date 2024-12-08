@@ -33,6 +33,8 @@ const IndexesPage = async ({
   const search =
     typeof searchParams.search === "string" ? searchParams.search : undefined;
 
+  const staticInfoIndexCount = await prisma.staticInfoIndex.count();
+
   const indexes = await prisma.staticInfoIndex.findMany({
     take: take,
     skip: skip,
@@ -76,13 +78,21 @@ const IndexesPage = async ({
           <div className="grid md:grid-cols-4 gap-2">
             <Card className="md:col-span-4">
               <div className="max-md:m-2 m-6 full flex justify-between items-baseline">
-                <div className=" md:w-1/4">
-                  <SearchIndex search={search} />
+                <div className="md:w-1/2 flex items-baseline gap-2">
+                  <div className="md:w-1/2 ">
+                    <SearchIndex search={search} />
+                  </div>
+                  {search && (
+                    <span className="max-md:text-xs text-green-400">
+                      {indexes?.length} founded
+                    </span>
+                  )}
                 </div>
                 <span className="max-md:text-xs text-orange-400">
-                  {indexes?.length} index(es)
-                </span>
+                  {staticInfoIndexCount} index(es)
+                </span>{" "}
               </div>
+
               <CardContent className="max-md:px-2">
                 <ScrollArea className="h-[40rem] ">
                   <div className="grid max-md:grid-cols-2 grid-cols-6 gap-2">

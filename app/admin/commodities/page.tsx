@@ -39,6 +39,8 @@ const CommoditiesPage = async ({
 
   //const rrr = await getAllStaticCommo();
 
+  const staticInfoCommoCount = await prisma.staticInfoCommo.count();
+
   let commos = await prisma.staticInfoCommo.findMany({
     take: take,
     skip: skip,
@@ -81,11 +83,18 @@ const CommoditiesPage = async ({
           <div className="grid md:grid-cols-4 gap-2">
             <Card className="md:col-span-4">
               <div className="max-md:m-2 m-6 full flex justify-between items-baseline">
-                <div className=" md:w-1/4">
-                  <SearchCommo search={search} />
+                <div className="md:w-1/2 flex items-baseline gap-2">
+                  <div className="md:w-1/2 ">
+                    <SearchCommo search={search} />
+                  </div>
+                  {search && (
+                    <span className="max-md:text-xs text-green-400">
+                      {commos?.length} founded
+                    </span>
+                  )}
                 </div>
                 <span className="max-md:text-xs text-orange-400">
-                  {commos?.length} index(es)
+                  {staticInfoCommoCount} commo(s)
                 </span>{" "}
               </div>
               <CardContent className="max-md:px-2">

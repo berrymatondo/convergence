@@ -163,7 +163,7 @@ const IndexesPage = async ({
                         key={index}
                         className="hover:bg-blue-950/70 hover:cursor-pointer flex flex-col justify-between gap-4 bg-blue-950/30 border-2 p-2 mt-2 rounded-lg"
                       >
-                        <p className="text-sky-400">{i?.assetName}</p>
+                        <p className="text-sky-400 text-lg ">{i?.assetName}</p>
                         {/*                         {+getIndexHistoMax2(i.id) > 0 ? (
                           <p className="text-green-600">
                             {getIndexHistoMax2(i.id)}
@@ -178,7 +178,7 @@ const IndexesPage = async ({
                           <Close id={i.id} />
                           {/*                         <p>{getIndexHistoMax(i.id)}</p>
                            */}{" "}
-                          <p className="text-xs">
+                          <p className="text-xs ">
                             {i?.country?.name.replaceAll("_", " ")}
                           </p>
                         </div>
@@ -253,13 +253,13 @@ const Change = async ({ id }: any) => {
   if (data?.close?.change) {
     if (+data?.close?.change < 0)
       return (
-        <Badge className="w-1/2 text-center bg-red-600 font-semibold">
+        <Badge className="p-0 w-1/2 text-center bg-red-600 font-semibold">
           {data?.close?.change.toFixed(2)} <TrendingDown className="ml-2" />
         </Badge>
       );
     else
       return (
-        <Badge className="w-1/2 text-center bg-green-600 font-semibold">
+        <Badge className="p-0 w-1/2 text-center bg-green-600 font-semibold">
           +{data?.close?.change.toFixed(2)} <TrendingUp className="ml-2" />
         </Badge>
       );
@@ -271,6 +271,10 @@ const Close = async ({ id }: any) => {
   const data = res?.data;
 
   if (data?.close?.close) {
-    return <p className=" my-1 text-3xl font-bold">{data?.close?.close}</p>;
+    return (
+      <p className="text-orange-600 my-1 text-5xl font-bold">
+        {data?.close?.close}
+      </p>
+    );
   } else return <p></p>;
 };

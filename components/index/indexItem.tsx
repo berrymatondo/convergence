@@ -20,7 +20,7 @@ const IndexItem = ({ index }: IndexItemProps) => {
         <Change id={index.id} />
         <Close id={index.id} />
 
-        <div className="flex gap-2 items-baseline text-xs text-sky-400">
+        <div className="flex gap-2 items-center text-xs text-sky-400">
           {Flag(index?.country?.flagCode)}
           {index?.country?.name.replaceAll("_", " ")}
         </div>
@@ -69,8 +69,14 @@ const Flag = async (flagCode: any) => {
   if (flagCode == "zz") flag = "/continents/uemoa.gif";
 
   return (
-    <div>
-      {flagCode && <img src={flag} alt="Flag" style={{ width: "1.5rem" }} />}
+    <div className=" rounded-full overflow-hidden">
+      {flagCode && (
+        <img
+          src={flag}
+          alt="Flag"
+          style={{ width: "1.5rem", height: "1.5rem" }}
+        />
+      )}
     </div>
   );
 };

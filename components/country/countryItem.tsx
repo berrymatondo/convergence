@@ -5,6 +5,7 @@ import { BiEditAlt } from "react-icons/bi";
 import { Button } from "../ui/button";
 import { MdOutlineDeleteForever } from "react-icons/md";
 import { TableRow, TableCell } from "../ui/table";
+import Link from "next/link";
 
 type CountryItemProps = {
   ctr: any;
@@ -18,16 +19,21 @@ const CountryItem = ({ ctr }: CountryItemProps) => {
     <TableRow className="hover:cursor-pointer" key={ctr.id}>
       <TableCell
         // onClick={() => router.push(`/continents/${ctr.continent}/${ctr.id}`)}
-        className="flex gap-2 font-medium text-sky-700 dark:text-sky-500"
+        className=" text-sky-700 dark:text-sky-500"
       >
-        {Flag(ctr?.flagCode)}
-        <span>{ctr.name?.replaceAll("_", " ")}</span>
+        <Link
+          className="flex gap-2 font-medium"
+          href={`/continents/${ctr.continent}/${ctr.id}`}
+        >
+          {Flag(ctr?.flagCode)}
+          <span>{ctr.name?.replaceAll("_", " ")}</span>
+        </Link>
       </TableCell>
       <TableCell
         className="max-md:text-xs text-sm italic "
         // onClick={() => router.push(`/continents/${ctr.continent}`)}
       >
-        {ctr.continent}
+        <Link href={`/continents/${ctr.continent}`}>{ctr.continent}</Link>
       </TableCell>
 
       {/*      <TableCell className="text-right">
@@ -67,14 +73,18 @@ const CountryItem = ({ ctr }: CountryItemProps) => {
 export default CountryItem;
 
 const Flag = async (flagCode: any) => {
-  // console.log("flag", flagCode);
-
   let flag = "https://flagcdn.Com/w40/" + flagCode + ".png";
   if (flagCode == "zz") flag = "/continents/uemoa.gif";
 
   return (
-    <div>
-      {flagCode && <img src={flag} alt="Flag" style={{ width: "1.5rem" }} />}
+    <div className=" rounded-full overflow-hidden">
+      {flagCode && (
+        <img
+          src={flag}
+          alt="Flag"
+          style={{ width: "1.5rem", height: "1.5rem" }}
+        />
+      )}
     </div>
   );
 };

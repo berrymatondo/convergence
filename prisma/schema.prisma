@@ -204,6 +204,9 @@ model HistoricalDataEquity {
   type               YCTypesList       @default(H)
   staticInfoEquity   StaticInfoEquity @relation(fields: [staticInfoEquityId], references: [id])
 
+
+  @@unique([staticInfoEquityId(sort: Desc), date])
+  @@index([staticInfoEquityId]) 
   @@map("historicalDataEquity")
 }
 
@@ -244,6 +247,8 @@ model HistoricalDataCommo {
   type              YCTypesList      @default(H)
   staticInfoCommo   StaticInfoCommo @relation(fields: [staticInfoCommoId], references: [id])
 
+  @@unique([staticInfoCommoId(sort: Desc), date])
+  @@index([staticInfoCommoId]) // Ajout de l'index ici
   @@map("historicalDataCommo")
 }
 
@@ -294,6 +299,8 @@ model HistoricalDataIndex {
   type              YCTypesList      @default(H)
   staticInfoIndex   StaticInfoIndex @relation(fields: [staticInfoIndexId], references: [id])
 
+  @@unique([staticInfoIndexId(sort: Desc), date])
+  @@index([staticInfoIndexId]) // Ajout de l'index ici
   @@map("historicalDataIndex")
 }
 
@@ -330,6 +337,9 @@ model HistoricalDataFx {
   updatedAt        DateTime      @default(now()) @updatedAt
   staticInfoFx     StaticInfoFx @relation(fields: [staticInfoFxId], references: [id])
 
+
+  @@unique([staticInfoFxId(sort: Desc), date])
+  @@index([staticInfoFxId]) 
   @@map("historicalDataFx")
 }
 
@@ -407,6 +417,8 @@ model HistoricalDataBond {
   updatedAt        DateTime        @default(now()) @updatedAt
   staticInfoBond   StaticInfoBond @relation(fields: [staticInfoBondId], references: [id])
 
+  @@unique([staticInfoBondId(sort: Desc), date])
+  @@index([staticInfoBondId]) // Ajout de l'index ici
   @@map("historicalDataBond")
 }
 

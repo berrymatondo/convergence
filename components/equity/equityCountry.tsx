@@ -20,7 +20,7 @@ const EquityCountry = ({ equityList }: EquityCountryProps) => {
   // console.log("lisr  ", equityList);
 
   const [selectedOption, setSelectedOption] = useState(
-    equityList[2]?.staticInfoIndex?.assetName
+    equityList[0]?.staticInfoIndex?.assetName
   );
   const [equities, setEquities] = useState<any>([]);
 

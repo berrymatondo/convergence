@@ -43,8 +43,15 @@ const Title = ({
           flagCode ? "justify-start" : "justify-start"
         }`}
       >
-        {" "}
-        {flagCode && <img src={flag} alt="Flag" style={{ width: "3rem" }} />}
+        <div className="rounded-full overflow-hidden">
+          {flagCode && (
+            <img
+              src={flag}
+              alt="Flag"
+              style={{ width: "2.5rem", height: "2.5rem" }}
+            />
+          )}
+        </div>
         <h1 className="uppercase font-bold text-3xl max-md:text-lg text-sky-700 dark:text-sky-500 md:my-4">
           {title.split("_").join(" ")}
         </h1>

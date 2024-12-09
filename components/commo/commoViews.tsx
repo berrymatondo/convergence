@@ -20,6 +20,10 @@ const chartConfig = {
     label: "Price",
     color: "hsl(var(--chart-2))",
   },
+  mobile: {
+    label: "Price",
+    color: "hsl(var(--chart-5))",
+  },
 } satisfies ChartConfig;
 
 type commoViewsProps = {
@@ -27,10 +31,18 @@ type commoViewsProps = {
   commos?: any;
 };
 const commoViews = async ({ commo, commos }: commoViewsProps) => {
-  //console.log("commo:", commo);
+  //console.log("commo:", commo?.length);
+  //console.log("commo:", commo[0]?.close, commo[commo?.length - 1]?.close);
+  const t0 = +commo[0]?.close;
+  const t1 = +commo[commo?.length - 1]?.close;
+
+  //console.log("to", t0, t1);
+
+  //if (t0 < t1) console.log("red");
+  // else console.log("green");
 
   //console.log("commo.historicalDataCommo:", commo.historicalDataCommo);
-  let commoH;
+  /*   let commoH;
   let tempo = [];
   if (commo?.historicalDataCommo) {
     commoH = [...commo.historicalDataCommo];
@@ -44,7 +56,7 @@ const commoViews = async ({ commo, commos }: commoViewsProps) => {
 
     tempo.sort((a: any, b: any) => Date.parse(a.date) - Date.parse(b.date));
   }
-
+ */
   return (
     <Card className="border-none">
       <CardHeader>
@@ -55,7 +67,7 @@ const commoViews = async ({ commo, commos }: commoViewsProps) => {
         <ChartContainer style={{ width: "100%" }} config={chartConfig}>
           <AreaChart
             accessibilityLayer
-            data={tempo}
+            data={commo}
             margin={{
               left: 12,
               right: 12,
@@ -75,11 +87,11 @@ const commoViews = async ({ commo, commos }: commoViewsProps) => {
               content={<ChartTooltipContent indicator="dot" hideLabel />}
             />
             <Area
-              dataKey="desktop"
+              dataKey="close"
               type="linear"
-              fill="var(--color-desktop)"
+              fill={t0 < t1 ? "var(--color-mobile)" : "var(--color-desktop)"}
               fillOpacity={0.2}
-              stroke="var(--color-desktop)"
+              stroke={t0 < t1 ? "var(--color-mobile)" : "var(--color-desktop)"}
             />
           </AreaChart>
         </ChartContainer>

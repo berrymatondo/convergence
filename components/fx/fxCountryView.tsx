@@ -32,7 +32,7 @@ const FxCountryView = async ({ fxs }: fxCountryViewProps) => {
   //console.log("commo.historicalDataCommo:", commo.historicalDataCommo);
   let fxsH: any = [];
 
-  for (let i = 0; i < fxs.length && i < 500; i++) {
+  for (let i = 0; i < fxs.length && i < 220; i++) {
     fxsH.push(fxs[i]);
   }
 
@@ -51,7 +51,7 @@ const FxCountryView = async ({ fxs }: fxCountryViewProps) => {
         >
           <AreaChart
             accessibilityLayer
-            data={fxsH}
+            data={fxsH.reverse()}
             margin={{
               left: 12,
               right: 12,

@@ -10,32 +10,62 @@ import {
 } from "../ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { getHistoricalDataFx } from "@/lib/_fxActions";
-import FxCountryView from "./fxCountryView";
 import Loading from "../commo/loading";
-type FxCountryProps = {
-  fxList: any;
+import { periods } from "@/lib/enum";
+import {
+  getCommoHsitoMaxDate,
+  getCommoHsitoPeriodDate,
+} from "@/lib/_commoActions";
+type CommoSelectProps = {
+  commo: any;
+  commos: any;
 };
-const FxCountry = ({ fxList }: FxCountryProps) => {
-  //console.log("fxList", fxList);
-
-  const fnd = fxList?.find(
-    (el: any) => el.staticInfoFx?.currency1?.mic == "USD"
-  );
+import CommoViews from "@/components/commo/commoViews";
+const CommoSelect = ({ commo, commos }: CommoSelectProps) => {
+  //console.log("commo", commo);
+  //console.log("commos", commos);
 
   // console.log("fnd: ", fnd);
 
-  const tmm =
-    fnd?.staticInfoFx?.currency1?.mic +
-    "/" +
-    fnd?.staticInfoFx?.currency2?.mic +
-    " SPOT";
-
-  const [selectedOption, setSelectedOption] = useState(tmm);
-  const [fxs, setFxs] = useState<any>([]);
+  const [selectedOption, setSelectedOption] = useState("4");
+  const [com, setCom] = useState<any>([]);
 
   useEffect(() => {
     const fetchHistoFx = async () => {
-      const fnd2 = fxList?.find(
+      //console.log("selectedOption ", selectedOption);
+
+      const res2 = await getCommoHsitoMaxDate(commo?.id);
+      const res3 = await getCommoHsitoPeriodDate(commo?.id, +selectedOption);
+
+      //console.log(res3?.data);
+      const histoVar: any = [];
+      if (res3?.data)
+        if (res3?.data?.length > 0) {
+          for (let i = 0; i < res3?.data?.length; i++) {
+            histoVar.push({
+              date: res3?.data[i].date,
+              close: res3?.data[i].close.toFixed(2),
+            });
+
+            setCom(histoVar);
+          }
+        } else setCom([]);
+
+      //const data2 = res2?.data?.close;
+      // console.log("data2", res2?.data);
+      //console.log("data2", data);
+      /* 
+      const tempo: any = {
+        ...data,
+        last: res2?.data?.close,
+        close1: res2?.data?.close1,
+        close5: res2?.data?.close5,
+        close20: res2?.data?.close20,
+        close60: res2?.data?.close60,
+        close252: res2?.data?.close252,
+      };
+ */
+      /*       const fnd2 = fxList?.find(
         (el: any) =>
           el.staticInfoFx?.currency1?.mic == selectedOption.substring(0, 3) &&
           el.staticInfoFx?.currency2?.mic == selectedOption.substring(4, 7)
@@ -56,7 +86,7 @@ const FxCountry = ({ fxList }: FxCountryProps) => {
               setFxs(histoVar);
             }
           } else setFxs([]);
-      }
+      } */
     };
     fetchHistoFx();
   }, [selectedOption]);
@@ -77,28 +107,9 @@ const FxCountry = ({ fxList }: FxCountryProps) => {
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                {fxList.map((el: any) => (
-                  <SelectItem
-                    key={
-                      el.staticInfoFx?.currency1?.mic +
-                      "/" +
-                      el.staticInfoFx?.currency2?.mic +
-                      " SPOT"
-                    }
-                    value={
-                      el.staticInfoFx?.currency1?.mic +
-                      "/" +
-                      el.staticInfoFx?.currency2?.mic +
-                      " SPOT"
-                    }
-                  >
-                    {" "}
-                    <p key={el.staticInfoFxId}>
-                      {el.staticInfoFx?.currency1?.mic +
-                        "/" +
-                        el.staticInfoFx?.currency2?.mic}{" "}
-                      SPOT
-                    </p>
+                {periods.map((el: any) => (
+                  <SelectItem key={el.id} value={el.id}>
+                    {el.label}
                   </SelectItem>
                 ))}
               </SelectGroup>
@@ -108,12 +119,11 @@ const FxCountry = ({ fxList }: FxCountryProps) => {
       </CardHeader>
       <CardContent>
         <Suspense fallback={<Loading />}>
-          {" "}
-          <FxCountryView fxs={fxs} />
+          <CommoViews commo={com} />
         </Suspense>
       </CardContent>
     </Card>
   );
 };
 
-export default FxCountry;
+export default CommoSelect;

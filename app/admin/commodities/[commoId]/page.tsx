@@ -1,5 +1,6 @@
 "use client";
 import CommoBody from "@/components/commo/commoBody";
+import CommoSelect from "@/components/commo/commoSelect";
 import CommoViews from "@/components/commo/commoViews";
 import HistoCommoItem from "@/components/commo/histoCommoItem";
 import Loading from "@/components/commo/loading";
@@ -260,7 +261,9 @@ const CommoDetailPage = () => {
             </Card>
             <Card className="md:col-span-5">
               <Suspense fallback={<Loading />}>
-                <CommoViews commo={commo} commos={commos} />
+                <CommoSelect commo={commo} commos={commos} />
+                {/*                 <CommoViews commo={commo} commos={commos} />
+                 */}{" "}
               </Suspense>
             </Card>
             <Card className="md:col-span-3 bg-blue-950/30 ">

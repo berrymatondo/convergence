@@ -66,6 +66,50 @@ export const getCommoHsitoMaxDate = async (commoId: number) => {
   } catch (error) {}
 };
 
+// getCommoHsitoPeriodDate
+export const getCommoHsitoPeriodDate = async (
+  commoId: number,
+  limit: number
+) => {
+  //console.log("Limit", limit);
+
+  try {
+    const commo = await prisma.historicalDataCommo.findMany({
+      take:
+        limit == 1
+          ? 5
+          : limit == 2
+          ? 20
+          : limit == 3
+          ? 60
+          : limit == 4
+          ? 252
+          : 252,
+      where: {
+        staticInfoCommoId: +commoId,
+      },
+      orderBy: {
+        date: "desc",
+      },
+    });
+
+    //console.log("res", commo);
+
+    return {
+      success: true,
+      data: commo,
+      /*       data: {
+        close: commo[0],
+        close1: commo[1],
+        close5: commo[5],
+        close20: commo[20],
+        close60: commo[60],
+        close252: commo[252],
+      }, */
+    };
+  } catch (error) {}
+};
+
 // GET last historical for a SPECIFIC commo
 export const getLastCommoHsitoMaxDate = async (commoId: number) => {
   try {

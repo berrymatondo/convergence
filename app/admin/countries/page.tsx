@@ -129,8 +129,9 @@ const CountriesPage = async ({
                         skip: skip > 0 ? skip - take : 0,
                       },
                     }}
+                    className="max-md:text-xs max-md:pr-2  text-orange-600 "
                   >
-                    {"Previous Page"}
+                    {"Previous"}
                   </Link>
                 )}
                 {skip + countries.length >= usrCount ? null : (
@@ -142,20 +143,21 @@ const CountriesPage = async ({
                         skip: skip + take,
                       },
                     }}
+                    className="max-md:text-xs  max-md:pr-2  text-orange-600"
                   >
-                    {"Next Page"}
+                    {"Next"}
                   </Link>
                 )}
               </div>
-              <Link className="mx-12" href="/admin/countries/new">
+              {/*               <Link className="mx-12" href="/admin/countries/new">
                 <MdAddCircle
                   size={50}
                   className="md:hidden text-sky-700 dark:text-sky-500"
                 />
-                {/*                 <span className="text-sm font-semibold max-md:hidden px-4 py-3 rounded-md hover:bg-sky-800 hover:cursor-pointer bg-sky-700  text-white ">
+                               <span className="text-sm font-semibold max-md:hidden px-4 py-3 rounded-md hover:bg-sky-800 hover:cursor-pointer bg-sky-700  text-white ">
                   Nouveau
-                </span> */}
-              </Link>
+                </span> 
+              </Link> */}
             </div>
             {/*             <div className="max-sm:max-h-[600px] overflow-auto md:mt-4 md:gap-3 max-w-[800px] mx-auto">
               {countries?.map((ctr: any) => (

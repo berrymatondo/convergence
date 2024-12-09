@@ -1,4 +1,80 @@
-"use client";
+import React from "react";
+import { TrendingDown, TrendingUp } from "lucide-react";
+import Link from "next/link";
+import { getEquityHsitoMaxDate } from "@/lib/_equityActions";
+
+type EquityItemPRops = {
+  equity: any;
+};
+const EquityItem = ({ equity }: EquityItemPRops) => {
+  return (
+    <Link
+      key={equity.id}
+      href={`/admin/equities/${equity.id}`}
+      className="hover:bg-blue-950/70 hover:cursor-pointer flex flex-col justify-between gap-4 bg-blue-950/30 border-2 p-2 mt-2 rounded-lg"
+    >
+      <p className="text-sky-400 text-xl ">{equity?.assetName}</p>
+
+      <div className=" gap-4 flex flex-col justify-end">
+        <Change id={equity.id} />
+        <Close id={equity.id} />
+
+        <div className="flex gap-2 items-baseline text-xs text-sky-400">
+          {Flag(equity?.country?.flagCode)}
+          {equity?.country?.name.replaceAll("_", " ")}
+        </div>
+      </div>
+    </Link>
+  );
+};
+
+export default EquityItem;
+
+const Change = async ({ id }: any) => {
+  const res = await getEquityHsitoMaxDate(id);
+  const data = res?.data;
+
+  if (data?.close?.change) {
+    if (+data?.close?.change < 0)
+      return (
+        <p className="flex items-center  text-red-600 font-semibold">
+          {data?.close?.change.toFixed(2)} <TrendingDown className="ml-2" />
+        </p>
+      );
+    else
+      return (
+        <p className="flex items-center  text-green-600 font-semibold">
+          +{data?.close?.change.toFixed(2)} <TrendingUp className="ml-2" />
+        </p>
+      );
+  } else return <p></p>;
+};
+
+const Close = async ({ id }: any) => {
+  const res = await getEquityHsitoMaxDate(id);
+  const data = res?.data;
+
+  if (data?.close?.close) {
+    return (
+      <p className="text-orange-600 my-1 text-5xl font-semibold">
+        {data?.close?.close}
+      </p>
+    );
+  } else return <p></p>;
+};
+
+const Flag = async (flagCode: any) => {
+  let flag = "https://flagcdn.Com/w40/" + flagCode + ".png";
+  if (flagCode == "zz") flag = "/continents/uemoa.gif";
+
+  return (
+    <div>
+      {flagCode && <img src={flag} alt="Flag" style={{ width: "1.5rem" }} />}
+    </div>
+  );
+};
+
+/* "use client";
 import React from "react";
 import { TableCell, TableRow } from "../ui/table";
 import { useRouter } from "next/navigation";
@@ -37,3 +113,4 @@ const EquityItem = ({ equity }: EquityItemProps) => {
 };
 
 export default EquityItem;
+ */

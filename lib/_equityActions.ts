@@ -57,3 +57,25 @@ export const getHistoricalDataIndex = async (fxId: number) => {
     };
   } catch (error) {}
 };
+
+export const getEquityHsitoMaxDate = async (commoId: number) => {
+  try {
+    const commo = await prisma.historicalDataEquity.findMany({
+      where: {
+        staticInfoEquityId: +commoId,
+      },
+      orderBy: {
+        date: "desc",
+      },
+    });
+
+    //console.log("res", commo);
+
+    return {
+      success: true,
+      data: {
+        close: commo[0],
+      },
+    };
+  } catch (error) {}
+};

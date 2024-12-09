@@ -24,7 +24,7 @@ const SearchEquity = ({ search }: { search?: string }) => {
   return (
     <div>
       <Input
-        placeholder="Rechercher une action"
+        placeholder="Search an equity ..."
         value={text}
         onChange={(e) => setText(e.target.value)}
       />

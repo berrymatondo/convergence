@@ -116,7 +116,7 @@ const CommoDetailPage = () => {
   return (
     <div className="">
       {" "}
-      <PageLayout wid="mx-12">
+      <PageLayout wid="mx-2 md:mx-12">
         <div className="">
           <CustomBreadcrumb name={`${commo?.assetName}`} />
           <p className="uppercase my-4 text-4xl font-semibold text-sky-700 dark:text-sky-500">

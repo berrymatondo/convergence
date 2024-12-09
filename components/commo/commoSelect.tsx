@@ -21,21 +21,25 @@ type CommoSelectProps = {
   commos: any;
 };
 import CommoViews from "@/components/commo/commoViews";
+import { usePathname } from "next/navigation";
 const CommoSelect = ({ commo, commos }: CommoSelectProps) => {
   //console.log("commo", commo);
   //console.log("commos", commos);
 
   // console.log("fnd: ", fnd);
+  const pathname = usePathname();
+  //console.log("pathname:", pathname?.split("commodities/")[1]);
 
   const [selectedOption, setSelectedOption] = useState("4");
   const [com, setCom] = useState<any>([]);
+  const id = +pathname?.split("commodities/")[1];
 
   useEffect(() => {
     const fetchHistoFx = async () => {
-      //console.log("selectedOption ", selectedOption);
+      // console.log("selectedOption", selectedOption);
+      // console.log("commo", commo?.id);
 
-      const res2 = await getCommoHsitoMaxDate(commo?.id);
-      const res3 = await getCommoHsitoPeriodDate(commo?.id, +selectedOption);
+      const res3 = await getCommoHsitoPeriodDate(id, +selectedOption);
 
       //console.log(res3?.data);
       const histoVar: any = [];
@@ -117,7 +121,7 @@ const CommoSelect = ({ commo, commos }: CommoSelectProps) => {
           </Select>
         </CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="max-md:px-0">
         <Suspense fallback={<Loading />}>
           <CommoViews commo={com} />
         </Suspense>

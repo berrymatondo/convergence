@@ -100,7 +100,7 @@ const IndexesPage = async ({
                 <ScrollArea className="h-[38rem] ">
                   <div className="grid max-md:grid-cols-2 grid-cols-5 gap-2">
                     {indexes?.map((i: any, index: any) => (
-                      <Suspense fallback={<Loading />}>
+                      <Suspense key={i.id} fallback={<Loading />}>
                         <IndexItem key={i.id} index={i} />
                       </Suspense>
                     ))}

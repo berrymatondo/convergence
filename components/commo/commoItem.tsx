@@ -14,7 +14,7 @@ const CommoItem = ({ commo }: CommoItemProps) => {
       href={`/admin/commodities/${commo.id}`}
       className="hover:bg-blue-950/70 hover:cursor-pointer flex flex-col justify-between gap-4 bg-blue-950/30 border-2 p-2 mt-2 rounded-lg"
     >
-      <p className="text-sky-400 text-2xl ">{commo?.assetName}</p>
+      <p className="text-sky-400 text-xl md:ext-2xl ">{commo?.assetName}</p>
 
       <div className=" gap-4  flex flex-col justify-end">
         <Change id={commo.id} />
@@ -54,7 +54,7 @@ const Close = async ({ id }: any) => {
 
   if (data?.close?.close) {
     return (
-      <p className="text-orange-600 my-1 text-5xl font-semibold">
+      <p className="text-orange-600 my-1 text-3xl md:text-5xl font-semibold">
         {data?.close?.close.toFixed(2)}
       </p>
     );

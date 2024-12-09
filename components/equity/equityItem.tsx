@@ -13,7 +13,7 @@ const EquityItem = ({ equity }: EquityItemPRops) => {
       href={`/admin/equities/${equity.id}`}
       className="hover:bg-blue-950/70 hover:cursor-pointer flex flex-col justify-between gap-4 bg-blue-950/30 border-2 p-2 mt-2 rounded-lg"
     >
-      <p className="text-sky-400 text-xl ">{equity?.assetName}</p>
+      <p className="text-sky-400 text-lg md:text-xl ">{equity?.assetName}</p>
 
       <div className=" gap-4 flex flex-col justify-end">
         <Change id={equity.id} />
@@ -56,7 +56,7 @@ const Close = async ({ id }: any) => {
 
   if (data?.close?.close) {
     return (
-      <p className="text-orange-600 my-1 text-5xl font-semibold">
+      <p className="text-orange-600 my-1 text-3xl md:text-5xl font-semibold">
         {data?.close?.close}
       </p>
     );

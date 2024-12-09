@@ -74,7 +74,7 @@ const IndexesPage = async ({
     <div>
       {" "}
       <PageLayout
-        title="Indexes"
+        title="Equities"
         //  description="Tous les indices enregistrées dans le système"
       >
         <div className="px-2">

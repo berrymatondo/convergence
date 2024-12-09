@@ -85,6 +85,7 @@ const CountriesPage = async ({
       name: true,
       continent: true,
       gos: true,
+      flagCode: true,
       //users: true,
       //  company: true,
     },
@@ -106,10 +107,82 @@ const CountriesPage = async ({
     ); */
 
   return (
-    <PageLayout title="Liste des pays" description="La liste de tous les pays">
+    <PageLayout
+      title="Countries"
+      //description="La liste de tous les pays"
+    >
       <div className="px-2">
-        <CustomBreadcrumb name="Pays" />
+        <CustomBreadcrumb name="Countries" />
         <div className="grid md:grid-cols-4 gap-2">
+          <Card className="md:col-span-3">
+            <div className="flex items-center justify-between md:container">
+              <div className="py-2">
+                <SearchCountry search={search} />
+              </div>
+              <div className="flex justify-normal gap-2 ">
+                {skip == 0 ? null : (
+                  <Link
+                    href={{
+                      pathname: "/admin/countries",
+                      query: {
+                        ...(search ? { search } : {}),
+                        skip: skip > 0 ? skip - take : 0,
+                      },
+                    }}
+                  >
+                    {"Previous Page"}
+                  </Link>
+                )}
+                {skip + countries.length >= usrCount ? null : (
+                  <Link
+                    href={{
+                      pathname: "/admin/countries",
+                      query: {
+                        ...(search ? { search } : {}),
+                        skip: skip + take,
+                      },
+                    }}
+                  >
+                    {"Next Page"}
+                  </Link>
+                )}
+              </div>
+              <Link className="mx-12" href="/admin/countries/new">
+                <MdAddCircle
+                  size={50}
+                  className="md:hidden text-sky-700 dark:text-sky-500"
+                />
+                {/*                 <span className="text-sm font-semibold max-md:hidden px-4 py-3 rounded-md hover:bg-sky-800 hover:cursor-pointer bg-sky-700  text-white ">
+                  Nouveau
+                </span> */}
+              </Link>
+            </div>
+            {/*             <div className="max-sm:max-h-[600px] overflow-auto md:mt-4 md:gap-3 max-w-[800px] mx-auto">
+              {countries?.map((ctr: any) => (
+                <CountryItem key={ctr.id} ctr={ctr} />
+              ))}
+            </div> */}
+
+            <CardContent className="max-md:px-2">
+              <ScrollArea className="h-96 max-md:h-[20rem] pr-2">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="w-[300px]"> Country</TableHead>
+                      <TableHead className="">Continent</TableHead>
+
+                      <TableHead className="text-right"></TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {countries?.map((ctr: any) => (
+                      <CountryItem key={ctr.id} ctr={ctr} />
+                    ))}
+                  </TableBody>
+                </Table>
+              </ScrollArea>
+            </CardContent>
+          </Card>
           <Card className="md:col-span-1">
             <CardContent className="">
               <div className="max-md:hidden">
@@ -156,73 +229,6 @@ const CountriesPage = async ({
               </Accordion>
             </CardContent>
           </Card>
-          <Card className="md:col-span-3">
-            <div className="flex items-center justify-between md:container">
-              <SearchCountry search={search} />
-              <div className="flex justify-normal gap-2 ">
-                {skip == 0 ? null : (
-                  <Link
-                    href={{
-                      pathname: "/admin/countries",
-                      query: {
-                        ...(search ? { search } : {}),
-                        skip: skip > 0 ? skip - take : 0,
-                      },
-                    }}
-                  >
-                    {"Précédent"}
-                  </Link>
-                )}
-                {skip + countries.length >= usrCount ? null : (
-                  <Link
-                    href={{
-                      pathname: "/admin/countries",
-                      query: {
-                        ...(search ? { search } : {}),
-                        skip: skip + take,
-                      },
-                    }}
-                  >
-                    {"Suivant"}
-                  </Link>
-                )}
-              </div>
-              <Link className="mx-12" href="/admin/countries/new">
-                <MdAddCircle
-                  size={50}
-                  className="md:hidden text-sky-700 dark:text-sky-500"
-                />
-                <span className="text-sm font-semibold max-md:hidden px-4 py-3 rounded-md hover:bg-sky-800 hover:cursor-pointer bg-sky-700  text-white ">
-                  Nouveau
-                </span>
-              </Link>
-            </div>
-            {/*             <div className="max-sm:max-h-[600px] overflow-auto md:mt-4 md:gap-3 max-w-[800px] mx-auto">
-              {countries?.map((ctr: any) => (
-                <CountryItem key={ctr.id} ctr={ctr} />
-              ))}
-            </div> */}
-
-            <CardContent className="max-md:px-2">
-              <ScrollArea className="h-96 max-md:h-[20rem] pr-2">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead className="w-[100px]"> Pays</TableHead>
-                      <TableHead className="">Continent</TableHead>
-
-                      <TableHead className="text-right"></TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {countries?.map((ctr: any) => (
-                      <CountryItem key={ctr.id} ctr={ctr} />
-                    ))}
-                  </TableBody>
-                </Table>
-              </ScrollArea>
-            </CardContent>
-          </Card>
         </div>
       </div>
     </PageLayout>
@@ -236,7 +242,7 @@ const CustomBreadcrumb = ({ name }: { name: string }) => {
     <Breadcrumb className=" p-2 ">
       <BreadcrumbList>
         <BreadcrumbItem>
-          <BreadcrumbLink href="/">Accueil</BreadcrumbLink>
+          <BreadcrumbLink href="/">Home</BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         {/*         <BreadcrumbItem>

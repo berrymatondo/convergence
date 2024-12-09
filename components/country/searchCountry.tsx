@@ -24,7 +24,7 @@ const SearchCountry = ({ search }: { search?: string }) => {
   return (
     <div>
       <Input
-        placeholder="Rechercher un pays"
+        placeholder="Search a country ..."
         value={text}
         onChange={(e) => setText(e.target.value)}
       />

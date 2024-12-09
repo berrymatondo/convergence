@@ -1,4 +1,3 @@
-"use client";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { BiEditAlt } from "react-icons/bi";
@@ -14,23 +13,24 @@ type CountryItemProps = {
 const CountryItem = ({ ctr }: CountryItemProps) => {
   //console.log("ctr: ", ctr);
 
-  const router = useRouter();
+  // const router = useRouter();
   return (
     <TableRow className="hover:cursor-pointer" key={ctr.id}>
       <TableCell
-        onClick={() => router.push(`/continents/${ctr.continent}/${ctr.id}`)}
-        className="font-medium text-sky-700 dark:text-sky-500"
+        // onClick={() => router.push(`/continents/${ctr.continent}/${ctr.id}`)}
+        className="flex gap-2 font-medium text-sky-700 dark:text-sky-500"
       >
-        {ctr.name}
+        {Flag(ctr?.flagCode)}
+        <span>{ctr.name?.replaceAll("_", " ")}</span>
       </TableCell>
       <TableCell
         className="max-md:text-xs text-sm italic "
-        onClick={() => router.push(`/continents/${ctr.continent}`)}
+        // onClick={() => router.push(`/continents/${ctr.continent}`)}
       >
         {ctr.continent}
       </TableCell>
 
-      <TableCell className="text-right">
+      {/*      <TableCell className="text-right">
         <div className="md:hidden flex justify-between gap-4 items-center mx-4 text-white">
           <MdOutlineDeleteForever
             className="text-red-400"
@@ -59,9 +59,22 @@ const CountryItem = ({ ctr }: CountryItemProps) => {
             Modifier
           </Button>
         </div>
-      </TableCell>
+      </TableCell> */}
     </TableRow>
   );
 };
 
 export default CountryItem;
+
+const Flag = async (flagCode: any) => {
+  // console.log("flag", flagCode);
+
+  let flag = "https://flagcdn.Com/w40/" + flagCode + ".png";
+  if (flagCode == "zz") flag = "/continents/uemoa.gif";
+
+  return (
+    <div>
+      {flagCode && <img src={flag} alt="Flag" style={{ width: "1.5rem" }} />}
+    </div>
+  );
+};

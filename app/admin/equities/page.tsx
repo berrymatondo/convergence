@@ -94,7 +94,7 @@ const IndexesPage = async ({
                   )}
                 </div>
                 <span className="max-md:text-xs text-orange-400">
-                  {staticInfoEquityCount} index(es)
+                  {staticInfoEquityCount} stock(s)
                 </span>{" "}
               </div>
 

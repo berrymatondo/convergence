@@ -135,39 +135,11 @@ const FxRatesPage = async ({
         <div className="px-2">
           <CustomBreadcrumb name="Fx Rates" />
           <div className="grid md:grid-cols-4 gap-2">
-            <Card className="md:col-span-1">
-              <CardHeader>
-                <CardTitle className="text-sky-700 dark:text-sky-500">
-                  Fx Rates
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Accordion type="single" collapsible className="w-full">
-                  <AccordionItem value="item-1">
-                    <AccordionTrigger>
-                      <div className="flex items-start gap-2">
-                        <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
-                        {infos[0].title}
-                      </div>
-                    </AccordionTrigger>
-                    <AccordionContent>{infos[0].description}</AccordionContent>
-                  </AccordionItem>
-                  <AccordionItem value="item-2">
-                    <AccordionTrigger>
-                      <div className="flex items-start gap-2">
-                        <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
-                        {infos[1].title}
-                      </div>
-                    </AccordionTrigger>
-                    <AccordionContent>{infos[1].description}</AccordionContent>
-                  </AccordionItem>
-                </Accordion>
-              </CardContent>
-            </Card>
-            <Card className="md:col-span-3">
+            <Card className="md:col-span-4">
               <div className="">
                 <SearchFx search={search} />
               </div>
+
               <CardContent className="max-md:px-2">
                 <ScrollArea className="h-96 max-md:h-[20rem] pr-2">
                   <Table>

@@ -1,5 +1,6 @@
 import { auth } from "@/auth";
 import CommoItem from "@/components/commo/commoItem";
+import Loading from "@/components/commo/loading";
 import SearchCommo from "@/components/commo/searchCommo";
 import NotConnected from "@/components/notConnected";
 import PageLayout from "@/components/pageLayout";
@@ -17,7 +18,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 
 import { getAllStaticCommo } from "@/lib/_commoActions";
 import prisma from "@/lib/prisma";
-import React from "react";
+import React, { Suspense } from "react";
 
 const CommoditiesPage = async ({
   searchParams,
@@ -101,7 +102,9 @@ const CommoditiesPage = async ({
                 <ScrollArea className="h-[38rem] ">
                   <div className="grid max-md:grid-cols-2 grid-cols-5 gap-2">
                     {commos?.map((i: any, index: any) => (
-                      <CommoItem key={i.id} commo={i} />
+                      <Suspense fallback={<Loading />}>
+                        <CommoItem key={i.id} commo={i} />
+                      </Suspense>
                     ))}
                   </div>
                 </ScrollArea>

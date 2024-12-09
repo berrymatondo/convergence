@@ -1,4 +1,5 @@
 import { auth } from "@/auth";
+import Loading from "@/components/commo/loading";
 import EquityItem from "@/components/equity/equityItem";
 import SearchEquity from "@/components/equity/searchEquity";
 
@@ -20,7 +21,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 
 import prisma from "@/lib/prisma";
 
-import React from "react";
+import React, { Suspense } from "react";
 
 const IndexesPage = async ({
   searchParams,
@@ -101,7 +102,9 @@ const IndexesPage = async ({
                 <ScrollArea className="h-[38rem] ">
                   <div className="grid max-md:grid-cols-2 grid-cols-5 gap-2">
                     {equities?.map((i: any, index: any) => (
-                      <EquityItem key={i.id} equity={i} />
+                      <Suspense fallback={<Loading />}>
+                        <EquityItem key={i.id} equity={i} />
+                      </Suspense>
                     ))}
                   </div>
                 </ScrollArea>

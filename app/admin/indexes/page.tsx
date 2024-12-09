@@ -1,4 +1,5 @@
 import { auth } from "@/auth";
+import Loading from "@/components/commo/loading";
 
 import IndexItem from "@/components/index/indexItem";
 import SearchIndex from "@/components/index/searchIndex";
@@ -18,7 +19,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 
 import prisma from "@/lib/prisma";
 
-import React from "react";
+import React, { Suspense } from "react";
 
 const IndexesPage = async ({
   searchParams,
@@ -99,7 +100,9 @@ const IndexesPage = async ({
                 <ScrollArea className="h-[38rem] ">
                   <div className="grid max-md:grid-cols-2 grid-cols-5 gap-2">
                     {indexes?.map((i: any, index: any) => (
-                      <IndexItem key={i.id} index={i} />
+                      <Suspense fallback={<Loading />}>
+                        <IndexItem key={i.id} index={i} />
+                      </Suspense>
                     ))}
                   </div>
                 </ScrollArea>

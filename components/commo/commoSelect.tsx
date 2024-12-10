@@ -98,7 +98,7 @@ const CommoSelect = ({ commo, commos }: CommoSelectProps) => {
   return (
     <Card className="md:col-span-1 h-full ">
       <CardHeader>
-        <CardTitle className="text-sky-700 dark:text-sky-500">
+        <CardTitle className="text-sky-700 dark:text-sky-500 flex justify-end">
           <Select
             value={selectedOption}
             //value={tmm}

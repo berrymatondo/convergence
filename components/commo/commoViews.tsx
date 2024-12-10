@@ -33,8 +33,8 @@ type commoViewsProps = {
 const commoViews = async ({ commo, commos }: commoViewsProps) => {
   //console.log("commo:", commo?.length);
   //console.log("commo:", commo[0]?.close, commo[commo?.length - 1]?.close);
-  const t0 = +commo[0]?.close;
-  const t1 = +commo[commo?.length - 1]?.close;
+  const t1 = +commo[0]?.close;
+  const t0 = +commo[commo?.length - 1]?.close;
 
   //console.log("to", t0, t1);
 
@@ -67,7 +67,7 @@ const commoViews = async ({ commo, commos }: commoViewsProps) => {
         <ChartContainer style={{ width: "100%" }} config={chartConfig}>
           <AreaChart
             accessibilityLayer
-            data={commo}
+            data={commo.reverse()}
             margin={{
               left: 12,
               right: 12,

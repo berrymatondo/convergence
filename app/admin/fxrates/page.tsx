@@ -39,7 +39,7 @@ const FxRatesPage = async ({
   const skip =
     typeof searchParams.skip === "string" ? Number(searchParams.skip) : 0;
   const take =
-    typeof searchParams.take === "string" ? Number(searchParams.take) : 15;
+    typeof searchParams.take === "string" ? Number(searchParams.take) : 10;
 
   const search =
     typeof searchParams.search === "string" ? searchParams.search : undefined;

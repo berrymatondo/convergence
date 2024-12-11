@@ -11,7 +11,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { getHistoricalDataFx } from "@/lib/_fxActions";
 import Loading from "../commo/loading";
-import { periods } from "@/lib/enum";
+import { metrics, periods } from "@/lib/enum";
 import {
   getCommoHsitoMaxDate,
   getCommoHsitoPeriodDate,
@@ -30,8 +30,19 @@ const CommoSelect = ({ commo, commos }: CommoSelectProps) => {
   const pathname = usePathname();
   //console.log("pathname:", pathname?.split("commodities/")[1]);
 
-  const [selectedOption, setSelectedOption] = useState("4");
+  let item = periods.find((i: any) => i.id === "5");
+  console.log("item", item);
+  let perss: any = [];
+  if (item?.days) {
+    for (let i = 1; i <= item?.days; i++) perss.push({ id: i });
+  }
+  console.log("pers", perss);
+
+  const [selectedOption, setSelectedOption] = useState("5");
   const [com, setCom] = useState<any>([]);
+  const [per, setPer] = useState<any>(perss);
+  const [selPer, setSelPer] = useState<any>();
+  const [selMet, setSelMet] = useState<any>(null);
   const id = +pathname?.split("commodities/")[1];
 
   useEffect(() => {
@@ -55,42 +66,15 @@ const CommoSelect = ({ commo, commos }: CommoSelectProps) => {
           }
         } else setCom([]);
 
-      //const data2 = res2?.data?.close;
-      // console.log("data2", res2?.data);
-      //console.log("data2", data);
-      /* 
-      const tempo: any = {
-        ...data,
-        last: res2?.data?.close,
-        close1: res2?.data?.close1,
-        close5: res2?.data?.close5,
-        close20: res2?.data?.close20,
-        close60: res2?.data?.close60,
-        close252: res2?.data?.close252,
-      };
- */
-      /*       const fnd2 = fxList?.find(
-        (el: any) =>
-          el.staticInfoFx?.currency1?.mic == selectedOption.substring(0, 3) &&
-          el.staticInfoFx?.currency2?.mic == selectedOption.substring(4, 7)
-      );
+      // MEtrics
 
-      if (fnd2) {
-        const res = await getHistoricalDataFx(fnd2?.staticInfoFxId);
-        //console.log(res?.data);
-        const histoVar: any = [];
-        if (res?.data)
-          if (res?.data?.length > 0) {
-            for (let i = 0; i < res?.data?.length; i++) {
-              histoVar.push({
-                date: res?.data[i].date,
-                close: res?.data[i].close.toFixed(2),
-              });
-
-              setFxs(histoVar);
-            }
-          } else setFxs([]);
-      } */
+      // Periods
+      let item1 = periods.find((i: any) => i.id === selectedOption);
+      let pers: any = [];
+      if (item1?.days) {
+        for (let i = 1; i <= item1?.days; i++) pers.push({ id: i });
+        setPer(pers);
+      }
     };
     fetchHistoFx();
   }, [selectedOption]);
@@ -98,7 +82,7 @@ const CommoSelect = ({ commo, commos }: CommoSelectProps) => {
   return (
     <Card className="md:col-span-1 h-full ">
       <CardHeader>
-        <CardTitle className="text-sky-700 dark:text-sky-500 flex justify-end">
+        <CardTitle className="gap-2 text-sky-700 dark:text-sky-500 flex justify-end">
           <Select
             value={selectedOption}
             //value={tmm}
@@ -106,7 +90,7 @@ const CommoSelect = ({ commo, commos }: CommoSelectProps) => {
               setSelectedOption(value);
             }}
           >
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="w-[100px]">
               <SelectValue placeholder="" />
             </SelectTrigger>
             <SelectContent>
@@ -119,6 +103,50 @@ const CommoSelect = ({ commo, commos }: CommoSelectProps) => {
               </SelectGroup>
             </SelectContent>
           </Select>
+
+          <Select
+            value={selMet}
+            //value={tmm}
+            onValueChange={(value) => {
+              setSelMet(value);
+            }}
+          >
+            <SelectTrigger className="w-[100px]">
+              <SelectValue placeholder="" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                {metrics?.map((el: any) => (
+                  <SelectItem key={el.id} value={el.label}>
+                    {el.label}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+
+          {selMet?.length > 1 && (
+            <Select
+              value={selPer}
+              //value={tmm}
+              onValueChange={(value) => {
+                setSelPer(value);
+              }}
+            >
+              <SelectTrigger className="w-[100px]">
+                <SelectValue placeholder="" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  {per?.map((el: any) => (
+                    <SelectItem key={el.id} value={el.id}>
+                      {el.id}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          )}
         </CardTitle>
       </CardHeader>
       <CardContent className="max-md:px-0">

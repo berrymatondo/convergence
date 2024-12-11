@@ -313,6 +313,7 @@ model StaticInfoFx {
   currencyId1      Int
   currencyId2      Int
   symbol           String?
+  priority         Int @default(0)
   countryId        Int
   countryId2       Int
   fxMapping        FxMapping[]

@@ -73,41 +73,59 @@ export const getCommoHsitoPeriodDate = async (
 ) => {
   //console.log("Limit", limit);
 
-  try {
-    const commo = await prisma.historicalDataCommo.findMany({
-      take:
-        limit == 1
-          ? 5
-          : limit == 2
-          ? 20
-          : limit == 3
-          ? 60
-          : limit == 4
-          ? 252
-          : 252,
-      where: {
-        staticInfoCommoId: +commoId,
-      },
-      orderBy: {
-        date: "desc",
-      },
-    });
+  if (limit == 0) {
+    try {
+      const commo = await prisma.historicalDataCommo.findMany({
+        where: {
+          staticInfoCommoId: +commoId,
+        },
+        orderBy: {
+          date: "desc",
+        },
+      });
 
-    //console.log("res", commo);
+      //console.log("res", commo);
 
-    return {
-      success: true,
-      data: commo,
-      /*       data: {
-        close: commo[0],
-        close1: commo[1],
-        close5: commo[5],
-        close20: commo[20],
-        close60: commo[60],
-        close252: commo[252],
-      }, */
-    };
-  } catch (error) {}
+      return {
+        success: true,
+        data: commo,
+      };
+    } catch (error) {}
+  } else {
+    try {
+      const commo = await prisma.historicalDataCommo.findMany({
+        take:
+          limit == 1
+            ? 5
+            : limit == 2
+            ? 20
+            : limit == 3
+            ? 60
+            : limit == 4
+            ? 120
+            : limit == 5
+            ? 252
+            : limit == 6
+            ? 504
+            : limit == 7
+            ? 1260
+            : 1260,
+        where: {
+          staticInfoCommoId: +commoId,
+        },
+        orderBy: {
+          date: "desc",
+        },
+      });
+
+      //console.log("res", commo);
+
+      return {
+        success: true,
+        data: commo,
+      };
+    } catch (error) {}
+  }
 };
 
 // GET last historical for a SPECIFIC commo

@@ -1,4 +1,12 @@
-import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import {
+  Area,
+  AreaChart,
+  CartesianGrid,
+  Line,
+  LineChart,
+  XAxis,
+  YAxis,
+} from "recharts";
 
 import {
   Card,
@@ -24,17 +32,40 @@ const chartConfig = {
     label: "Price",
     color: "hsl(var(--chart-5))",
   },
+  g2: {
+    label: "Price",
+    color: "hsl(var(--chart-1))",
+  },
+  g3: {
+    label: "Price",
+    color: "hsl(var(--chart-3))",
+  },
 } satisfies ChartConfig;
 
 type commoViewsProps = {
   commo: any;
+  commo2: any;
   commos?: any;
 };
-const commoViews = async ({ commo, commos }: commoViewsProps) => {
-  //console.log("commo:", commo?.length);
+const commoViews = async ({ commo, commo2, commos }: commoViewsProps) => {
+  console.log("commo: ", commo);
+  console.log("commo: ", commo2);
+  console.log("commo: ", commo2?.length);
   //console.log("commo:", commo[0]?.close, commo[commo?.length - 1]?.close);
   const t1 = +commo[0]?.close;
   const t0 = +commo[commo?.length - 1]?.close;
+
+  const grap2: any = [];
+  if (commo2.length > 0) {
+    for (let i = 0; i < commo2.length; i++) {
+      grap2.push({
+        ...commo[i],
+        close2: commo2[i],
+      });
+    }
+  }
+
+  console.log("graph2", grap2);
 
   //console.log("to", t0, t1);
 
@@ -65,9 +96,9 @@ const commoViews = async ({ commo, commos }: commoViewsProps) => {
       </CardHeader>
       <CardContent className="flex flex-col justify-between">
         <ChartContainer style={{ width: "100%" }} config={chartConfig}>
-          <AreaChart
+          <LineChart
             accessibilityLayer
-            data={commo.reverse()}
+            data={grap2?.length > 0 ? grap2.reverse() : commo.reverse()}
             margin={{
               left: 12,
               right: 12,
@@ -86,14 +117,23 @@ const commoViews = async ({ commo, commos }: commoViewsProps) => {
               cursor={false}
               content={<ChartTooltipContent indicator="dot" hideLabel />}
             />
-            <Area
+            <Line
               dataKey="close"
               type="linear"
-              fill={t0 < t1 ? "var(--color-mobile)" : "var(--color-desktop)"}
               fillOpacity={0.2}
               stroke={t0 < t1 ? "var(--color-mobile)" : "var(--color-desktop)"}
+              dot={false}
             />
-          </AreaChart>
+            {grap2?.length > 0 && (
+              <Line
+                dataKey="close2"
+                type="linear"
+                fillOpacity={0.2}
+                stroke="var(--color-g2)"
+                dot={false}
+              />
+            )}
+          </LineChart>
         </ChartContainer>
       </CardContent>
       <CardFooter>

@@ -43,6 +43,7 @@ import {
   getAllStaticCommo,
   getCommo,
   getCommoHsitoMaxDate,
+  getCommoHsitoMaxDate2,
   getLastCommoHsitoMaxDate,
 } from "@/lib/_commoActions";
 import { useSession } from "next-auth/react";
@@ -74,7 +75,7 @@ const CommoDetailPage = () => {
       let data = resu?.data;
 
       if (resu?.data) {
-        const res2 = await getCommoHsitoMaxDate(id);
+        const res2 = await getCommoHsitoMaxDate2(id);
         const data2 = res2?.data?.close;
         // console.log("data2", data2);
         //console.log("data2", data);
@@ -88,7 +89,6 @@ const CommoDetailPage = () => {
           close60: res2?.data?.close60,
           close252: res2?.data?.close252,
         };
-        // console.log("tempo ", tempo);
         setCommo(tempo);
       } else setCommo(data);
 

@@ -79,6 +79,35 @@ export const getCommoHsitoMaxDate = async (commoId: number) => {
   } catch (error) {}
 };
 
+// GET historical for a SPECIFIC commo
+export const getCommoHsitoMaxDate2 = async (commoId: number) => {
+  try {
+    const commo = await prisma.historicalDataCommo.findMany({
+      where: {
+        staticInfoCommoId: +commoId,
+      },
+
+      orderBy: {
+        date: "desc",
+      },
+    });
+
+    //console.log("res", commo);
+
+    return {
+      success: true,
+      data: {
+        close: commo[0],
+        close1: commo[1],
+        close5: commo[5],
+        close20: commo[20],
+        close60: commo[60],
+        close252: commo[252],
+      },
+    };
+  } catch (error) {}
+};
+
 // getCommoHsitoPeriodDate
 export const getCommoHsitoPeriodDate = async (
   commoId: number,
@@ -160,6 +189,50 @@ export const getLastCommoHsitoMaxDate = async (commoId: number) => {
       data: {
         close: commo[0],
       },
+    };
+  } catch (error) {}
+};
+
+export const computeMetrics = async (selMet: any, com: any, selPer: any) => {
+  //console.log("reserve", data);
+
+  /* console.log("selMet", selMet);
+  console.log("com", com);
+  console.log("selPer", selPer); */
+
+  let tempo: any = [];
+  for (let i = 0; i < com.length; i++) {
+    tempo.push(+com[i].close);
+  }
+
+  // console.log("tempo  ", tempo);
+
+  let headersList = {
+    Accept: "*/*",
+    "Content-Type": "application/json",
+  };
+
+  let bodyContent = JSON.stringify({
+    close: tempo,
+    window: +selPer,
+  });
+
+  console.log("bodyContent", bodyContent);
+
+  try {
+    let response = await fetch("http://213.165.83.130/metrics/sma", {
+      method: "POST",
+      body: bodyContent,
+      headers: headersList,
+    });
+
+    // console.log("response", response);
+
+    let data = await response.json();
+
+    return {
+      success: true,
+      data: data,
     };
   } catch (error) {}
 };

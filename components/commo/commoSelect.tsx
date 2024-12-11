@@ -13,6 +13,7 @@ import { getHistoricalDataFx } from "@/lib/_fxActions";
 import Loading from "../commo/loading";
 import { metrics, periods } from "@/lib/enum";
 import {
+  computeMetrics,
   getCommoHsitoMaxDate,
   getCommoHsitoPeriodDate,
 } from "@/lib/_commoActions";
@@ -43,6 +44,7 @@ const CommoSelect = ({ commo, commos }: CommoSelectProps) => {
   const [per, setPer] = useState<any>(perss);
   const [selPer, setSelPer] = useState<any>();
   const [selMet, setSelMet] = useState<any>(null);
+  const [graph2, setGraph2] = useState<any>([]);
   const id = +pathname?.split("commodities/")[1];
 
   useEffect(() => {
@@ -81,9 +83,10 @@ const CommoSelect = ({ commo, commos }: CommoSelectProps) => {
           setPer(pers);
         }
 
-        /*         if (selPer && selMet != "-") {
+        if (selPer && selMet != "-") {
           const res4 = await computeMetrics(selMet, com, selPer);
-        } */
+          if (res4?.data) setGraph2(res4?.data);
+        }
       }
     };
     fetchHistoFx();
@@ -98,6 +101,9 @@ const CommoSelect = ({ commo, commos }: CommoSelectProps) => {
             //value={tmm}
             onValueChange={(value) => {
               setSelectedOption(value);
+              setSelMet("-");
+              setSelPer("");
+              setGraph2([]);
             }}
           >
             <SelectTrigger className="w-[100px]">
@@ -161,7 +167,7 @@ const CommoSelect = ({ commo, commos }: CommoSelectProps) => {
       </CardHeader>
       <CardContent className="max-md:px-0">
         <Suspense fallback={<Loading />}>
-          <CommoViews commo={com} />
+          <CommoViews commo={com} commo2={graph2} />
         </Suspense>
       </CardContent>
     </Card>

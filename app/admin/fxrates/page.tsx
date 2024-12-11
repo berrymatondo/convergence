@@ -27,6 +27,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import prisma from "@/lib/prisma";
+import Link from "next/link";
 
 import React, { Suspense } from "react";
 
@@ -38,12 +39,14 @@ const FxRatesPage = async ({
   const skip =
     typeof searchParams.skip === "string" ? Number(searchParams.skip) : 0;
   const take =
-    typeof searchParams.take === "string" ? Number(searchParams.take) : 700;
+    typeof searchParams.take === "string" ? Number(searchParams.take) : 15;
 
   const search =
     typeof searchParams.search === "string" ? searchParams.search : undefined;
 
-  const staticInfoFxCount = await prisma.staticInfoFx.count();
+  //const staticInfoFxCount = await prisma.staticInfoFx.count();
+  const staticInfoFxCount = 644;
+  // const usrCount = await prisma.country.count();
 
   const fxs = await prisma.staticInfoFx.findMany({
     take: take,
@@ -68,11 +71,56 @@ const FxRatesPage = async ({
         },
         {
           country2: {
-            name: { contains: search as string, mode: "insensitive" },
+            name: { contains: search as string, m                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       ode: "insensitive" },
           },
         }, */
     /*       ],
     }, */
+
+    include: {
+      country: true,
+      currency1: true,
+      country2: true,
+      currency2: true,
+    },
+
+    orderBy: {
+      priority: "desc",
+    },
+
+    /*     orderBy: {
+      country2: {
+        continent: "asc",
+      },
+    }, */
+  });
+
+  const fxs1 = await prisma.staticInfoFx.findMany({
+    take: take,
+    skip: skip,
+
+    where: {
+      OR: [
+        {
+          symbol: "1",
+        },
+        {
+          currency2: {
+            mic: { contains: search as string, mode: "insensitive" },
+          },
+        },
+        {
+          currency2: {
+            currency: { contains: search as string, mode: "insensitive" },
+          },
+        },
+        {
+          country2: {
+            name: { contains: search as string, mode: "insensitive" },
+          },
+        },
+      ],
+    },
 
     include: {
       country: true,
@@ -116,6 +164,36 @@ const FxRatesPage = async ({
                   <div className="md:w-1/2 ">
                     <SearchFx search={search} />
                   </div>
+                  <div className="flex justify-normal gap-2 ">
+                    {skip == 0 ? null : (
+                      <Link
+                        href={{
+                          pathname: "/admin/fxrates",
+                          query: {
+                            ...(search ? { search } : {}),
+                            skip: skip > 0 ? skip - take : 0,
+                          },
+                        }}
+                        className="max-md:text-xs max-md:pr-2  text-orange-600 "
+                      >
+                        {"Previous"}
+                      </Link>
+                    )}
+                    {skip + fxs.length >= staticInfoFxCount ? null : (
+                      <Link
+                        href={{
+                          pathname: "/admin/fxrates",
+                          query: {
+                            ...(search ? { search } : {}),
+                            skip: skip + take,
+                          },
+                        }}
+                        className="max-md:text-xs  max-md:pr-2  text-orange-600"
+                      >
+                        {"Next"}
+                      </Link>
+                    )}
+                  </div>
                   {search && (
                     <span className="max-md:text-xs text-green-400">
                       {fxs?.length} founded
@@ -145,8 +223,8 @@ const FxRatesPage = async ({
                       <CardContent className="space-y-2">
                         <ScrollArea className=" mt-4 w-full h-[30rem] pr-2">
                           <div className="grid max-md:grid-cols-2 grid-cols-5 gap-2">
-                            {fxs
-                              ?.filter((fx: any) => fx?.symbol == "1")
+                            {fxs1
+                              // ?.filter((fx: any) => fx?.symbol == "1")
                               ?.map((i: any, index: any) => (
                                 <Suspense key={i.id} fallback={<Loading />}>
                                   <FxItem key={i.id} fx={i} />

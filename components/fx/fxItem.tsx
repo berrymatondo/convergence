@@ -17,17 +17,28 @@ const FxItem = ({ fx }: FxItemProps) => {
       href={`/admin/fxrates/${fx.id}`}
       className="hover:bg-blue-950/70 hover:cursor-pointer flex flex-col justify-between gap-4 bg-blue-950/30 border-2 p-2 mt-2 rounded-lg"
     >
-      <p className="text-sky-400 text-lg md:text-xl ">
-        {fx?.currency1?.currency}
-      </p>
+      <div className=" grid grid-cols-4">
+        {/*         <div className="flex gap-2 items-center text-xs text-sky-400">
+          {Flag(fx?.country?.flagCode)}
+          {fx?.country?.name.replaceAll("_", " ")}
+        </div> */}
 
-      <div className=" gap-4 flex flex-col justify-end">
-        <Change id={fx.id} />
-        <Close id={fx.id} />
-
-        <div className="flex gap-2 items-center text-xs text-sky-400">
-          {Flag(fx?.country2?.flagCode)}
-          {fx?.country2?.name.replaceAll("_", " ")}
+        <div className="col-span-1 -mb-10 flex items-center text-xs text-sky-400">
+          <div className="z-50 rounded-full bg-blue-900/30 p-1">
+            {Flag(fx?.country2?.flagCode)}
+          </div>
+          <div className="-ml-8 -mt-16">{Flag(fx?.country?.flagCode)}</div>
+          {/*           {fx?.country2?.name.replaceAll("_", " ")}
+           */}{" "}
+        </div>
+        <div className="col-span-3 flex flex-col justify-end items-end">
+          <Badge className="bg-transparent border-2 border-neutral-500/30 mb-2 text-sky-400 text-lg md:text-xl ">
+            {fx?.currency1?.mic}/{fx?.currency2?.mic}
+          </Badge>
+          <div className="flex  items-baseline gap-2">
+            <Close id={fx.id} />
+            <Change id={fx.id} />
+          </div>
         </div>
       </div>
     </Link>
@@ -43,14 +54,16 @@ const Change = async ({ id }: any) => {
   if (data?.close?.change) {
     if (+data?.close?.change < 0)
       return (
-        <p className="flex items-center  text-red-600 font-semibold">
-          {data?.close?.change.toFixed(2)} <TrendingDown className="ml-2" />
+        <p className="text-xs flex items-center  text-red-600 font-semibold">
+          {data?.close?.change.toFixed(2)}{" "}
+          <TrendingDown size={20} className="ml-2" />
         </p>
       );
     else
       return (
-        <p className="flex items-center  text-green-600 font-semibold">
-          +{data?.close?.change.toFixed(2)} <TrendingUp className="ml-2" />
+        <p className="text-xs flex items-center  text-green-600 font-semibold">
+          +{data?.close?.change.toFixed(2)}{" "}
+          <TrendingUp size={20} className="ml-2" />
         </p>
       );
   } else return <p></p>;
@@ -62,7 +75,7 @@ const Close = async ({ id }: any) => {
 
   if (data?.close?.close) {
     return (
-      <p className="text-orange-600 my-1 max-md:text-3xl text-5xl font-semibold">
+      <p className=" text-orange-600 mb-1 max-md:text-3xl text-4xl font-semibold">
         {data?.close?.close.toFixed(2)}
       </p>
     );
@@ -76,11 +89,7 @@ const Flag = async (flagCode: any) => {
   return (
     <div className=" rounded-full overflow-hidden">
       {flagCode && (
-        <img
-          src={flag}
-          alt="Flag"
-          style={{ width: "1.5rem", height: "1.5rem" }}
-        />
+        <img src={flag} alt="Flag" style={{ width: "3rem", height: "3rem" }} />
       )}
     </div>
   );

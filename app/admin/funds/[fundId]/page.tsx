@@ -221,7 +221,7 @@ const FundDetailPage = async ({ params }: FundDetailPageProps) => {
               </p> */}
               <div className="grid grid-cols-4 justify-between mt-1 px-2">
                 {fund?.fundCountryRegisteredForSales?.map((el: any) => (
-                  <div>{el?.country?.name}</div>
+                  <div key={el.id}>{el?.country?.name}</div>
                 ))}
               </div>
             </div>

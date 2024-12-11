@@ -340,6 +340,7 @@ model HistoricalDataFx {
 
 
   @@unique([staticInfoFxId(sort: Desc), date])
+  @@index([staticInfoFxId,type]) 
   @@index([staticInfoFxId]) 
   @@map("historicalDataFx")
 }

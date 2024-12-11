@@ -62,11 +62,22 @@ export const getFXHsitoMaxDate = async (commoId: number) => {
   try {
     const commo = await prisma.historicalDataFx.findMany({
       where: {
-        staticInfoFxId: +commoId,
+        /*         AND [staticInfoFxId: +commoId,
+      }, */
+
+        AND: [
+          {
+            staticInfoFxId: +commoId,
+          },
+          {
+            type: "L",
+          },
+        ],
       },
-      orderBy: {
+
+      /*       orderBy: {
         date: "desc",
-      },
+      }, */
     });
 
     //console.log("res", commo);

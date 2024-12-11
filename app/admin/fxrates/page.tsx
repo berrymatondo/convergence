@@ -1,15 +1,13 @@
 import { auth } from "@/auth";
-import CommoItem from "@/components/commo/commoItem";
-import SearchCommo from "@/components/commo/searchCommo";
+import Loading from "@/components/commo/loading";
 import FxItem from "@/components/fx/fxItem";
 import SearchFx from "@/components/fx/searchFx";
+
+import IndexItem from "@/components/index/indexItem";
+import SearchIndex from "@/components/index/searchIndex";
+import NotConnected from "@/components/notConnected";
 import PageLayout from "@/components/pageLayout";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -22,36 +20,15 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import prisma from "@/lib/prisma";
-import { SectorList, StaticInfoCommo, StaticInfoFx } from "@prisma/client";
-import React from "react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-const infos = [
-  {
-    title: "Definition",
-    description:
-      "An exchange rate is the value of a nation's currency in comparison to the currency of another nation or economic zone.",
-  },
-  {
-    title: "Includes",
-    description: "Country currencies (USD, EUR, CDF, XAF, XOF, ...",
-  },
-];
+import prisma from "@/lib/prisma";
+
+import React, { Suspense } from "react";
 
 const FxRatesPage = async ({
   searchParams,
@@ -61,107 +38,193 @@ const FxRatesPage = async ({
   const skip =
     typeof searchParams.skip === "string" ? Number(searchParams.skip) : 0;
   const take =
-    typeof searchParams.take === "string" ? Number(searchParams.take) : 500;
+    typeof searchParams.take === "string" ? Number(searchParams.take) : 700;
 
   const search =
     typeof searchParams.search === "string" ? searchParams.search : undefined;
 
-  //const usrCount = await prisma.staticInfoCommo.count();
+  const staticInfoFxCount = await prisma.staticInfoFx.count();
 
-  //const commos = await prisma.$queryRaw`SELECT * FROM "StaticInfoCommo"`;
-  //const commos = await prisma.$queryRaw`SELECT * FROM public."staticInfoCommo"`;
-
-  const fxrates = await prisma.staticInfoFx.findMany({
+  const fxs = await prisma.staticInfoFx.findMany({
     take: take,
     skip: skip,
 
-    /*     include: {
+    /*     where: {
+      OR: [
+        {
+          currency2: {
+            mic: "CDF",
+          },
+        }, */
+    /*         {
+          currency2: {
+            mic: { contains: search as string, mode: "insensitive" },
+          },
+        },
+        {
+          currency2: {
+            currency: { contains: search as string, mode: "insensitive" },
+          },
+        },
+        {
+          country2: {
+            name: { contains: search as string, mode: "insensitive" },
+          },
+        }, */
+    /*       ],
+    }, */
+
+    include: {
       country: true,
       currency1: true,
+      country2: true,
       currency2: true,
-    }, */
-    /*     select: {
-      id: true, */
-    /*       country: {
-        where: { name: { contains: search as string, mode: "insensitive" } },
-      }, */
-    /*       country: true,
-      currency1: true,
-      currency2: true,
-      ticker: true,
-      ric: true, */
-    //users: true,
-    //  company: true,
-    //  },
-    /*        where: {
-      country: { contains: search as string, mode: "insensitive" },
-    }, */
-    /*       select: {
-        id: true,
-        assetName: true,
-        continent: true,
-        gos: true,
-        //users: true,
-        //  company: true,
-      }, */
+    },
+
+    orderBy: {
+      priority: "desc",
+    },
+
     /*     orderBy: {
-      assetName: "asc",
-    }, */
-    /*     include: {
-      country: {
-        where: { name: { contains: search as string, mode: "insensitive" } },
+      country2: {
+        continent: "asc",
       },
     }, */
-
-    where: {
-      country: { name: { contains: search as string, mode: "insensitive" } },
-    },
-    include: { country: true, currency1: true, currency2: true },
-
-    //  where: { name: { contains: search as string, mode: "insensitive" } },
   });
 
-  //console.log("FxRates ", fxrates);
+  //console.log("fx", fxs);
 
   const session = await auth();
+  const usr: any = session?.user;
+
+  if (!usr) return <NotConnected />;
 
   return (
     <div>
       {" "}
       <PageLayout
+        wid="mx-2 md:mx-12"
         title="Fx Rates"
-        description="Comparaison of of a nation's currency in comparison to the currency"
+        //  description="Tous les indices enregistrées dans le système"
       >
         <div className="px-2">
           <CustomBreadcrumb name="Fx Rates" />
           <div className="grid md:grid-cols-4 gap-2">
             <Card className="md:col-span-4">
-              <div className="">
-                <SearchFx search={search} />
+              <div className="max-md:m-2 m-6 full flex justify-between items-baseline">
+                <div className="md:w-1/2 flex items-baseline gap-2">
+                  <div className="md:w-1/2 ">
+                    <SearchFx search={search} />
+                  </div>
+                  {search && (
+                    <span className="max-md:text-xs text-green-400">
+                      {fxs?.length} founded
+                    </span>
+                  )}
+                </div>
+                <span className="max-md:text-xs text-orange-400">
+                  {staticInfoFxCount} rate(s)
+                </span>{" "}
               </div>
 
               <CardContent className="max-md:px-2">
-                <ScrollArea className="h-96 max-md:h-[20rem] pr-2">
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead className="w-[100px] pl-4">
-                          Country
-                        </TableHead>
-                        <TableHead className="pl-4">Pair</TableHead>
-                        <TableHead className="pl-4">Currency 1</TableHead>
-                        <TableHead className="pl-4">Currency 2</TableHead>
-                        <TableHead className="pl-4">Ticker</TableHead>
-                        <TableHead className="text-right">RIC</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {fxrates?.map((fx: any) => (
-                        <FxItem fx={fx} key={fx.id} />
-                      ))}
-                    </TableBody>
-                  </Table>
-                </ScrollArea>
+                {/*                 <ScrollArea className="h-[38rem] ">
+                 */}
+                <Tabs defaultValue="africa" className="w-full">
+                  <TabsList className="grid w-full grid-cols-4">
+                    <TabsTrigger value="oecd">OECD</TabsTrigger>
+                    <TabsTrigger value="africa">Africa local</TabsTrigger>
+                    <TabsTrigger value="emerging">Emerging Market</TabsTrigger>
+                    <TabsTrigger value="all">All</TabsTrigger>
+                  </TabsList>
+                  <TabsContent value="oecd">
+                    <Card>
+                      <CardHeader>
+                        <CardDescription className="flex justify-start gap-4"></CardDescription>
+                      </CardHeader>
+                      <CardContent className="space-y-2">
+                        <ScrollArea className=" mt-4 w-full h-[30rem] pr-2">
+                          <div className="grid max-md:grid-cols-2 grid-cols-5 gap-2">
+                            {fxs
+                              ?.filter((fx: any) => fx?.symbol == "1")
+                              ?.map((i: any, index: any) => (
+                                <Suspense key={i.id} fallback={<Loading />}>
+                                  <FxItem key={i.id} fx={i} />
+                                </Suspense>
+                              ))}
+                          </div>
+                        </ScrollArea>
+                      </CardContent>
+                    </Card>
+                  </TabsContent>
+                  <TabsContent value="africa">
+                    <Card>
+                      <CardHeader>
+                        <CardDescription className="flex justify-start gap-4"></CardDescription>
+                      </CardHeader>
+                      <CardContent className="space-y-2">
+                        <ScrollArea className=" mt-4 w-full h-[30rem] pr-2">
+                          <div className="grid max-md:grid-cols-2 grid-cols-5 gap-2">
+                            {fxs
+                              ?.filter((fx: any) => fx?.symbol == "2")
+                              ?.map((i: any, index: any) => (
+                                <Suspense key={i.id} fallback={<Loading />}>
+                                  <FxItem key={i.id} fx={i} />
+                                </Suspense>
+                              ))}
+                          </div>
+                        </ScrollArea>
+                      </CardContent>
+                    </Card>
+                  </TabsContent>
+                  <TabsContent value="emerging">
+                    <Card>
+                      <CardHeader>
+                        <CardDescription className="flex justify-start gap-4"></CardDescription>
+                      </CardHeader>
+                      <CardContent className="space-y-2">
+                        <ScrollArea className=" mt-4 w-full h-[30rem] pr-2">
+                          <div className="grid max-md:grid-cols-2 grid-cols-5 gap-2">
+                            {fxs
+                              ?.filter((fx: any) => fx?.symbol == "3")
+                              ?.map((i: any, index: any) => (
+                                <Suspense key={i.id} fallback={<Loading />}>
+                                  <FxItem key={i.id} fx={i} />
+                                </Suspense>
+                              ))}
+                          </div>
+                        </ScrollArea>
+                      </CardContent>
+                    </Card>
+                  </TabsContent>
+                  <TabsContent value="all">
+                    <Card>
+                      <CardHeader>
+                        <CardDescription className="flex justify-start gap-4"></CardDescription>
+                      </CardHeader>
+                      <CardContent className="space-y-2">
+                        <ScrollArea className=" mt-4 w-full h-[30rem] pr-2">
+                          <div className="grid max-md:grid-cols-2 grid-cols-5 gap-2">
+                            {fxs?.map((i: any, index: any) => (
+                              <Suspense key={i.id} fallback={<Loading />}>
+                                <FxItem key={i.id} fx={i} />
+                              </Suspense>
+                            ))}
+                          </div>
+                        </ScrollArea>
+                      </CardContent>
+                    </Card>
+                  </TabsContent>
+                </Tabs>
+                {/*                   <div className="grid max-md:grid-cols-2 grid-cols-5 gap-2">
+                    {fxs?.map((i: any, index: any) => (
+                      <Suspense key={i.id} fallback={<Loading />}>
+                        <FxItem key={i.id} fx={i} />
+                      </Suspense>
+                    ))}
+                  </div> */}
+                {/*                 </ScrollArea>
+                 */}{" "}
               </CardContent>
             </Card>
           </div>
@@ -178,13 +241,10 @@ const CustomBreadcrumb = ({ name }: { name: string }) => {
     <Breadcrumb className=" p-2 ">
       <BreadcrumbList>
         <BreadcrumbItem>
-          <BreadcrumbLink href="/">Accueil</BreadcrumbLink>
+          <BreadcrumbLink href="/">Home</BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
-        {/*         <BreadcrumbItem>
-            <BreadcrumbLink href="/zones">Zones</BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator /> */}
+
         <BreadcrumbItem>
           <BreadcrumbPage className="font-semibold">{name}</BreadcrumbPage>
         </BreadcrumbItem>

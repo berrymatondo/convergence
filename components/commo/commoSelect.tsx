@@ -31,12 +31,12 @@ const CommoSelect = ({ commo, commos }: CommoSelectProps) => {
   //console.log("pathname:", pathname?.split("commodities/")[1]);
 
   let item = periods.find((i: any) => i.id === "5");
-  console.log("item", item);
+  //console.log("item", item);
   let perss: any = [];
   if (item?.days) {
     for (let i = 1; i <= item?.days; i++) perss.push({ id: i });
   }
-  console.log("pers", perss);
+  //console.log("pers", perss);
 
   const [selectedOption, setSelectedOption] = useState("5");
   const [com, setCom] = useState<any>([]);
@@ -69,15 +69,25 @@ const CommoSelect = ({ commo, commos }: CommoSelectProps) => {
       // MEtrics
 
       // Periods
-      let item1 = periods.find((i: any) => i.id === selectedOption);
-      let pers: any = [];
-      if (item1?.days) {
-        for (let i = 1; i <= item1?.days; i++) pers.push({ id: i });
-        setPer(pers);
+      console.log("selMet", selMet);
+
+      if (!selMet || selMet == "-") setSelPer(null);
+
+      if (selMet) {
+        let item1 = periods.find((i: any) => i.id === selectedOption);
+        let pers: any = [];
+        if (item1?.days) {
+          for (let i = 1; i <= item1?.days; i++) pers.push({ id: i });
+          setPer(pers);
+        }
+
+        /*         if (selPer && selMet != "-") {
+          const res4 = await computeMetrics(selMet, com, selPer);
+        } */
       }
     };
     fetchHistoFx();
-  }, [selectedOption]);
+  }, [selectedOption, selPer, selMet]);
 
   return (
     <Card className="md:col-span-1 h-full ">

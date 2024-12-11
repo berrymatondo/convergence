@@ -100,10 +100,12 @@ const FxRatesPage = async ({
     skip: skip,
 
     where: {
-      OR: [
+      AND: [
         {
           symbol: "1",
         },
+      ],
+      OR: [
         {
           currency2: {
             mic: { contains: search as string, mode: "insensitive" },
@@ -122,6 +124,99 @@ const FxRatesPage = async ({
       ],
     },
 
+    include: {
+      country: true,
+      currency1: true,
+      country2: true,
+      currency2: true,
+    },
+
+    orderBy: {
+      priority: "desc",
+    },
+
+    /*     orderBy: {
+      country2: {
+        continent: "asc",
+      },
+    }, */
+  });
+
+  const fxs2 = await prisma.staticInfoFx.findMany({
+    take: take,
+    skip: skip,
+
+    where: {
+      AND: [
+        {
+          symbol: "2",
+        },
+      ],
+      OR: [
+        {
+          currency2: {
+            mic: { contains: search as string, mode: "insensitive" },
+          },
+        },
+        {
+          currency2: {
+            currency: { contains: search as string, mode: "insensitive" },
+          },
+        },
+        {
+          country2: {
+            name: { contains: search as string, mode: "insensitive" },
+          },
+        },
+      ],
+    },
+
+    include: {
+      country: true,
+      currency1: true,
+      country2: true,
+      currency2: true,
+    },
+
+    orderBy: {
+      priority: "desc",
+    },
+
+    /*     orderBy: {
+      country2: {
+        continent: "asc",
+      },
+    }, */
+  });
+
+  const fxs3 = await prisma.staticInfoFx.findMany({
+    take: take,
+    skip: skip,
+
+    where: {
+      AND: [
+        {
+          symbol: "3",
+        },
+      ],
+      OR: [
+        {
+          currency2: {
+            mic: { contains: search as string, mode: "insensitive" },
+          },
+        },
+        {
+          currency2: {
+            currency: { contains: search as string, mode: "insensitive" },
+          },
+        },
+        {
+          country2: {
+            name: { contains: search as string, mode: "insensitive" },
+          },
+        },
+      ],
+    },
     include: {
       country: true,
       currency1: true,
@@ -243,7 +338,7 @@ const FxRatesPage = async ({
                       <CardContent className="space-y-2">
                         <ScrollArea className=" mt-4 w-full h-[30rem] pr-2">
                           <div className="grid max-md:grid-cols-2 grid-cols-5 gap-2">
-                            {fxs
+                            {fxs2
                               ?.filter((fx: any) => fx?.symbol == "2")
                               ?.map((i: any, index: any) => (
                                 <Suspense key={i.id} fallback={<Loading />}>
@@ -263,7 +358,7 @@ const FxRatesPage = async ({
                       <CardContent className="space-y-2">
                         <ScrollArea className=" mt-4 w-full h-[30rem] pr-2">
                           <div className="grid max-md:grid-cols-2 grid-cols-5 gap-2">
-                            {fxs
+                            {fxs3
                               ?.filter((fx: any) => fx?.symbol == "3")
                               ?.map((i: any, index: any) => (
                                 <Suspense key={i.id} fallback={<Loading />}>

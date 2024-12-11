@@ -42,8 +42,21 @@ export const getCommo = async (commoId: number) => {
 export const getCommoHsitoMaxDate = async (commoId: number) => {
   try {
     const commo = await prisma.historicalDataCommo.findMany({
-      where: {
+      /*       where: {
         staticInfoCommoId: +commoId,
+      }, */
+      where: {
+        /*         AND [staticInfoFxId: +commoId,
+      }, */
+
+        AND: [
+          {
+            staticInfoCommoId: +commoId,
+          },
+          {
+            type: "L",
+          },
+        ],
       },
       orderBy: {
         date: "desc",

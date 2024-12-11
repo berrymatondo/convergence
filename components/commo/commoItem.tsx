@@ -14,11 +14,17 @@ const CommoItem = ({ commo }: CommoItemProps) => {
       href={`/admin/commodities/${commo.id}`}
       className="hover:bg-blue-950/70 hover:cursor-pointer flex flex-col justify-between gap-4 bg-blue-950/30 border-2 p-2 mt-2 rounded-lg"
     >
-      <p className="text-sky-400 text-xl md:ext-2xl ">{commo?.assetName}</p>
+      <div className="text-sky-400 text-xl md:text-2xl text-right">
+        <Badge className="text-sky-300 text-sm bg-blue-900/40 p-2">
+          {commo?.assetName}
+        </Badge>
+      </div>
 
-      <div className=" gap-4  flex flex-col justify-end">
-        <Change id={commo.id} />
-        <Close id={commo.id} />
+      <div className=" flex flex-col justify-end">
+        <div className=" flex gap-2 justify-end items-baseline">
+          <Close id={commo.id} />
+          <Change id={commo.id} />
+        </div>
 
         <div className=" text-xs text-sky-400">{commo?.sector}</div>
       </div>
@@ -35,14 +41,16 @@ const Change = async ({ id }: any) => {
   if (data?.close?.change) {
     if (+data?.close?.change < 0)
       return (
-        <p className="flex items-center  text-red-600 font-semibold">
-          {data?.close?.change.toFixed(2)} <TrendingDown className="ml-2" />
+        <p className="text-sm flex items-center  text-red-600 font-semibold">
+          {data?.close?.change.toFixed(2)}{" "}
+          <TrendingDown size={20} className="ml-2" />
         </p>
       );
     else
       return (
-        <p className="flex items-center  text-green-600 font-semibold">
-          +{data?.close?.change.toFixed(2)} <TrendingUp className="ml-2" />
+        <p className="text-sm flex items-center  text-green-600 font-semibold">
+          +{data?.close?.change.toFixed(2)}{" "}
+          <TrendingUp size={20} className="ml-2" />
         </p>
       );
   } else return <p></p>;
@@ -54,7 +62,7 @@ const Close = async ({ id }: any) => {
 
   if (data?.close?.close) {
     return (
-      <p className="text-orange-600 my-1 text-3xl md:text-5xl font-semibold">
+      <p className="text-orange-600 mb-1 text-3xl md:text-4xl font-semibold">
         {data?.close?.close.toFixed(2)}
       </p>
     );

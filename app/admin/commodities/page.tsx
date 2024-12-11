@@ -18,6 +18,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 
 import { getAllStaticCommo } from "@/lib/_commoActions";
 import prisma from "@/lib/prisma";
+import Link from "next/link";
 import React, { Suspense } from "react";
 
 const CommoditiesPage = async ({
@@ -28,7 +29,7 @@ const CommoditiesPage = async ({
   const skip =
     typeof searchParams.skip === "string" ? Number(searchParams.skip) : 0;
   const take =
-    typeof searchParams.take === "string" ? Number(searchParams.take) : 10;
+    typeof searchParams.take === "string" ? Number(searchParams.take) : 20;
 
   const search =
     typeof searchParams.search === "string" ? searchParams.search : undefined;
@@ -87,6 +88,36 @@ const CommoditiesPage = async ({
                 <div className="md:w-1/2 flex items-baseline gap-2">
                   <div className="md:w-1/2 ">
                     <SearchCommo search={search} />
+                  </div>
+                  <div className="flex justify-normal gap-2 ">
+                    {skip == 0 ? null : (
+                      <Link
+                        href={{
+                          pathname: "/admin/commodities",
+                          query: {
+                            ...(search ? { search } : {}),
+                            skip: skip > 0 ? skip - take : 0,
+                          },
+                        }}
+                        className="max-md:text-xs max-md:pr-2  text-orange-600 "
+                      >
+                        {"Previous"}
+                      </Link>
+                    )}
+                    {skip + commos.length >= staticInfoCommoCount ? null : (
+                      <Link
+                        href={{
+                          pathname: "/admin/commodities",
+                          query: {
+                            ...(search ? { search } : {}),
+                            skip: skip + take,
+                          },
+                        }}
+                        className="max-md:text-xs  max-md:pr-2  text-orange-600"
+                      >
+                        {"Next"}
+                      </Link>
+                    )}
                   </div>
                   {search && (
                     <span className="max-md:text-xs text-green-400">

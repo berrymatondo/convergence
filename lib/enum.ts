@@ -13,8 +13,7 @@ export const metrics = [
   { id: "1", label: "-" },
   { id: "2", label: "sma" },
   { id: "3", label: "epa" },
-  { id: "4", label: "macd" },
-  { id: "5", label: "bollinger" },
-  { id: "6", label: "rsi" },
-  { id: "7", label: "roc" },
+  { id: "4", label: "bollinger" },
+  { id: "5", label: "rsi" },
+  { id: "6", label: "roc" },
 ];

@@ -132,6 +132,8 @@ const FundDetailPage = async ({ params }: FundDetailPageProps) => {
     return rezo.slice(0, -1);
   };
 
+  console.log("fund", fund);
+
   return (
     <div className="">
       {" "}
@@ -210,13 +212,18 @@ const FundDetailPage = async ({ params }: FundDetailPageProps) => {
                 Country Registered For Sale
               </h1>
               <Separator className="my-1" />
-              <p className="flex justify-between mt-1">
+              {/*               <p className="flex overflow-hidden justify-between mt-1 px-2">
                 <strong className="font-medium">
                   {getFundCountryRegistered(
                     fund?.fundCountryRegisteredForSales
                   )}
                 </strong>
-              </p>
+              </p> */}
+              <div className="grid grid-cols-4 justify-between mt-1 px-2">
+                {fund?.fundCountryRegisteredForSales?.map((el: any) => (
+                  <div>{el?.country?.name}</div>
+                ))}
+              </div>
             </div>
             <div className="mt-1 text-sm bg-blue-950/30 col-span-1 border rounded-lg p-2">
               <h1 className="text-center font-semibold  p-2 text-sky-400">

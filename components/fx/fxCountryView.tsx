@@ -32,7 +32,7 @@ const FxCountryView = async ({ fxs }: fxCountryViewProps) => {
   //console.log("commo.historicalDataCommo:", commo.historicalDataCommo);
   let fxsH: any = [];
 
-  for (let i = 0; i < fxs.length && i < 220; i++) {
+  for (let i = 0; i < fxs.length && i < 60; i++) {
     fxsH.push(fxs[i]);
   }
 
@@ -65,7 +65,7 @@ const FxCountryView = async ({ fxs }: fxCountryViewProps) => {
               tickMargin={8}
               tickFormatter={(value) => value.slice(0, 10)}
             />
-            <YAxis domain={["dataMin", "dataMax"]} tickMargin={8} />
+            <YAxis domain={["dataMin - 1", "dataMax + 1"]} tickMargin={8} />
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent indicator="dot" hideLabel />}

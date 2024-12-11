@@ -26,7 +26,7 @@ import {
 
 const chartConfig = {
   desktop: {
-    label: "Price22",
+    label: "MSCI World ",
     color: "hsl(var(--chart-2))",
   },
   desktop23: {
@@ -100,12 +100,12 @@ const FundViews = async ({ fund, funds, fund23 }: FundViewsProps) => {
               domain={["dataMin", "dataMax"]}
               tickMargin={8}
             />
-            <YAxis
+            {/*             <YAxis
               yAxisId="right-axis"
-              domain={[0, "dataMax + 50"]}
+              domain={["dataMin", "dataMax"]}
               tickMargin={8}
               orientation="right"
-            />
+            /> */}
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent indicator="dot" hideLabel />}
@@ -120,7 +120,7 @@ const FundViews = async ({ fund, funds, fund23 }: FundViewsProps) => {
               stroke="var(--color-desktop)"
               dot={false}
             />
-            <Line
+            {/*             <Line
               dataKey="desktop23"
               yAxisId="right-axis"
               type="linear"
@@ -128,7 +128,7 @@ const FundViews = async ({ fund, funds, fund23 }: FundViewsProps) => {
               //   fillOpacity={0.2}
               stroke="var(--color-desktop23)"
               dot={false}
-            />
+            /> */}
           </LineChart>
         </ChartContainer>
       </CardContent>

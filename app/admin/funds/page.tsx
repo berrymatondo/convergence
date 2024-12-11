@@ -40,6 +40,7 @@ import {
 import prisma from "@/lib/prisma";
 import { SectorList, StaticInfoCommo, StaticInfoFund } from "@prisma/client";
 import { log } from "console";
+import Link from "next/link";
 import React from "react";
 
 const infos = [
@@ -68,11 +69,6 @@ const FundsPage = async ({
   const search =
     typeof searchParams.search === "string" ? searchParams.search : undefined;
 
-  //const usrCount = await prisma.staticInfoCommo.count();
-
-  //const commos = await prisma.$queryRaw`SELECT * FROM "StaticInfoCommo"`;
-  //const commos = await prisma.$queryRaw`SELECT * FROM public."staticInfoCommo"`;
-
   let funds = await prisma.staticInfoFund.findMany({
     take: take,
     skip: skip,
@@ -81,35 +77,13 @@ const FundsPage = async ({
       name: { contains: search as string, mode: "insensitive" },
     },
     include: { currency: true, country: true, fundPromotersMapping: true },
-    /*       select: {
-        id: true,
-        assetName: true,
-        continent: true,
-        gos: true,
-        //users: true,
-        //  company: true,
-      }, */
-    // include: { historicalDataCommo: true },
+
     orderBy: {
       name: "asc",
     },
   });
 
-  //console.log("max ", commosH?._max?.date);
-
-  /*   const produitWithMaxPrix = await prisma.historicalDataCommo.findFirst({
-    where: {
-      id: 6,
-      date:commosH?.date
-    },
-    select: {
-      id: true,
-      nom: true,
-      prix: true,
-    },
-  });
-  
-  console.log(produitWithMaxPrix); */
+  const staticInfoFundCount = await prisma.staticInfoFund.count();
 
   const session = await auth();
 
@@ -123,38 +97,51 @@ const FundsPage = async ({
         <div className="px-2">
           <CustomBreadcrumb name="Funds" />
           <div className="grid md:grid-cols-4 gap-2">
-            <Card className="md:col-span-1">
-              <CardHeader>
-                <CardTitle className="text-sky-700 dark:text-sky-500">
-                  Funds
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Accordion type="single" collapsible className="w-full">
-                  <AccordionItem value="item-1">
-                    <AccordionTrigger>
-                      <div className="flex items-start gap-2">
-                        <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
-                        {infos[0].title}
-                      </div>
-                    </AccordionTrigger>
-                    <AccordionContent>{infos[0].description}</AccordionContent>
-                  </AccordionItem>
-                  <AccordionItem value="item-2">
-                    <AccordionTrigger>
-                      <div className="flex items-start gap-2">
-                        <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
-                        {infos[1].title}
-                      </div>
-                    </AccordionTrigger>
-                    <AccordionContent>{infos[1].description}</AccordionContent>
-                  </AccordionItem>
-                </Accordion>
-              </CardContent>
-            </Card>
-            <Card className="md:col-span-3">
-              <div className="">
-                <SearchFund search={search} />
+            <Card className="md:col-span-4">
+              <div className="max-md:m-2 m-6 full flex justify-between items-baseline">
+                <div className="md:w-1/2 flex items-baseline gap-2">
+                  <div className="md:w-1/2 ">
+                    <SearchFund search={search} />
+                  </div>
+                  <div className="flex justify-normal gap-2 ">
+                    {skip == 0 ? null : (
+                      <Link
+                        href={{
+                          pathname: "/admin/funds",
+                          query: {
+                            ...(search ? { search } : {}),
+                            skip: skip > 0 ? skip - take : 0,
+                          },
+                        }}
+                        className="max-md:text-xs max-md:pr-2  text-orange-600 "
+                      >
+                        {"Previous"}
+                      </Link>
+                    )}
+                    {skip + funds.length >= staticInfoFundCount ? null : (
+                      <Link
+                        href={{
+                          pathname: "/admin/funds",
+                          query: {
+                            ...(search ? { search } : {}),
+                            skip: skip + take,
+                          },
+                        }}
+                        className="max-md:text-xs  max-md:pr-2  text-orange-600"
+                      >
+                        {"Next"}
+                      </Link>
+                    )}
+                  </div>
+                  {search && (
+                    <span className="max-md:text-xs text-green-400">
+                      {funds?.length} founded
+                    </span>
+                  )}
+                </div>
+                <span className="max-md:text-xs text-orange-400">
+                  {staticInfoFundCount} rate(s)
+                </span>{" "}
               </div>
               <CardContent className="max-md:px-2">
                 <ScrollArea className="h-96 max-md:h-[20rem] pr-2">
@@ -164,7 +151,7 @@ const FundsPage = async ({
                         <TableHead className="w-[100px]">Name</TableHead>
                         <TableHead className="max-md:hidden">ISIN</TableHead>
                         <TableHead>Lipper Classification</TableHead>
-                        <TableHead>Domicile</TableHead>
+                        <TableHead className="w-[200px]">Domicile</TableHead>
                         <TableHead>Currency</TableHead>
                         <TableHead>Exchange</TableHead>
                         <TableHead className="text-right">Promoter</TableHead>

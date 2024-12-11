@@ -39,7 +39,7 @@ const CommoSelect = ({ commo, commos }: CommoSelectProps) => {
   }
   //console.log("pers", perss);
 
-  const [selectedOption, setSelectedOption] = useState("5");
+  const [selectedOption, setSelectedOption] = useState("3");
   const [com, setCom] = useState<any>([]);
   const [per, setPer] = useState<any>(perss);
   const [selPer, setSelPer] = useState<any>();
@@ -90,7 +90,7 @@ const CommoSelect = ({ commo, commos }: CommoSelectProps) => {
       }
     };
     fetchHistoFx();
-  }, [selectedOption, selPer, selMet]);
+  }, [selectedOption, selPer]);
 
   return (
     <Card className="md:col-span-1 h-full ">

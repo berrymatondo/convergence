@@ -42,19 +42,44 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
+function trouverMinEtMax(tab: any) {
+  if (!Array.isArray(tab) || tab.length === 0) {
+    //  throw new Error("Le tableau est vide ou invalide.");
+    return 0;
+  }
+
+  // Initialisation des valeurs min et max avec le premier élément
+  let minObj = tab[0];
+  let maxObj = tab[0];
+
+  // Parcourir le tableau pour trouver les min et max
+  for (let i = 1; i < tab.length; i++) {
+    if (tab[i].close < minObj.close) {
+      minObj = tab[i];
+    }
+    if (tab[i].close > maxObj.close) {
+      maxObj = tab[i];
+    }
+  }
+
+  //return { min: minObj, max: maxObj };
+  return Math.abs(Math.floor(maxObj.close - minObj.close));
+}
+
 type commoViewsProps = {
   commo: any;
   commo2: any;
   commos?: any;
 };
 const commoViews = async ({ commo, commo2, commos }: commoViewsProps) => {
-  console.log("commo: ", commo);
-  console.log("commo: ", commo2);
-  console.log("commo: ", commo2?.length);
+  //console.log("commo: ", commo);
+  //console.log("commo: ", commo2);
+  //console.log("commo: ", commo2?.length);
   //console.log("commo:", commo[0]?.close, commo[commo?.length - 1]?.close);
   const t1 = +commo[0]?.close;
   const t0 = +commo[commo?.length - 1]?.close;
 
+  let offset = 0;
   const grap2: any = [];
   if (commo2.length > 0) {
     for (let i = 0; i < commo2.length; i++) {
@@ -63,9 +88,24 @@ const commoViews = async ({ commo, commo2, commos }: commoViewsProps) => {
         close2: commo2[i],
       });
     }
-  }
+    offset = trouverMinEtMax(grap2);
+  } else offset = trouverMinEtMax(commo);
+  //console.log("commo: ", offset);
 
-  console.log("graph2", grap2);
+  const min = "dataMin - " + offset;
+  const max = "dataMax + " + offset;
+
+  //console.log("min: ", min);
+
+  /*   let tt: any = [];
+  for (let idx = 0; idx < commo.length; idx) tt.push({ cl: commo[idx].close });
+
+  console.log("Commo: ", commo); */
+
+  // console.log("hasMin", commo.hasMin("close"));
+  // console.log("hasMax", commo.hasMax("close"));
+
+  //console.log("graph2", grap2);
 
   //console.log("to", t0, t1);
 
@@ -112,7 +152,7 @@ const commoViews = async ({ commo, commo2, commos }: commoViewsProps) => {
               tickMargin={8}
               tickFormatter={(value) => value.slice(0, 10)}
             />
-            <YAxis domain={["dataMin", "dataMax"]} tickMargin={8} />
+            <YAxis domain={[min, max]} tickMargin={20} />
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent indicator="dot" hideLabel />}

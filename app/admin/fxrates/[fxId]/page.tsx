@@ -127,9 +127,9 @@ const FxDetailPage = () => {
               </CardContent>
             </Card>
 
-            <Card className="md:col-span-3">
+            {/*             <Card className="md:col-span-3">
               <CommoViews commo={fx} />
-            </Card>
+            </Card> */}
 
             <Card className="md:col-span-3">
               {/*               <div className="">

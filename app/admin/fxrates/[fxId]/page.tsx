@@ -64,8 +64,10 @@ const FxDetailPage = async ({ params }: FxDetailPageProps) => {
       close60: res2?.data?.close60,
       close252: res2?.data?.close252,
     };
+    console.log("ici 1", res2?.data?.close);
+
     fx = { ...tempo };
-  } else fx = { ...data };
+  }
 
   // console.log("comos", rs?.data);
   /* 

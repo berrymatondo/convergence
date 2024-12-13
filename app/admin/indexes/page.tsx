@@ -73,6 +73,7 @@ const IndexesPage = async ({
     <div>
       {" "}
       <PageLayout
+        wid="mx-2 md:mx-12"
         title="Indexes"
         //  description="Tous les indices enregistrées dans le système"
       >
@@ -100,9 +101,10 @@ const IndexesPage = async ({
                 <ScrollArea className="h-[38rem] ">
                   <div className="grid max-md:grid-cols-2 grid-cols-5 gap-2">
                     {indexes?.map((i: any, index: any) => (
-                      <Suspense key={i.id} fallback={<Loading />}>
-                        <IndexItem key={i.id} index={i} />
-                      </Suspense>
+                      /*                       <Suspense key={i.id} fallback={<Loading />}>
+                       */ <IndexItem key={i.id} index={i} />
+                      /*                       </Suspense>
+                       */
                     ))}
                   </div>
                 </ScrollArea>

@@ -43,7 +43,17 @@ export const getIndexHsitoMaxDate = async (commoId: number) => {
   try {
     const commo = await prisma.historicalDataIndex.findMany({
       where: {
-        staticInfoIndexId: +commoId,
+        /*         AND [staticInfoFxId: +commoId,
+      }, */
+
+        AND: [
+          {
+            staticInfoIndexId: +commoId,
+          },
+          {
+            type: "L",
+          },
+        ],
       },
       orderBy: {
         date: "desc",

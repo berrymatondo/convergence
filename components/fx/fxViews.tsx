@@ -87,7 +87,7 @@ const FxViews = async ({ fx }: FxViewsProps) => {
       </CardHeader>
       <CardContent className="flex flex-col justify-between">
         <ChartContainer style={{ width: "100%" }} config={chartConfig}>
-          <LineChart
+          <AreaChart
             accessibilityLayer
             data={fx.reverse()}
             margin={{
@@ -108,14 +108,14 @@ const FxViews = async ({ fx }: FxViewsProps) => {
               cursor={false}
               content={<ChartTooltipContent indicator="dot" hideLabel />}
             />
-            <Line
+            <Area
               dataKey="close"
               type="linear"
               fillOpacity={0.2}
               stroke={t0 < t1 ? "var(--color-mobile)" : "var(--color-desktop)"}
               dot={false}
             />
-          </LineChart>
+          </AreaChart>
         </ChartContainer>
       </CardContent>
       <CardFooter></CardFooter>

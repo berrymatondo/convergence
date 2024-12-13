@@ -52,14 +52,9 @@ const FxRatesPage = async ({
     take: take,
     skip: skip,
 
-    /*     where: {
+    where: {
       OR: [
         {
-          currency2: {
-            mic: "CDF",
-          },
-        }, */
-    /*         {
           currency2: {
             mic: { contains: search as string, mode: "insensitive" },
           },
@@ -70,13 +65,17 @@ const FxRatesPage = async ({
           },
         },
         {
-          country2: {
-            name: { contains: search as string, m                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       ode: "insensitive" },
+          country: {
+            name: { contains: search as string, mode: "insensitive" },
           },
-        }, */
-    /*       ],
-    }, */
-
+        },
+        {
+          country2: {
+            name: { contains: search as string, mode: "insensitive" },
+          },
+        },
+      ],
+    },
     include: {
       country: true,
       currency1: true,
@@ -164,6 +163,11 @@ const FxRatesPage = async ({
           },
         },
         {
+          country: {
+            name: { contains: search as string, mode: "insensitive" },
+          },
+        },
+        {
           country2: {
             name: { contains: search as string, mode: "insensitive" },
           },
@@ -208,6 +212,11 @@ const FxRatesPage = async ({
         {
           currency2: {
             currency: { contains: search as string, mode: "insensitive" },
+          },
+        },
+        {
+          country: {
+            name: { contains: search as string, mode: "insensitive" },
           },
         },
         {

@@ -6,19 +6,21 @@ type FxDetailsProps = {
   fx: any;
 };
 const FxDetails = ({ fx }: FxDetailsProps) => {
+  console.log("Fx", fx?.last?.close);
+
   return (
     <div>
       <p className="w-full flex items-center justify-between gap-2 mb-2">
         <span className="text-xl text-orange-700 dark:text-orange-500">
           {fx?.currency?.mic}
         </span>
-        <Suspense fallback={<Loading />}>
-          {fx?.currency?.mic && (
-            <span className="text-5xl text-orange-700 dark:text-orange-500">
-              {+fx?.last?.close.toFixed(2)}
-            </span>
-          )}{" "}
-        </Suspense>
+        {/*         {fx?.currency?.mic && (
+         */}{" "}
+        <span className="text-5xl text-orange-700 dark:text-orange-500">
+          {+fx?.last?.close.toFixed(2)}
+        </span>
+        {/*         )}{" "}
+         */}{" "}
       </p>
 
       <p className=" w-full flex items-center justify-end gap-2 mb-2">

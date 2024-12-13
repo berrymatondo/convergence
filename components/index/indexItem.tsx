@@ -17,8 +17,10 @@ const IndexItem = ({ index }: IndexItemProps) => {
       <p className="text-sky-400 text-lg md:text-xl ">{index?.assetName}</p>
 
       <div className=" gap-4 flex flex-col justify-end">
-        <Change id={index.id} />
-        <Close id={index.id} />
+        <div className="flex items-baseline gap-2">
+          <Close id={index.id} />
+          <Change id={index.id} />
+        </div>
 
         <div className="flex gap-2 items-center text-xs text-sky-400">
           {Flag(index?.country?.flagCode)}
@@ -38,13 +40,13 @@ const Change = async ({ id }: any) => {
   if (data?.close?.change) {
     if (+data?.close?.change < 0)
       return (
-        <p className="flex items-center  text-red-600 font-semibold">
+        <p className="text-sm flex items-center  text-red-600 font-semibold">
           {data?.close?.change.toFixed(2)} <TrendingDown className="ml-2" />
         </p>
       );
     else
       return (
-        <p className="flex items-center  text-green-600 font-semibold">
+        <p className="text-sm flex items-center  text-green-600 font-semibold">
           +{data?.close?.change.toFixed(2)} <TrendingUp className="ml-2" />
         </p>
       );
@@ -57,7 +59,7 @@ const Close = async ({ id }: any) => {
 
   if (data?.close?.close) {
     return (
-      <p className="text-orange-600 my-1 max-md:text-3xl text-5xl font-semibold">
+      <p className="text-orange-600 my-1 text-3xl font-semibold">
         {data?.close?.close}
       </p>
     );

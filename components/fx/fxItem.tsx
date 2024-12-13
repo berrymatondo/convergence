@@ -32,7 +32,7 @@ const FxItem = ({ fx }: FxItemProps) => {
            */}{" "}
         </div>
         <div className="col-span-3 flex flex-col justify-end items-end">
-          <Badge className="bg-white/10 border-2 border-neutral-500/30 mb-2 text-sky-400 text-lg md:text-xl ">
+          <Badge className="bg-white/10 mb-2 text-sky-400 text-lg md:text-xl ">
             {fx?.currency1?.mic}/{fx?.currency2?.mic}
           </Badge>
           <div className="flex  items-baseline gap-2">

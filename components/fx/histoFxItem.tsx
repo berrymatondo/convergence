@@ -15,7 +15,7 @@ const HistoFxItem = ({ histoFx }: HistoFxItemProps) => {
       key={histoFx.id}
     >
       <TableCell className="font-medium text-sky-700 dark:text-sky-500">
-        {histoFx.date}
+        {histoFx.date.split("-").reverse().join("/")}
       </TableCell>
       <TableCell className="text-center">{histoFx.close.toFixed(3)}</TableCell>
       <TableCell className="text-center">{histoFx.change.toFixed(3)}</TableCell>

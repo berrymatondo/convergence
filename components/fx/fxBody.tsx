@@ -6,7 +6,7 @@ type FxBodyProps = {
 };
 
 const FxBody = async ({ fxList }: FxBodyProps) => {
-  console.log("fxl", fxList);
+  //console.log("fxl", fxList);
 
   return (
     <>

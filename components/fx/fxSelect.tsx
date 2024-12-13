@@ -23,7 +23,7 @@ const FxSelect = ({ fx }: FxSelectProps) => {
 
   //console.log("pathname:", pathname?.split("commodities/")[1]);
 
-  let item = periods.find((i: any) => i.id === "5");
+  let item = periods.find((i: any) => i.id === "3");
   //console.log("item", item);
   let perss: any = [];
   if (item?.days) {
@@ -44,7 +44,7 @@ const FxSelect = ({ fx }: FxSelectProps) => {
         if (res3?.data?.length > 0) {
           for (let i = 0; i < res3?.data?.length; i++) {
             histoVar.push({
-              date: res3?.data[i].date,
+              date: res3?.data[i].date.split("-").reverse().join("/"),
               close: res3?.data[i].close.toFixed(2),
             });
 

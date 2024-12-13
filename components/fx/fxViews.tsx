@@ -79,6 +79,16 @@ const FxViews = async ({ fx }: FxViewsProps) => {
   const min = "dataMin - " + offset;
   const max = "dataMax + " + offset;
 
+  const fxTmp = [...fx];
+
+  let step = 5;
+
+  // console.log("fxTmp.length", fxTmp.length);
+
+  if (fxTmp.length < 6) step = 2;
+  else if (fxTmp.length > 6 && fxTmp.length < 21) step = 4;
+  else if (fxTmp.length > 20 && fxTmp.length < 60) step = 11;
+
   return (
     <Card className="border-none  max-md:w-full">
       <CardHeader>
@@ -89,7 +99,7 @@ const FxViews = async ({ fx }: FxViewsProps) => {
         <ChartContainer style={{ width: "100%" }} config={chartConfig}>
           <AreaChart
             accessibilityLayer
-            data={fx.reverse()}
+            data={fxTmp.reverse()}
             margin={{
               left: 12,
               right: 12,
@@ -100,13 +110,34 @@ const FxViews = async ({ fx }: FxViewsProps) => {
               dataKey="date"
               tickLine={false}
               axisLine={false}
-              tickMargin={8}
-              tickFormatter={(value) => value.slice(0, 10)}
+              tickMargin={10}
+              interval={0} // Affiche tous les ticks pour un contrôle précis avec tickFormatter
+              tickFormatter={(value, index) => {
+                const totalPoints = fxTmp.length;
+                if (totalPoints < 5) {
+                  // Si moins de 5 points, afficher tous les points
+                  return value;
+                }
+
+                // Calcul des indices équidistants
+                const step = (totalPoints - 1) / 4;
+                const indicesToShow = [
+                  0, // Premier point
+                  Math.round(step), // Point à 1/4
+                  Math.round(2 * step), // Point du milieu
+                  Math.round(3 * step), // Point à 3/4
+                  totalPoints - 1, // Dernier point
+                ];
+
+                // Afficher uniquement les points correspondant aux indices choisis
+                return indicesToShow.includes(index) ? value : "";
+              }}
             />
+
             <YAxis domain={[min, max]} tickMargin={20} />
             <ChartTooltip
               cursor={false}
-              content={<ChartTooltipContent indicator="dot" hideLabel />}
+              content={<ChartTooltipContent indicator="dot" />}
             />
             <Area
               dataKey="close"

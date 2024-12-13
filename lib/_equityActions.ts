@@ -24,6 +24,8 @@ export const getEquity = async (equityId: number) => {
         id: +equityId,
       },
       include: {
+        country: true,
+        currency: true,
         historicalDataEquity: true,
       },
     });
@@ -62,7 +64,17 @@ export const getEquityHsitoMaxDate = async (commoId: number) => {
   try {
     const commo = await prisma.historicalDataEquity.findMany({
       where: {
-        staticInfoEquityId: +commoId,
+        /*         AND [staticInfoFxId: +commoId,
+      }, */
+
+        AND: [
+          {
+            staticInfoEquityId: +commoId,
+          },
+          {
+            type: "L",
+          },
+        ],
       },
       orderBy: {
         date: "desc",

@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import Loading from "@/components/commo/loading";
-import CustomBredcrumb from "@/components/customBreadCrumb";
+import CustomBredcrumb from "@/components/customBreadcrumb";
 import AllStaticFx from "@/components/fx/allStaticFx";
 import FxBody from "@/components/fx/fxBody";
 import FxDetails from "@/components/fx/fxDetails";
@@ -15,7 +15,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
 import {
   Table,
   TableBody,

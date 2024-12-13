@@ -37,6 +37,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import prisma from "@/lib/prisma";
 import { SectorList, StaticInfoCommo, StaticInfoFund } from "@prisma/client";
 import { log } from "console";
@@ -72,10 +73,70 @@ const FundsPage = async ({
   let funds = await prisma.staticInfoFund.findMany({
     take: take,
     skip: skip,
-
     where: {
-      name: { contains: search as string, mode: "insensitive" },
+      AND: [
+        {
+          lipperClassificationScheme: {
+            contains: "Commodity",
+            mode: "insensitive",
+          },
+        },
+        {
+          country: {
+            name: { contains: search as string, mode: "insensitive" },
+          },
+        },
+      ],
+      /*       OR: [
+        {
+          name: { contains: search as string, mode: "insensitive" },
+        },
+        {
+          isin: { contains: search as string, mode: "insensitive" },
+        },
+      ], */
     },
+
+    /* 
+    where: {
+      
+      name: { contains: search as string, mode: "insensitive" },
+    }, */
+    include: { currency: true, country: true, fundPromotersMapping: true },
+
+    orderBy: {
+      name: "asc",
+    },
+  });
+
+  let bonds = await prisma.staticInfoFund.findMany({
+    take: take,
+    skip: skip,
+    where: {
+      AND: [
+        {
+          lipperClassificationScheme: {
+            not: { contains: "Commodity" },
+            mode: "insensitive",
+          },
+        },
+
+        {
+          country: {
+            name: { contains: search as string, mode: "insensitive" },
+          },
+        },
+        /*         {
+          isin: { contains: search as string, mode: "insensitive" },
+        }, */
+      ],
+    },
+
+    /* 
+    where: {
+      
+      name: { contains: search as string, mode: "insensitive" },
+    }, */
     include: { currency: true, country: true, fundPromotersMapping: true },
 
     orderBy: {
@@ -144,26 +205,68 @@ const FundsPage = async ({
                 </span>{" "}
               </div>
               <CardContent className="max-md:px-2">
-                <ScrollArea className="h-96 max-md:h-[20rem] pr-2">
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead className="w-[100px]">Name</TableHead>
-                        <TableHead className="max-md:hidden">ISIN</TableHead>
-                        <TableHead>Lipper Classification</TableHead>
-                        <TableHead className="w-[200px]">Domicile</TableHead>
-                        <TableHead>Currency</TableHead>
-                        <TableHead>Exchange</TableHead>
-                        <TableHead className="text-right">Promoter</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {funds?.map((fund: StaticInfoFund) => (
-                        <FundItem fund={fund} key={fund.id} />
-                      ))}
-                    </TableBody>
-                  </Table>
-                </ScrollArea>
+                <Tabs defaultValue="commodities" className="w-full">
+                  <TabsList className="grid w-full grid-cols-2">
+                    <TabsTrigger value="commodities">Commodities</TabsTrigger>
+                    <TabsTrigger value="bonds">Bonds</TabsTrigger>
+                  </TabsList>
+                  <TabsContent value="commodities">
+                    <ScrollArea className="h-96 max-md:h-[20rem] pr-2">
+                      <Table>
+                        <TableHeader>
+                          <TableRow>
+                            <TableHead className="w-[100px]">Name</TableHead>
+                            <TableHead className="max-md:hidden">
+                              ISIN
+                            </TableHead>
+                            <TableHead>Lipper Classification</TableHead>
+                            <TableHead className="w-[200px]">
+                              Domicile
+                            </TableHead>
+                            <TableHead>Currency</TableHead>
+                            <TableHead>Exchange</TableHead>
+                            <TableHead className="text-right">
+                              Promoter
+                            </TableHead>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          {funds?.map((fund: StaticInfoFund) => (
+                            <FundItem fund={fund} key={fund.id} />
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </ScrollArea>
+                  </TabsContent>
+                  <TabsContent value="bonds">
+                    <ScrollArea className="h-96 max-md:h-[20rem] pr-2">
+                      <Table>
+                        <TableHeader>
+                          <TableRow>
+                            <TableHead className="w-[100px]">Name</TableHead>
+                            <TableHead className="max-md:hidden">
+                              ISIN
+                            </TableHead>
+                            <TableHead>Lipper Classification</TableHead>
+                            <TableHead className="w-[200px]">
+                              Domicile
+                            </TableHead>
+                            <TableHead>Currency</TableHead>
+                            <TableHead>Exchange</TableHead>
+                            <TableHead className="text-right">
+                              Promoter
+                            </TableHead>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          {bonds?.map((fund: StaticInfoFund) => (
+                            <FundItem fund={fund} key={fund.id} />
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </ScrollArea>
+                  </TabsContent>
+                </Tabs>
               </CardContent>
             </Card>
           </div>

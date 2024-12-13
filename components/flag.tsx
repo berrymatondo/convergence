@@ -1,7 +1,7 @@
 import React from "react";
 
 const Flag = async (flagCode: any) => {
-  console.log("flag", flagCode);
+  // console.log("flag", flagCode);
 
   let flag = "https://flagcdn.Com/w40/" + flagCode + ".png";
   if (flagCode == "zz") flag = "/continents/uemoa.gif";

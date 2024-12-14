@@ -65,7 +65,7 @@ const FundsPage = async ({
   const skip =
     typeof searchParams.skip === "string" ? Number(searchParams.skip) : 0;
   const take =
-    typeof searchParams.take === "string" ? Number(searchParams.take) : 200;
+    typeof searchParams.take === "string" ? Number(searchParams.take) : 100;
 
   const search =
     typeof searchParams.search === "string" ? searchParams.search : undefined;
@@ -151,10 +151,7 @@ const FundsPage = async ({
   return (
     <div>
       {" "}
-      <PageLayout
-        title="List of Funds"
-        description="All funds recorderd in our system"
-      >
+      <PageLayout wid="mx-2 md:mx-12" title="Funds">
         <div className="px-2">
           <CustomBreadcrumb name="Funds" />
           <div className="grid md:grid-cols-4 gap-2">
@@ -215,7 +212,7 @@ const FundsPage = async ({
                       <Table>
                         <TableHeader>
                           <TableRow>
-                            <TableHead className="w-[100px]">Name</TableHead>
+                            <TableHead className="w-[300px]">Name</TableHead>
                             <TableHead className="max-md:hidden">
                               ISIN
                             </TableHead>
@@ -243,7 +240,7 @@ const FundsPage = async ({
                       <Table>
                         <TableHeader>
                           <TableRow>
-                            <TableHead className="w-[100px]">Name</TableHead>
+                            <TableHead className="w-[300px]">Name</TableHead>
                             <TableHead className="max-md:hidden">
                               ISIN
                             </TableHead>

@@ -2,22 +2,23 @@ import React, { Suspense } from "react";
 import Loading from "../commo/loading";
 import { Separator } from "../ui/separator";
 
-type FxDetailsProps = {
-  fx: any;
+type IndexDetailsProps = {
+  index: any;
 };
-const FxDetails = ({ fx }: FxDetailsProps) => {
-  // console.log("Fx", fx?.last?.close);
+const IndexDetails = ({ index }: IndexDetailsProps) => {
+  //console.log("Index ", index);
+  //console.log("Fx ", index?.last?.close);
 
   return (
     <div>
       <p className="w-full flex items-center justify-between gap-2 mb-2">
         <span className="text-xl text-orange-700 dark:text-orange-500">
-          {fx?.currency?.mic}
+          {index?.currency?.mic}
         </span>
         {/*         {fx?.currency?.mic && (
          */}{" "}
         <span className="text-5xl text-orange-700 dark:text-orange-500">
-          {+fx?.last?.close.toFixed(2)}
+          {+index?.last?.close.toFixed(2)}
         </span>
         {/*         )}{" "}
          */}{" "}
@@ -25,21 +26,25 @@ const FxDetails = ({ fx }: FxDetailsProps) => {
 
       <p className=" w-full flex items-center justify-end gap-2 mb-2">
         <span
-          className={+fx?.last?.change < 0 ? `text-red-600` : "text-green-600"}
+          className={
+            +index?.last?.change < 0 ? `text-red-600` : "text-green-600"
+          }
         >
-          {+fx?.last?.change > 0 ? "+" : ""}
-          {fx?.last?.change?.toFixed(2)}
+          {+index?.last?.change > 0 ? "+" : ""}
+          {index?.last?.change?.toFixed(2)}
         </span>
         <span
-          className={+fx?.last?.change < 0 ? `text-red-600` : "text-green-600"}
+          className={
+            +index?.last?.change < 0 ? `text-red-600` : "text-green-600"
+          }
         >
-          {+fx?.last?.change > 0 ? "+" : ""}
-          {fx?.last?.changePercentage?.toFixed(2)} %
+          {+index?.last?.change > 0 ? "+" : ""}
+          {index?.last?.changePercentage?.toFixed(2)} %
         </span>
       </p>
       <div className=" w-full flex items-center justify-between gap-2">
         <p className="gap-4 flex justify-between">
-          {new Date(fx?.last?.date.toString()).toDateString()}
+          {new Date(index?.last?.date.toString()).toDateString()}
           <span>CDT</span>
         </p>
       </div>
@@ -56,7 +61,7 @@ const FxDetails = ({ fx }: FxDetailsProps) => {
       <p className=" mb-2 w-full flex  flex-col items-start  justify-between gap-2">
         <span className="text-gray-400">Previous close:</span>
         <span className="text-2xl font-semibold text-sky-700 dark:text-sky-500">
-          {fx?.close1?.close.toFixed(2)}
+          {index?.close1?.close.toFixed(2)}
         </span>
       </p>
       <Separator className="text-orange-500" />
@@ -64,11 +69,11 @@ const FxDetails = ({ fx }: FxDetailsProps) => {
         <span className="text-gray-400">Day Range</span>
         <p>
           <span className="text-2xl font-semibold text-sky-700 dark:text-sky-500">
-            {fx?.close1?.close.toFixed(2)}
+            {index?.close1?.close.toFixed(2)}
           </span>
           {" - "}
           <span className="text-2xl font-semibold text-sky-700 dark:text-sky-500">
-            {fx?.last?.close.toFixed(2)}
+            {index?.last?.close.toFixed(2)}
           </span>
         </p>
       </div>
@@ -78,11 +83,11 @@ const FxDetails = ({ fx }: FxDetailsProps) => {
         <p>
           {" "}
           <span className="text-2xl font-semibold text-sky-700 dark:text-sky-500">
-            {fx?.close252?.close.toFixed(2)}
+            {index?.close252?.close.toFixed(2)}
           </span>
           {" - "}
           <span className="text-2xl font-semibold text-sky-700 dark:text-sky-500">
-            {fx?.last?.close.toFixed(2)}
+            {index?.last?.close.toFixed(2)}
           </span>
         </p>
       </div>
@@ -96,25 +101,38 @@ const FxDetails = ({ fx }: FxDetailsProps) => {
         <p className="mt-2 w-full flex items-start  justify-between gap-2">
           <span className="">5 Day:</span>
           <span className="text-sky-700 dark:text-sky-500">
-            {((+fx?.last?.close / +fx?.close5?.close - 1) * 100).toFixed(2)} %
+            {((+index?.last?.close / +index?.close5?.close - 1) * 100).toFixed(
+              2
+            )}{" "}
+            %
           </span>
         </p>
         <p className=" w-full flex items-start justify-between gap-2">
           <span className="">1 Month:</span>
           <span className="text-sky-700 dark:text-sky-500">
-            {((+fx?.last?.close / +fx?.close20?.close - 1) * 100).toFixed(2)} %
+            {((+index?.last?.close / +index?.close20?.close - 1) * 100).toFixed(
+              2
+            )}{" "}
+            %
           </span>
         </p>
         <p className=" w-full flex   items-start justify-between gap-2">
           <span className="">3 Month:</span>
           <span className="text-sky-700 dark:text-sky-500">
-            {((+fx?.last?.close / +fx?.close60?.close - 1) * 100).toFixed(2)} %
+            {((+index?.last?.close / +index?.close60?.close - 1) * 100).toFixed(
+              2
+            )}{" "}
+            %
           </span>
         </p>
         <p className=" w-full flex  items-start justify-between gap-2">
           <span className="">1 Year:</span>
           <span className="text-sky-700 dark:text-sky-500">
-            {((+fx?.last?.close / +fx?.close252?.close - 1) * 100).toFixed(2)} %
+            {(
+              (+index?.last?.close / +index?.close252?.close - 1) *
+              100
+            ).toFixed(2)}{" "}
+            %
           </span>
         </p>
       </div>
@@ -122,4 +140,4 @@ const FxDetails = ({ fx }: FxDetailsProps) => {
   );
 };
 
-export default FxDetails;
+export default IndexDetails;

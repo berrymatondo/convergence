@@ -35,12 +35,12 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-type FundViewsProps = {
+type BondViewsProps = {
   fund: any;
   funds?: any;
   fund23?: any;
 };
-const FundViews = async ({ fund, funds, fund23 }: FundViewsProps) => {
+const BondViews = async ({ fund, funds, fund23 }: BondViewsProps) => {
   //console.log("fund:", fund);
   //console.log("fund23:", fund23);
 
@@ -137,7 +137,7 @@ const FundViews = async ({ fund, funds, fund23 }: FundViewsProps) => {
   );
 };
 
-export default FundViews;
+export default BondViews;
 
 /* 
 <YAxis type="number" domain={['dataMin', 'dataMax']} />

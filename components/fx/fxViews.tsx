@@ -145,6 +145,7 @@ const FxViews = async ({ fx }: FxViewsProps) => {
               fillOpacity={0.2}
               stroke={t0 < t1 ? "var(--color-mobile)" : "var(--color-desktop)"}
               dot={false}
+              fill={t0 < t1 ? "var(--color-mobile)" : "var(--color-desktop)"}
             />
           </AreaChart>
         </ChartContainer>

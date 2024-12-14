@@ -5,6 +5,7 @@ import {
   CartesianGrid,
   Line,
   LineChart,
+  Tooltip,
   XAxis,
   YAxis,
 } from "recharts";
@@ -80,55 +81,47 @@ const FundViews = async ({ fund, funds, fund23 }: FundViewsProps) => {
       <CardContent className="flex flex-col justify-between">
         <ChartContainer style={{ width: "100%" }} config={chartConfig}>
           <AreaChart
-            accessibilityLayer
             data={tempo}
-            margin={{
-              left: 12,
-              right: 12,
-            }}
+            margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
           >
-            <CartesianGrid vertical={false} />
+            <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
             <XAxis
               dataKey="date"
               tickLine={false}
               axisLine={false}
-              tickMargin={8}
-              tickFormatter={(value) => value.slice(0, 10)}
+              tickMargin={10}
+              tickFormatter={(value) => new Date(value).toLocaleDateString()}
+              style={{ fontSize: "12px", color: "#666" }}
             />
             <YAxis
-              yAxisId="left-axis"
-              domain={["dataMin", "dataMax"]}
-              tickMargin={8}
+              domain={["auto", "auto"]}
+              tickLine={false}
+              axisLine={false}
+              tickMargin={10}
+              style={{ fontSize: "12px", color: "#666" }}
             />
-            {/*             <YAxis
-              yAxisId="right-axis"
-              domain={["dataMin", "dataMax"]}
-              tickMargin={8}
-              orientation="right"
-            /> */}
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent indicator="dot" hideLabel />}
+            <Tooltip
+              content={<CustomTooltip payload={tempo} />}
+              cursor={{ stroke: "#ccc", strokeWidth: 1 }}
             />
 
             <Area
+              type="monotone"
               dataKey="desktop"
-              yAxisId="left-axis"
-              type="linear"
-              fill="var(--color-desktop)"
-              fillOpacity={0.2}
-              stroke="var(--color-desktop)"
-              dot={false}
+              stroke="#4CAF50"
+              fill="rgba(76, 175, 80, 0.2)"
+              strokeWidth={2}
+              /*     dot={{ r: 3, strokeWidth: 2 }}
+              activeDot={{ r: 6 }} */
             />
-            {/*             <Line
+            <Line
+              type="monotone"
               dataKey="desktop23"
-              yAxisId="right-axis"
-              type="linear"
-              //   fill="var(--color-desktop23)"
-              //   fillOpacity={0.2}
-              stroke="var(--color-desktop23)"
-              dot={false}
-            /> */}
+              stroke="#FF5722"
+              strokeWidth={2}
+              /*      dot={{ r: 3, strokeWidth: 2 }}
+              activeDot={{ r: 6 }} */
+            />
           </AreaChart>
         </ChartContainer>
       </CardContent>
@@ -138,6 +131,35 @@ const FundViews = async ({ fund, funds, fund23 }: FundViewsProps) => {
 };
 
 export default FundViews;
+
+type Cusprops = {
+  active?: any;
+  payload?: any;
+  label?: any;
+};
+const CustomTooltip = ({ active, payload, label }: Cusprops) => {
+  if (active && payload && payload.length) {
+    return (
+      <div
+        style={{
+          backgroundColor: "#fff",
+          border: "1px solid #ccc",
+          borderRadius: "8px",
+          padding: "10px",
+          boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+        }}
+      >
+        <p style={{ margin: 0, fontWeight: "bold", color: "#333" }}>{label}</p>
+        {payload.map((item: any, index: any) => (
+          <p key={index} style={{ margin: 0, color: item.color }}>
+            {item.name}: {item.value}
+          </p>
+        ))}
+      </div>
+    );
+  }
+  return null;
+};
 
 /* 
 <YAxis type="number" domain={['dataMin', 'dataMax']} />

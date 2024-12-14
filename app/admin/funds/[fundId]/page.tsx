@@ -132,7 +132,7 @@ const FundDetailPage = async ({ params }: FundDetailPageProps) => {
     return rezo.slice(0, -1);
   };
 
-  console.log("fund", fund);
+  // console.log("fund", fund);
 
   return (
     <div className="">

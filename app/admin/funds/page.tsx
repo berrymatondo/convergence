@@ -44,19 +44,6 @@ import { log } from "console";
 import Link from "next/link";
 import React from "react";
 
-const infos = [
-  {
-    title: "Définition",
-    description:
-      "Les matières premières sont des produits de base échangés sur des marchés financiers.",
-  },
-  {
-    title: "Comporte",
-    description:
-      "Métaux précieux (or, argent), énergie (pétrole, gaz naturel), produits agricoles (blé, café), métaux industriels (cuivre, aluminium).",
-  },
-];
-
 const FundsPage = async ({
   searchParams,
 }: {

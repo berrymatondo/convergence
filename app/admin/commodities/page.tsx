@@ -76,10 +76,7 @@ const CommoditiesPage = async ({
   return (
     <div>
       {" "}
-      <PageLayout
-        title="Commodities"
-        // description="Toutes les matières premières enregistrées dans le système"
-      >
+      <PageLayout wid="mx-2 md:mx-12" title="Commodities">
         <div className="px-2">
           <CustomBreadcrumb name="Commodities" />
           <div className="grid md:grid-cols-4 gap-2">
@@ -131,7 +128,7 @@ const CommoditiesPage = async ({
               </div>
               <CardContent className="max-md:px-2">
                 <ScrollArea className="h-[38rem] ">
-                  <div className="grid max-md:grid-cols-2 grid-cols-5 gap-2">
+                  <div className="grid max-md:grid-cols-2 grid-cols-6 gap-2">
                     {commos?.map((i: any, index: any) => (
                       <Suspense key={i.id} fallback={<Loading />}>
                         <CommoItem key={i.id} commo={i} />

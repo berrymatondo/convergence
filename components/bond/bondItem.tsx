@@ -27,8 +27,10 @@ const BondItem = ({ bond }: BondItemProps) => {
       <TableCell>{bond?.principalCurrency?.mic}</TableCell>
       {/*       <TableCell>{new Intl.NumberFormat().format(bond.issuer)}</TableCell>
        */}{" "}
-      <TableCell className="text-right">{bond.maturity}</TableCell>
-      <TableCell className="text-right">{bond.market?.name}</TableCell>
+      <TableCell className="">{bond.maturity}</TableCell>
+      <TableCell className="text-right">
+        {bond.market?.name?.replaceAll("_", " ")}
+      </TableCell>
     </TableRow>
   );
 };

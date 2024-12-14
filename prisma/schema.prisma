@@ -409,6 +409,7 @@ model StaticInfoBond {
   domicile            Country?             @relation("domicile", fields: [domicileId], references: [id])
   principalCurrency   Currency?            @relation("principalCurrency", fields: [principalCurrencyId], references: [id])
 
+  @@index([acf]) 
   @@map("staticInfoBond")
 }
 

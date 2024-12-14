@@ -54,12 +54,12 @@ const components: { title: string; href: string; description: string }[] = [
     description:
       "Définition : Un taux de change est le taux auquel une devise peut être échangée contre une autre. Comporte : Taux de change entre différentes paires de devises, taux de change futurs et à terme",
   },
-  {
+  /*   {
     title: "CDS",
     href: "/admin/cds",
     description:
       "Définition : Un CDS est un contrat financier qui permet de transférer le risque de crédit d'un emprunteur entre deux parties. Comporte : Primes de CDS, protection contre le défaut de paiement, spreads de CDS.",
-  },
+  }, */
   {
     title: "Funds",
     href: "/admin/funds",

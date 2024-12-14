@@ -47,7 +47,8 @@ model Country {
   currency          Currency?          @relation(fields: [currencyId], references: [id])
   gos               Go[]
   staticInfoBond    StaticInfoBond[]
-  domicile          StaticInfoBond[]   @relation("domicile")
+  domicile          StaticInfoBond[]   @relation("market")
+  marketOfIssue     StaticInfoBond[]   @relation("domicile")
   staticInfoCountry StaticInfoCountry?
   staticInfoEquity  StaticInfoEquity[]
   staticInfoFund    StaticInfoFund[]
@@ -402,6 +403,7 @@ model StaticInfoBond {
   domicileId          Int?
   marketOfIssueId     Int?
   historicalDataBond  HistoricalDataBond[]
+  market             Country?             @relation("market",fields: [marketOfIssueId], references: [id])
   country             Country             @relation(fields: [countryId], references: [id])
   couponCurrency      Currency?            @relation("couponCurrency", fields: [couponCurrencyId], references: [id])
   domicile            Country?             @relation("domicile", fields: [domicileId], references: [id])

@@ -18,6 +18,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 import prisma from "@/lib/prisma";
+import Link from "next/link";
 
 import React, { Suspense } from "react";
 
@@ -85,6 +86,36 @@ const IndexesPage = async ({
                 <div className="md:w-1/2 flex items-baseline gap-2">
                   <div className="md:w-1/2 ">
                     <SearchIndex search={search} />
+                  </div>
+                  <div className="flex justify-normal gap-2 ">
+                    {skip == 0 ? null : (
+                      <Link
+                        href={{
+                          pathname: "/admin/indexes",
+                          query: {
+                            ...(search ? { search } : {}),
+                            skip: skip > 0 ? skip - take : 0,
+                          },
+                        }}
+                        className="max-md:text-xs max-md:pr-2  text-orange-600 "
+                      >
+                        {"Previous"}
+                      </Link>
+                    )}
+                    {skip + indexes.length >= staticInfoIndexCount ? null : (
+                      <Link
+                        href={{
+                          pathname: "/admin/indexes",
+                          query: {
+                            ...(search ? { search } : {}),
+                            skip: skip + take,
+                          },
+                        }}
+                        className="max-md:text-xs  max-md:pr-2  text-orange-600"
+                      >
+                        {"Next"}
+                      </Link>
+                    )}
                   </div>
                   {search && (
                     <span className="max-md:text-xs text-green-400">

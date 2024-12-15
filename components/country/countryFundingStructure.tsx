@@ -45,7 +45,7 @@ const CountryFundingStructure = ({
   };
 
   return (
-    <Card className=" md:col-span-5 h-68">
+    <Card className=" md:col-span-5 h-68 bg-red-400">
       <CardHeader>
         <CardTitle className="text-center text-sky-700 dark:text-sky-500">
           FUNDING STRUCTURE
@@ -283,7 +283,7 @@ const CountryFundingStructure = ({
                             Date.parse(b.date) - Date.parse(a.date)
                         )
                         .map((el: any) => (
-                          <BondItem bond={el} key={el.id} />
+                          <CountryBondItem bond={el} key={el.id} />
                         ))}
                     </TableBody>
                   </Table>
@@ -394,7 +394,7 @@ const CountryFundingStructure = ({
                             Date.parse(b.date) - Date.parse(a.date)
                         )
                         .map((el: any) => (
-                          <BondItem bond={el} key={el.id} />
+                          <CountryBondItem bond={el} key={el.id} />
                         ))}
                     </TableBody>
                   </Table>

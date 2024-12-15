@@ -20,7 +20,10 @@ const BondItem = ({ bond }: BondItemProps) => {
       <TableCell className="font-medium text-sky-700 dark:text-sky-500">
         {bond.description}
       </TableCell>
-      <TableCell className="max-md:hidden">{bond.isin}</TableCell>
+      <TableCell className="max-md:hidden">
+        {" "}
+        {+bond.isin ? "" : bond.isin}
+      </TableCell>
       <TableCell>{bond.issuer}</TableCell>
       <TableCell>{bond.couponRate}</TableCell>
       <TableCell>{bond.couponClass}</TableCell>

@@ -62,7 +62,7 @@ const Close = async ({ id }: any) => {
   if (data?.close?.close) {
     return (
       <p className="text-orange-600 my-1 text-2xl md:text-3xl font-semibold">
-        {data?.close?.close}
+        {data?.close?.close.toFixed(2)}
       </p>
     );
   } else return <p></p>;

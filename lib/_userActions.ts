@@ -302,7 +302,7 @@ export const loginlogin = async (data: Inputs3) => {
 
   const res = await signIn("credentials", {
     ...data,
-    redirectTo: "/redirect",
+    redirectTo: "/admin/countries",
   });
 
   // console.log("RESSSS", res);

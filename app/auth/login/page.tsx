@@ -20,7 +20,7 @@ const LoginPage = async () => {
   return (
     <div>
       <AuthPageLayout
-        title="Connexion"
+        title="Login"
         position="items-center"
         descPosition="items-center"
         description="Cette page permet de se connecter à l'application"
@@ -42,12 +42,12 @@ const CustomBreadcrumb = ({ name }: { name: string }) => {
     <Breadcrumb className=" p-2  ">
       <BreadcrumbList>
         <BreadcrumbItem>
-          <BreadcrumbLink href="/">Accueil</BreadcrumbLink>
+          <BreadcrumbLink href="/">Home</BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
 
         <BreadcrumbItem>
-          <BreadcrumbLink href="/auth/users">Utilisateurs</BreadcrumbLink>
+          <BreadcrumbLink href="/auth/users">Users</BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>

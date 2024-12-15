@@ -80,19 +80,19 @@ const LoginForm = () => {
       className="max-md:p-2 md:container"
     >
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(procesForm)} className="space-y-6">
-          <div className="space-y-4">
+        <form onSubmit={form.handleSubmit(procesForm)} className="space-y-6 ">
+          <div className="space-y-4 max-md:mb-8">
             <FormField
               control={form.control}
               name="username"
               render={({ field }) => {
                 return (
                   <FormItem>
-                    <FormLabel>{"Utilisateur"}</FormLabel>
+                    <FormLabel>{"User"}</FormLabel>
                     <FormControl>
                       <Input
                         {...field}
-                        placeholder="Entrer l'utilisateur"
+                        placeholder="Enter the username"
                         type="text"
                       />
                     </FormControl>
@@ -108,11 +108,11 @@ const LoginForm = () => {
               render={({ field }) => {
                 return (
                   <FormItem>
-                    <FormLabel>{"Mot de passe"}</FormLabel>
+                    <FormLabel>{"Password"}</FormLabel>
                     <FormControl>
                       <Input
                         {...field}
-                        placeholder="Entrer un mot de passe"
+                        placeholder="Enter the password"
                         type="password"
                       />
                     </FormControl>
@@ -122,8 +122,8 @@ const LoginForm = () => {
               }}
             />
           </div>
-          <Button type="submit" className="w-full">
-            {loading ? "En cours de connexion ..." : "Se Connecter"}
+          <Button type="submit" className="w-full bg-sky-950">
+            {loading ? "Processing ..." : "Login"}
           </Button>
         </form>
       </Form>

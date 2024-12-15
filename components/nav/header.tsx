@@ -180,7 +180,7 @@ const Header = ({ userSession }: HeaderProps) => {
 
       {userSession && userSession.user && (
         <p className="md:hidden md:container flex justify-center md:justify-end items-end gap-2 mb-2">
-          <MdPerson className="max-md:text-xs  text-orange-600" size={25} />
+          <MdPerson className="max-md:text-xs  text-orange-600" size={20} />
           <strong className="max-md:text-xs text-lg font-semibold dark:text-blue-400 text-blue-600">
             {userSession?.user?.username}
           </strong>

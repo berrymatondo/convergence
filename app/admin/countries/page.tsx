@@ -225,7 +225,7 @@ const CountriesPage = async ({
                     {Object.values(ContinentsList)?.map((ur: any) => (
                       <Link
                         href={`/continents/${ur}`}
-                        className="flex flex-col italic text-sm text-muted-foreground"
+                        className="flex flex-col italic text-sm text-muted-foreground py-1"
                         key={ur}
                       >
                         {ur}

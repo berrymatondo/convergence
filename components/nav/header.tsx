@@ -114,7 +114,7 @@ const Header = ({ userSession }: HeaderProps) => {
               Emerging Markets
             </p>
             <p className="max-md:hidden text-xs md:text-3xl text-teal-600">
-              EM
+              Emerging Markets
             </p>
           </Link>
         </div>
@@ -135,7 +135,7 @@ const Header = ({ userSession }: HeaderProps) => {
            */}{" "}
           {(!userSession || !userSession.user) && (
             <Button
-              className="max-md:hidden"
+              className="max-md:hidden bg-sky-950"
               onClick={() => router.push("/auth/login")}
             >
               Connexion
@@ -161,7 +161,7 @@ const Header = ({ userSession }: HeaderProps) => {
  */}
           {(!userSession || !userSession.user) && (
             <MdLogin
-              className="md:hidden text-teal-600"
+              className="md:hidden text-sky-600"
               onClick={() => router.push("/auth/login")}
               size={25}
             />

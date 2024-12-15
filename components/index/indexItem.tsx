@@ -14,10 +14,12 @@ const IndexItem = ({ index }: IndexItemProps) => {
       href={`/admin/indexes/${index.id}`}
       className="hover:bg-blue-950/70 hover:cursor-pointer flex flex-col justify-between gap-4 bg-blue-950/30 border-2 p-2 mt-2 rounded-lg"
     >
-      <p className="text-sky-400 text-lg md:text-xl ">{index?.assetName}</p>
+      <p className="text-sky-400 text-sm max-md:font-semibold md:text-xl ">
+        {index?.assetName}
+      </p>
 
       <div className=" gap-4 flex flex-col justify-end">
-        <div className="flex items-baseline gap-2">
+        <div className="flex items-baseline md:gap-2 max-md:flex-col-reverse">
           <Close id={index.id} />
           <Change id={index.id} />
         </div>
@@ -59,7 +61,7 @@ const Close = async ({ id }: any) => {
 
   if (data?.close?.close) {
     return (
-      <p className="text-orange-600 my-1 text-3xl font-semibold">
+      <p className="text-orange-600 my-1 text-2xl md:text-3xl font-semibold">
         {data?.close?.close}
       </p>
     );

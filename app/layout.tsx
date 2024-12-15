@@ -30,8 +30,6 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <Providers>
-            {/*             <Header />
-             */}{" "}
             <AppBar />
             {children}
             {/*             <Footer />

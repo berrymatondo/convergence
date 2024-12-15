@@ -13,7 +13,7 @@ const CountryBondItem = ({ bond }: BondItemProps) => {
 
   return (
     <TableRow
-      onClick={() => router.push(`/admin/commodities/${bond.id}`)}
+      onClick={() => router.push(`/admin/bonds/${bond.id}`)}
       className="hover:cursor-pointer"
       key={bond.id}
     >

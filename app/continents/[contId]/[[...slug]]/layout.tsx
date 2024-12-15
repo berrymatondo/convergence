@@ -52,7 +52,7 @@ export default function Continentayout({
   //console.log("ROLE: ", usr?.role);
 
   return (
-    <div className="w-full">
+    <div className="w-full ">
       <div className="flex md:items-start max-md:flex-col  ">
         {!contId && (
           <div className=" max-md:w-full w-1/5  mx-auto  rounded-md border mt-[7.25rem] px-4">

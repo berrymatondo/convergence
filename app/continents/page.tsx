@@ -23,7 +23,7 @@ const GeneralOverviewPage = async ({
   const res = await getAllContinents();
   const allCont = res?.data;
 
-  if (allCont) console.log("allCont: ", allCont);
+  // if (allCont) console.log("allCont: ", allCont);
 
   if (!slug) {
     return (

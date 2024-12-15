@@ -33,13 +33,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ContinentsList } from "@prisma/client";
-import { Accordion } from "@radix-ui/react-accordion";
-import {
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 
 const infos = [
   {
@@ -60,7 +53,7 @@ const CountriesPage = async ({
   const skip =
     typeof searchParams.skip === "string" ? Number(searchParams.skip) : 0;
   const take =
-    typeof searchParams.take === "string" ? Number(searchParams.take) : 10;
+    typeof searchParams.take === "string" ? Number(searchParams.take) : 20;
 
   const search =
     typeof searchParams.search === "string" ? searchParams.search : undefined;
@@ -115,7 +108,7 @@ const CountriesPage = async ({
       <div className="px-2">
         <CustomBreadcrumb name="Countries" />
         <div className="grid md:grid-cols-4 gap-2">
-          <Card className="md:col-span-3 bg-blue-950/30">
+          <Card className="md:col-span-4 bg-blue-950/30">
             <div className="flex items-center justify-between md:container">
               <div className="py-2">
                 <SearchCountry search={search} />
@@ -150,31 +143,16 @@ const CountriesPage = async ({
                   </Link>
                 )}
               </div>
-              {/*               <Link className="mx-12" href="/admin/countries/new">
-                <MdAddCircle
-                  size={50}
-                  className="md:hidden text-sky-700 dark:text-sky-500"
-                />
-                               <span className="text-sm font-semibold max-md:hidden px-4 py-3 rounded-md hover:bg-sky-800 hover:cursor-pointer bg-sky-700  text-white ">
-                  Nouveau
-                </span> 
-              </Link> */}
             </div>
-            {/*             <div className="max-sm:max-h-[600px] overflow-auto md:mt-4 md:gap-3 max-w-[800px] mx-auto">
-              {countries?.map((ctr: any) => (
-                <CountryItem key={ctr.id} ctr={ctr} />
-              ))}
-            </div> */}
 
             <CardContent className="max-md:px-2 ">
-              <ScrollArea className="h-96 max-md:h-[20rem] pr-2">
+              <ScrollArea className="h-96 max-md:h-[28rem] pr-2">
                 <Table>
                   <TableHeader>
                     <TableRow>
                       <TableHead className="w-[300px]"> Country</TableHead>
-                      <TableHead className="">Continent</TableHead>
 
-                      <TableHead className="text-right"></TableHead>
+                      <TableHead className="text-right">Continent</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -186,7 +164,7 @@ const CountriesPage = async ({
               </ScrollArea>
             </CardContent>
           </Card>
-          <Card className="md:col-span-1 bg-blue-950/30">
+          {/*           <Card className="md:col-span-1 bg-blue-950/30">
             <CardContent className="">
               <div className="max-md:hidden">
                 <div className="flex gap-1 my-2">
@@ -235,7 +213,7 @@ const CountriesPage = async ({
                 </AccordionItem>
               </Accordion>
             </CardContent>
-          </Card>
+          </Card> */}
         </div>
       </div>
     </PageLayout>

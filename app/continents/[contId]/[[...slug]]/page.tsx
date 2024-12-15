@@ -57,6 +57,7 @@ import FxCountry from "@/components/fx/fxCountry";
 import EquityCountry from "@/components/equity/equityCountry";
 import Loading from "@/components/commo/loading";
 import { getContinent } from "@/lib/_continentActions";
+import Link from "next/link";
 
 const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
   const { slug } = params;
@@ -113,23 +114,24 @@ const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
     );
   }
   return (
-    <div className=" pt-8">
+    <div className="w-full md:pt-8">
       <Title
         flagCode={country?.data?.flagCode ? country?.data?.flagCode : "ng"}
         title={country?.data?.name ? country?.data?.name : " "}
       />
+
       <div
       // title={country?.data?.name ? country?.data?.name : " "}
       // flagCode={country?.data?.flagCode ? country?.data?.flagCode : "ng"}
       // description="Toutes les matières premières enregistrées dans le système"
       >
-        <div className="px-2 w-full ">
+        <div className="px-2 w-full  ">
           {/*           <CustomBreadcrumb name="Commodities" />
            */}{" "}
-          <div className=" w-full grid md:grid-cols-5 gap-2">
-            <Card className="md:col-span-1 h-68">
+          <div className=" w-full grid md:grid-cols-5 gap-2 ">
+            <Card className="md:col-span-1 h-68 bg-blue-950/30">
               <CardHeader>
-                <CardTitle className="text-sky-700 dark:text-sky-500">
+                <CardTitle className="text-sky-700 dark:text-sky-500 ">
                   GENERAL
                 </CardTitle>
               </CardHeader>
@@ -196,13 +198,13 @@ const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
                 </div>
               </CardContent>
             </Card>
-            <div className="md:col-span-2  h-68 ">
+            <div className="hidden md:col-span-2  h-68 ">
               <Suspense fallback={<Loading />}>
                 <FxCountry fxList={country?.data?.fxMapping} />
               </Suspense>
             </div>
 
-            <div className="md:col-span-2  h-68 ">
+            <div className="hidden md:col-span-2  h-68 ">
               <Suspense fallback={<Loading />}>
                 <EquityCountry
                   equityList={country?.data?.countryIndexMapping?.filter(
@@ -212,15 +214,7 @@ const DetailPage = async ({ params }: { params: { slug?: string[] } }) => {
               </Suspense>
             </div>
 
-            {/*             <Card className="md:col-span-1 h-68">
-              <CardHeader>
-                <CardTitle className="text-sky-700 dark:text-sky-500">
-                  FIXED INCOME MARKET
-                </CardTitle>
-              </CardHeader>
-              <CardContent>x</CardContent>
-            </Card> */}
-            <Card className="md:col-span-5 h-68">
+            <Card className="hidden md:col-span-5 h-68">
               <CardHeader>
                 <CardTitle className="text-center text-sky-700 dark:text-sky-500">
                   FUNDING STRUCTURE

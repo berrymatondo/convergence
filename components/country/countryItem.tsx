@@ -1,9 +1,5 @@
-import { useRouter } from "next/navigation";
 import React from "react";
-import { BiEditAlt } from "react-icons/bi";
 
-import { Button } from "../ui/button";
-import { MdOutlineDeleteForever } from "react-icons/md";
 import { TableRow, TableCell } from "../ui/table";
 import Link from "next/link";
 
@@ -23,14 +19,15 @@ const CountryItem = ({ ctr }: CountryItemProps) => {
       >
         <Link
           className="flex gap-2 font-medium"
-          href={`/continents/${ctr.continent}/${ctr.id}`}
+          href={`/admin/countries/${ctr.id}`}
+          //href={`/continents/${ctr.continent}/${ctr.id}`}
         >
           {Flag(ctr?.flagCode)}
           <span>{ctr.name?.replaceAll("_", " ")}</span>
         </Link>
       </TableCell>
       <TableCell
-        className="max-md:text-xs text-sm italic "
+        className="max-md:text-xs text-sm italic text-right"
         // onClick={() => router.push(`/continents/${ctr.continent}`)}
       >
         <Link href={`/continents/${ctr.continent}`}>{ctr.continent}</Link>

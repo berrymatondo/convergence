@@ -21,8 +21,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body suppressHydrationWarning={true} className="relative h-screen">
+    <html lang="en" className="relative">
+      <body suppressHydrationWarning={true} className=" h-screen">
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
@@ -34,7 +34,8 @@ export default function RootLayout({
              */}{" "}
             <AppBar />
             {children}
-            <Footer />
+            {/*             <Footer />
+             */}{" "}
             <Toaster richColors />
           </Providers>
         </ThemeProvider>

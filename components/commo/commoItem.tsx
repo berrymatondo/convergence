@@ -29,13 +29,13 @@ const CommoItem = ({ commo }: CommoItemProps) => {
             alt="commo"
           />
         </div>
-        <p className="text-sky-400 text-lg max-md:font-semibold md:text-xl ">
+        <p className="text-sky-400 text-lg max-md:font-semibold md:text-lg ">
           {commo?.assetName}
         </p>
       </div>
 
       <div className=" flex flex-col justify-end">
-        <div className=" flex md:gap-2 justify-end items-baseline max-md:flex-col-reverse">
+        <div className=" flex flex-col-reverse md:gap-2 justify-start items-baseline max-md:flex-col-reverse">
           <Close id={commo.id} />
           <Change id={commo.id} />
         </div>

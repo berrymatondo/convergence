@@ -34,7 +34,9 @@ const CountryBondItem = ({ bond }: BondItemProps) => {
         {bond.couponCurrency.mic}
       </TableCell>
 
-      <TableCell className="max-md:hidden ">{bond.marketOfIssue}</TableCell>
+      <TableCell className="max-md:hidden ">
+        {bond.marketOfIssue.replaceAll("_", " ")}
+      </TableCell>
 
       <TableCell className="text-center max-md:hidden ">
         <Checkbox checked={bond.inflationLinked} />

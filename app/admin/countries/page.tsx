@@ -95,6 +95,7 @@ const CountriesPage = async ({
   });
 
   const session = await auth();
+  const usr: any = session?.user;
   /* 
   if (!session || !session.user)
     return (
@@ -114,7 +115,7 @@ const CountriesPage = async ({
       <div className="px-2">
         <CustomBreadcrumb name="Countries" />
         <div className="grid md:grid-cols-4 gap-2">
-          <Card className="md:col-span-3">
+          <Card className="md:col-span-3 bg-blue-950/30">
             <div className="flex items-center justify-between md:container">
               <div className="py-2">
                 <SearchCountry search={search} />
@@ -165,7 +166,7 @@ const CountriesPage = async ({
               ))}
             </div> */}
 
-            <CardContent className="max-md:px-2">
+            <CardContent className="max-md:px-2 ">
               <ScrollArea className="h-96 max-md:h-[20rem] pr-2">
                 <Table>
                   <TableHeader>
@@ -185,12 +186,12 @@ const CountriesPage = async ({
               </ScrollArea>
             </CardContent>
           </Card>
-          <Card className="md:col-span-1">
+          <Card className="md:col-span-1 bg-blue-950/30">
             <CardContent className="">
               <div className="max-md:hidden">
                 <div className="flex gap-1 my-2">
                   {" "}
-                  <span className="text-sky-700 dark:text-sky-500 font-medium leading-none">
+                  <span className="md:text-xl text-sky-700 dark:text-sky-500 font-medium leading-none">
                     Continents
                   </span>
                 </div>
@@ -204,7 +205,12 @@ const CountriesPage = async ({
                   </Link>
                 ))}
               </div>
-              <Accordion type="single" collapsible className="w-full md:hidden">
+              <Accordion
+                type="single"
+                defaultValue="item-1"
+                collapsible
+                className="w-full md:hidden"
+              >
                 <AccordionItem value="item-1">
                   <AccordionTrigger>
                     <div className="flex gap-1">
@@ -216,7 +222,6 @@ const CountriesPage = async ({
                     </div>
                   </AccordionTrigger>
                   <AccordionContent>
-                    {" "}
                     {Object.values(ContinentsList)?.map((ur: any) => (
                       <Link
                         href={`/continents/${ur}`}

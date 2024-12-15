@@ -150,11 +150,11 @@ const ContactForm = ({ ctc, userSession }: ContactFormProps) => {
                 render={({ field }) => {
                   return (
                     <FormItem className="w-1/2">
-                      <FormLabel>{"Prénom"}</FormLabel>
+                      <FormLabel>{"Firstname"}</FormLabel>
                       <FormControl>
                         <Input
                           {...field}
-                          placeholder="Entrer votre prénom"
+                          placeholder="Enter your firstname"
                           type="text"
                         />
                       </FormControl>
@@ -170,11 +170,11 @@ const ContactForm = ({ ctc, userSession }: ContactFormProps) => {
                 render={({ field }) => {
                   return (
                     <FormItem className="w-1/2">
-                      <FormLabel>{"Nom"}</FormLabel>
+                      <FormLabel>{"Lastname"}</FormLabel>
                       <FormControl>
                         <Input
                           {...field}
-                          placeholder="Entrer votre nom"
+                          placeholder="Enter your lastname"
                           type="text"
                         />
                       </FormControl>
@@ -195,7 +195,7 @@ const ContactForm = ({ ctc, userSession }: ContactFormProps) => {
                     <FormControl>
                       <Input
                         {...field}
-                        placeholder="Entrer votre adresse mail"
+                        placeholder="Enter your email address"
                         type="email"
                       />
                     </FormControl>
@@ -215,7 +215,7 @@ const ContactForm = ({ ctc, userSession }: ContactFormProps) => {
                     <FormControl>
                       <Textarea
                         {...field}
-                        placeholder="Entrer votre message ici"
+                        placeholder="Enter your message here"
                       />
                     </FormControl>
                     <FormMessage />
@@ -236,7 +236,7 @@ const ContactForm = ({ ctc, userSession }: ContactFormProps) => {
                         <FormControl>
                           <Textarea
                             {...field}
-                            placeholder="Entrer votre message ici"
+                            placeholder="Enter your message here"
                           />
                         </FormControl>
                         <FormMessage />
@@ -257,7 +257,7 @@ const ContactForm = ({ ctc, userSession }: ContactFormProps) => {
                           defaultValue={field.value}
                         >
                           <SelectTrigger id="framework">
-                            <SelectValue placeholder="Sélectionner un statut" />
+                            <SelectValue placeholder="Select a status" />
                           </SelectTrigger>
                           <SelectContent position="popper">
                             {Object.values(ContactStatuses)?.map((ur: any) => (
@@ -278,7 +278,7 @@ const ContactForm = ({ ctc, userSession }: ContactFormProps) => {
           </div>
           <div className="flex gap-2">
             <Button type="submit" className="w-full">
-              {loading ? "En cours de traitemnt ..." : "Envoyer"}
+              {loading ? "Processing ..." : "Submit"}
             </Button>
           </div>
         </form>
@@ -286,7 +286,7 @@ const ContactForm = ({ ctc, userSession }: ContactFormProps) => {
       {usr?.role == "ADMIN" && (
         <p className="text-center m-2 underline">
           <Link className="text-sm " href="/admin/contacts">
-            Voir tous les messages
+            All messages
           </Link>
         </p>
       )}

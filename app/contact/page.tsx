@@ -16,10 +16,10 @@ const ContactPage = async () => {
 
   return (
     <AuthPageLayout
-      title="Contactez-nous"
+      title="Contact Us"
       position="items-center"
       descPosition="items-center"
-      description="Nous sommes disponibles pour vous aider"
+      description="We are available to help you"
     >
       {/*       <CustomBreadcrumb name="Nouveau Message" />
        */}{" "}
@@ -37,7 +37,7 @@ const CustomBreadcrumb = ({ name }: { name: string }) => {
     <Breadcrumb className=" p-2 ">
       <BreadcrumbList>
         <BreadcrumbItem>
-          <BreadcrumbLink href="/">Accueil</BreadcrumbLink>
+          <BreadcrumbLink href="/">Home</BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>

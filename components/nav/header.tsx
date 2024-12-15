@@ -70,9 +70,9 @@ const components: { title: string; href: string; description: string }[] = [
 
 const navLinks = [
   { id: 1, href: "/dashboard", title: "Dashboard", role: "" },
-  { id: 2, href: "/continents", title: " General Overview", role: "" },
-  { id: 2, href: "/admin/countries", title: "Pays", role: "ADMIN" },
-  { id: 3, href: "/admin/users", title: " Utilisateurs", role: "ADMIN" },
+  /*   { id: 2, href: "/continents", title: " General Overview", role: "" },
+  { id: 2, href: "/admin/countries", title: "Countries", role: "ADMIN" }, */
+  { id: 3, href: "/admin/users", title: " Users", role: "ADMIN" },
   { id: 4, href: "/contact", title: "Contact", role: "" },
 ];
 
@@ -231,7 +231,7 @@ export function NavigationMenuDemo() {
           </NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-              <li className="row-span-3">
+              {/*               <li className="row-span-3">
                 <NavigationMenuLink asChild>
                   <a
                     className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
@@ -244,16 +244,16 @@ export function NavigationMenuDemo() {
                     </p>
                   </a>
                 </NavigationMenuLink>
-              </li>
+              </li> */}
 
-              <ListItem href="/continents" title="General Overview">
+              {/*            <ListItem href="/continents" title="General Overview">
                 Vue générale de tous les continents.
+              </ListItem> */}
+              <ListItem href="/admin/countries" title="Countries">
+                All countries recorded in Emergence.
               </ListItem>
-              <ListItem href="/admin/countries" title="Pays">
-                Liste de tous les pays enregistrés dans Emergence.
-              </ListItem>
-              <ListItem href="/admin/users" title="Utilisateurs">
-                Liste de tous les utilisateurs enregistrés dans Emergence.
+              <ListItem href="/admin/users" title="Users">
+                All users recorded in Emergence.
               </ListItem>
             </ul>
           </NavigationMenuContent>

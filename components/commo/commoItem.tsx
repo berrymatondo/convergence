@@ -3,6 +3,7 @@ import Link from "next/link";
 import React from "react";
 import { Badge } from "../ui/badge";
 import { TrendingDown, TrendingUp } from "lucide-react";
+import Image from "next/image";
 
 type CommoItemProps = {
   commo: any;
@@ -19,10 +20,19 @@ const CommoItem = ({ commo }: CommoItemProps) => {
           {commo?.assetName}
         </Badge>
       </div> */}
-
-      <p className="text-sky-400 text-lg max-md:font-semibold md:text-xl ">
-        {commo?.assetName}
-      </p>
+      <div className="flex items-center gap-2">
+        <div className="rounded-full overflow-hidden">
+          <Image
+            src={`/commos/${commo?.id}.svg`}
+            width={32}
+            height={32}
+            alt="commo"
+          />
+        </div>
+        <p className="text-sky-400 text-lg max-md:font-semibold md:text-xl ">
+          {commo?.assetName}
+        </p>
+      </div>
 
       <div className=" flex flex-col justify-end">
         <div className=" flex md:gap-2 justify-end items-baseline max-md:flex-col-reverse">

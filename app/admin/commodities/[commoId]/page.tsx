@@ -5,12 +5,7 @@ import CommoViews from "@/components/commo/commoViews";
 import HistoCommoItem from "@/components/commo/histoCommoItem";
 import Loading from "@/components/commo/loading";
 import PageLayout from "@/components/pageLayout";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -47,6 +42,7 @@ import {
   getLastCommoHsitoMaxDate,
 } from "@/lib/_commoActions";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { Suspense, useEffect, useState } from "react";
@@ -119,9 +115,19 @@ const CommoDetailPage = () => {
       <PageLayout wid="mx-2 md:mx-12">
         <div className="">
           <CustomBreadcrumb name={`${commo?.assetName}`} />
-          <p className="uppercase my-4 text-4xl font-semibold text-sky-700 dark:text-sky-500">
-            {commo?.assetName}
-          </p>
+          <div className="flex items-center gap-2">
+            <div className="rounded-full overflow-hidden">
+              <Image
+                src={`/commos/${commo?.id}.svg`}
+                width={32}
+                height={32}
+                alt="commo"
+              />
+            </div>
+            <p className="uppercase my-4 text-4xl font-semibold text-sky-700 dark:text-sky-500">
+              {commo?.assetName}
+            </p>
+          </div>
           <div className="grid md:grid-cols-12 gap-2 ">
             <Card className="md:col-span-2 py-4 bg-blue-950/30 ">
               <CardContent className="text-sm ">

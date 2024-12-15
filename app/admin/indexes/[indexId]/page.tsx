@@ -167,7 +167,7 @@ const IndexDetailPage = async ({ params }: IndexDetailPageProps) => {
 export default IndexDetailPage;
 
 const Flag = async (flagCode: any) => {
-  console.log("Flag", flagCode);
+  // console.log("Flag", flagCode);
 
   let flag = "https://flagcdn.Com/w40/" + flagCode + ".png";
   if (flagCode == "zz") flag = "/continents/uemoa.gif";

@@ -1,23 +1,15 @@
-"use client";
-import CommoViews from "@/components/commo/commoViews";
-import HistoCommoItem from "@/components/commo/histoCommoItem";
-import EquityViews from "@/components/equity/equityViews";
-import HistoEquityItem from "@/components/equity/histoEquityItem";
+import { auth } from "@/auth";
+import Loading from "@/components/commo/loading";
+import CustomBredcrumb from "@/components/customBreadcrumb";
+import AllStaticEquities from "@/components/equity/allStaticEquities";
+import EquityBody from "@/components/equity/equityBody";
+import EquityDetails from "@/components/equity/equityDetails";
+import EquitySelect from "@/components/equity/equitySelect";
+import AllStaticIndexes from "@/components/index/allStaticIndexes";
+import IndexBody from "@/components/index/indexBody";
+import IndexDetails from "@/components/index/indexDetails";
+import IndexSelect from "@/components/index/indexSelect";
 import PageLayout from "@/components/pageLayout";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
 import {
   Card,
   CardContent,
@@ -37,129 +29,105 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { getCommo } from "@/lib/_commoActions";
 import { getEquity } from "@/lib/_equityActions";
-import { useSession } from "next-auth/react";
-import { usePathname } from "next/navigation";
-import React, { useEffect, useState } from "react";
 
-const EquityDetailPage = () => {
-  const pathname = usePathname();
-  const [equity, setEquity] = useState<any>();
-  //console.log("pathname", pathname);
+import { getIndex, getIndexHsitoMaxDate2 } from "@/lib/_indexActions";
 
-  const { data: session } = useSession();
+import React, { Suspense } from "react";
+
+type EquityDetailPageProps = {
+  params: {
+    equityId: number;
+  };
+};
+
+const EquityDetailPage = async ({ params }: EquityDetailPageProps) => {
+  /*   const { data: session } = useSession();
+   */
+  const session = await auth();
   const usr: any = session?.user;
 
-  const equityId = pathname.split("equities/")[1];
-  useEffect(() => {
-    // console.log("equityId ", equityId);
-    const fetchEquity = async (id: any) => {
-      const resu = await getEquity(id);
-      const data = resu?.data;
-      setEquity(data);
+  const equityId = params.equityId;
 
-      //console.log("data", data);
+  const resu = await getEquity(equityId);
+  let data = resu?.data;
 
-      /*       console.log("data ", data);
+  let equity: any;
 
-      console.log(
-        "SORT",
-        data?.historicalDataCommo.sort(
-          (a: any, b: any) => Date.parse(b.date) - Date.parse(a.date)
-        )
-      ); */
+  if (resu?.data) {
+    const res2 = await getIndexHsitoMaxDate2(equityId);
+    const data2 = res2?.data?.close;
+    // console.log("data2", data2);
+    //console.log("data2", data);
+
+    const tempo: any = {
+      ...data,
+      last: res2?.data?.close,
+      close1: res2?.data?.close1,
+      close5: res2?.data?.close5,
+      close20: res2?.data?.close20,
+      close60: res2?.data?.close60,
+      close252: res2?.data?.close252,
     };
-    fetchEquity(equityId);
-  }, [equityId]);
+    //    console.log("ici 1", res2?.data?.close);
+
+    equity = { ...tempo };
+  }
+
+  // console.log("Index: ", index);
+
+  // console.log("comos", rs?.data);
+  /* 
+      if (rs?.data) {
+        for (let i = 0; i < rs.data.length; i++) {
+          const res3 = await getCommoHsitoMaxDate(rs.data[i].id);
+          const data3 = res3?.data?.close;
+          // console.log("data2", data2);
+          //console.log("data2", data);
+
+          ttt.push({
+            id: rs.data[i].id,
+            name: rs.data[i].assetName,
+            close: data3,
+          });
+        }
+        setTout(ttt);
+      } */
+
+  //console.log("Index", index);
 
   return (
-    <div>
+    <div className="">
       {" "}
-      <PageLayout
-        title="Détails d'une action"
-        description="Détails et historiques d'une action"
-      >
-        <div className="px-2">
-          <CustomBreadcrumb name={`${equity?.assetName}`} />
-          <div className="grid md:grid-cols-8 gap-2">
-            <Card className="md:col-span-2">
-              <CardHeader>
-                <CardTitle className="text-sky-700 dark:text-sky-500">
-                  {equity?.assetName}
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="text-sm">
-                {usr && usr.role == "ADMIN" && (
-                  <p className="text-red-400 w-full flex items-center justify-between gap-2">
-                    <span className="">Identification: </span>
-                    <span className="">{equity?.id}</span>
-                  </p>
-                )}
-                <p className=" w-full flex items-center justify-between gap-2">
-                  <span className="">ISIN: </span>
-                  <span className="text-sky-700 dark:text-sky-500">
-                    {equity?.isin}
-                  </span>
-                </p>
-                <p className=" w-full flex items-center justify-between gap-2">
-                  <span className="">Currency: </span>
-                  <span className="text-sky-700 dark:text-sky-500">
-                    {equity?.currency}
-                  </span>
-                </p>
-                <p className=" w-full flex items-center justify-between gap-2">
-                  <span className="">Country: </span>
-                  <span className="text-sky-700 dark:text-sky-500">
-                    {equity?.country}
-                  </span>
-                </p>
-                <p className=" w-full flex items-center justify-between gap-2">
-                  <span className="">ACF: </span>
-                  <span className="text-sky-700 dark:text-sky-500">
-                    {equity?.acf}
-                  </span>
-                </p>
-                <p className=" w-full flex items-center justify-between gap-2">
-                  <span className="">Sector:</span>
-                  <span className="text-sky-700 dark:text-sky-500">
-                    {" "}
-                    {equity?.sector}
-                  </span>
-                </p>
-                <p className=" w-full flex items-center justify-between gap-2">
-                  <span className="">RIC: </span>
-                  <span className="text-sky-700 dark:text-sky-500">
-                    {equity?.ric}
-                  </span>
-                </p>
-                <p className=" w-full flex items-center justify-between gap-2">
-                  <span className="">Ticker:</span>
-                  <span className="text-sky-700 dark:text-sky-500">
-                    {" "}
-                    {equity?.ticker}
-                  </span>
-                </p>
-                <p className=" w-full flex items-center justify-between gap-2">
-                  <span className="">Symbol:</span>
-                  <span className="text-sky-700 dark:text-sky-500">
-                    {" "}
-                    {equity?.symbol}
-                  </span>
-                </p>
+      <PageLayout wid="mx-2 md:mx-12">
+        <div className="">
+          <CustomBredcrumb
+            name={`${equity?.assetName}`}
+            parent="Equities"
+            parentUrl="/admin/equities"
+          />
+          <div className="flex flex-col gap-2 uppercase my-4 text-3xl font-semibold text-sky-700 dark:text-sky-500">
+            <div className="flex items-center gap-4">
+              {equity?.assetName} {Flag(equity?.country?.flagCode)}
+            </div>
+          </div>
+          <div className="grid md:grid-cols-12 gap-2 ">
+            <Card className="md:col-span-2 py-4 bg-blue-950/30 ">
+              <CardContent className="text-sm ">
+                <EquityDetails equity={equity} />
               </CardContent>
             </Card>
-
-            <Card className="md:col-span-3">
-              <EquityViews equity={equity} />
+            <Card className="md:col-span-5">
+              <Suspense fallback={<Loading />}>
+                <EquitySelect equity={equity} />
+              </Suspense>
             </Card>
-
-            <Card className="md:col-span-3">
-              {/*               <div className="">
-                <SearchCommo search={search} />
-              </div> */}
+            <Card className="md:col-span-3 bg-blue-950/30 ">
+              <CardHeader>
+                <CardTitle>Historical Data</CardTitle>
+              </CardHeader>
               <CardContent className="max-md:px-2">
-                <ScrollArea className="h-96 max-md:h-[20rem] pr-2">
+                <ScrollArea className=" mt-4 w-full h-[30rem] pr-2">
                   <Table>
                     <TableHeader className="">
                       <TableRow className="">
@@ -173,20 +141,24 @@ const EquityDetailPage = () => {
                         </TableHead>
                       </TableRow>
                     </TableHeader>
-                    <TableBody className="">
-                      {equity?.historicalDataEquity
-                        .sort(
-                          (a: any, b: any) =>
-                            Date.parse(b.date) - Date.parse(a.date)
-                        )
-                        .map((histoEquity: any) => (
-                          <HistoEquityItem
-                            histoEquity={histoEquity}
-                            key={histoEquity.id}
-                          />
-                        ))}
-                    </TableBody>
+                    <Suspense fallback={<Loading />}>
+                      <TableBody className="">
+                        <EquityBody equityList={equity?.historicalDataEquity} />
+                      </TableBody>
+                    </Suspense>
                   </Table>
+                </ScrollArea>
+              </CardContent>
+            </Card>
+            <Card className="md:col-span-2 bg-blue-950/30 ">
+              <CardHeader>
+                <CardTitle>Other Equities</CardTitle>
+              </CardHeader>
+              <CardContent className="max-md:px-2">
+                <ScrollArea className="h-[30rem] max-md:h-[20rem] pr-2 py-4">
+                  <Suspense fallback={<Loading />}>
+                    <AllStaticEquities />
+                  </Suspense>
                 </ScrollArea>
               </CardContent>
             </Card>
@@ -199,22 +171,17 @@ const EquityDetailPage = () => {
 
 export default EquityDetailPage;
 
-const CustomBreadcrumb = ({ name }: { name: string }) => {
+const Flag = async (flagCode: any) => {
+  console.log("Flag", flagCode);
+
+  let flag = "https://flagcdn.Com/w40/" + flagCode + ".png";
+  if (flagCode == "zz") flag = "/continents/uemoa.gif";
+
   return (
-    <Breadcrumb className=" p-2 ">
-      <BreadcrumbList>
-        <BreadcrumbItem>
-          <BreadcrumbLink href="/">Accueil</BreadcrumbLink>
-        </BreadcrumbItem>
-        <BreadcrumbSeparator />
-        <BreadcrumbItem>
-          <BreadcrumbLink href="/admin/equities">Equities</BreadcrumbLink>
-        </BreadcrumbItem>
-        <BreadcrumbSeparator />
-        <BreadcrumbItem>
-          <BreadcrumbPage className="font-semibold">{name}</BreadcrumbPage>
-        </BreadcrumbItem>
-      </BreadcrumbList>
-    </Breadcrumb>
+    <div className=" rounded-full overflow-hidden">
+      {flagCode && (
+        <img src={flag} alt="Flag" style={{ width: "2rem", height: "2rem" }} />
+      )}
+    </div>
   );
 };

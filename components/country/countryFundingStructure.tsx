@@ -91,7 +91,7 @@ const CountryFundingStructure = ({
                   </span>
                   <span className="flex flex-col items-center">
                     <Label htmlFor="name"> Issued Amount USD</Label>
-                    <strong className="text-white text-xl">
+                    <strong className="text-white text-sm md:text-xl">
                       {buildSum(
                         staticCountry?.country?.staticInfoBond?.filter(
                           (st: any) =>
@@ -226,7 +226,7 @@ const CountryFundingStructure = ({
                   </span>
                   <span className="flex flex-col items-center">
                     <Label htmlFor="name"> Issued Amount USD</Label>
-                    <strong className="text-white text-xl">
+                    <strong className="text-white text-sm md:text-xl">
                       {buildSum(
                         staticCountry?.country?.staticInfoBond?.filter(
                           (st: any) =>
@@ -359,7 +359,7 @@ const CountryFundingStructure = ({
                   </span>
                   <span className="flex flex-col items-center">
                     <Label htmlFor="name"> Issued Amount USD</Label>
-                    <strong className="text-white text-xl">
+                    <strong className="text-white  text-sm md:text-xl">
                       {buildSum(
                         staticCountry?.country?.staticInfoBond?.filter(
                           (st: any) => st.issuerType != "SOVEREIGN"

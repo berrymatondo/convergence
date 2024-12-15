@@ -42,13 +42,13 @@ const Change = async ({ id }: any) => {
   if (data?.close?.change) {
     if (+data?.close?.change < 0)
       return (
-        <p className="text-sm flex items-center  text-red-600 font-semibold">
+        <p className="text-xs md:text-sm flex items-center  text-red-600 font-semibold">
           {data?.close?.change.toFixed(2)} <TrendingDown className="ml-2" />
         </p>
       );
     else
       return (
-        <p className="text-sm flex items-center  text-green-600 font-semibold">
+        <p className="text-xs md:text-sm flex items-center  text-green-600 font-semibold">
           +{data?.close?.change.toFixed(2)} <TrendingUp className="ml-2" />
         </p>
       );

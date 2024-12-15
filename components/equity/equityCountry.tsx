@@ -9,10 +9,9 @@ import {
   SelectValue,
 } from "../ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { getHistoricalDataFx } from "@/lib/_fxActions";
-import { getHistoricalDataIndex } from "@/lib/_equityActions";
 import IndexCountryView from "../index/indexCountryView";
 import Loading from "../commo/loading";
+import { getHistoricalDataEquity } from "@/lib/_equityActions";
 type EquityCountryProps = {
   equityList: any;
 };
@@ -33,7 +32,7 @@ const EquityCountry = ({ equityList }: EquityCountryProps) => {
       if (fnd2) {
         //console.log("fnd2?.staticInfoFxId)", fnd2);
 
-        const res = await getHistoricalDataIndex(fnd2?.staticInfoIndexId);
+        const res = await getHistoricalDataEquity(fnd2?.staticInfoIndexId);
         //console.log(res?.data);
         const histoVar: any = [];
         if (res?.data)

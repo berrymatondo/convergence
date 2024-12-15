@@ -2,6 +2,7 @@ import React from "react";
 import { TrendingDown, TrendingUp } from "lucide-react";
 import Link from "next/link";
 import { getEquityHsitoMaxDate } from "@/lib/_equityActions";
+import Image from "next/image";
 
 type EquityItemPRops = {
   equity: any;
@@ -13,7 +14,18 @@ const EquityItem = ({ equity }: EquityItemPRops) => {
       href={`/admin/equities/${equity.id}`}
       className="hover:bg-blue-950/70 hover:cursor-pointer flex flex-col justify-between gap-4 bg-blue-950/30 border-2 p-2 mt-2 rounded-lg"
     >
-      <p className="text-sky-400 text-lg md:text-xl ">{equity?.assetName}</p>
+      <div className="flex items-center gap-2">
+        <div className="rounded-full overflow-hidden">
+          <Image
+            src={`/equities/${equity?.isin}.svg`}
+            width={32}
+            height={32}
+            alt="equities"
+          />
+        </div>
+        <p className="text-sky-400 text-lg md:text-xl ">{equity?.assetName}</p>
+      </div>
+      <div>{equity?.description.substring(0, 200) + " ..."}</div>
 
       <div className=" gap-4 flex flex-col justify-end">
         <Change id={equity.id} />

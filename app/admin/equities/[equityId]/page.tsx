@@ -163,6 +163,10 @@ const EquityDetailPage = async ({ params }: EquityDetailPageProps) => {
               </CardContent>
             </Card>
           </div>
+          <div className="mt-2 p-2 flex flex-col gap-4 bg-blue-950/30">
+            <p className="text-2xl text-white">Description</p>
+            <p>{equity?.description}</p>
+          </div>
         </div>
       </PageLayout>
     </div>
@@ -172,7 +176,7 @@ const EquityDetailPage = async ({ params }: EquityDetailPageProps) => {
 export default EquityDetailPage;
 
 const Flag = async (flagCode: any) => {
-  console.log("Flag", flagCode);
+  // console.log("Flag", flagCode);
 
   let flag = "https://flagcdn.Com/w40/" + flagCode + ".png";
   if (flagCode == "zz") flag = "/continents/uemoa.gif";

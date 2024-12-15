@@ -1,7 +1,12 @@
-"use client";
-
-import { TrendingUp } from "lucide-react";
-import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import {
+  Area,
+  AreaChart,
+  CartesianGrid,
+  Line,
+  LineChart,
+  XAxis,
+  YAxis,
+} from "recharts";
 
 import {
   Card,
@@ -17,60 +22,87 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-const chartData = [
-  { month: "January", desktop: 186 },
-  { month: "February", desktop: 305 },
-  { month: "March", desktop: 237 },
-  { month: "April", desktop: 73 },
-  { month: "May", desktop: 209 },
-  { month: "June", desktop: 214 },
-];
 
 const chartConfig = {
   desktop: {
-    label: "Change",
+    label: "Price",
     color: "hsl(var(--chart-2))",
+  },
+  mobile: {
+    label: "Price",
+    color: "hsl(var(--chart-5))",
+  },
+  g2: {
+    label: "Price",
+    color: "hsl(var(--chart-1))",
+  },
+  g3: {
+    label: "Price",
+    color: "hsl(var(--chart-3))",
   },
 } satisfies ChartConfig;
 
-type equityViewsProps = {
-  equity: any;
-};
-const EquityViews = ({ equity }: equityViewsProps) => {
-  console.log("equity:", equity);
-
-  //console.log("commo.historicalDataCommo:", commo.historicalDataCommo);
-  let equityH;
-  let tempo = [];
-  if (equity?.historicalDataEquity) {
-    equityH = [...equity.historicalDataEquity];
-
-    for (let i = 0; i < equityH.length && i < 10; i++) {
-      tempo.push({
-        date: equityH[i].date,
-        //desktop: i,
-        desktop: equityH[i].changePercentage.toFixed(2),
-      });
-    }
-
-    tempo.sort((a: any, b: any) => Date.parse(a.date) - Date.parse(b.date));
+function trouverMinEtMax(tab: any) {
+  if (!Array.isArray(tab) || tab.length === 0) {
+    //  throw new Error("Le tableau est vide ou invalide.");
+    return 0;
   }
 
-  // console.log("tempo:", tempo);
+  // Initialisation des valeurs min et max avec le premier élément
+  let minObj = tab[0];
+  let maxObj = tab[0];
+
+  // Parcourir le tableau pour trouver les min et max
+  for (let i = 1; i < tab.length; i++) {
+    if (tab[i].close < minObj.close) {
+      minObj = tab[i];
+    }
+    if (tab[i].close > maxObj.close) {
+      maxObj = tab[i];
+    }
+  }
+
+  //return { min: minObj, max: maxObj };
+  return Math.abs(Math.floor(maxObj.close - minObj.close));
+}
+
+type EquityViewsProps = {
+  equity: any;
+};
+const EquityViews = async ({ equity }: EquityViewsProps) => {
+  const t0 = +equity[0]?.close;
+  const t1 = +equity[equity?.length - 1]?.close;
+
+  //console.log("T1: ", index[0]);
+  //console.log("T0: ", index[index?.length - 1]);
+
+  let offset = trouverMinEtMax(equity);
+  //console.log("commo: ", offset);
+
+  const min = "dataMin - " + offset;
+  const max = "dataMax + " + offset;
+
+  const fxTmp = [...equity];
+
+  let step = 5;
+
+  // console.log("fxTmp.length", fxTmp.length);
+
+  if (fxTmp.length < 6) step = 2;
+  else if (fxTmp.length > 6 && fxTmp.length < 21) step = 4;
+  else if (fxTmp.length > 20 && fxTmp.length < 60) step = 11;
 
   return (
-    <Card className="border-none">
+    <Card className="border-none  max-md:w-full">
       <CardHeader>
-        <CardTitle className="text-sky-700 dark:text-sky-500">
-          Area Chart - Linear
-        </CardTitle>
-        <CardDescription>Showing values of the last 10 days</CardDescription>
+        <CardTitle className="text-sky-700 dark:text-sky-500"></CardTitle>
+        <CardDescription></CardDescription>
       </CardHeader>
-      <CardContent>
-        <ChartContainer config={chartConfig}>
+      <CardContent className="flex flex-col justify-between">
+        <ChartContainer style={{ width: "100%" }} config={chartConfig}>
           <AreaChart
             accessibilityLayer
-            data={tempo}
+            data={fxTmp.reverse()}
             margin={{
               left: 12,
               right: 12,
@@ -81,36 +113,47 @@ const EquityViews = ({ equity }: equityViewsProps) => {
               dataKey="date"
               tickLine={false}
               axisLine={false}
-              tickMargin={8}
-              tickFormatter={(value) => value.slice(0, 10)}
+              tickMargin={10}
+              interval={0} // Affiche tous les ticks pour un contrôle précis avec tickFormatter
+              tickFormatter={(value, index) => {
+                const totalPoints = fxTmp.length;
+                if (totalPoints < 5) {
+                  // Si moins de 5 points, afficher tous les points
+                  return value;
+                }
+
+                // Calcul des indices équidistants
+                const step = (totalPoints - 1) / 4;
+                const indicesToShow = [
+                  0, // Premier point
+                  Math.round(step), // Point à 1/4
+                  Math.round(2 * step), // Point du milieu
+                  Math.round(3 * step), // Point à 3/4
+                  totalPoints - 1, // Dernier point
+                ];
+
+                // Afficher uniquement les points correspondant aux indices choisis
+                return indicesToShow.includes(index) ? value : "";
+              }}
             />
-            <YAxis tickMargin={8} />
+
+            <YAxis domain={[min, max]} tickMargin={20} />
             <ChartTooltip
               cursor={false}
-              content={<ChartTooltipContent indicator="dot" hideLabel />}
+              content={<ChartTooltipContent indicator="dot" />}
             />
             <Area
-              dataKey="desktop"
+              dataKey="close"
               type="linear"
-              fill="var(--color-desktop)"
               fillOpacity={0.2}
-              stroke="var(--color-desktop)"
+              stroke={t0 < t1 ? "var(--color-mobile)" : "var(--color-desktop)"}
+              dot={false}
+              fill={t0 < t1 ? "var(--color-mobile)" : "var(--color-desktop)"}
             />
           </AreaChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter>
-        <div className="flex w-full items-start gap-2 text-sm">
-          <div className="grid gap-2">
-            <div className="flex items-center gap-2 font-medium leading-none">
-              Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-            </div>
-            <div className="flex items-center gap-2 leading-none text-muted-foreground">
-              January - June 2024
-            </div>
-          </div>
-        </div>
-      </CardFooter>
+      <CardFooter></CardFooter>
     </Card>
   );
 };

@@ -129,7 +129,7 @@ const EquitiesPage = async ({
 
               <CardContent className="max-md:px-2">
                 <ScrollArea className="h-[38rem] ">
-                  <div className="grid max-md:grid-cols-2 grid-cols-5 gap-2">
+                  <div className="grid max-md:grid-cols-1 grid-cols-5 gap-2">
                     {equities?.map((i: any, index: any) => (
                       /*                       <Suspense key={i.id} fallback={<Loading />}>
                        */ <EquityItem key={i.id} equity={i} />

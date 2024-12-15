@@ -25,7 +25,7 @@ const EquityItem = ({ equity }: EquityItemPRops) => {
         </div>
         <p className="text-sky-400 text-lg md:text-xl ">{equity?.assetName}</p>
       </div>
-      <div>{equity?.description.substring(0, 200) + " ..."}</div>
+      <div className="">{equity?.description.substring(0, 200) + " ..."}</div>
 
       <div className=" gap-4 flex flex-col justify-end">
         <Change id={equity.id} />
@@ -80,7 +80,7 @@ const Flag = async (flagCode: any) => {
   if (flagCode == "zz") flag = "/continents/uemoa.gif";
 
   return (
-    <div>
+    <div className="rounded-full overflow-hidden">
       {flagCode && <img src={flag} alt="Flag" style={{ width: "1.5rem" }} />}
     </div>
   );

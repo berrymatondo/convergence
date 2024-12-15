@@ -96,54 +96,31 @@ const Header = ({ userSession }: HeaderProps) => {
         src={stats}
         className="absolute max-md:w-full w-1/2 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 -z-10 "
       /> */}
-      <div className="w-full md:container  flex justify-between items-end py-4 ">
-        <div className="flex max-md:flex-col max-md:justify-center items-center md:items-end gap-2 ">
-          <GiSuspensionBridge
+      <div className="w-full md:px-16  flex justify-between items-end p-4 ">
+        {/*           <GiSuspensionBridge
             className="max-md:hidden  text-sky-700 dark:text-sky-500"
             size={50}
           />
           <GiSuspensionBridge
             className="md:hidden  text-sky-700 dark:text-sky-500"
             size={20}
-          />
-          <div className="flex items-start gap-2">
-            <Link
-              href="/"
-              className="dark:text-white  font-bold text-xl max-md:text-md  text-blue-800"
-            >
-              <p className="text-xs md:text-3xl text-teal-600">
-                Emerging Markets
-              </p>
-            </Link>
-            <div className="max-md:hidden">
-              <NavigationMenuDemo />
-            </div>
-          </div>
+          /> */}
+        <div className="flex items-between gap-2">
+          <Link
+            href="/"
+            className="dark:text-white  font-bold text-xl max-md:text-md  text-blue-800"
+          >
+            <p className="md:hidden text-xs md:text-3xl text-teal-600">
+              Emerging Markets
+            </p>
+            <p className="max-md:hidden text-xs md:text-3xl text-teal-600">
+              EM
+            </p>
+          </Link>
         </div>
-
-        <nav className=" max-md:hidden items-start flex justify-between gap-4">
-          {/*           <NavigationMenuDemo />
-           */}{" "}
-          {/*           {navLinks
-            .filter(
-              (nvv: any) =>
-                (nvv?.role != "ADMIN" && usr?.role != "ADMIN") ||
-                usr?.role == "ADMIN"
-            )
-            .map((nv: any, index) => (
-              <Link
-                key={index}
-                href={nv.href}
-                className={
-                  pathname == nv.href
-                    ? "text-blue-400 font-semibold"
-                    : "hover:text-blue-400 font-semibold"
-                }
-              >
-                {nv.title}
-              </Link>
-            ))} */}
-        </nav>
+        <div className="max-md:hidden">
+          <NavigationMenuDemo />
+        </div>
 
         <div className=" flex gap-4 items-center">
           {userSession && userSession.user && (
@@ -154,7 +131,8 @@ const Header = ({ userSession }: HeaderProps) => {
               </strong>
             </p>
           )}
-          <ModeToggle />
+          {/*           <ModeToggle />
+           */}{" "}
           {(!userSession || !userSession.user) && (
             <Button
               className="max-md:hidden"
@@ -194,7 +172,6 @@ const Header = ({ userSession }: HeaderProps) => {
               <MdLogout className="text-red-600" size={25} />
             </Link>
           )}
-
           <div className="md:hidden" onClick={() => setIsOpen(!isOpen)}>
             {isOpen ? <X /> : <Menu />}
           </div>
@@ -204,7 +181,7 @@ const Header = ({ userSession }: HeaderProps) => {
       {userSession && userSession.user && (
         <p className="md:hidden md:container flex justify-center md:justify-end items-end gap-2 mb-2">
           <MdPerson className="max-md:text-xs  text-orange-600" size={25} />
-          <strong className="max-md:text-xs text-lg dark:text-blue-400 text-blue-600">
+          <strong className="max-md:text-xs text-lg font-semibold dark:text-blue-400 text-blue-600">
             {userSession?.user?.username}
           </strong>
         </p>
@@ -247,7 +224,7 @@ export default Header;
 export function NavigationMenuDemo() {
   return (
     <NavigationMenu className=" w-full">
-      <NavigationMenuList className="max-md:flex max-md:flex-col ">
+      <NavigationMenuList className="max-md:flex max-md:flex-col  gap-4">
         <NavigationMenuItem className="">
           <NavigationMenuTrigger className="border-none">
             Administration

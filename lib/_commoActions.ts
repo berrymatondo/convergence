@@ -1,13 +1,10 @@
 "use server";
-import { revalidatePath } from "next/cache";
 import prisma from "./prisma";
 
 // Get all commos
 export const getAllStaticCommo = async () => {
   try {
     const commos = await prisma.staticInfoCommo.findMany();
-
-    revalidatePath("/admin/commodities");
 
     return {
       success: true,

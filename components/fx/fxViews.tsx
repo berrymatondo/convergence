@@ -81,13 +81,13 @@ const FxViews = async ({ fx }: FxViewsProps) => {
 
   const fxTmp = [...fx];
 
-  let step = 5;
+  /*   let step = 5;
 
   // console.log("fxTmp.length", fxTmp.length);
 
   if (fxTmp.length < 6) step = 2;
   else if (fxTmp.length > 6 && fxTmp.length < 21) step = 4;
-  else if (fxTmp.length > 20 && fxTmp.length < 60) step = 11;
+  else if (fxTmp.length > 20 && fxTmp.length < 60) step = 11; */
 
   return (
     <Card className="border-none  max-md:w-full">

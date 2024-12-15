@@ -39,7 +39,7 @@ const CommoSelect = ({ commo, commos }: CommoSelectProps) => {
   }
   //console.log("pers", perss);
 
-  const [selectedOption, setSelectedOption] = useState("3");
+  const [selectedOption, setSelectedOption] = useState("5");
   const [com, setCom] = useState<any>([]);
   const [per, setPer] = useState<any>(perss);
   const [selPer, setSelPer] = useState<any>();
@@ -49,7 +49,7 @@ const CommoSelect = ({ commo, commos }: CommoSelectProps) => {
 
   useEffect(() => {
     const fetchHistoFx = async () => {
-      // console.log("selectedOption", selectedOption);
+      //console.log("selectedOption", selectedOption);
       // console.log("commo", commo?.id);
 
       const res3 = await getCommoHsitoPeriodDate(id, +selectedOption);
@@ -64,14 +64,14 @@ const CommoSelect = ({ commo, commos }: CommoSelectProps) => {
               close: res3?.data[i].close.toFixed(2),
             });
 
-            setCom(histoVar);
+            setCom([...histoVar]);
           }
         } else setCom([]);
 
       // MEtrics
 
       // Periods
-      console.log("selMet", selMet);
+      //  console.log("selMet", selMet);
 
       if (!selMet || selMet == "-") setSelPer(null);
 
@@ -166,9 +166,11 @@ const CommoSelect = ({ commo, commos }: CommoSelectProps) => {
         </CardTitle>
       </CardHeader>
       <CardContent className="max-md:px-0">
-        <Suspense fallback={<Loading />}>
-          <CommoViews commo={com} commo2={graph2} />
-        </Suspense>
+        {/*         <Suspense fallback={<Loading />}>
+         */}{" "}
+        <CommoViews commo={com} commo2={graph2} />
+        {/*         </Suspense>
+         */}{" "}
       </CardContent>
     </Card>
   );

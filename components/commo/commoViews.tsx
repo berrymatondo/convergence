@@ -79,6 +79,9 @@ const commoViews = async ({ commo, commo2, commos }: commoViewsProps) => {
   const t1 = +commo[0]?.close;
   const t0 = +commo[commo?.length - 1]?.close;
 
+  //console.log("to", commo[0]);
+  //console.log("t1", commo[1]);
+
   let offset = 0;
   const grap2: any = [];
   if (commo2.length > 0) {
@@ -90,7 +93,7 @@ const commoViews = async ({ commo, commo2, commos }: commoViewsProps) => {
     }
     offset = trouverMinEtMax(grap2);
   } else offset = trouverMinEtMax(commo);
-  //console.log("commo: ", offset);
+  //console.log("grap2: ", grap2?.length);
 
   const min = "dataMin - " + offset;
   const max = "dataMax + " + offset;
@@ -138,7 +141,7 @@ const commoViews = async ({ commo, commo2, commos }: commoViewsProps) => {
         <ChartContainer style={{ width: "100%" }} config={chartConfig}>
           <LineChart
             accessibilityLayer
-            data={grap2?.length > 0 ? grap2.reverse() : commo.reverse()}
+            data={grap2?.length > 0 ? grap2.reverse() : commo}
             margin={{
               left: 12,
               right: 12,
@@ -150,7 +153,29 @@ const commoViews = async ({ commo, commo2, commos }: commoViewsProps) => {
               tickLine={false}
               axisLine={false}
               tickMargin={8}
-              tickFormatter={(value) => value.slice(0, 10)}
+              // tickFormatter={(value) => value.slice(0, 10)}
+              interval={0} // Affiche tous les ticks pour un contrôle précis avec tickFormatter
+              tickFormatter={(value, index) => {
+                const totalPoints =
+                  grap2?.length > 0 ? grap2.length : commo.length;
+                if (totalPoints < 5) {
+                  // Si moins de 5 points, afficher tous les points
+                  return value;
+                }
+
+                // Calcul des indices équidistants
+                const step = (totalPoints - 1) / 4;
+                const indicesToShow = [
+                  0, // Premier point
+                  Math.round(step), // Point à 1/4
+                  Math.round(2 * step), // Point du milieu
+                  Math.round(3 * step), // Point à 3/4
+                  totalPoints - 1, // Dernier point
+                ];
+
+                // Afficher uniquement les points correspondant aux indices choisis
+                return indicesToShow.includes(index) ? value : "";
+              }}
             />
             <YAxis domain={[min, max]} tickMargin={20} />
             <ChartTooltip

@@ -5,13 +5,8 @@ import CommoViews from "@/components/commo/commoViews";
 import HistoCommoItem from "@/components/commo/histoCommoItem";
 import Loading from "@/components/commo/loading";
 import FundViews from "@/components/fund/fundViews";
+import NotConnected from "@/components/notConnected";
 import PageLayout from "@/components/pageLayout";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -20,49 +15,14 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu";
-import { ScrollArea } from "@/components/ui/scroll-area";
+
 import { Separator } from "@/components/ui/separator";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+
 import { getBond } from "@/lib/_bondActions";
-import {
-  getAllStaticCommo,
-  getCommo,
-  getCommoHsitoMaxDate,
-  getLastCommoHsitoMaxDate,
-} from "@/lib/_commoActions";
-import { getFund } from "@/lib/_fundActions";
+
 import { getIndex } from "@/lib/_indexActions";
-import { cn } from "@/lib/utils";
-import { useSession } from "next-auth/react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import React, { Suspense, useEffect, useState } from "react";
+
+import React, { Suspense } from "react";
 
 type BondDetailPageProps = {
   params: {
@@ -85,56 +45,9 @@ const BondDetailPage = async ({ params }: BondDetailPageProps) => {
   const session = await auth();
   const usr: any = session?.user;
 
-  /*   const getFundCountryRegistered = (listCusto: any) => {
-    let rezo: any = "";
-    for (let i = 0; i < listCusto.length; i++) {
-      rezo += listCusto[i].country.name.replace("_", " ") + ",";
-    }
-    return rezo.slice(0, -1);
-  };
+  if (!usr) return <NotConnected />;
 
-  const getFundAdministrators = (listCusto: any) => {
-    let rezo: any = "";
-    for (let i = 0; i < listCusto.length; i++) {
-      rezo += listCusto[i].administrator + ",";
-    }
-    return rezo.slice(0, -1);
-  };
-
-  const getFundPromoters = (listCusto: any) => {
-    let rezo: any = "";
-    for (let i = 0; i < listCusto.length; i++) {
-      rezo += listCusto[i].promoter + ",";
-    }
-    return rezo.slice(0, -1);
-  };
-
-  const getFundPrometerManager = (listCusto: any) => {
-    let rezo: any = "";
-    for (let i = 0; i < listCusto.length; i++) {
-      rezo += listCusto[i].promoterManager + ",";
-    }
-    return rezo.slice(0, -1);
-  };
-
-  const getFundAdvisors = (listCusto: any) => {
-    let rezo: any = "";
-    for (let i = 0; i < listCusto.length; i++) {
-      rezo += listCusto[i].advisor + ",";
-    }
-    return rezo.slice(0, -1);
-  };
-
-  const getFundCustodians = (listCusto: any) => {
-    let rezo: any = "";
-    for (let i = 0; i < listCusto.length; i++) {
-      rezo += listCusto[i].custodian + ",";
-    }
-
-    return rezo.slice(0, -1);
-  }; */
-
-  console.log("bond", bond?.callable);
+  //console.log("bond", bond?.callable);
 
   return (
     <div className="">
@@ -146,9 +59,9 @@ const BondDetailPage = async ({ params }: BondDetailPageProps) => {
       >
         <CustomBreadcrumb name="Bonds" />
 
-        <div className="grid grid-cols-5">
-          <div className="col-span-3 grid grid-cols-2 gap-2">
-            <div className="text-sm bg-blue-950/30 col-span-1 border rounded-lg px-2">
+        <div className="grid md:grid-cols-5 max-md:w-full">
+          <div className=" md:col-span-3 md:grid md:grid-cols-2 gap-2 max-md:w-full">
+            <div className="w-full text-sm bg-blue-950/30 col-span-1 border rounded-lg px-2">
               <h1 className=" text-center font-semibold  p-2 text-sky-400">
                 Issue Details
               </h1>
@@ -407,7 +320,7 @@ const BondDetailPage = async ({ params }: BondDetailPageProps) => {
               </p> */}
             </div>
           </div>
-          <div className=" col-span-2">
+          <div className="md:col-span-2">
             {" "}
             <Suspense fallback={<Loading />}>
               <BondViews fund={defFund} fund23={defFund23} />

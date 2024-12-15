@@ -17,17 +17,17 @@ const CountryBondItem = ({ bond }: BondItemProps) => {
       className="hover:cursor-pointer"
       key={bond.id}
     >
-      <TableCell className="font-medium text-sky-700 dark:text-sky-500">
+      <TableCell className="text-xs font-medium text-sky-700 dark:text-sky-500">
         {bond.description}
       </TableCell>
-      <TableCell className="">{bond.maturity}</TableCell>
-      <TableCell>
+      <TableCell className="text-xs ">{bond.maturity}</TableCell>
+      <TableCell className="text-xs ">
         {new Intl.NumberFormat().format(bond.amountIssuedUSD)}
       </TableCell>
       <TableCell className="max-md:hidden ">{bond.couponRate}</TableCell>
       <TableCell className="max-md:hidden ">{bond.couponClass}</TableCell>
       <TableCell className="max-md:hidden ">{bond.couponFrequency}</TableCell>
-      <TableCell className="max-md:text-right">
+      <TableCell className="text-xs max-md:text-right">
         {bond.principalCurrency.mic}
       </TableCell>
       <TableCell className="max-md:hidden ">

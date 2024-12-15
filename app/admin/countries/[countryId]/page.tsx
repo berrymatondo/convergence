@@ -69,7 +69,9 @@ const CountryPage = async ({ params }: CountryPageProps) => {
     <div className="">
       {" "}
       <PageLayout wid="mx-12">
-        <CustomBreadcrumb name={country?.name ? country?.name : " "} />
+        <CustomBreadcrumb
+          name={country?.name ? country?.name?.replaceAll("_", " ") : " "}
+        />
         <Title
           flagCode={country?.flagCode ? country?.flagCode : "ng"}
           title={country?.name ? country?.name : " "}

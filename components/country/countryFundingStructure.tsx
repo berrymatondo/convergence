@@ -56,16 +56,22 @@ const CountryFundingStructure = ({
           <TabsList className="grid w-full grid-cols-3 max-md:hidden">
             <TabsTrigger value="domestic">Domestic Market</TabsTrigger>
 
-            <TabsTrigger value="international">
+            <TabsTrigger className="" value="international">
               International Market
             </TabsTrigger>
             <TabsTrigger value="other">Other Market</TabsTrigger>
           </TabsList>
           <TabsList className="grid w-full grid-cols-3 md:hidden">
-            <TabsTrigger value="domestic">Domestic</TabsTrigger>
+            <TabsTrigger className="text-xs" value="domestic">
+              Domestic
+            </TabsTrigger>
 
-            <TabsTrigger value="international">International</TabsTrigger>
-            <TabsTrigger value="other">Other</TabsTrigger>
+            <TabsTrigger className="text-xs" value="international">
+              International
+            </TabsTrigger>
+            <TabsTrigger className="text-xs" value="other">
+              Other
+            </TabsTrigger>
           </TabsList>
           <TabsContent value="domestic">
             <Card>

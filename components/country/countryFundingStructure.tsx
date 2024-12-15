@@ -210,7 +210,7 @@ const CountryFundingStructure = ({
                     <Label className="">Issues</Label>
                     <strong className="text-white text-xl">
                       {
-                        staticCountry?.data?.country?.staticInfoBond?.filter(
+                        staticCountry?.country?.staticInfoBond?.filter(
                           (st: any) =>
                             st.countryId != st.marketOfIssueId &&
                             st.issuerType == "SOVEREIGN"
@@ -222,7 +222,7 @@ const CountryFundingStructure = ({
                     <Label htmlFor="name"> Issued Amount USD</Label>
                     <strong className="text-white text-xl">
                       {buildSum(
-                        staticCountry?.data?.country?.staticInfoBond?.filter(
+                        staticCountry?.country?.staticInfoBond?.filter(
                           (st: any) =>
                             st.countryId != st.marketOfIssueId &&
                             st.issuerType == "SOVEREIGN"
@@ -240,7 +240,7 @@ const CountryFundingStructure = ({
                     <strong className="text-white text-xl">
                       {" "}
                       {buildMean(
-                        staticCountry?.data?.country?.staticInfoBond?.filter(
+                        staticCountry?.country?.staticInfoBond?.filter(
                           (st: any) =>
                             st.countryId != st.marketOfIssueId &&
                             st.issuerType == "SOVEREIGN"
@@ -307,7 +307,7 @@ const CountryFundingStructure = ({
                       </TableRow>
                     </TableHeader>
                     <TableBody className="">
-                      {staticCountry?.data?.country?.staticInfoBond
+                      {staticCountry?.country?.staticInfoBond
                         ?.filter(
                           (st: any) =>
                             st.countryId != st.marketOfIssueId &&
@@ -345,7 +345,7 @@ const CountryFundingStructure = ({
                     <Label className="">Issues</Label>
                     <strong className="text-white text-xl">
                       {
-                        staticCountry?.data?.country?.staticInfoBond?.filter(
+                        staticCountry?.country?.staticInfoBond?.filter(
                           (st: any) => st.issuerType != "SOVEREIGN"
                         ).length
                       }
@@ -355,7 +355,7 @@ const CountryFundingStructure = ({
                     <Label htmlFor="name"> Issued Amount USD</Label>
                     <strong className="text-white text-xl">
                       {buildSum(
-                        staticCountry?.data?.country?.staticInfoBond?.filter(
+                        staticCountry?.country?.staticInfoBond?.filter(
                           (st: any) => st.issuerType != "SOVEREIGN"
                         )
                       )}
@@ -371,7 +371,7 @@ const CountryFundingStructure = ({
                     <strong className="text-white text-xl">
                       {" "}
                       {buildMean(
-                        staticCountry?.data?.country?.staticInfoBond?.filter(
+                        staticCountry?.country?.staticInfoBond?.filter(
                           (st: any) => st.issuerType != "SOVEREIGN"
                         )
                       )}
@@ -436,7 +436,7 @@ const CountryFundingStructure = ({
                       </TableRow>
                     </TableHeader>
                     <TableBody className="">
-                      {staticCountry?.data?.country?.staticInfoBond
+                      {staticCountry?.country?.staticInfoBond
                         ?.filter((st: any) => st.issuerType != "SOVEREIGN")
                         ?.sort(
                           (a: any, b: any) =>

@@ -11,6 +11,12 @@ import IndexDetails from "@/components/index/indexDetails";
 import IndexSelect from "@/components/index/indexSelect";
 import PageLayout from "@/components/pageLayout";
 import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import {
   Card,
   CardContent,
   CardDescription,
@@ -111,12 +117,27 @@ const EquityDetailPage = async ({ params }: EquityDetailPageProps) => {
               {equity?.assetName} {Flag(equity?.country?.flagCode)}
             </div>
           </div>
+
+          {/*           <div className="md:hidden mt-2 p-2 flex flex-col gap-4 bg-blue-950/30">
+            <p className="text-2xl text-white">Description</p>
+            <p>{equity?.description}</p>
+          </div> */}
           <div className="grid md:grid-cols-12 gap-2 ">
             <Card className="md:col-span-2 py-4 bg-blue-950/30 ">
               <CardContent className="text-sm ">
                 <EquityDetails equity={equity} />
               </CardContent>
             </Card>
+            <Accordion
+              type="single"
+              collapsible
+              className="md:hidden mt-2 p-2 flex flex-col gap-4 bg-blue-950/30 w-full"
+            >
+              <AccordionItem value="item-1">
+                <AccordionTrigger>Description</AccordionTrigger>
+                <AccordionContent>{equity?.description}</AccordionContent>
+              </AccordionItem>
+            </Accordion>
             <Card className="md:col-span-5">
               <Suspense fallback={<Loading />}>
                 <EquitySelect equity={equity} />
@@ -163,7 +184,7 @@ const EquityDetailPage = async ({ params }: EquityDetailPageProps) => {
               </CardContent>
             </Card>
           </div>
-          <div className="mt-2 p-2 flex flex-col gap-4 bg-blue-950/30">
+          <div className="max-md:hidden mt-2 p-2 flex flex-col gap-4 bg-blue-950/30">
             <p className="text-2xl text-white">Description</p>
             <p>{equity?.description}</p>
           </div>

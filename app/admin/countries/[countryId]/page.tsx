@@ -42,7 +42,9 @@ const CountryPage = async ({ params }: CountryPageProps) => {
       </div>
     );
 
-  const staticCountry = await getStaticInfoCountry(countryId);
+  const res1 = await getStaticInfoCountry(countryId);
+  const staticCountry = res1?.data;
+  //console.log("staticCountry", staticCountry);
 
   const buildSum = (vect: any) => {
     let sum = 0;
@@ -83,23 +85,20 @@ const CountryPage = async ({ params }: CountryPageProps) => {
               <div>
                 <p className="text-xl text-orange-600 flex justify-between  font-semibold">
                   <span>GDP Growth Rate</span>
-                  <span className="">
-                    {" "}
-                    {staticCountry?.data?.gdpGrowhtRate} %
-                  </span>
+                  <span className=""> {staticCountry?.gdpGrowhtRate} %</span>
                 </p>
                 <p className="text-sm flex justify-between">
                   <span className="text-gray-400">Interest Rate</span>
-                  <span> {staticCountry?.data?.interestRate} %</span>
+                  <span> {staticCountry?.interestRate} %</span>
                 </p>
                 <p className="text-sm flex justify-between">
                   {" "}
                   <span className="text-gray-400">Inflation Rate</span>
-                  <span> {staticCountry?.data?.inflationRate} %</span>
+                  <span> {staticCountry?.inflationRate} %</span>
                 </p>
                 <p className="text-sm flex justify-between">
                   <span className="text-gray-400">Unemployment Rate</span>
-                  <span> {staticCountry?.data?.unemploymentRate} %</span>{" "}
+                  <span> {staticCountry?.unemploymentRate} %</span>{" "}
                 </p>
               </div>
               <div>
@@ -107,38 +106,35 @@ const CountryPage = async ({ params }: CountryPageProps) => {
                   <span>Government Debt to GDP</span>
                   <span className="text-orange-600">
                     {" "}
-                    {staticCountry?.data?.debtToGdp} %
+                    {staticCountry?.debtToGdp} %
                   </span>
                 </p>
                 <p className="text-sm flex justify-between">
                   {" "}
                   <span className="text-gray-400">
-                    Balance of Trade (
-                    {staticCountry?.data?.balanceOfTradeCurrency})
+                    Balance of Trade ({staticCountry?.balanceOfTradeCurrency})
                   </span>
                   <span>
                     {new Intl.NumberFormat().format(
-                      staticCountry?.data?.balanceOfTrade
-                        ? +staticCountry?.data?.balanceOfTrade
+                      staticCountry?.balanceOfTrade
+                        ? +staticCountry?.balanceOfTrade
                         : 0
                     )}
                   </span>
                 </p>
                 <p className="text-sm flex justify-between">
                   <span className="text-gray-400">Credit Rating (S&P) </span>
-                  <span> {staticCountry?.data?.creditRating}</span>
+                  <span> {staticCountry?.creditRating}</span>
                 </p>
               </div>
               <p className="text-sm flex justify-between">
                 <span className="text-gray-400">
                   Default Probability (Starmine){" "}
                 </span>
-                <span>
-                  {staticCountry?.data?.defaultProbability?.toFixed(2)} %
-                </span>
+                <span>{staticCountry?.defaultProbability?.toFixed(2)} %</span>
               </p>
               <div className="bg-sky-950 flex items-center justify-center mx-auto mt-4 p-8 rounded-lg text-2xl font-semibold ">
-                {buildSum(staticCountry?.data?.country?.staticInfoBond)}
+                {buildSum(staticCountry?.country?.staticInfoBond)}
               </div>
             </CardContent>
           </Card>

@@ -17,6 +17,7 @@ import {
   TableRow,
 } from "../ui/table";
 import BondItem from "../bond/bondItem";
+import CountryBondItem from "./countryBondItem";
 
 type CountryFundingStructureProps = {
   staticCountry: any;
@@ -67,7 +68,7 @@ const CountryFundingStructure = ({
                     <Label className="">Issues</Label>
                     <strong className="text-white text-xl">
                       {
-                        staticCountry?.data?.country?.staticInfoBond?.filter(
+                        staticCountry?.country?.staticInfoBond?.filter(
                           (st: any) =>
                             st.countryId == st.marketOfIssueId &&
                             st.issuerType == "SOVEREIGN"
@@ -79,7 +80,7 @@ const CountryFundingStructure = ({
                     <Label htmlFor="name"> Issued Amount USD</Label>
                     <strong className="text-white text-xl">
                       {buildSum(
-                        staticCountry?.data?.country?.staticInfoBond?.filter(
+                        staticCountry?.country?.staticInfoBond?.filter(
                           (st: any) =>
                             st.countryId == st.marketOfIssueId &&
                             st.issuerType == "SOVEREIGN"
@@ -92,7 +93,7 @@ const CountryFundingStructure = ({
                     <strong className="text-white text-xl">
                       {" "}
                       {buildMean(
-                        staticCountry?.data?.country?.staticInfoBond?.filter(
+                        staticCountry?.country?.staticInfoBond?.filter(
                           (st: any) =>
                             st.countryId == st.marketOfIssueId &&
                             st.issuerType == "SOVEREIGN"
@@ -150,7 +151,7 @@ const CountryFundingStructure = ({
                       </TableRow>
                     </TableHeader>
                     <TableBody className="">
-                      {staticCountry?.data?.country?.staticInfoBond
+                      {staticCountry?.country?.staticInfoBond
                         ?.filter(
                           (st: any) =>
                             st.countryId == st.marketOfIssueId &&
@@ -161,7 +162,7 @@ const CountryFundingStructure = ({
                             Date.parse(b.date) - Date.parse(a.date)
                         )
                         .map((el: any) => (
-                          <BondItem bond={el} key={el.id} />
+                          <CountryBondItem bond={el} key={el.id} />
                         ))}
                     </TableBody>
                   </Table>

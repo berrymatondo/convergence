@@ -74,7 +74,7 @@ const CountryPage = async ({ params }: CountryPageProps) => {
           flagCode={country?.flagCode ? country?.flagCode : "ng"}
           title={country?.name ? country?.name : " "}
         />
-        <div className=" w-full grid md:grid-cols-5 gap-2 ">
+        <div className=" w-full grid md:grid-cols-5 gap-2">
           <Card className="md:col-span-1 h-68 bg-blue-950/30">
             <CardHeader>
               <CardTitle className="text-sky-700 dark:text-sky-500 ">

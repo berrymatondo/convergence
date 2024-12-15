@@ -45,20 +45,27 @@ const CountryFundingStructure = ({
   };
 
   return (
-    <Card className=" md:col-span-5 h-68 bg-red-400">
+    <Card className=" md:col-span-5 h-68  px-0">
       <CardHeader>
         <CardTitle className="text-center text-sky-700 dark:text-sky-500">
           FUNDING STRUCTURE
         </CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="p-0">
         <Tabs defaultValue="domestic" className="w-full">
-          <TabsList className="grid w-full grid-cols-3">
+          <TabsList className="grid w-full grid-cols-3 max-md:hidden">
             <TabsTrigger value="domestic">Domestic Market</TabsTrigger>
+
             <TabsTrigger value="international">
               International Market
             </TabsTrigger>
             <TabsTrigger value="other">Other Market</TabsTrigger>
+          </TabsList>
+          <TabsList className="grid w-full grid-cols-3 md:hidden">
+            <TabsTrigger value="domestic">Domestic</TabsTrigger>
+
+            <TabsTrigger value="international">International</TabsTrigger>
+            <TabsTrigger value="other">Other</TabsTrigger>
           </TabsList>
           <TabsContent value="domestic">
             <Card>
@@ -89,7 +96,12 @@ const CountryFundingStructure = ({
                     </strong>
                   </span>
                   <span className="flex flex-col items-center">
-                    <Label htmlFor="name">Average Coupon Rate</Label>
+                    <Label className="md:hidden" htmlFor="name">
+                      Coupon
+                    </Label>
+                    <Label className="max-md:hidden" htmlFor="name">
+                      Average Coupon Rate
+                    </Label>
                     <strong className="text-white text-xl">
                       {" "}
                       {buildMean(
@@ -112,40 +124,49 @@ const CountryFundingStructure = ({
                         <TableHead className="max-md:w-[100px] md:pl-4">
                           Description
                         </TableHead>
-                        <TableHead className="text-center">
+                        <TableHead className="text-center max-md:hidden">
                           Maturity Date
                         </TableHead>
-                        <TableHead className="text-center">
+                        <TableHead className="text-center md:hidden">
+                          Maturity
+                        </TableHead>
+                        <TableHead className="text-center max-md:hidden">
                           Issued Amount USD
                         </TableHead>
-                        <TableHead className="text-center">
+                        <TableHead className="text-center md:hidden">
+                          Issued
+                        </TableHead>
+                        <TableHead className="max-md:hidden text-center">
                           Coupon Rate
                         </TableHead>
-                        <TableHead className="text-center">
+                        <TableHead className="max-md:hidden text-center">
                           Coupon Class
                         </TableHead>
-                        <TableHead className="text-center">
+                        <TableHead className="max-md:hidden text-center">
                           Coupon Frequency
                         </TableHead>
-                        <TableHead className="text-center">
+                        <TableHead className="text-center max-md:hidden">
                           Principal Currency
                         </TableHead>
-                        <TableHead className="text-center">
+                        <TableHead className="text-center md:hidden">
+                          Currency
+                        </TableHead>
+                        <TableHead className="max-md:hidden text-center">
                           Coupon Currency
                         </TableHead>
-                        <TableHead className="text-center">
+                        <TableHead className="max-md:hidden text-center">
                           Market of Issue
                         </TableHead>
-                        <TableHead className="text-center">
+                        <TableHead className="max-md:hidden text-center">
                           Inflation Linked
                         </TableHead>
-                        <TableHead className="text-center">
+                        <TableHead className="max-md:hidden text-center">
                           Dual Currency
                         </TableHead>
-                        <TableHead className="text-center">
+                        <TableHead className="max-md:hidden text-center">
                           Green Bond
                         </TableHead>
-                        <TableHead className="text-right md:pr-4">
+                        <TableHead className="max-md:hidden text-right md:pr-4">
                           ISIN
                         </TableHead>
                       </TableRow>
@@ -210,7 +231,12 @@ const CountryFundingStructure = ({
                     </strong>
                   </span>
                   <span className="flex flex-col items-center">
-                    <Label htmlFor="name">Average Coupon Rate</Label>
+                    <Label className="md:hidden" htmlFor="name">
+                      Coupon
+                    </Label>
+                    <Label className="max-md:hidden" htmlFor="name">
+                      Average Coupon Rate
+                    </Label>
                     <strong className="text-white text-xl">
                       {" "}
                       {buildMean(
@@ -233,40 +259,49 @@ const CountryFundingStructure = ({
                         <TableHead className="max-md:w-[100px] md:pl-4">
                           Description
                         </TableHead>
-                        <TableHead className="text-center">
+                        <TableHead className="text-center max-md:hidden">
                           Maturity Date
                         </TableHead>
-                        <TableHead className="text-center">
+                        <TableHead className="text-center md:hidden">
+                          Maturity
+                        </TableHead>
+                        <TableHead className="text-center max-md:hidden">
                           Issued Amount USD
                         </TableHead>
-                        <TableHead className="text-center">
+                        <TableHead className="text-center md:hidden">
+                          Issued
+                        </TableHead>
+                        <TableHead className="max-md:hidden text-center">
                           Coupon Rate
                         </TableHead>
-                        <TableHead className="text-center">
+                        <TableHead className="max-md:hidden text-center">
                           Coupon Class
                         </TableHead>
-                        <TableHead className="text-center">
+                        <TableHead className="max-md:hidden text-center">
                           Coupon Frequency
                         </TableHead>
-                        <TableHead className="text-center">
+                        <TableHead className="text-center max-md:hidden">
                           Principal Currency
                         </TableHead>
-                        <TableHead className="text-center">
+                        <TableHead className="text-center md:hidden">
+                          Currency
+                        </TableHead>
+                        <TableHead className="max-md:hidden text-center">
                           Coupon Currency
                         </TableHead>
-                        <TableHead className="text-center">
+                        <TableHead className="max-md:hidden text-center">
                           Market of Issue
                         </TableHead>
-                        <TableHead className="text-center">
+                        <TableHead className="max-md:hidden text-center">
                           Inflation Linked
                         </TableHead>
-                        <TableHead className="text-center">
+                        <TableHead className="max-md:hidden text-center">
                           Dual Currency
                         </TableHead>
-                        <TableHead className="text-center">
+                        <TableHead className="max-md:hidden text-center">
                           Green Bond
                         </TableHead>
-                        <TableHead className="text-right md:pr-4">
+                        <TableHead className="max-md:hidden text-right md:pr-4">
                           ISIN
                         </TableHead>
                       </TableRow>
@@ -327,7 +362,12 @@ const CountryFundingStructure = ({
                     </strong>
                   </span>
                   <span className="flex flex-col items-center">
-                    <Label htmlFor="name">Average Coupon Rate</Label>
+                    <Label className="md:hidden" htmlFor="name">
+                      Coupon
+                    </Label>
+                    <Label className="max-md:hidden" htmlFor="name">
+                      Average Coupon Rate
+                    </Label>
                     <strong className="text-white text-xl">
                       {" "}
                       {buildMean(
@@ -348,40 +388,49 @@ const CountryFundingStructure = ({
                         <TableHead className="max-md:w-[100px] md:pl-4">
                           Description
                         </TableHead>
-                        <TableHead className="text-center">
+                        <TableHead className="text-center max-md:hidden">
                           Maturity Date
                         </TableHead>
-                        <TableHead className="text-center">
+                        <TableHead className="text-center md:hidden">
+                          Maturity
+                        </TableHead>
+                        <TableHead className="text-center max-md:hidden">
                           Issued Amount USD
                         </TableHead>
-                        <TableHead className="text-center">
+                        <TableHead className="text-center md:hidden">
+                          Issued
+                        </TableHead>
+                        <TableHead className="max-md:hidden text-center">
                           Coupon Rate
                         </TableHead>
-                        <TableHead className="text-center">
+                        <TableHead className="max-md:hidden text-center">
                           Coupon Class
                         </TableHead>
-                        <TableHead className="text-center">
+                        <TableHead className="max-md:hidden text-center">
                           Coupon Frequency
                         </TableHead>
-                        <TableHead className="text-center">
+                        <TableHead className="text-center max-md:hidden">
                           Principal Currency
                         </TableHead>
-                        <TableHead className="text-center">
+                        <TableHead className="text-center md:hidden">
+                          Currency
+                        </TableHead>
+                        <TableHead className="max-md:hidden text-center">
                           Coupon Currency
                         </TableHead>
-                        <TableHead className="text-center">
+                        <TableHead className="max-md:hidden text-center">
                           Market of Issue
                         </TableHead>
-                        <TableHead className="text-center">
+                        <TableHead className="max-md:hidden text-center">
                           Inflation Linked
                         </TableHead>
-                        <TableHead className="text-center">
+                        <TableHead className="max-md:hidden text-center">
                           Dual Currency
                         </TableHead>
-                        <TableHead className="text-center">
+                        <TableHead className="max-md:hidden text-center">
                           Green Bond
                         </TableHead>
-                        <TableHead className="text-right md:pr-4">
+                        <TableHead className="max-md:hidden text-right md:pr-4">
                           ISIN
                         </TableHead>
                       </TableRow>

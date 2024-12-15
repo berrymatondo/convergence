@@ -6,7 +6,7 @@ import im from "../public/cap1.jpg";
 
 export default function Home() {
   return (
-    <div className="md:p-8 bg-gradient-to-r from-sky-900 to-transparent">
+    <div className="md:p-8 bg-gradient-to-br from-sky-900/10 to-sky-900">
       <div className="container py-48 max-md:py-4 flex max-md:flex-col gap-4 justify-between my-auto bg-gray-100 dark:bg-transparent">
         {/*       <p className="text-center py-4 max-md:text-4xl text-6xl text-teal-600 font-semibold">
         Emerging Markets
@@ -33,7 +33,7 @@ export default function Home() {
             </Link>
           </p>
         </div>
-        <div className="md:w-1/2">
+        <div className="md:w-1/2 rounded-2xl overflow-hidden">
           <Image
             alt="bcg"
             src={im}

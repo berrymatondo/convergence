@@ -22,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body suppressHydrationWarning={true} className="relative ">
+      <body suppressHydrationWarning={true} className="relative h-screen">
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"

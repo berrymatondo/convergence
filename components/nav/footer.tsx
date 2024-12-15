@@ -4,8 +4,8 @@ import React from "react";
 const Footer = () => {
   return (
     /*     <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2">
-     */ <div className="">
-      <p className="text-center text-sm">
+     */ <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 ">
+      <p className="text-center text-sm py-2">
         &copy; 2024{" "}
         <Link
           className="hover:text-yellow-600 hover:cursor-pointer"

@@ -1,4 +1,5 @@
 import { auth } from "@/auth";
+import CountryFundingStructure from "@/components/country/countryFundingStructure";
 import EquityCountry from "@/components/equity/equityCountry";
 import FxCountry from "@/components/fx/fxCountry";
 import PageLayout from "@/components/pageLayout";
@@ -153,6 +154,8 @@ const CountryPage = async ({ params }: CountryPageProps) => {
               )}
             />
           </div>
+
+          <CountryFundingStructure staticCountry={staticCountry} />
         </div>
       </PageLayout>
     </div>

@@ -41,7 +41,7 @@ const EquityCountry = ({ equityList }: EquityCountryProps) => {
             for (let i = 0; i < res?.data?.length; i++) {
               histoVar.push({
                 date: res?.data[i].date,
-                close: res?.data[i].close,
+                close: res?.data[i].close.toFixed(3),
               });
 
               setEquities(histoVar);
@@ -84,7 +84,7 @@ const EquityCountry = ({ equityList }: EquityCountryProps) => {
           </Select>
         </CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="p-0">
         <Suspense fallback={<Loading />}>
           <IndexCountryView equities={equities} />
         </Suspense>

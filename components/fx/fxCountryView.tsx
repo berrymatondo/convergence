@@ -39,7 +39,7 @@ const FxCountryView = async ({ fxs }: fxCountryViewProps) => {
   //console.log("tempo:", fxsH);
 
   return (
-    <Card className="border-none">
+    <Card className="border-none h-full">
       <CardHeader>
         <CardTitle className="text-sky-700 dark:text-sky-500"></CardTitle>
         <CardDescription></CardDescription>

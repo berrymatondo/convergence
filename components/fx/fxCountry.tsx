@@ -62,7 +62,7 @@ const FxCountry = ({ fxList }: FxCountryProps) => {
   }, [selectedOption]);
 
   return (
-    <Card className="md:col-span-1 h-full ">
+    <Card className="md:col-span-1  h-full">
       <CardHeader>
         <CardTitle className="text-sky-700 dark:text-sky-500">
           <Select
@@ -106,9 +106,8 @@ const FxCountry = ({ fxList }: FxCountryProps) => {
           </Select>
         </CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="p-0 ">
         <Suspense fallback={<Loading />}>
-          {" "}
           <FxCountryView fxs={fxs} />
         </Suspense>
       </CardContent>

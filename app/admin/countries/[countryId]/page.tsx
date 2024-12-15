@@ -1,4 +1,6 @@
 import { auth } from "@/auth";
+import EquityCountry from "@/components/equity/equityCountry";
+import FxCountry from "@/components/fx/fxCountry";
 import PageLayout from "@/components/pageLayout";
 import Title from "@/components/title";
 
@@ -25,8 +27,6 @@ const CountryPage = async ({ params }: CountryPageProps) => {
 
   const res = await getCountry(countryId);
   const country = res?.data;
-
-  console.log("country  ", country);
 
   const session = await auth();
   const usr: any = session?.user;
@@ -66,7 +66,7 @@ const CountryPage = async ({ params }: CountryPageProps) => {
     <div className="">
       {" "}
       <PageLayout wid="mx-12">
-        <CustomBreadcrumb name="Countries" />
+        <CustomBreadcrumb name={country?.name ? country?.name : " "} />
         <Title
           flagCode={country?.flagCode ? country?.flagCode : "ng"}
           title={country?.name ? country?.name : " "}
@@ -141,6 +141,18 @@ const CountryPage = async ({ params }: CountryPageProps) => {
               </div>
             </CardContent>
           </Card>
+
+          <div className="md:col-span-2 ">
+            <FxCountry fxList={country?.fxMapping} />
+          </div>
+
+          <div className=" md:col-span-2 ">
+            <EquityCountry
+              equityList={country?.countryIndexMapping?.filter(
+                (el: any) => el.assetTypesList == "EQUITY"
+              )}
+            />
+          </div>
         </div>
       </PageLayout>
     </div>

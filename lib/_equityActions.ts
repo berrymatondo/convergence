@@ -42,9 +42,9 @@ export const getHistoricalDataEquity = async (fxId: number) => {
   //console.log("fxId", fxId);
 
   try {
-    const fx = await prisma.historicalDataEquity.findMany({
+    const fx = await prisma.historicalDataIndex.findMany({
       where: {
-        staticInfoEquityId: +fxId,
+        staticInfoIndexId: +fxId,
       },
       orderBy: {
         date: "desc",

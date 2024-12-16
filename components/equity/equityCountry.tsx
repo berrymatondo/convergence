@@ -16,7 +16,7 @@ type EquityCountryProps = {
   equityList: any;
 };
 const EquityCountry = ({ equityList }: EquityCountryProps) => {
-  // console.log("lisr  ", equityList);
+  console.log("lisr  ", equityList);
 
   const [selectedOption, setSelectedOption] = useState(
     equityList[0]?.staticInfoIndex?.assetName
@@ -29,11 +29,13 @@ const EquityCountry = ({ equityList }: EquityCountryProps) => {
         (el: any) => el.staticInfoIndex?.assetName == selectedOption
       );
 
+      //console.log("fnd2", fnd2);
+
       if (fnd2) {
         //console.log("fnd2?.staticInfoFxId)", fnd2);
 
         const res = await getHistoricalDataEquity(fnd2?.staticInfoIndexId);
-        //console.log(res?.data);
+        console.log(res?.data);
         const histoVar: any = [];
         if (res?.data)
           if (res?.data?.length > 0) {

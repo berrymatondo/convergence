@@ -44,7 +44,7 @@ const CountryPage = async ({ params }: CountryPageProps) => {
 
   const res1 = await getStaticInfoCountry(countryId);
   const staticCountry = res1?.data;
-  //console.log("staticCountry", staticCountry);
+  console.log("country", country);
 
   const buildSum = (vect: any) => {
     let sum = 0;
@@ -135,7 +135,7 @@ const CountryPage = async ({ params }: CountryPageProps) => {
                 </span>
                 <span>{staticCountry?.defaultProbability?.toFixed(2)} %</span>
               </p>
-              <div className="bg-sky-950 flex items-center justify-center mx-auto mt-4 p-8 rounded-lg text-2xl font-semibold ">
+              <div className="container p-2 bg-sky-950 flex items-center justify-center mx-auto mt-4  rounded-lg text-2xl font-semibold ">
                 {buildSum(staticCountry?.country?.staticInfoBond)}
               </div>
             </CardContent>

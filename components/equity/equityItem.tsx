@@ -29,7 +29,7 @@ const EquityItem = ({ equity }: EquityItemPRops) => {
 
       <div className=" gap-4 flex flex-col justify-end">
         <Change id={equity.id} />
-        <Close id={equity.id.toFixed(2)} />
+        <Close id={equity.id} />
 
         <div className="flex gap-2 items-baseline text-xs text-sky-400">
           {Flag(equity?.country?.flagCode)}
@@ -66,10 +66,10 @@ const Close = async ({ id }: any) => {
   const res = await getEquityHsitoMaxDate(id);
   const data = res?.data;
 
-  if (data?.close?.close) {
+  if (data?.close?.close.toFixed(2)) {
     return (
       <p className="text-orange-600 my-1 text-3xl md:text-5xl font-semibold">
-        {data?.close?.close}
+        {data?.close?.close.toFixed(2)}
       </p>
     );
   } else return <p></p>;

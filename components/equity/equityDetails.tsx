@@ -6,7 +6,7 @@ type EquityDetailsProps = {
   equity: any;
 };
 const EquityDetails = ({ equity }: EquityDetailsProps) => {
-  //console.log("Index ", index);
+  console.log("Index ", equity);
   //console.log("Fx ", index?.last?.close);
 
   return (

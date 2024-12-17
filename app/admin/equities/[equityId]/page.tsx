@@ -35,9 +35,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { getEquity } from "@/lib/_equityActions";
+import { getEquity, getEquityHistoMaxDate2 } from "@/lib/_equityActions";
 
 import { getIndex, getIndexHsitoMaxDate2 } from "@/lib/_indexActions";
+import Image from "next/image";
 
 import React, { Suspense } from "react";
 
@@ -55,15 +56,19 @@ const EquityDetailPage = async ({ params }: EquityDetailPageProps) => {
 
   const equityId = params.equityId;
 
+  // console.log("equityId: ", equityId);
+
   const resu = await getEquity(equityId);
   let data = resu?.data;
+
+  // console.log("data", data);
 
   let equity: any;
 
   if (resu?.data) {
-    const res2 = await getIndexHsitoMaxDate2(equityId);
+    const res2 = await getEquityHistoMaxDate2(equityId);
     const data2 = res2?.data?.close;
-    // console.log("data2", data2);
+    //console.log("data2", data2);
     //console.log("data2", data);
 
     const tempo: any = {
@@ -80,7 +85,7 @@ const EquityDetailPage = async ({ params }: EquityDetailPageProps) => {
     equity = { ...tempo };
   }
 
-  // console.log("Index: ", index);
+  // console.log("equity: ", equity);
 
   // console.log("comos", rs?.data);
   /* 
@@ -112,11 +117,26 @@ const EquityDetailPage = async ({ params }: EquityDetailPageProps) => {
             parent="Equities"
             parentUrl="/admin/equities"
           />
-          <div className="flex flex-col gap-2 uppercase my-4 text-3xl font-semibold text-sky-700 dark:text-sky-500">
+
+          <div className="flex items-centerflex-col gap-2 uppercase my-4 text-3xl font-semibold text-sky-700 dark:text-sky-500">
+            <div className="rounded-full overflow-hidden">
+              <Image
+                src={`/equities/${equity?.isin}.svg`}
+                width={32}
+                height={32}
+                alt="equities"
+              />
+            </div>
+            <p className="text-sky-400 text-lg md:text-xl ">
+              {equity?.assetName}
+            </p>
+          </div>
+
+          {/*           <div className="flex flex-col gap-2 uppercase my-4 text-3xl font-semibold text-sky-700 dark:text-sky-500">
             <div className="flex items-center gap-4">
               {equity?.assetName} {Flag(equity?.country?.flagCode)}
             </div>
-          </div>
+          </div> */}
 
           {/*           <div className="md:hidden mt-2 p-2 flex flex-col gap-4 bg-blue-950/30">
             <p className="text-2xl text-white">Description</p>

@@ -29,7 +29,7 @@ const EquityItem = ({ equity }: EquityItemPRops) => {
 
       <div className=" gap-4 flex flex-col justify-end">
         <Change id={equity.id} />
-        <Close id={equity.id} />
+        <Close id={equity.id.toFixed(2)} />
 
         <div className="flex gap-2 items-baseline text-xs text-sky-400">
           {Flag(equity?.country?.flagCode)}

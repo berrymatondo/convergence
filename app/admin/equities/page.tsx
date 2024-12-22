@@ -35,9 +35,9 @@ const EquitiesPage = async ({
   const search =
     typeof searchParams.search === "string" ? searchParams.search : undefined;
 
-  const staticInfoEquityCount = await prisma.staticInfoEquity.count();
+  const staticInfoEquityCountPromise = prisma.staticInfoEquity.count();
 
-  const equities = await prisma.staticInfoEquity.findMany({
+  const equitiesPromise = prisma.staticInfoEquity.findMany({
     take: take,
     skip: skip,
 
@@ -62,6 +62,11 @@ const EquitiesPage = async ({
       },
     },
   });
+
+  const [equities, staticInfoEquityCount] = await Promise.all([
+    equitiesPromise,
+    staticInfoEquityCountPromise,
+  ]);
 
   // console.log("indexes", indexes);
 

@@ -3,6 +3,7 @@ import CommoItem from "@/components/commo/commoItem";
 import SearchCommo from "@/components/commo/searchCommo";
 import FundItem from "@/components/fund/fundItem";
 import SearchFund from "@/components/fund/searchFund";
+import NotConnected from "@/components/notConnected";
 import PageLayout from "@/components/pageLayout";
 import {
   Accordion,
@@ -57,7 +58,7 @@ const FundsPage = async ({
   const search =
     typeof searchParams.search === "string" ? searchParams.search : undefined;
 
-  let funds = await prisma.staticInfoFund.findMany({
+  let fundsPromise = prisma.staticInfoFund.findMany({
     take: take,
     skip: skip,
     where: {
@@ -69,9 +70,14 @@ const FundsPage = async ({
           },
         },
         {
-          country: {
-            name: { contains: search as string, mode: "insensitive" },
-          },
+          OR: [
+            {
+              country: {
+                name: { contains: search as string, mode: "insensitive" },
+              },
+            },
+            { name: { contains: search as string, mode: "insensitive" } },
+          ],
         },
       ],
       /*       OR: [
@@ -96,7 +102,7 @@ const FundsPage = async ({
     },
   });
 
-  let bonds = await prisma.staticInfoFund.findMany({
+  let bondsPromise = prisma.staticInfoFund.findMany({
     take: take,
     skip: skip,
     where: {
@@ -109,9 +115,14 @@ const FundsPage = async ({
         },
 
         {
-          country: {
-            name: { contains: search as string, mode: "insensitive" },
-          },
+          OR: [
+            {
+              country: {
+                name: { contains: search as string, mode: "insensitive" },
+              },
+            },
+            { name: { contains: search as string, mode: "insensitive" } },
+          ],
         },
         /*         {
           isin: { contains: search as string, mode: "insensitive" },
@@ -131,9 +142,18 @@ const FundsPage = async ({
     },
   });
 
-  const staticInfoFundCount = await prisma.staticInfoFund.count();
+  const staticInfoFundCountPromise = prisma.staticInfoFund.count();
+
+  const [funds, bonds, staticInfoFundCount] = await Promise.all([
+    fundsPromise,
+    bondsPromise,
+    staticInfoFundCountPromise,
+  ]);
 
   const session = await auth();
+  const usr: any = session?.user;
+
+  if (!usr) return <NotConnected />;
 
   return (
     <div>

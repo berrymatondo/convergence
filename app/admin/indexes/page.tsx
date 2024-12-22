@@ -35,9 +35,9 @@ const IndexesPage = async ({
   const search =
     typeof searchParams.search === "string" ? searchParams.search : undefined;
 
-  const staticInfoIndexCount = await prisma.staticInfoIndex.count();
+  const staticInfoIndexCountPromise = prisma.staticInfoIndex.count();
 
-  const indexes = await prisma.staticInfoIndex.findMany({
+  const indexesPromise = prisma.staticInfoIndex.findMany({
     take: take,
     skip: skip,
 
@@ -63,7 +63,10 @@ const IndexesPage = async ({
     },
   });
 
-  // console.log("indexes", indexes);
+  const [indexes, staticInfoIndexCount] = await Promise.all([
+    indexesPromise,
+    staticInfoIndexCountPromise,
+  ]);
 
   const session = await auth();
   const usr: any = session?.user;

@@ -3,6 +3,7 @@ import BondItem from "@/components/bond/bondItem";
 import SearchBond from "@/components/bond/searchBond";
 
 import SearchFund from "@/components/fund/searchFund";
+import NotConnected from "@/components/notConnected";
 import PageLayout from "@/components/pageLayout";
 
 import {
@@ -52,7 +53,7 @@ const BondsPage = async ({
   const search =
     typeof searchParams.search === "string" ? searchParams.search : undefined;
 
-  let bonds1 = await prisma.staticInfoBond.findMany({
+  let bonds1Promise = prisma.staticInfoBond.findMany({
     take: take,
     skip: skip,
     where: {
@@ -77,7 +78,7 @@ const BondsPage = async ({
     },
   });
 
-  let bonds2 = await prisma.staticInfoBond.findMany({
+  let bonds2Promise = prisma.staticInfoBond.findMany({
     take: take,
     skip: skip,
     where: {
@@ -102,7 +103,7 @@ const BondsPage = async ({
     },
   });
 
-  let bonds3 = await prisma.staticInfoBond.findMany({
+  let bonds3Promise = prisma.staticInfoBond.findMany({
     take: take,
     skip: skip,
     where: {
@@ -127,7 +128,7 @@ const BondsPage = async ({
     },
   });
 
-  let bonds4 = await prisma.staticInfoBond.findMany({
+  let bonds4Promise = prisma.staticInfoBond.findMany({
     take: take,
     skip: skip,
     where: {
@@ -152,7 +153,7 @@ const BondsPage = async ({
     },
   });
 
-  let bonds5 = await prisma.staticInfoBond.findMany({
+  let bonds5Promise = prisma.staticInfoBond.findMany({
     take: take,
     skip: skip,
     where: {
@@ -177,7 +178,7 @@ const BondsPage = async ({
     },
   });
 
-  let bonds6 = await prisma.staticInfoBond.findMany({
+  let bonds6Promise = prisma.staticInfoBond.findMany({
     take: take,
     skip: skip,
     where: {
@@ -202,9 +203,23 @@ const BondsPage = async ({
     },
   });
 
-  const staticInfoBondCount = await prisma.staticInfoBond.count();
+  const staticInfoBondCountPromise = prisma.staticInfoBond.count();
+
+  const [bonds1, bonds2, bonds3, bonds4, bonds5, bonds6, staticInfoBondCount] =
+    await Promise.all([
+      bonds1Promise,
+      bonds2Promise,
+      bonds3Promise,
+      bonds4Promise,
+      bonds5Promise,
+      bonds6Promise,
+      staticInfoBondCountPromise,
+    ]);
 
   const session = await auth();
+  const usr: any = session?.user;
+
+  if (!usr) return <NotConnected />;
 
   return (
     <div>

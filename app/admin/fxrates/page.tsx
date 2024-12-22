@@ -45,10 +45,10 @@ const FxRatesPage = async ({
     typeof searchParams.search === "string" ? searchParams.search : undefined;
 
   //const staticInfoFxCount = await prisma.staticInfoFx.count();
-  const staticInfoFxCount = 644;
+  //const staticInfoFxCount = 644;
   // const usrCount = await prisma.country.count();
 
-  const fxs = await prisma.staticInfoFx.findMany({
+  const fxsPromise = prisma.staticInfoFx.findMany({
     take: take,
     skip: skip,
 
@@ -94,7 +94,7 @@ const FxRatesPage = async ({
     }, */
   });
 
-  const fxs1 = await prisma.staticInfoFx.findMany({
+  const fxs1Promise = prisma.staticInfoFx.findMany({
     take: take,
     skip: skip,
 
@@ -141,7 +141,7 @@ const FxRatesPage = async ({
     }, */
   });
 
-  const fxs2 = await prisma.staticInfoFx.findMany({
+  const fxs2Promise = prisma.staticInfoFx.findMany({
     take: take,
     skip: skip,
 
@@ -193,7 +193,7 @@ const FxRatesPage = async ({
     }, */
   });
 
-  const fxs3 = await prisma.staticInfoFx.findMany({
+  const fxs3Promise = prisma.staticInfoFx.findMany({
     take: take,
     skip: skip,
 
@@ -243,6 +243,16 @@ const FxRatesPage = async ({
       },
     }, */
   });
+
+  const staticInfoFxCountPromise = prisma.staticInfoFx.count();
+
+  const [fxs, fxs1, fxs2, fxs3, staticInfoFxCount] = await Promise.all([
+    fxsPromise,
+    fxs1Promise,
+    fxs2Promise,
+    fxs3Promise,
+    staticInfoFxCountPromise,
+  ]);
 
   //console.log("fx", fxs);
 

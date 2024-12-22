@@ -41,9 +41,9 @@ const CommoditiesPage = async ({
 
   //const rrr = await getAllStaticCommo();
 
-  const staticInfoCommoCount = await prisma.staticInfoCommo.count();
+  const staticInfoCommoCountPromise = prisma.staticInfoCommo.count();
 
-  let commos = await prisma.staticInfoCommo.findMany({
+  let commosPromise = prisma.staticInfoCommo.findMany({
     take: take,
     skip: skip,
 
@@ -65,6 +65,11 @@ const CommoditiesPage = async ({
       assetName: "asc",
     },
   });
+
+  const [commos, staticInfoCommoCount] = await Promise.all([
+    commosPromise,
+    staticInfoCommoCountPromise,
+  ]);
 
   //console.log("Commo", commos);
 

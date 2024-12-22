@@ -51,11 +51,6 @@ const CountriesPage = async ({
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
-  const session = await auth();
-  const usr: any = session?.user;
-
-  if (!usr) return <NotConnected />;
-
   const skip =
     typeof searchParams.skip === "string" ? Number(searchParams.skip) : 0;
   const take =
@@ -92,6 +87,11 @@ const CountriesPage = async ({
       name: "asc",
     },
   });
+
+  const session = await auth();
+  const usr: any = session?.user;
+
+  if (!usr) return <NotConnected />;
 
   /* 
   if (!session || !session.user)

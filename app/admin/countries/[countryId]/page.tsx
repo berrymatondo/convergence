@@ -44,7 +44,6 @@ const CountryPage = async ({ params }: CountryPageProps) => {
 
   const res1 = await getStaticInfoCountry(countryId);
   const staticCountry = res1?.data;
-  console.log("country", country);
 
   const buildSum = (vect: any) => {
     let sum = 0;

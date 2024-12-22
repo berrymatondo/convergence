@@ -5,6 +5,7 @@ import AllStaticIndexes from "@/components/index/allStaticIndexes";
 import IndexBody from "@/components/index/indexBody";
 import IndexDetails from "@/components/index/indexDetails";
 import IndexSelect from "@/components/index/indexSelect";
+import NotConnected from "@/components/notConnected";
 import PageLayout from "@/components/pageLayout";
 import {
   Card,
@@ -41,6 +42,8 @@ const IndexDetailPage = async ({ params }: IndexDetailPageProps) => {
    */
   const session = await auth();
   const usr: any = session?.user;
+
+  if (!usr) return <NotConnected />;
 
   const indexId = params.indexId;
 

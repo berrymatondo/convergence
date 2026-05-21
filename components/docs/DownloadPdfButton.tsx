@@ -23,6 +23,14 @@ const ROLE_COLORS: Record<string, RGB> = {
   TRAINING: [234, 88, 12],
 };
 
+const loadImg = (src: string): Promise<HTMLImageElement | null> =>
+  new Promise((resolve) => {
+    const img = new window.Image();
+    img.onload = () => resolve(img);
+    img.onerror = () => resolve(null);
+    img.src = src;
+  });
+
 export function DownloadPdfButton() {
   const [loading, setLoading] = useState(false);
 
@@ -274,6 +282,157 @@ export function DownloadPdfButton() {
         addBullets(layer.items);
         y += 3;
       });
+
+      footerStamp();
+
+      /* ══════════════════════════════════════════════════
+         SCREENSHOTS PAGE
+      ══════════════════════════════════════════════════ */
+      newPage();
+      set(13, "bold", DARK);
+      pdf.text("Aperçu de la Plateforme", ML, y);
+      y += 8;
+
+      const shots = [
+        { src: "/cap1.jpg",  fmt: "JPEG" as const, label: "Interface principale" },
+        { src: "/stats.png", fmt: "PNG"  as const, label: "Statistiques & Indicateurs" },
+        { src: "/spi.png",   fmt: "PNG"  as const, label: "Vue données financières" },
+        { src: "/fd.png",    fmt: "PNG"  as const, label: "Gestion des fonds" },
+      ];
+      const iW = (CW - 6) / 2;
+      for (let i = 0; i < shots.length; i += 2) {
+        const li = await loadImg(shots[i].src);
+        const ri = shots[i + 1] ? await loadImg(shots[i + 1].src) : null;
+        const lH = li  ? Math.min(iW * (li.naturalHeight / li.naturalWidth), 70)  : 0;
+        const rH = ri  ? Math.min(iW * (ri.naturalHeight / ri.naturalWidth), 70)  : 0;
+        const rowH = Math.max(lH, rH, 40);
+        guard(rowH + 16);
+        if (li)  { pdf.addImage(li,  shots[i].fmt,     ML,          y, iW, lH); }
+        if (ri && shots[i + 1]) { pdf.addImage(ri, shots[i + 1].fmt, ML + iW + 6, y, iW, rH); }
+        set(7.5, "normal", GRAY);
+        pdf.text(shots[i].label, ML + iW / 2, y + rowH + 5, { align: "center" });
+        if (shots[i + 1]) pdf.text(shots[i + 1].label, ML + iW + 6 + iW / 2, y + rowH + 5, { align: "center" });
+        y += rowH + 12;
+      }
+
+      /* ══════════════════════════════════════════════════
+         ARCHITECTURE DIAGRAM PAGE
+      ══════════════════════════════════════════════════ */
+      newPage();
+      set(13, "bold", DARK);
+      pdf.text("Schéma d'Architecture Technique", ML, y);
+      y += 10;
+
+      const dX = ML, dW = CW;
+
+      // Layer 1 — Frontend (teal)
+      pdf.setFillColor(19, 78, 74);
+      pdf.roundedRect(dX, y, dW, 22, 2, 2, "F");
+      set(8.5, "bold", [94, 234, 212] as RGB);
+      pdf.text("FRONTEND — Next.js 14 App Router · TypeScript · React 18", dX + 4, y + 8);
+      set(7.5, "normal", [204, 251, 241] as RGB);
+      pdf.text("Server Components (RSC)  ·  Client Components  ·  Server Actions  ·  Zod Validation", dX + 4, y + 16);
+      y += 26;
+
+      pdf.setDrawColor(...TEAL); pdf.setLineWidth(0.5);
+      pdf.line(dX + dW / 2, y, dX + dW / 2, y + 4); y += 5;
+
+      // Layer 2 — Auth (violet)
+      pdf.setFillColor(46, 16, 101);
+      pdf.roundedRect(dX, y, dW, 22, 2, 2, "F");
+      set(8.5, "bold", [196, 181, 253] as RGB);
+      pdf.text("AUTHENTIFICATION — NextAuth.js v5  ·  JWT  ·  bcryptjs", dX + 4, y + 8);
+      set(7.5, "normal", [221, 214, 254] as RGB);
+      pdf.text("Session 2 min  ·  Middleware RBAC  ·  5 rôles : VISITOR / CLIENT / AGENT / ADMIN / TRAINING", dX + 4, y + 16);
+      y += 26;
+
+      pdf.setDrawColor(...TEAL);
+      pdf.line(dX + dW / 2, y, dX + dW / 2, y + 4); y += 5;
+
+      // Layer 3 — Prisma + UI
+      const hW = (dW - 4) / 2;
+      pdf.setFillColor(8, 51, 68);
+      pdf.roundedRect(dX, y, hW, 30, 2, 2, "F");
+      set(8.5, "bold", [125, 211, 252] as RGB);
+      pdf.text("PRISMA ORM 5.15", dX + 4, y + 8);
+      set(7.5, "normal", [186, 230, 253] as RGB);
+      pdf.text("StaticInfo*  ·  HistoricalData*", dX + 4, y + 16);
+      pdf.text("User  ·  Country  ·  YieldCurve  ·  Contact", dX + 4, y + 23);
+
+      pdf.setFillColor(28, 25, 23);
+      pdf.roundedRect(dX + hW + 4, y, hW, 30, 2, 2, "F");
+      set(8.5, "bold", [214, 211, 209] as RGB);
+      pdf.text("INTERFACE & VALIDATION", dX + hW + 8, y + 8);
+      set(7.5, "normal", [231, 229, 228] as RGB);
+      pdf.text("TailwindCSS  ·  Radix UI  ·  Recharts  ·  Tremor", dX + hW + 8, y + 16);
+      pdf.text("React Hook Form  ·  Zod  ·  Sonner  ·  next-themes", dX + hW + 8, y + 23);
+      y += 34;
+
+      pdf.setDrawColor(...TEAL);
+      pdf.line(dX + dW / 2, y, dX + dW / 2, y + 4); y += 5;
+
+      // Layer 4 — Database (green)
+      pdf.setFillColor(5, 46, 22);
+      pdf.roundedRect(dX, y, dW, 30, 2, 2, "F");
+      set(8.5, "bold", [134, 239, 172] as RGB);
+      pdf.text("BASE DE DONNÉES — PostgreSQL", dX + 4, y + 8);
+      set(7.5, "normal", [187, 247, 208] as RGB);
+      pdf.text("User · Continent · Country · StaticInfoEquity/Bond/Commo/Index/Fx/Fund", dX + 4, y + 16);
+      pdf.text("HistoricalData*  ·  YieldCurve  ·  StaticInfoCountry  ·  Contact", dX + 4, y + 23);
+      y += 35;
+
+      /* ── RBAC Matrix ── */
+      y += 6;
+      set(13, "bold", DARK);
+      pdf.text("Matrice d'Acces par Role", ML, y);
+      y += 8;
+
+      const rbacCols = ["VISITOR","CLIENT","AGENT","ADMIN"];
+      const rbacColColors: Record<string, RGB> = { VISITOR:[71,85,99], CLIENT:[37,99,235], AGENT:[13,148,136], ADMIN:[124,58,237] };
+      const rbacRows = [
+        { label: "Pages publiques",             access: ["full","full","full","full"] },
+        { label: "Actifs financiers",            access: ["none","full","full","full"] },
+        { label: "Navigation geographique",      access: ["none","full","full","full"] },
+        { label: "Admin pays & contacts",        access: ["none","none","partial","full"] },
+        { label: "Gestion utilisateurs",         access: ["none","none","none","full"] },
+      ];
+      const cW2 = (CW - 60) / 4, lW2 = 60, rH2 = 8;
+
+      // Header
+      pdf.setFillColor(30, 41, 59);
+      pdf.rect(ML, y, lW2, 9, "F");
+      rbacCols.forEach((col, ci) => {
+        const c = rbacColColors[col];
+        pdf.setFillColor(...c);
+        pdf.rect(ML + lW2 + ci * cW2, y, cW2, 9, "F");
+        set(6.5, "bold", WHITE);
+        pdf.text(col, ML + lW2 + ci * cW2 + cW2 / 2, y + 6, { align: "center" });
+      });
+      y += 10;
+
+      rbacRows.forEach((row, ri) => {
+        pdf.setFillColor(ri % 2 === 0 ? 15 : 30, ri % 2 === 0 ? 23 : 41, ri % 2 === 0 ? 42 : 59);
+        pdf.rect(ML, y, lW2, rH2, "F");
+        set(6, "normal", [203, 213, 225] as RGB);
+        pdf.text(row.label, ML + 2, y + 5.5);
+        row.access.forEach((acc, ci) => {
+          pdf.setFillColor(ri % 2 === 0 ? 15 : 30, ri % 2 === 0 ? 23 : 41, ri % 2 === 0 ? 42 : 59);
+          pdf.rect(ML + lW2 + ci * cW2, y, cW2, rH2, "F");
+          const col = acc === "full" ? ([34,197,94] as RGB) : acc === "partial" ? ([234,179,8] as RGB) : ([75,85,99] as RGB);
+          pdf.setFillColor(...col);
+          pdf.circle(ML + lW2 + ci * cW2 + cW2 / 2, y + rH2 / 2, 2.5, "F");
+        });
+        y += rH2 + 0.5;
+      });
+      y += 4;
+      // Legend
+      set(6.5, "normal", GRAY);
+      pdf.setFillColor(34, 197, 94); pdf.circle(ML + 4, y, 2.5, "F");
+      pdf.text("Acces complet", ML + 9, y + 2);
+      pdf.setFillColor(234, 179, 8); pdf.circle(ML + 46, y, 2.5, "F");
+      pdf.text("Acces partiel", ML + 51, y + 2);
+      pdf.setFillColor(75, 85, 99); pdf.circle(ML + 88, y, 2.5, "F");
+      pdf.text("Aucun acces", ML + 93, y + 2);
 
       footerStamp();
 

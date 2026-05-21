@@ -120,10 +120,24 @@ const config = {
       return true;
     },
     async jwt({ token, user }) {
+      const now = Math.floor(Date.now() / 1000); // Temps actuel en secondes
+
+      // Si l'utilisateur se connecte, initialisez l'expiration
+      if (user) {
+        token.iat = now;
+        token.exp = now + 120; // 2 minutes d'expiration
+      }
+
+      // Vérifiez si le token a expiré
+      if (token.exp && now > token.exp) {
+        throw new Error("Token expiré");
+      }
+
       return { ...token, ...user };
     },
     async session({ session, token }) {
       session.user = token as any;
+      //  session.expires = (new Date(token.exp ? token.exp : 0 * 1000).toISOString()).toString();
       return session;
     },
   },
@@ -133,6 +147,7 @@ const config = {
   },
   session: {
     strategy: "jwt",
+    maxAge: 120,
   },
 } satisfies NextAuthConfig;
 

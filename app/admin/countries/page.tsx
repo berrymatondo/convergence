@@ -91,6 +91,8 @@ const CountriesPage = async ({
   const session = await auth();
   const usr: any = session?.user;
 
+  console.log("user: ", usr);
+
   if (!usr) return <NotConnected />;
 
   /* 

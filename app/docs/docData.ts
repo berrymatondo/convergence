@@ -339,7 +339,7 @@ export const sections: SectionData[] = [
         url: "/",
         roles: ["Public"],
         business:
-          "Vitrine de la plateforme Emerging Markets. Présente la proposition de valeur et oriente les visiteurs vers la connexion. Premier point de contact avec les prospects et les utilisateurs non connectés.",
+          "Vitrine de la plateforme Convergence. Présente la proposition de valeur et oriente les visiteurs vers la connexion. Premier point de contact avec les prospects et les utilisateurs non connectés.",
         technical:
           "Page statique Next.js (Server Component). Section hero avec call-to-action vers /auth/login. Responsive, supporte les thèmes dark/light via next-themes.",
         features: [

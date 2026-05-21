@@ -27,8 +27,8 @@ import { DownloadPdfButton } from "@/components/docs/DownloadPdfButton";
 import { DownloadCahierButton } from "@/components/docs/DownloadCahierButton";
 
 export const metadata: Metadata = {
-  title: "Documentation — Emerging Markets",
-  description: "Guide complet d'utilisation de la plateforme Emerging Markets",
+  title: "Documentation — Convergence",
+  description: "Guide complet d'utilisation de la plateforme Convergence",
 };
 
 /* ─── Icon mapping ─────────────────────────────────────────── */
@@ -179,7 +179,7 @@ export default function DocsPage() {
           </div>
           <p className="text-muted-foreground text-sm md:text-base max-w-2xl leading-relaxed mb-6">
             Guide complet de la plateforme{" "}
-            <span className="text-teal-500 font-semibold">Emerging Markets</span> —
+            <span className="text-teal-500 font-semibold">Convergence</span> —
             {"description technique et métier de chaque page, rôles d'accès et architecture système."}
           </p>
 
